@@ -1,0 +1,28 @@
+spring:
+  application:
+    name: demo
+
+  data:
+    redis:
+      host: localhost
+      port: 6379
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/testtest
+    username: postgres
+    password: 1234
+    hikari:
+      driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+jwt:
+  access-token-key: asdfy9aschdsjahsdiahdo9savudhsv
+  access-token-expires: 1800000
+  refresh-token-expires: 86400000
