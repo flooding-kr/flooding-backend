@@ -14,5 +14,5 @@ data class RefreshToken (
 	val refreshToken: String,
 
 	@TimeToLive(unit = TimeUnit.MILLISECONDS)
-	val expiredAt: Long
+	val expires: Long
 )
