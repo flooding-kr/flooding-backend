@@ -17,31 +17,17 @@ import java.util.*
 
 @Service
 @Transactional
-class VerifyEmailUsecase (
-	private val userRepository: UserRepository,
-	private val verifyCodeRepository: VerifyCodeRepository
+class LogoutUsecase (
+	private val refreshTokenRepository: RefreshTokenRepository,
+	private val jwtProvider: JwtProvider
 ) {
-	fun execute(email: String, code: String) {
-		val user = userRepository.findByEmail(email).orElseThrow {
-			NoNameException(ExceptionEnum.NOT_FOUND_USER)
-		}
-		val id = user.id
-		requireNotNull(id) { "id cannot be null" }
+	fun execute(resolveRefreshToken: String) {
+		val savedRefreshToken = jwtProvider.getSavedRefreshTokenByRefreshToken(resolveRefreshToken)
 
-
-		if(user.isVerified){
-			throw NoNameException(ExceptionEnum.ALREADY_VERIFY_EMAIL)
+		if(resolveRefreshToken != savedRefreshToken.refreshToken){
+			throw NoNameException(ExceptionEnum.INVALID_REFRESH_TOKEN)
 		}
 
-		val verifyCodeEntity = verifyCodeRepository.findById(id).orElseThrow {
-			NoNameException(ExceptionEnum.NOT_FOUND_VERIFY_CODE)
-		}
-
-		if(verifyCodeEntity.code != code){
-			throw NoNameException(ExceptionEnum.NOT_FOUND_VERIFY_CODE)
-		}
-
-		val updatedUser = user.copy(isVerified = true)
-		userRepository.save(updatedUser)
+		refreshTokenRepository.delete(savedRefreshToken)
 	}
 }
