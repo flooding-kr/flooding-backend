@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 @Transactional
-class ReverifyEmailCodeUsecase (
+class RegenerateEmailCodeUsecase (
 	private val userRepository: UserRepository,
 	private val verifyCodeRepository: VerifyCodeRepository,
 	private val passwordUtil: PasswordUtil,
