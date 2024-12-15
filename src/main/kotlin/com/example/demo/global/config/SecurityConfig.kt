@@ -1,12 +1,14 @@
 package com.example.demo.global.config
 
 import com.example.demo.domain.user.entity.Role
-import com.example.demo.global.filter.JwtFilter
+import com.example.demo.global.security.filter.JwtFilter
 import com.example.demo.global.security.jwt.JwtProvider
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.security.config.annotation.web.HttpSecurityBuilder
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer
+import org.springframework.security.config.annotation.web.configurers.AuthorizeHttpRequestsConfigurer
 import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.web.SecurityFilterChain
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
@@ -24,6 +26,19 @@ class SecurityConfig (
 		val jwtFilter = JwtFilter(jwtProvider)
 
 		return http
+			.authorizeHttpRequests { it
+				// Auth
+				.requestMatchers("/auth/sign-in").permitAll()
+				.requestMatchers("/auth/sign-up").permitAll()
+				.requestMatchers("/auth/logout").permitAll()
+				.requestMatchers("/auth/verify").permitAll()
+				.requestMatchers("/auth/re-issue").permitAll()
+				.requestMatchers("/auth/re-verify").permitAll()
+				.requestMatchers("/auth/withdraw").hasAuthority(Role.ROLE_USER.name)
+
+				// User
+				.requestMatchers("/user/**").hasAuthority(Role.ROLE_USER.name)
+			}
 			.csrf { it.disable() }
 			.formLogin { it.disable() }
 			.httpBasic { it.disable() }
@@ -32,10 +47,6 @@ class SecurityConfig (
 			}
 			.cors {
 				it.configurationSource(corsConfig())
-			}
-			.authorizeHttpRequests { it
-				.requestMatchers("/auth/**").permitAll()
-				.requestMatchers("/user/**").hasAuthority(Role.ROLE_USER.name)
 			}
 			.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter::class.java)
 			.build()
