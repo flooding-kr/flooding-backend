@@ -4,9 +4,9 @@ import com.example.demo.domain.auth.dto.request.*
 import com.example.demo.domain.auth.dto.response.ReissueTokenResponse
 import com.example.demo.domain.auth.dto.response.SignInResponse
 import com.example.demo.domain.auth.usecase.*
+import com.example.demo.domain.user.usecase.WithdrawUsecase
 import jakarta.validation.Valid
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.PostMapping
@@ -45,13 +45,6 @@ class AuthController (
 	fun logout(@RequestHeader("Refresh-Token") refreshToken: String): ResponseEntity<Unit> {
 		val resolveRefreshToken = refreshToken.substring(7)
 		return logoutUsecase.execute(resolveRefreshToken).let {
-			ResponseEntity.ok().build()
-		}
-	}
-
-	@DeleteMapping("withdraw")
-	fun withdraw(@RequestBody withdrawRequest: WithdrawRequest): ResponseEntity<Unit> {
-		return withdrawUsecase.execute(withdrawRequest.password).let {
 			ResponseEntity.ok().build()
 		}
 	}

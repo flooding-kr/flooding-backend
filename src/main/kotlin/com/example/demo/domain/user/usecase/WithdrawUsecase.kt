@@ -1,15 +1,13 @@
-package com.example.demo.domain.auth.usecase
+package com.example.demo.domain.user.usecase
 
 import com.example.demo.domain.auth.repository.RefreshTokenRepository
 import com.example.demo.domain.user.repository.UserRepository
 import com.example.demo.global.exception.ExceptionEnum
 import com.example.demo.global.exception.NoNameException
-import com.example.demo.global.security.jwt.JwtProvider
 import com.example.demo.global.util.UserUtil
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import java.util.*
 
 @Service
 @Transactional
