@@ -6,13 +6,13 @@ import org.springframework.data.redis.core.TimeToLive
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-@RedisHash("refresh-token")
-data class RefreshToken (
+@RedisHash("verify-code")
+data class VerifyCode (
 	@Id
 	val id: UUID,
 
-	val refreshToken: String,
+	val code: String,
 
-	@TimeToLive(unit = TimeUnit.MILLISECONDS)
-	val expiredAt: Long
+	@TimeToLive(unit = TimeUnit.MINUTES)
+	val expiredInMinutes: Long
 )
