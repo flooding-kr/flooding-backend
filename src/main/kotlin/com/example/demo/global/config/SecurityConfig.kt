@@ -5,6 +5,7 @@ import com.example.demo.global.security.filter.JwtFilter
 import com.example.demo.global.security.jwt.JwtProvider
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.http.HttpMethod
 import org.springframework.security.config.annotation.web.HttpSecurityBuilder
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer
@@ -28,16 +29,16 @@ class SecurityConfig (
 		return http
 			.authorizeHttpRequests { it
 				// Auth
-				.requestMatchers("/auth/sign-in").permitAll()
-				.requestMatchers("/auth/sign-up").permitAll()
-				.requestMatchers("/auth/logout").permitAll()
-				.requestMatchers("/auth/verify").permitAll()
-				.requestMatchers("/auth/re-issue").permitAll()
-				.requestMatchers("/auth/re-verify").permitAll()
-				.requestMatchers("/auth/withdraw").hasAuthority(Role.ROLE_USER.name)
+				.requestMatchers(HttpMethod.POST, "/auth/sign-up").permitAll()
+				.requestMatchers(HttpMethod.POST, "/auth/sign-in").permitAll()
+				.requestMatchers(HttpMethod.POST, "/auth/logout").permitAll()
+				.requestMatchers(HttpMethod.GET, "/auth/verify").permitAll()
+				.requestMatchers(HttpMethod.PATCH, "/auth/re-issue").permitAll()
+				.requestMatchers(HttpMethod.PATCH, "/auth/re-verify").permitAll()
 
 				// User
-				.requestMatchers("/user/**").hasAuthority(Role.ROLE_USER.name)
+				.requestMatchers(HttpMethod.GET, "/user").hasAuthority(Role.ROLE_USER.name)
+				.requestMatchers(HttpMethod.DELETE, "/user/withdraw").hasAuthority(Role.ROLE_USER.name)
 			}
 			.csrf { it.disable() }
 			.formLogin { it.disable() }

@@ -1,4 +1,4 @@
-package com.example.demo.domain.auth.dto.request
+package com.example.demo.domain.user.dto.request
 
 import jakarta.validation.constraints.NotNull
 
