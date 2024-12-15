@@ -1,3 +1,8 @@
 package com.example.demo.global.security.jwt.dto
 
-data class TokenInfo()
+import java.time.LocalDateTime
+
+data class JwtDetails(
+	val token: String,
+	val expiredAt: LocalDateTime
+)
