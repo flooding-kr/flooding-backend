@@ -1,4 +1,4 @@
-package com.example.demo.global.util
+package com.example.demo.global.converter
 
 import com.example.demo.domain.user.entity.Role
 import jakarta.persistence.AttributeConverter

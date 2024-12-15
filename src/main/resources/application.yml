@@ -1,30 +1,45 @@
-# TODO ????? ??
-
 spring:
   application:
     name: demo
 
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+    date-format: yyyy-MM-dd'T'HH:mm:ss
+
   data:
     redis:
-      host: localhost
-      port: 6379
+      host: ${REDIS_HOST}
+      port: ${REDIS_PORT}
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/testtest
-    username: postgres
-    password: 1234
+    url: ${DB_HOST}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
     hikari:
       driver-class-name: org.postgresql.Driver
 
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
     show-sql: true
     properties:
       hibernate:
         format_sql: true
 
+  mail:
+    properties:
+      mail:
+        smtp:
+          starttls:
+            enable: true
+            required: true
+          auth: true
+    host: ${MAIL_HOST}
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
+
 jwt:
-  access-token-key: asdfy9aschdsjahsdiahdo9savudhsv
-  access-token-expires: 1800000
-  refresh-token-expires: 86400000
+  access-token-key: ${ACCESS_TOKEN_KEY}
+  access-token-expires: 900000
+  refresh-token-expires: 1209600000
