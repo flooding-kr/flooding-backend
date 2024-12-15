@@ -30,6 +30,7 @@ class SecurityConfig (
 			.authorizeHttpRequests { it
 				// Auth
 				.requestMatchers(HttpMethod.POST, "/auth/sign-up").permitAll()
+				.requestMatchers(HttpMethod.POST, "/auth/sign-in").permitAll()
 				.requestMatchers(HttpMethod.POST, "/auth/logout").permitAll()
 				.requestMatchers(HttpMethod.GET, "/auth/verify").permitAll()
 				.requestMatchers(HttpMethod.PATCH, "/auth/re-issue").permitAll()
