@@ -1,6 +1,10 @@
 package com.example.demo.domain.auth.dto.response
 
-data class SignInResponse (
+import java.time.LocalDateTime
+
+data class ReissueTokenResponse (
 	val accessToken: String,
-	val refreshToken: String
+	val accessTokenExpiredAt: LocalDateTime,
+	val refreshToken: String,
+	val refreshTokenExpiredAt: LocalDateTime
 )

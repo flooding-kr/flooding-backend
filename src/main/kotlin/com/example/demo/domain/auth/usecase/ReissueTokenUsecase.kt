@@ -1,46 +1,70 @@
 package com.example.demo.domain.auth.usecase
 
 import com.example.demo.domain.auth.dto.request.SignInRequest
-import com.example.demo.domain.auth.dto.response.SignInResponse
+import com.example.demo.domain.auth.dto.response.ReissueTokenResponse
+import com.example.demo.domain.auth.entity.RefreshToken
 import com.example.demo.domain.auth.repository.RefreshTokenRepository
 import com.example.demo.domain.user.repository.UserRepository
 import com.example.demo.global.exception.ExceptionEnum
 import com.example.demo.global.exception.NoNameException
 import com.example.demo.global.security.jwt.JwtProvider
 import com.example.demo.global.security.jwt.JwtType
+import com.example.demo.global.security.jwt.dto.JwtDetails
 import com.example.demo.global.util.UserUtil
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.time.Duration
+import java.time.LocalDateTime
 import java.util.*
 
 @Service
 @Transactional
-class LogoutUsecase (
-	private val userRepository: UserRepository,
-	private val passwordEncoder: PasswordEncoder,
+class ReissueTokenUsecase (
 	private val jwtProvider: JwtProvider,
 	private val refreshTokenRepository: RefreshTokenRepository,
-	private val userUtil: UserUtil
 ) {
-	fun execute(signInRequest: SignInRequest) {
-		val currentUser = userUtil.getUser()
-		val currentUserRefreshToken = refreshTokenRepository.findById(currentUser.id).orElseThrow {
+	fun execute(resolveRefreshToken: String): ReissueTokenResponse {
+		val currentUserId = jwtProvider.getIdByRefreshToken(resolveRefreshToken)
+		val savedRefreshToken = jwtProvider.getSavedRefreshTokenByRefreshToken(resolveRefreshToken)
+
+		if(resolveRefreshToken != savedRefreshToken.refreshToken){
+			throw NoNameException(ExceptionEnum.INVALID_REFRESH_TOKEN)
+		}
+
+		val newAccessToken = jwtProvider.generateToken(currentUserId, JwtType.ACCESS_TOKEN)
+		val newRefreshToken = deleteRefreshTokenOrSave(currentUserId)
+
+		refreshTokenRepository.save(RefreshToken(
+			id = UUID.fromString(currentUserId),
+			refreshToken = newRefreshToken.token,
+			expires = jwtProvider.refreshTokenExpires
+		))
+
+		return ReissueTokenResponse(
+			accessToken = newAccessToken.token,
+			accessTokenExpiredAt = newAccessToken.expiredAt,
+			refreshToken = newRefreshToken.token,
+			refreshTokenExpiredAt = newRefreshToken.expiredAt
+		)
+	}
+
+	fun deleteRefreshTokenOrSave(id: String): JwtDetails {
+		val refreshToken = refreshTokenRepository.findById(UUID.fromString(id)).orElseThrow {
 			NoNameException(ExceptionEnum.NOT_FOUND_REFRESH_TOKEN)
 		}
 
-		jwtProvider.isValidateToken(currentUserRefreshToken.refreshToken)
-	}
+		refreshTokenRepository.delete(refreshToken)
+		val newRefreshToken = jwtProvider.generateToken(id, JwtType.REFRESH_TOKEN)
 
-	fun getRefreshTokenOrSave(id: String): String {
-		val refreshToken = refreshTokenRepository.findById(id)
+		val newRefreshTokenEntity = RefreshToken(
+			id = UUID.fromString(id),
+			refreshToken = newRefreshToken.token,
+			expires = jwtProvider.refreshTokenExpires
+		)
 
-		if(refreshToken.isEmpty){
-			val newRefreshToken = jwtProvider.generateRefreshTokenEntity(id)
-			refreshTokenRepository.save(newRefreshToken)
-			return newRefreshToken.refreshToken
-		} else {
-			return refreshToken.get().refreshToken
-		}
+		refreshTokenRepository.save(newRefreshTokenEntity)
+
+		return newRefreshToken
 	}
 }
