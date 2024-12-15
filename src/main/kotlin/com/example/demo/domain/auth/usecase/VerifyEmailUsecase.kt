@@ -1,8 +1,10 @@
 package com.example.demo.domain.auth.usecase
 
 import com.example.demo.domain.auth.dto.request.SignInRequest
+import com.example.demo.domain.auth.dto.request.VerifyEmailRequest
 import com.example.demo.domain.auth.dto.response.SignInResponse
 import com.example.demo.domain.auth.repository.RefreshTokenRepository
+import com.example.demo.domain.auth.repository.VerifyCodeRepository
 import com.example.demo.domain.user.repository.UserRepository
 import com.example.demo.global.exception.ExceptionEnum
 import com.example.demo.global.exception.NoNameException
@@ -15,49 +17,30 @@ import java.util.*
 
 @Service
 @Transactional
-class SignInUsecase (
+class VerifyEmailUsecase (
 	private val userRepository: UserRepository,
-	private val passwordEncoder: PasswordEncoder,
-	private val jwtProvider: JwtProvider,
-	private val refreshTokenRepository: RefreshTokenRepository
+	private val verifyCodeRepository: VerifyCodeRepository
 ) {
-	fun execute(signInRequest: SignInRequest): SignInResponse {
-		val email = signInRequest.email
+	fun execute(email: String, code: String) {
 		val user = userRepository.findByEmail(email).orElseThrow {
 			NoNameException(ExceptionEnum.NOT_FOUND_USER)
 		}
-
-		if(!user.isVerified){
-			throw NoNameException(ExceptionEnum.NOT_VERIFIED_EMAIL)
-		}
-
 		val id = user.id
 		requireNotNull(id) { "id cannot be null" }
 
-		val rawPassword = signInRequest.password
-		val encodedPassword = user.encodedPassword
-
-		if(!passwordEncoder.matches(rawPassword, encodedPassword)){
-			throw NoNameException(ExceptionEnum.WRONG_PASSWORD)
+		if(user.isVerified){
+			throw NoNameException(ExceptionEnum.ALREADY_VERIFY_EMAIL)
 		}
 
-		val accessToken = jwtProvider.generateToken(id.toString(), JwtType.ACCESS_TOKEN)
-
-		return SignInResponse(
-			accessToken = accessToken,
-			refreshToken = getRefreshTokenOrSave(id)
-		)
-	}
-
-	fun getRefreshTokenOrSave(id: UUID): String {
-		val refreshToken = refreshTokenRepository.findById(id)
-
-		if(refreshToken.isEmpty){
-			val newRefreshToken = jwtProvider.generateRefreshTokenEntity(id.toString())
-			refreshTokenRepository.save(newRefreshToken)
-			return newRefreshToken.refreshToken
-		} else {
-			return refreshToken.get().refreshToken
+		val verifyCodeEntity = verifyCodeRepository.findById(id).orElseThrow {
+			NoNameException(ExceptionEnum.NOT_FOUND_VERIFY_CODE)
 		}
+
+		if(verifyCodeEntity.code != code){
+			throw NoNameException(ExceptionEnum.NOT_FOUND_VERIFY_CODE)
+		}
+
+		val updatedUser = user.copy(isVerified = true)
+		userRepository.save(updatedUser)
 	}
 }
