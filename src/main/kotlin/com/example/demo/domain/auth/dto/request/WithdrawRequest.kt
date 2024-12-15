@@ -2,10 +2,7 @@ package com.example.demo.domain.auth.dto.request
 
 import jakarta.validation.constraints.NotNull
 
-data class VerifyEmailRequest (
+data class WithdrawRequest (
 	@field:NotNull
-	val email: String,
-
-	@field:NotNull
-	val code: String
+	val password: String,
 )
