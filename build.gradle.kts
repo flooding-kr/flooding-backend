@@ -6,7 +6,7 @@ plugins {
 	kotlin("plugin.jpa") version "1.9.25"
 }
 
-group = "com.example"
+group = "team.gsm"
 version = "0.0.1-SNAPSHOT"
 
 java {
@@ -20,8 +20,6 @@ repositories {
 }
 
 dependencies {
-//	implementation("org.springframework.boot:spring-boot-starter-batch")
-
 	// Database
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	implementation("org.postgresql:postgresql")
@@ -33,6 +31,9 @@ dependencies {
 
 	// Validation
 	implementation("org.springframework.boot:spring-boot-starter-validation")
+
+	// API Client
+	implementation("org.springframework.boot:spring-boot-starter-webflux")
 
 	implementation("org.springframework.boot:spring-boot-starter-data-redis")
 	implementation("org.springframework.boot:spring-boot-starter-mail")
