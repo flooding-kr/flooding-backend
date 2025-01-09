@@ -12,4 +12,6 @@ interface UserRepository: JpaRepository<User, UUID> {
 	fun existsByEmail(email: String): Boolean
 
 	fun existsByStudentInfo(studentInfo: StudentInfo): Boolean
+
+	fun findByIdIn(ids: List<UUID>): MutableList<User>
 }

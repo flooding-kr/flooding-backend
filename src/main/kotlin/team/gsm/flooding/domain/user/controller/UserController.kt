@@ -1,10 +1,10 @@
 package team.gsm.flooding.domain.user.controller
 
-import team.gsm.flooding.domain.user.dto.request.WithdrawRequest
 import team.gsm.flooding.domain.user.usecase.FetchUserUsecase
 import team.gsm.flooding.domain.user.usecase.WithdrawUsecase
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import team.gsm.flooding.domain.user.dto.request.WithdrawRequest
 
 @RestController
 @RequestMapping("user")
