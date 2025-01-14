@@ -20,6 +20,7 @@ enum class ExceptionEnum (
 	DUPLICATED_STUDENT_INFO(HttpStatus.BAD_REQUEST, "해당 학번의 회원의 이미 존재합니다."),
 	WRONG_PASSWORD(HttpStatus.BAD_REQUEST, "비밀번호가 일치하지 않습니다."),
 	NOT_FOUND_USER(HttpStatus.NOT_FOUND, "해당하는 회원을 찾을 수 없습니다."),
+	WRONG_YEAR(HttpStatus.BAD_REQUEST, "기수가 일치하지 않습니다."),
 
 	// 이메일
 	UNKNOWN_ERROR_EMAIL(HttpStatus.SERVICE_UNAVAILABLE, "이메일 전송 중 에러가 발생하였습니다."),

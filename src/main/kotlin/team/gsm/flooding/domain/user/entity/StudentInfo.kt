@@ -4,7 +4,7 @@ import jakarta.persistence.Embeddable
 
 @Embeddable
 data class StudentInfo (
-	private val grade: Int,
-	private val classroom: Int,
-	private val number: Int
+	val year: Int,
+	val classroom: Int,
+	val number: Int
 )
