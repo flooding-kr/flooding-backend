@@ -29,18 +29,20 @@ jobs:
     - name: Build with Gradle Wrapper
       run: ./gradlew clean build
       
-    - name: Notify Discord
+    - name: Send success message to Discord
       if: success()
-      uses: discord-actions/message@v2
+      uses: enbraining/discord-webhook-action@v0.0.4-alpha
       with:
-        webhookUrl: ${{ secrets.DISCORD_WEBHOOK_URL }}
-        message: "Success Gradle Build"
+        webhook-url: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        type: EMBEDS
+        title: "성공"
 
-    - name: Notify Discord
+    - name: Send failure message to Discord
       if: failure()
-      uses: discord-actions/message@v2
+      uses: enbraining/discord-webhook-action@v0.0.4-alpha
       with:
         webhookUrl: ${{ secrets.DISCORD_WEBHOOK_URL }}
-        message: "Failed to Gradle Build"
+        type: EMBEDS
+        title: "실패"
 
   
