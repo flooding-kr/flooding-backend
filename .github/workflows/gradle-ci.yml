@@ -31,18 +31,20 @@ jobs:
       
     - name: Send success message to Discord
       if: success()
-      uses: enbraining/discord-webhook-action@v0.0.4-alpha
+      uses: enbraining/discord-webhook-action@v1.0.0
       with:
         webhook-url: ${{ secrets.DISCORD_WEBHOOK_URL }}
-        type: EMBEDS
-        title: "성공"
+        type: EMBED
+        title: "Successfully complete build"
+        color: "007E33"
 
     - name: Send failure message to Discord
       if: failure()
-      uses: enbraining/discord-webhook-action@v0.0.4-alpha
+      uses: enbraining/discord-webhook-action@v1.0.0
       with:
         webhookUrl: ${{ secrets.DISCORD_WEBHOOK_URL }}
-        type: EMBEDS
-        title: "실패"
+        type: EMBED
+        title: "Failed to complete build"
+        color: "CC0000"
 
   
