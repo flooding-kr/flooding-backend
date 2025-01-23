@@ -36,7 +36,7 @@ jobs:
         webhook-url: ${{ secrets.DISCORD_WEBHOOK_URL }}
         type: EMBED
         title: "Successfully complete build"
-        color: 007E33
+        color: 57F287
 
     - name: Send failure message to Discord
       if: failure()
@@ -45,6 +45,6 @@ jobs:
         webhookUrl: ${{ secrets.DISCORD_WEBHOOK_URL }}
         type: EMBED
         title: "Failed to complete build"
-        color: CC0000
+        color: ED4245
 
   
