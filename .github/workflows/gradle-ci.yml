@@ -42,7 +42,7 @@ jobs:
       if: failure()
       uses: enbraining/discord-webhook-action@v1.0.1
       with:
-        webhookUrl: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        webhook-url: ${{ secrets.DISCORD_WEBHOOK_URL }}
         type: EMBED
         title: "Failed to complete build"
         color: ED4245
