@@ -1,14 +1,13 @@
 package team.gsm.flooding.domain.classroom.entity
 
-import jakarta.persistence.Entity
-import jakarta.persistence.Id
-import jakarta.persistence.ManyToOne
+import jakarta.persistence.*
 import team.gsm.flooding.domain.user.entity.User
 
 @Entity
 data class Classroom (
 	@Id
-	val slug: String,
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	val id: Long,
 
 	val floor: Int,
 

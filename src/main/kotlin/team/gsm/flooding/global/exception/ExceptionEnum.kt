@@ -29,8 +29,9 @@ enum class ExceptionEnum (
 	ALREADY_VERIFY_EMAIL(HttpStatus.BAD_REQUEST, "이미 해당 이메일은 인증되었습니다."),
 
 	// 홈베이스
-	NOT_FOUND_HOMEBASE_TABLE(HttpStatus.NOT_FOUND, "해당하는 홈베이스 자리를 찾을 수 없습니다."),
-	ALREADY_JOINED_ATTENDANCE(HttpStatus.BAD_REQUEST, "이미 해당 교시에 출석한 학생이 있습니다."),
+	NOT_FOUND_TABLE(HttpStatus.NOT_FOUND, "해당하는 자리를 찾을 수 없습니다."),
+	ALREADY_JOINED_ATTENDANCE(HttpStatus.BAD_REQUEST, "이미 다른 자리를 사용중인 팀원이 있습니다."),
+	EXISTS_USED_TABLE(HttpStatus.BAD_REQUEST, "이미 사용중인 자리입니다."),
 	NOT_FOUND_ATTENDANCE(HttpStatus.BAD_REQUEST, "출결 기록을 찾을 수 없습니다."),
 
 	// 급식

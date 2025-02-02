@@ -34,6 +34,11 @@ class ReserveHomebaseTableUsecase (
 			request.floor
 		).orElseThrow { ExpectedException(ExceptionEnum.NOT_FOUND_HOMEBASE_TABLE) }
 
+		val isExistsUsedTable = homebaseGroupRepository.existsByHomebaseTableAndPeriod(homebaseTable, request.period)
+		if(isExistsUsedTable){
+			throw ExpectedException(ExceptionEnum.EXISTS_USED_TABLE)
+		}
+
 		val isExistReserve = attendanceRepository.existsByAttendedAtAndPeriodAndStudentIn(
 			nowDate,
 			request.period,
