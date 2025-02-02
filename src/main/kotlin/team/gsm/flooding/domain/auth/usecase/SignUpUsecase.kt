@@ -14,6 +14,7 @@ import team.gsm.flooding.global.util.PasswordUtil
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.time.LocalDate
 
 @Service
 class SignUpUsecase (
@@ -24,30 +25,43 @@ class SignUpUsecase (
 	private val passwordUtil: PasswordUtil,
 ) {
 	@Transactional
-	fun execute(signUpRequest: SignUpRequest){
-		val encodedPassword = passwordEncoder.encode(signUpRequest.password)
-		val studentInfo = getStudentInfo(signUpRequest.schoolNumber)
-		val email = signUpRequest.email
+	fun execute(request: SignUpRequest){
+		val encodedPassword = passwordEncoder.encode(request.password)
+		val nowDateYear = LocalDate.now().year
 
-		if(userRepository.existsByEmail(email))
+		if(userRepository.existsByEmail(request.email))
 			throw ExpectedException(ExceptionEnum.DUPLICATED_EMAIL)
+
+		val maxYear = nowDateYear - 2016
+		val grade = nowDateYear - 2015 - request.year
+		if(request.year > maxYear){
+			throw ExpectedException(ExceptionEnum.WRONG_YEAR)
+		}
+
+		val studentInfo = StudentInfo(
+			year = request.year,
+			classroom = request.classroom,
+			number = request.number
+		)
 
 		if(userRepository.existsByStudentInfo(studentInfo))
 			throw ExpectedException(ExceptionEnum.DUPLICATED_STUDENT_INFO)
 
 		val user = userRepository.save(User(
-			email = email,
+			email = request.email,
 			encodedPassword = encodedPassword,
 			studentInfo = studentInfo,
 			roles = mutableListOf(Role.ROLE_USER),
-			isVerified = false
+			isVerified = false,
+			gender = request.gender,
+			name = request.name
 		))
 
 		val id = user.id
 		requireNotNull(id) { "id cannot be null" }
 
 		val randomVerifyCode = passwordUtil.generateSixRandomCode()
-		emailAdapter.sendVerifyCode(email, randomVerifyCode)
+		emailAdapter.sendVerifyCode(request.email, randomVerifyCode)
 
 		val verifyCode = VerifyCode(
 			id = id,
@@ -55,13 +69,5 @@ class SignUpUsecase (
 			expiredInMinutes = 15
 		)
 		verifyCodeRepository.save(verifyCode)
-	}
-
-	private fun getStudentInfo(schoolInfoString: String): StudentInfo {
-		return StudentInfo(
-			grade = schoolInfoString[0].digitToInt(),
-			classroom = schoolInfoString[1].digitToInt(),
-			number = schoolInfoString.slice(2..3).toInt()
-		)
 	}
 }

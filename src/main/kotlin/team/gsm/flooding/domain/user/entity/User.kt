@@ -20,6 +20,10 @@ data class User (
 	@Embedded
 	val studentInfo: StudentInfo,
 
+	val gender: Gender,
+
+	val name: String,
+
 	@Convert(converter = StringListConverter::class)
 	val roles: List<Role>
 )
