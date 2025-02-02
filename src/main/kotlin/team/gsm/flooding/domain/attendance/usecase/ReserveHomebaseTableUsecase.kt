@@ -32,7 +32,7 @@ class ReserveHomebaseTableUsecase (
 		val homebaseTable = homebaseTableRepository.findByTableNumberAndHomebaseFloor(
 			request.tableNumber,
 			request.floor
-		).orElseThrow { ExpectedException(ExceptionEnum.NOT_FOUND_HOMEBASE_TABLE) }
+		).orElseThrow { ExpectedException(ExceptionEnum.NOT_FOUND_TABLE) }
 
 		val isExistsUsedTable = homebaseGroupRepository.existsByHomebaseTableAndPeriod(homebaseTable, request.period)
 		if(isExistsUsedTable){
