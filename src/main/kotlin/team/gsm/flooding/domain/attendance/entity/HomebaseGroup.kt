@@ -4,12 +4,11 @@ import jakarta.persistence.*
 import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.UuidGenerator
 import team.gsm.flooding.domain.classroom.entity.HomebaseTable
-import team.gsm.flooding.domain.user.entity.User
 import java.time.LocalDate
 import java.util.UUID
 
 @Entity
-data class AttendanceGroup (
+data class HomebaseGroup (
 	@Id
 	@UuidGenerator(style = UuidGenerator.Style.RANDOM)
 	val id: UUID? = null,

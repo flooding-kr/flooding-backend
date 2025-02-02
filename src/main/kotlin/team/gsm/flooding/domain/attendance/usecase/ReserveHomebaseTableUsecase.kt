@@ -4,8 +4,8 @@ import jakarta.transaction.Transactional
 import org.springframework.stereotype.Service
 import team.gsm.flooding.domain.attendance.dto.request.ReserveHomebaseTableRequest
 import team.gsm.flooding.domain.attendance.entity.Attendance
-import team.gsm.flooding.domain.attendance.entity.AttendanceGroup
-import team.gsm.flooding.domain.attendance.repository.AttendanceGroupRepository
+import team.gsm.flooding.domain.attendance.entity.HomebaseGroup
+import team.gsm.flooding.domain.attendance.repository.HomebaseGroupRepository
 import team.gsm.flooding.domain.attendance.repository.AttendanceRepository
 import team.gsm.flooding.domain.classroom.repository.HomebaseTableRepository
 import team.gsm.flooding.domain.user.repository.UserRepository
@@ -18,7 +18,7 @@ import java.time.LocalDate
 @Transactional
 class ReserveHomebaseTableUsecase (
 	private val attendanceRepository: AttendanceRepository,
-	private val attendanceGroupRepository: AttendanceGroupRepository,
+	private val homebaseGroupRepository: HomebaseGroupRepository,
 	private val homebaseTableRepository: HomebaseTableRepository,
 	private val userRepository: UserRepository,
 	private val userUtil: UserUtil
@@ -58,7 +58,7 @@ class ReserveHomebaseTableUsecase (
 		}.toMutableList()
 		val allAttendances = participantAttendances + currentUserAttendance
 
-		val attendanceGroup = AttendanceGroup(
+		val homebaseGroup = HomebaseGroup(
 			homebaseTable = homebaseTable,
 			period = request.period,
 			participants = participantAttendances,
@@ -66,6 +66,6 @@ class ReserveHomebaseTableUsecase (
 		)
 
 		attendanceRepository.saveAll(allAttendances)
-		attendanceGroupRepository.save(attendanceGroup)
+		homebaseGroupRepository.save(homebaseGroup)
 	}
 }

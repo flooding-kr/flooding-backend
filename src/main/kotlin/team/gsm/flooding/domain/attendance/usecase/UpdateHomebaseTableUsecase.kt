@@ -4,7 +4,7 @@ import jakarta.transaction.Transactional
 import org.springframework.stereotype.Service
 import team.gsm.flooding.domain.attendance.dto.request.UpdateHomebaseTableRequest
 import team.gsm.flooding.domain.attendance.entity.Attendance
-import team.gsm.flooding.domain.attendance.repository.AttendanceGroupRepository
+import team.gsm.flooding.domain.attendance.repository.HomebaseGroupRepository
 import team.gsm.flooding.domain.attendance.repository.AttendanceRepository
 import team.gsm.flooding.domain.user.repository.UserRepository
 import team.gsm.flooding.global.exception.ExceptionEnum
@@ -15,10 +15,10 @@ import java.time.LocalDate
 @Service
 @Transactional
 class UpdateHomebaseTableUsecase (
-	private val attendanceRepository: AttendanceRepository,
-	private val attendanceGroupRepository: AttendanceGroupRepository,
-	private val userRepository: UserRepository,
-	private val userUtil: UserUtil
+    private val attendanceRepository: AttendanceRepository,
+    private val homebaseGroupRepository: HomebaseGroupRepository,
+    private val userRepository: UserRepository,
+    private val userUtil: UserUtil
 ) {
 	fun execute(request: UpdateHomebaseTableRequest){
 		val nowDate = LocalDate.now()
@@ -37,7 +37,7 @@ class UpdateHomebaseTableUsecase (
 			throw ExpectedException(ExceptionEnum.ALREADY_JOINED_ATTENDANCE)
 		}
 
-		val attendanceGroup = attendanceGroupRepository.findByAttendedAtAndProposer(nowDate, currentAttendance)
+		val attendanceGroup = homebaseGroupRepository.findByAttendedAtAndProposer(nowDate, currentAttendance)
 		attendanceRepository.deleteAll(attendanceGroup.participants)
 
 		val newAttendances = newUsers.map {
@@ -54,6 +54,6 @@ class UpdateHomebaseTableUsecase (
 		)
 
 		attendanceRepository.saveAll(newAttendances)
-		attendanceGroupRepository.save(newAttendanceGroup)
+		homebaseGroupRepository.save(newAttendanceGroup)
 	}
 }
