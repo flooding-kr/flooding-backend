@@ -13,5 +13,5 @@ interface HomebaseGroupRepository: JpaRepository<HomebaseGroup, UUID> {
 		proposer: Attendance
 	): HomebaseGroup
 
-	fun existsByHomebaseTableAndPeriod(homebaseTable: HomebaseTable, period: Int): Boolean
+	fun existsByHomebaseTableAndPeriodAndAttendedAt(homebaseTable: HomebaseTable, period: Int, attendedAt: LocalDate): Boolean
 }

@@ -26,7 +26,6 @@ class ReserveHomebaseTableUsecase (
 	fun execute(request: ReserveHomebaseTableRequest){
 		val currentUser = userUtil.getUser()
 		val participants = userRepository.findByIdIn(request.participants)
-		val allUsers = participants + currentUser
 		val nowDate = LocalDate.now()
 
 		val homebaseTable = homebaseTableRepository.findByTableNumberAndHomebaseFloor(
@@ -34,22 +33,28 @@ class ReserveHomebaseTableUsecase (
 			request.floor
 		).orElseThrow { ExpectedException(ExceptionEnum.NOT_FOUND_TABLE) }
 
-		val isExistsUsedTable = homebaseGroupRepository.existsByHomebaseTableAndPeriod(homebaseTable, request.period)
-		if(isExistsUsedTable){
+		// 해당 자리의 사용 여부
+		homebaseGroupRepository.existsByHomebaseTableAndPeriodAndAttendedAt(
+			homebaseTable,
+			request.period,
+			nowDate
+		).takeIf { it }?.let {
 			throw ExpectedException(ExceptionEnum.EXISTS_USED_TABLE)
 		}
 
-		val isExistReserve = attendanceRepository.existsByAttendedAtAndPeriodAndStudentIn(
+		// 이미 자리가 예약된 참여자 여부
+		val allUsers = participants + currentUser
+		attendanceRepository.existsByAttendedAtAndPeriodAndStudentIn(
 			nowDate,
 			request.period,
 			allUsers
-		)
-		if(isExistReserve){
+		).takeIf { it }?.let {
 			throw ExpectedException(ExceptionEnum.ALREADY_JOINED_ATTENDANCE)
 		}
 
 		val currentUserAttendance = Attendance(
 			homebaseTable = homebaseTable,
+			classroom = homebaseTable.homebase,
 			period = request.period,
 			student = currentUser,
 		)
@@ -57,6 +62,7 @@ class ReserveHomebaseTableUsecase (
 		val participantAttendances = participants.map {
 			Attendance(
 				homebaseTable = homebaseTable,
+				classroom = homebaseTable.homebase,
 				period = request.period,
 				student = it
 			)
