@@ -28,7 +28,7 @@ class SecurityConfig (
 
 		return http
 			.authorizeHttpRequests { it
-				// Auth
+				// 인증
 				.requestMatchers(HttpMethod.POST, "/auth/sign-up").permitAll()
 				.requestMatchers(HttpMethod.POST, "/auth/sign-in").permitAll()
 				.requestMatchers(HttpMethod.POST, "/auth/logout").permitAll()
@@ -36,12 +36,17 @@ class SecurityConfig (
 				.requestMatchers(HttpMethod.PATCH, "/auth/re-issue").permitAll()
 				.requestMatchers(HttpMethod.PATCH, "/auth/re-verify").permitAll()
 
-				// User
+				// 사용자
 				.requestMatchers(HttpMethod.GET, "/user").hasAuthority(Role.ROLE_USER.name)
 				.requestMatchers(HttpMethod.DELETE, "/user/withdraw").hasAuthority(Role.ROLE_USER.name)
 
-				// Lunch
+				// 급식
 				.requestMatchers(HttpMethod.GET, "/lunch").hasAuthority(Role.ROLE_USER.name)
+
+				// 홈베이스
+				.requestMatchers(HttpMethod.POST, "/attendance/homebase").hasAuthority(Role.ROLE_USER.name)
+				.requestMatchers(HttpMethod.PATCH, "/attendance/homebase").hasAuthority(Role.ROLE_USER.name)
+				.requestMatchers(HttpMethod.DELETE, "/attendance/homebase").hasAuthority(Role.ROLE_USER.name)
 			}
 			.csrf { it.disable() }
 			.formLogin { it.disable() }
