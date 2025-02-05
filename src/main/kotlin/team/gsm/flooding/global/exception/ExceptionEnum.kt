@@ -33,6 +33,8 @@ enum class ExceptionEnum (
 	ALREADY_JOINED_ATTENDANCE(HttpStatus.BAD_REQUEST, "이미 다른 자리를 사용중인 팀원이 있습니다."),
 	EXISTS_USED_TABLE(HttpStatus.BAD_REQUEST, "이미 사용중인 자리입니다."),
 	NOT_FOUND_ATTENDANCE(HttpStatus.BAD_REQUEST, "출결 기록을 찾을 수 없습니다."),
+	NOT_FOUND_GROUP(HttpStatus.BAD_REQUEST, "홈베이스 그룹이 없습니다."),
+	NO_PERMISSION(HttpStatus.BAD_REQUEST, "권한이 없습니다."),
 
 	// 급식
 	NOT_FOUND_LUNCH(HttpStatus.NOT_FOUND, "해당 날짜의 급식 일정을 찾을 수 없습니다."),
