@@ -47,6 +47,9 @@ class SecurityConfig (
 				.requestMatchers(HttpMethod.POST, "/attendance/homebase").hasAuthority(Role.ROLE_USER.name)
 				.requestMatchers(HttpMethod.PATCH, "/attendance/homebase").hasAuthority(Role.ROLE_USER.name)
 				.requestMatchers(HttpMethod.DELETE, "/attendance/homebase").hasAuthority(Role.ROLE_USER.name)
+
+				// 서버 상태
+				.requestMatchers(HttpMethod.GET, "/health").permitAll()
 			}
 			.csrf { it.disable() }
 			.formLogin { it.disable() }
