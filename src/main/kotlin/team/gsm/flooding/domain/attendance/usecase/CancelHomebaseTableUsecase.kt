@@ -23,7 +23,7 @@ class CancelHomebaseTableUsecase(
             .orElseThrow { ExpectedException(ExceptionEnum.NOT_FOUND_GROUP) }
 
         if (homebaseGroup.proposer.student != currentUser)
-            throw ExpectedException(ExceptionEnum.NO_PERMISSION)
+            throw ExpectedException(ExceptionEnum.USER_MISMATCH)
 
         attendanceRepository.deleteAll(homebaseGroup.participants)
         attendanceRepository.delete(homebaseGroup.proposer)
