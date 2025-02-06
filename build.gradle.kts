@@ -49,6 +49,12 @@ dependencies {
 	testImplementation("org.springframework.batch:spring-batch-test")
 	testImplementation("org.springframework.security:spring-security-test")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+
+	// Serverless
+	implementation("com.amazonaws.serverless:aws-serverless-java-container-springboot3:2.1.2")
+	implementation("com.amazonaws:aws-lambda-java-core:1.2.3")
+	implementation("com.amazonaws:aws-lambda-java-events:3.14.0")
+	implementation("org.springframework.boot:spring-boot-maven-plugin:3.4.2")
 }
 
 kotlin {
@@ -65,4 +71,16 @@ allOpen {
 
 tasks.withType<Test> {
 	useJUnitPlatform()
+}
+
+tasks.register<Jar>("buildJar") {
+	from(sourceSets.main.get().output)
+	from(tasks.compileJava)
+	from(tasks.processResources)
+	into("lib") {
+		from(configurations.runtimeClasspath)
+	}
+	manifest {
+		attributes["Main-Class"] = "team.gsm.flooding.FloodingApplication"
+	}
 }
