@@ -10,19 +10,19 @@ import java.time.LocalDate
 import java.util.UUID
 
 
-class FindReservedHomebaseTableResponse(
+class HomebaseGroupResponse(
     val homebaseGroupId: UUID?,
-    val homebaseTable: HomeBaseTableResponse,
+    val homebaseTable: HomebaseTableResponse,
     val period: Int,
     val participants: List<AttendanceResponse>,
     val proposer: AttendanceResponse,
     val reservedAt: LocalDate?,
 ) {
     companion object {
-        fun toDto(homebaseGroup: HomebaseGroup): FindReservedHomebaseTableResponse {
-            return FindReservedHomebaseTableResponse(
+        fun toDto(homebaseGroup: HomebaseGroup): HomebaseGroupResponse {
+            return HomebaseGroupResponse(
                 homebaseGroupId = homebaseGroup.id,
-                homebaseTable = HomeBaseTableResponse.toDto(homebaseGroup.homebaseTable),
+                homebaseTable = HomebaseTableResponse.toDto(homebaseGroup.homebaseTable),
                 period = homebaseGroup.period,
                 participants = homebaseGroup.participants.map { AttendanceResponse.toDto(it) },
                 proposer = AttendanceResponse.toDto(homebaseGroup.proposer),
@@ -31,7 +31,7 @@ class FindReservedHomebaseTableResponse(
         }
     }
 
-    class HomeBaseTableResponse(
+    class HomebaseTableResponse(
         val homebaseId: Long,
         val floor: Int,
         val name: String,
@@ -40,8 +40,8 @@ class FindReservedHomebaseTableResponse(
         val tableNumber: Int,
     ) {
         companion object {
-            fun toDto(homebaseTable: HomebaseTable): HomeBaseTableResponse {
-                return HomeBaseTableResponse(
+            fun toDto(homebaseTable: HomebaseTable): HomebaseTableResponse {
+                return HomebaseTableResponse(
                     homebaseId = homebaseTable.id,
                     floor = homebaseTable.homebase.floor,
                     name = homebaseTable.homebase.name,

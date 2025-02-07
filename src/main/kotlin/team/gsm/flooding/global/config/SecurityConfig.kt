@@ -48,6 +48,7 @@ class SecurityConfig (
 				.requestMatchers(HttpMethod.PATCH, "/attendance/homebase").hasAuthority(Role.ROLE_USER.name)
 				.requestMatchers(HttpMethod.DELETE, "/attendance/homebase/{homebaseGroupId}").hasAuthority(Role.ROLE_USER.name)
 				.requestMatchers(HttpMethod.GET, "/attendance/homebase").hasAnyAuthority(Role.ROLE_USER.name)
+				.requestMatchers(HttpMethod.GET, "/attendance/homebase/myself").hasAnyAuthority(Role.ROLE_USER.name)
 
 				// 서버 상태
 				.requestMatchers(HttpMethod.GET, "/health").permitAll()
