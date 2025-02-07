@@ -1,27 +1,26 @@
 package team.gsm.flooding.domain.attendance.dto.response
 
 import team.gsm.flooding.domain.attendance.entity.HomebaseGroup
+import team.gsm.flooding.domain.user.entity.User
 import java.time.LocalDate
 import java.util.UUID
 
 
-class HomebaseGroupResponse(
+class FindMyReservedHomebaseResponse(
     val homebaseGroupId: UUID?,
     val homebaseTable: HomebaseTableResponse,
-    val period: Int,
+    val attendedAt: LocalDate?,
+    val isProposer: Boolean,
     val participants: List<AttendanceResponse>,
-    val proposer: AttendanceResponse,
-    val reservedAt: LocalDate?,
 ) {
     companion object {
-        fun toDto(homebaseGroup: HomebaseGroup): HomebaseGroupResponse {
-            return HomebaseGroupResponse(
+        fun toDto(homebaseGroup: HomebaseGroup, currentUser: User): FindMyReservedHomebaseResponse {
+            return FindMyReservedHomebaseResponse(
                 homebaseGroupId = homebaseGroup.id,
                 homebaseTable = HomebaseTableResponse.toDto(homebaseGroup.homebaseTable),
-                period = homebaseGroup.period,
+                attendedAt = homebaseGroup.attendedAt,
                 participants = homebaseGroup.participants.map { AttendanceResponse.toDto(it) },
-                proposer = AttendanceResponse.toDto(homebaseGroup.proposer),
-                reservedAt = homebaseGroup.attendedAt,
+                isProposer = homebaseGroup.proposer.student == currentUser,
             )
         }
     }

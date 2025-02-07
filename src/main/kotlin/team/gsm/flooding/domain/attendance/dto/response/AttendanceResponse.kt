@@ -1,22 +1,17 @@
 package team.gsm.flooding.domain.attendance.dto.response
 
 import team.gsm.flooding.domain.attendance.entity.Attendance
-import java.time.LocalDate
-import java.util.*
+import team.gsm.flooding.global.util.UserUtil
 
 class AttendanceResponse(
-    val attendanceId: UUID?,
-    val student: UserResponse,
-    val period: Int,
-    val attendedAt: LocalDate?,
+    val name: String,
+    val schoolNumber: String,
     ) {
         companion object {
             fun toDto(attendance: Attendance): AttendanceResponse {
                 return AttendanceResponse(
-                    attendanceId = attendance.id,
-                    student = UserResponse.toDto(attendance.student),
-                    period = attendance.period,
-                    attendedAt = attendance.attendedAt,
+                    name = attendance.student.name,
+                    schoolNumber = UserUtil.getSchoolNumber(attendance.student),
                 )
             }
         }

@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.RestController
 import team.gsm.flooding.domain.attendance.dto.request.FindReservedHomebaseTableRequest
 import team.gsm.flooding.domain.attendance.dto.request.ReserveHomebaseTableRequest
 import team.gsm.flooding.domain.attendance.usecase.CancelHomebaseTableUsecase
-import team.gsm.flooding.domain.attendance.dto.response.HomebaseGroupResponse
+import team.gsm.flooding.domain.attendance.dto.response.FindMyReservedHomebaseResponse
+import team.gsm.flooding.domain.attendance.dto.response.FindReservedHomebaseResponse
 import team.gsm.flooding.domain.attendance.usecase.FindMyReservedHomebaseUsecase
 import team.gsm.flooding.domain.attendance.usecase.FindReservedHomebaseTableUsecase
 import team.gsm.flooding.domain.attendance.usecase.ReserveHomebaseTableUsecase
@@ -33,14 +34,14 @@ class AttendanceController (
 	}
 
 	@GetMapping("homebase")
-	fun findReservedHomebaseTable(@RequestBody request: FindReservedHomebaseTableRequest): ResponseEntity<List<HomebaseGroupResponse>> {
+	fun findReservedHomebaseTable(@RequestBody request: FindReservedHomebaseTableRequest): ResponseEntity<List<FindReservedHomebaseResponse>> {
 		return findReservedHomebaseTableUsecase.execute(request).run {
 			ResponseEntity.ok(this)
 		}
 	}
 
 	@GetMapping("homebase/myself")
-	fun findMyReservedHomebaseTable(): ResponseEntity<List<HomebaseGroupResponse>> {
+	fun findMyReservedHomebaseTable(): ResponseEntity<List<FindMyReservedHomebaseResponse>> {
 		return findMyReservedHomebaseTableUsecase.execute().run {
 			ResponseEntity.ok(this)
 		}

@@ -16,5 +16,5 @@ interface HomebaseGroupRepository: JpaRepository<HomebaseGroup, UUID> {
 
 	fun existsByHomebaseTableAndPeriodAndAttendedAt(homebaseTable: HomebaseTable, period: Int, attendedAt: LocalDate): Boolean
 	fun findByProposerStudentAndAttendedAt(student: User, attendedAt: LocalDate): List<HomebaseGroup>
-	fun findByPeriodAndHomebaseTableHomebaseFloor(period: Int, floor: Int): List<HomebaseGroup>
+	fun findByPeriodAndHomebaseTableHomebaseFloorAndAttendedAt(period: Int, floor: Int, attendedAt: LocalDate): List<HomebaseGroup>
 }
