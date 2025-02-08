@@ -5,9 +5,8 @@ import org.springframework.transaction.annotation.Transactional
 import team.gsm.flooding.domain.user.dto.response.FetchUserInfoResponse
 import team.gsm.flooding.domain.user.dto.response.StudentInfoResponse
 import team.gsm.flooding.domain.user.repository.UserRepository
-import team.gsm.flooding.global.util.UserUtil
-import java.time.LocalDate
-import java.time.LocalDateTime
+import team.gsm.flooding.global.util.StudentUtil.Companion.calcYearToGrade
+import team.gsm.flooding.global.util.StudentUtil.Companion.getGrade
 
 @Service
 @Transactional
@@ -15,13 +14,12 @@ class SearchUserUsecase (
 	private val userRepository: UserRepository,
 ) {
 	fun execute(name: String): List<FetchUserInfoResponse> {
-		val nowDateYear = LocalDate.now().year
-		val thirdGradeYear = nowDateYear - 2018
+		val thirdGradeYear = getGrade(3)
 		val users = userRepository.findByNameContainsAndStudentInfoYearGreaterThanEqual(name, thirdGradeYear)
 
 		return users.map { user ->
 			val studentInfo = user.studentInfo
-			val grade = nowDateYear - 2015 - user.studentInfo.year
+			val grade = calcYearToGrade(user.studentInfo.year)
 			val isGraduate = grade > 3
 			val studentInfoResponse = StudentInfoResponse(
 				grade = if(isGraduate) 0 else grade,
