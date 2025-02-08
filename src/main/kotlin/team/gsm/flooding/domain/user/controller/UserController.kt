@@ -6,16 +6,27 @@ import team.gsm.flooding.domain.user.usecase.WithdrawUsecase
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import team.gsm.flooding.domain.user.dto.response.FetchUserInfoResponse
+import team.gsm.flooding.domain.user.usecase.SearchUserUsecase
 
 @RestController
 @RequestMapping("user")
 class UserController (
 	private val fetchUserUsecase: FetchUserUsecase,
-	private val withdrawUsecase: WithdrawUsecase
+	private val withdrawUsecase: WithdrawUsecase,
+	private val searchUserUsecase: SearchUserUsecase,
 ) {
 	@GetMapping
 	fun getUserInfo(): ResponseEntity<FetchUserInfoResponse> {
 		return fetchUserUsecase.execute().let {
+			ResponseEntity.ok(it)
+		}
+	}
+
+	@GetMapping("search")
+	fun searchUser(
+		@RequestParam("name", required = false) name: String?,
+	): ResponseEntity<List<FetchUserInfoResponse>> {
+		return searchUserUsecase.execute(name ?: "").let {
 			ResponseEntity.ok(it)
 		}
 	}
