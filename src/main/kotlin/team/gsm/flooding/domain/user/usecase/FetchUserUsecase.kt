@@ -29,12 +29,11 @@ class FetchUserUsecase (
 		)
 
 		return FetchUserInfoResponse(
+			id = requireNotNull(user.id),
 			name = user.name,
 			gender = user.gender,
 			studentInfo = studentInfoResponse,
-			isVerified = user.isVerified,
 			email = user.email,
-			roles = user.roles
 		)
 	}
 }
