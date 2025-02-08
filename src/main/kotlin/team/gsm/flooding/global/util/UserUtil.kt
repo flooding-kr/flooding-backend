@@ -12,15 +12,6 @@ import java.time.LocalDate
 class UserUtil (
 	private val userRepository: UserRepository
 ) {
-	companion object {
-		fun getSchoolNumber(user: User): String {
-			val studentInfo = user.studentInfo
-			val nowDateYear = LocalDate.now().year
-			val classGrade = (nowDateYear - 2015 - studentInfo.year).toString()
-
-			return classGrade + studentInfo.classroom + studentInfo.number
-		}
-	}
 
 	fun getUser(): User {
 		val email = SecurityContextHolder.getContext().authentication.name
