@@ -15,8 +15,9 @@ class SearchUserUsecase (
 	private val userRepository: UserRepository,
 ) {
 	fun execute(name: String): List<FetchUserInfoResponse> {
-		val users = userRepository.findByNameContains(name)
 		val nowDateYear = LocalDate.now().year
+		val thirdGradeYear = nowDateYear - 2018
+		val users = userRepository.findByNameContainsAndStudentInfoYearGreaterThanEqual(name, thirdGradeYear)
 
 		return users.map { user ->
 			val studentInfo = user.studentInfo

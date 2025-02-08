@@ -15,5 +15,5 @@ interface UserRepository: JpaRepository<User, UUID> {
 
 	fun findByIdIn(ids: List<UUID>): MutableList<User>
 
-	fun findByNameContains(name: String): List<User>
+	fun findByNameContainsAndStudentInfoYearGreaterThanEqual(name: String, year: Int): List<User>
 }

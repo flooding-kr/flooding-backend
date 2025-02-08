@@ -9,6 +9,6 @@ data class FetchUserInfoResponse (
 	val id: UUID,
 	val name: String,
 	val email: String,
-	val studentInfo: StudentInfoResponse,
 	val gender: Gender,
+	val studentInfo: StudentInfoResponse,
 )
