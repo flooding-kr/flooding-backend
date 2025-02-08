@@ -24,9 +24,9 @@ class UserController (
 
 	@GetMapping("search")
 	fun searchUser(
-		@RequestParam("name", required = true) name: String,
+		@RequestParam("name", required = false) name: String?,
 	): ResponseEntity<List<FetchUserInfoResponse>> {
-		return searchUserUsecase.execute(name).let {
+		return searchUserUsecase.execute(name ?: "").let {
 			ResponseEntity.ok(it)
 		}
 	}
