@@ -6,11 +6,13 @@ import team.gsm.flooding.global.exception.ExceptionEnum
 import team.gsm.flooding.global.exception.ExpectedException
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Component
+import java.time.LocalDate
 
 @Component
 class UserUtil (
 	private val userRepository: UserRepository
 ) {
+
 	fun getUser(): User {
 		val email = SecurityContextHolder.getContext().authentication.name
 		return userRepository.findByEmail(email).orElseThrow {

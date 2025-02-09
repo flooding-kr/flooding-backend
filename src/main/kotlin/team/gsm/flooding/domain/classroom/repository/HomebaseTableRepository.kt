@@ -6,4 +6,5 @@ import java.util.Optional
 
 interface HomebaseTableRepository: JpaRepository<HomebaseTable, Long> {
 	fun findByTableNumberAndHomebaseFloor(tableNumber: Int, homebaseFloor: Int): Optional<HomebaseTable>
+	fun findByHomebaseFloor(homebaseFloor: Int): List<HomebaseTable>
 }
