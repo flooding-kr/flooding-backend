@@ -14,10 +14,10 @@ import team.gsm.flooding.global.util.PasswordUtil
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import java.time.LocalDate
+import team.gsm.flooding.global.util.StudentUtil.Companion.calcGradeToYear
 
 @Service
-class SignUpUsecase (
+class SignUpUsecase(
 	private val userRepository: UserRepository,
 	private val verifyCodeRepository: VerifyCodeRepository,
 	private val passwordEncoder: PasswordEncoder,
@@ -27,13 +27,11 @@ class SignUpUsecase (
 	@Transactional
 	fun execute(request: SignUpRequest){
 		val encodedPassword = passwordEncoder.encode(request.password)
-		val nowDateYear = LocalDate.now().year
 
 		if(userRepository.existsByEmail(request.email))
 			throw ExpectedException(ExceptionEnum.DUPLICATED_EMAIL)
 
-		val maxYear = nowDateYear - 2016
-		val grade = nowDateYear - 2015 - request.year
+		val maxYear = calcGradeToYear(1)
 		if(request.year > maxYear){
 			throw ExpectedException(ExceptionEnum.WRONG_YEAR)
 		}
