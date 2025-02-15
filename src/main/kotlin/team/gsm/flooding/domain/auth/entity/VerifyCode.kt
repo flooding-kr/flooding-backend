@@ -10,7 +10,9 @@ import java.util.concurrent.TimeUnit
 data class VerifyCode(
 	@Id
 	val id: UUID,
+
 	val code: String,
+
 	@TimeToLive(unit = TimeUnit.MINUTES)
 	val expiredInMinutes: Long,
 )

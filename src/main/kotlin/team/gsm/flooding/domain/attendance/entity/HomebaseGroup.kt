@@ -16,13 +16,18 @@ data class HomebaseGroup(
 	@Id
 	@UuidGenerator(style = UuidGenerator.Style.RANDOM)
 	val id: UUID? = null,
+
 	@ManyToOne
 	val homebaseTable: HomebaseTable,
+
 	val period: Int,
+
 	@OneToMany(cascade = [CascadeType.ALL], orphanRemoval = true)
 	val participants: MutableList<Attendance> = mutableListOf(),
+
 	@ManyToOne(cascade = [CascadeType.ALL])
 	val proposer: Attendance,
+
 	@CreationTimestamp
 	val attendedAt: LocalDate? = null,
 )

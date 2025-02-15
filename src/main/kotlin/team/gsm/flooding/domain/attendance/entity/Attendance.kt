@@ -16,13 +16,17 @@ data class Attendance(
 	@Id
 	@UuidGenerator(style = UuidGenerator.Style.RANDOM)
 	val id: UUID? = null,
+
 	@ManyToOne
 	val classroom: Classroom? = null,
+
 	@ManyToOne
 	val homebaseTable: HomebaseTable? = null,
+
 	@ManyToOne
 	val student: User,
 	val period: Int,
+
 	@CreationTimestamp
 	val attendedAt: LocalDate? = null,
 )

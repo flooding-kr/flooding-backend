@@ -10,7 +10,9 @@ import java.util.concurrent.TimeUnit
 data class RefreshToken(
 	@Id
 	val id: UUID,
+
 	val refreshToken: String,
+
 	@TimeToLive(unit = TimeUnit.MILLISECONDS)
 	val expires: Long,
 )

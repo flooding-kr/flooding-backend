@@ -11,6 +11,7 @@ data class HomebaseTable(
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	val id: Long,
+
 	@ManyToOne
 	val homebase: Classroom,
 	val tableNumber: Int,

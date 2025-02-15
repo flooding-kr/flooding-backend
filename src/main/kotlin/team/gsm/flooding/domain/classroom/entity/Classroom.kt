@@ -12,9 +12,13 @@ data class Classroom(
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	val id: Long,
+
 	val floor: Int,
+
 	val name: String,
+
 	val description: String,
+
 	@ManyToOne
 	val teacher: User,
 )
