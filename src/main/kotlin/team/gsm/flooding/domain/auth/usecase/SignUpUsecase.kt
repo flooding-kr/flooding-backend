@@ -14,7 +14,7 @@ import team.gsm.flooding.global.exception.ExceptionEnum
 import team.gsm.flooding.global.exception.ExpectedException
 import team.gsm.flooding.global.thirdparty.email.EmailAdapter
 import team.gsm.flooding.global.util.PasswordUtil
-import java.time.LocalDate
+import team.gsm.flooding.global.util.StudentUtil.Companion.calcGradeToYear
 
 @Service
 class SignUpUsecase(
@@ -27,13 +27,12 @@ class SignUpUsecase(
 	@Transactional
 	fun execute(request: SignUpRequest) {
 		val encodedPassword = passwordEncoder.encode(request.password)
-		val nowDateYear = LocalDate.now().year
 
 		if (userRepository.existsByEmail(request.email)) {
 			throw ExpectedException(ExceptionEnum.DUPLICATED_EMAIL)
 		}
 
-		val maxYear = nowDateYear - 2016
+		val maxYear = calcGradeToYear(1)
 		if (request.year > maxYear) {
 			throw ExpectedException(ExceptionEnum.WRONG_YEAR)
 		}

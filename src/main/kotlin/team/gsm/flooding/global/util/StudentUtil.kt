@@ -20,7 +20,7 @@ class StudentUtil {
 			return "$grade$classroom${String.format("%02d", number)}"
 		}
 
-		fun getGrade(grade: Int): Int {
+		fun calcGradeToYear(grade: Int): Int {
 			val currentDate = LocalDate.now()
 			return currentDate.year - 2015 - grade
 		}
