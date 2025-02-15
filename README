@@ -1,0 +1,3 @@
+# IDE 설정
+
+`IntelliJ IDEA`를 사용하시는 경우, 우측 상단의 설정에서 Plugins - Marketplace에서 Ktlint를 설치해주세요.

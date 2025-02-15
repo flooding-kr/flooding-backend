@@ -8,13 +8,26 @@ import team.gsm.flooding.domain.user.entity.User
 import java.time.LocalDate
 import java.util.UUID
 
-interface HomebaseGroupRepository: JpaRepository<HomebaseGroup, UUID> {
+interface HomebaseGroupRepository : JpaRepository<HomebaseGroup, UUID> {
 	fun findByAttendedAtAndProposer(
 		attendedAt: LocalDate,
-		proposer: Attendance
+		proposer: Attendance,
 	): HomebaseGroup
 
-	fun existsByHomebaseTableAndPeriodAndAttendedAt(homebaseTable: HomebaseTable, period: Int, attendedAt: LocalDate): Boolean
-	fun findByProposerStudentAndAttendedAt(student: User, attendedAt: LocalDate): List<HomebaseGroup>
-	fun findByPeriodAndHomebaseTableHomebaseFloorAndAttendedAt(period: Int, floor: Int, attendedAt: LocalDate): List<HomebaseGroup>
+	fun existsByHomebaseTableAndPeriodAndAttendedAt(
+		homebaseTable: HomebaseTable,
+		period: Int,
+		attendedAt: LocalDate,
+	): Boolean
+
+	fun findByProposerStudentAndAttendedAt(
+		student: User,
+		attendedAt: LocalDate,
+	): List<HomebaseGroup>
+
+	fun findByPeriodAndHomebaseTableHomebaseFloorAndAttendedAt(
+		period: Int,
+		floor: Int,
+		attendedAt: LocalDate,
+	): List<HomebaseGroup>
 }

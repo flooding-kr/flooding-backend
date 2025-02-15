@@ -4,5 +4,5 @@ import java.time.LocalDateTime
 
 data class JwtDetails(
 	val token: String,
-	val expiredAt: LocalDateTime
+	val expiredAt: LocalDateTime,
 )

@@ -1,6 +1,6 @@
 package team.gsm.flooding.domain.user.dto.response
 
-data class StudentInfoResponse (
+data class StudentInfoResponse(
 	val isGraduate: Boolean,
 	val grade: Int,
 	val classroom: Int,

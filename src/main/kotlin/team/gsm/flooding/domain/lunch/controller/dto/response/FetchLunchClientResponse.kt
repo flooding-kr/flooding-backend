@@ -4,22 +4,22 @@ import com.fasterxml.jackson.annotation.JsonProperty
 
 class FetchLunchClientResponse(
 	@JsonProperty("mealServiceDietInfo")
-	val mealServiceDietInfo: List<MealServiceDietInfo>?
+	val mealServiceDietInfo: List<MealServiceDietInfo>?,
 ) {
 	class MealServiceDietInfo(
 		val head: List<Head>?,
-		val row: List<Row>?
+		val row: List<Row>?,
 	) {
 		class Head(
 			val listTotalCount: Int?,
 			@JsonProperty("RESULT")
-			val result: Result?
+			val result: Result?,
 		) {
 			class Result(
 				@JsonProperty("CODE")
 				val code: String,
 				@JsonProperty("MESSAGE")
-				val message: String
+				val message: String,
 			)
 		}
 
@@ -53,7 +53,7 @@ class FetchLunchClientResponse(
 			@JsonProperty("MLSV_TO_YMD")
 			val mlsvToYmd: String,
 			@JsonProperty("LOAD_DTM")
-			val loadDtm: String
+			val loadDtm: String,
 		)
 	}
 }

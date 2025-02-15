@@ -27,7 +27,7 @@ jobs:
       run: chmod +x gradlew
 
     - name: Build with Gradle Wrapper
-      run: ./gradlew clean build
+      run: ./gradlew clean build ktlintcheck
       
     - name: Send success message to Discord
       if: success()

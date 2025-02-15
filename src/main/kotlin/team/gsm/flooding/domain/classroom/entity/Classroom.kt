@@ -1,10 +1,14 @@
 package team.gsm.flooding.domain.classroom.entity
 
-import jakarta.persistence.*
+import jakarta.persistence.Entity
+import jakarta.persistence.GeneratedValue
+import jakarta.persistence.GenerationType
+import jakarta.persistence.Id
+import jakarta.persistence.ManyToOne
 import team.gsm.flooding.domain.user.entity.User
 
 @Entity
-data class Classroom (
+data class Classroom(
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	val id: Long,
@@ -16,5 +20,5 @@ data class Classroom (
 	val description: String,
 
 	@ManyToOne
-	val teacher: User
+	val teacher: User,
 )

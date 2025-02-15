@@ -11,20 +11,21 @@ import java.time.LocalDate
 @Service
 @Transactional
 class FindReservedHomebaseTableUsecase(
-    private val homebaseGroupRepository: HomebaseGroupRepository,
-    private val homebaseTableRepository: HomebaseTableRepository,
+	private val homebaseGroupRepository: HomebaseGroupRepository,
+	private val homebaseTableRepository: HomebaseTableRepository,
 ) {
-    fun execute(request: FindReservedHomebaseTableRequest): List<FindReservedHomebaseResponse> {
-        val homebaseGroupList = homebaseGroupRepository.findByPeriodAndHomebaseTableHomebaseFloorAndAttendedAt(
-            request.period,
-            request.floor,
-            LocalDate.now()
-        )
-        val homebaseTableList = homebaseTableRepository.findByHomebaseFloor(request.floor)
+	fun execute(request: FindReservedHomebaseTableRequest): List<FindReservedHomebaseResponse> {
+		val homebaseGroupList =
+			homebaseGroupRepository.findByPeriodAndHomebaseTableHomebaseFloorAndAttendedAt(
+				request.period,
+				request.floor,
+				LocalDate.now(),
+			)
+		val homebaseTableList = homebaseTableRepository.findByHomebaseFloor(request.floor)
 
-        return homebaseTableList.map { homebaseTable ->
-            val currentHomebaseGroup = homebaseGroupList.find { homebaseTable == it.homebaseTable }
-            FindReservedHomebaseResponse.toDto(homebaseTable, currentHomebaseGroup)
-        }
-    }
+		return homebaseTableList.map { homebaseTable ->
+			val currentHomebaseGroup = homebaseGroupList.find { homebaseTable == it.homebaseTable }
+			FindReservedHomebaseResponse.toDto(homebaseTable, currentHomebaseGroup)
+		}
+	}
 }
