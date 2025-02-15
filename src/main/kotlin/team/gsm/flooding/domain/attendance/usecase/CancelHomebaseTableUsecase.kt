@@ -12,23 +12,23 @@ import java.util.UUID
 @Service
 @Transactional
 class CancelHomebaseTableUsecase(
-    private val userUtil: UserUtil,
-    private val homebaseGroupRepository: HomebaseGroupRepository,
-    private val attendanceRepository: AttendanceRepository
+	private val userUtil: UserUtil,
+	private val homebaseGroupRepository: HomebaseGroupRepository,
+	private val attendanceRepository: AttendanceRepository,
 ) {
-    fun execute(homebaseGroupId: UUID) {
-        val currentUser = userUtil.getUser()
+	fun execute(homebaseGroupId: UUID) {
+		val currentUser = userUtil.getUser()
 
-        val homebaseGroup = homebaseGroupRepository.findById(homebaseGroupId)
-            .orElseThrow { ExpectedException(ExceptionEnum.NOT_FOUND_GROUP) }
+		val homebaseGroup =
+			homebaseGroupRepository.findById(homebaseGroupId)
+				.orElseThrow { ExpectedException(ExceptionEnum.NOT_FOUND_GROUP) }
 
-        if (homebaseGroup.proposer.student != currentUser)
-            throw ExpectedException(ExceptionEnum.USER_MISMATCH)
+		if (homebaseGroup.proposer.student != currentUser) {
+			throw ExpectedException(ExceptionEnum.USER_MISMATCH)
+		}
 
-        attendanceRepository.deleteAll(homebaseGroup.participants)
-        attendanceRepository.delete(homebaseGroup.proposer)
-        homebaseGroupRepository.delete(homebaseGroup)
-
-    }
-
+		attendanceRepository.deleteAll(homebaseGroup.participants)
+		attendanceRepository.delete(homebaseGroup.proposer)
+		homebaseGroupRepository.delete(homebaseGroup)
+	}
 }

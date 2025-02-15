@@ -7,15 +7,15 @@ import java.time.LocalDate
 import java.util.Optional
 import java.util.UUID
 
-interface AttendanceRepository: JpaRepository<Attendance, UUID> {
+interface AttendanceRepository : JpaRepository<Attendance, UUID> {
 	fun existsByAttendedAtAndPeriodAndStudentIn(
 		attendedAt: LocalDate,
 		period: Int,
-		students: List<User>
+		students: List<User>,
 	): Boolean
 
 	fun findByAttendedAtAndStudent(
 		attendedAt: LocalDate,
-		student: User
+		student: User,
 	): Optional<Attendance>
 }

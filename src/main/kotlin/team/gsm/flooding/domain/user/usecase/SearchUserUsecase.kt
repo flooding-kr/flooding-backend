@@ -10,7 +10,7 @@ import team.gsm.flooding.global.util.StudentUtil.Companion.getGrade
 
 @Service
 @Transactional
-class SearchUserUsecase (
+class SearchUserUsecase(
 	private val userRepository: UserRepository,
 ) {
 	fun execute(name: String): List<FetchUserInfoResponse> {
@@ -21,13 +21,14 @@ class SearchUserUsecase (
 			val studentInfo = user.studentInfo
 			val grade = calcYearToGrade(user.studentInfo.year)
 			val isGraduate = grade > 3
-			val studentInfoResponse = StudentInfoResponse(
-				grade = if(isGraduate) 0 else grade,
-				isGraduate = isGraduate,
-				classroom = studentInfo.classroom,
-				number = studentInfo.number,
-				year = studentInfo.year,
-			)
+			val studentInfoResponse =
+				StudentInfoResponse(
+					grade = if (isGraduate) 0 else grade,
+					isGraduate = isGraduate,
+					classroom = studentInfo.classroom,
+					number = studentInfo.number,
+					year = studentInfo.year,
+				)
 
 			FetchUserInfoResponse(
 				id = requireNotNull(user.id),

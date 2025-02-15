@@ -10,11 +10,11 @@ import java.time.LocalDate
 @Service
 @Transactional
 class FindMyReservedHomebaseUsecase(
-    private val homebaseGroupRepository: HomebaseGroupRepository,
-    private val userUtil: UserUtil,
+	private val homebaseGroupRepository: HomebaseGroupRepository,
+	private val userUtil: UserUtil,
 ) {
-    fun execute(): List<FindMyReservedHomebaseResponse> {
-        return homebaseGroupRepository.findByProposerStudentAndAttendedAt(userUtil.getUser(), LocalDate.now())
-            .map { FindMyReservedHomebaseResponse.toDto(it, userUtil.getUser()) }
-    }
+	fun execute(): List<FindMyReservedHomebaseResponse> =
+		homebaseGroupRepository
+			.findByProposerStudentAndAttendedAt(userUtil.getUser(), LocalDate.now())
+			.map { FindMyReservedHomebaseResponse.toDto(it, userUtil.getUser()) }
 }

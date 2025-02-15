@@ -11,10 +11,9 @@ import java.time.format.DateTimeFormatter
 @Configuration
 class JacksonConfig {
 	@Bean
-	fun jackson2ObjectMapperBuilder(): Jackson2ObjectMapperBuilder {
-		return Jackson2ObjectMapperBuilder()
+	fun jackson2ObjectMapperBuilder(): Jackson2ObjectMapperBuilder =
+		Jackson2ObjectMapperBuilder()
 			.serializers(LocalDateTimeSerializer(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")))
 			.serializers(LocalDateSerializer(DateTimeFormatter.ofPattern("yyyy-MM-dd")))
 			.propertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE)
-	}
 }

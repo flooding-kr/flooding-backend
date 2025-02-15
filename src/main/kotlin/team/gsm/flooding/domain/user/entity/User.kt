@@ -1,14 +1,17 @@
 package team.gsm.flooding.domain.user.entity
 
-import team.gsm.flooding.global.converter.StringListConverter
-import jakarta.persistence.*
-import org.hibernate.annotations.ColumnDefault
-import org.hibernate.annotations.Type
+import jakarta.persistence.Column
+import jakarta.persistence.Convert
+import jakarta.persistence.Embedded
+import jakarta.persistence.Entity
+import jakarta.persistence.GeneratedValue
+import jakarta.persistence.Id
 import org.hibernate.annotations.UuidGenerator
+import team.gsm.flooding.global.converter.StringListConverter
 import java.util.UUID
 
 @Entity(name = "users")
-data class User (
+data class User(
 	@Id
 	@UuidGenerator
 	@GeneratedValue
@@ -29,5 +32,5 @@ data class User (
 	val name: String,
 
 	@Convert(converter = StringListConverter::class)
-	val roles: List<Role>
+	val roles: List<Role>,
 )

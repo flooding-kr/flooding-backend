@@ -2,9 +2,9 @@ package team.gsm.flooding.global.exception
 
 import org.springframework.http.HttpStatus
 
-enum class ExceptionEnum (
+enum class ExceptionEnum(
 	val status: HttpStatus,
-	val reason: String
+	val reason: String,
 ) {
 	// JWT
 	EMPTY_TOKEN(HttpStatus.UNAUTHORIZED, "토큰이 비어있습니다."),
@@ -38,4 +38,7 @@ enum class ExceptionEnum (
 
 	// 급식
 	NOT_FOUND_LUNCH(HttpStatus.NOT_FOUND, "해당 날짜의 급식 일정을 찾을 수 없습니다."),
+
+	// 알 수 없는 에러
+	UNKNOWN_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "의도하지 않은 에러가 발생하였습니다."),
 }

@@ -1,8 +1,5 @@
 package team.gsm.flooding.domain.auth.controller
 
-import team.gsm.flooding.domain.auth.dto.response.ReissueTokenResponse
-import team.gsm.flooding.domain.auth.dto.response.SignInResponse
-import team.gsm.flooding.domain.auth.usecase.*
 import jakarta.validation.Valid
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
@@ -16,10 +13,18 @@ import org.springframework.web.bind.annotation.RestController
 import team.gsm.flooding.domain.auth.dto.request.RegenerateEmailCodeRequest
 import team.gsm.flooding.domain.auth.dto.request.SignInRequest
 import team.gsm.flooding.domain.auth.dto.request.SignUpRequest
+import team.gsm.flooding.domain.auth.dto.response.ReissueTokenResponse
+import team.gsm.flooding.domain.auth.dto.response.SignInResponse
+import team.gsm.flooding.domain.auth.usecase.LogoutUsecase
+import team.gsm.flooding.domain.auth.usecase.RegenerateEmailCodeUsecase
+import team.gsm.flooding.domain.auth.usecase.ReissueTokenUsecase
+import team.gsm.flooding.domain.auth.usecase.SignInUsecase
+import team.gsm.flooding.domain.auth.usecase.SignUpUsecase
+import team.gsm.flooding.domain.auth.usecase.VerifyEmailUsecase
 
 @RestController
 @RequestMapping("auth")
-class AuthController (
+class AuthController(
 	private val signUpUsecase: SignUpUsecase,
 	private val signInUsecase: SignInUsecase,
 	private val reissueTokenUsecase: ReissueTokenUsecase,
@@ -28,21 +33,25 @@ class AuthController (
 	private val logoutUsecase: LogoutUsecase,
 ) {
 	@PostMapping("sign-up")
-	fun signUp(@Valid @RequestBody signUpRequest: SignUpRequest): ResponseEntity<Unit> {
-		return signUpUsecase.execute(signUpRequest).let {
+	fun signUp(
+		@Valid @RequestBody signUpRequest: SignUpRequest,
+	): ResponseEntity<Unit> =
+		signUpUsecase.execute(signUpRequest).let {
 			ResponseEntity.ok().build()
 		}
-	}
 
 	@PostMapping("sign-in")
-	fun signIn(@Valid @RequestBody signInRequest: SignInRequest): ResponseEntity<SignInResponse> {
-		return signInUsecase.execute(signInRequest).let {
+	fun signIn(
+		@Valid @RequestBody signInRequest: SignInRequest,
+	): ResponseEntity<SignInResponse> =
+		signInUsecase.execute(signInRequest).let {
 			ResponseEntity.ok(it)
 		}
-	}
 
 	@PostMapping("logout")
-	fun logout(@RequestHeader("Refresh-Token") refreshToken: String): ResponseEntity<Unit> {
+	fun logout(
+		@RequestHeader("Refresh-Token") refreshToken: String,
+	): ResponseEntity<Unit> {
 		val resolveRefreshToken = refreshToken.substring(7)
 		return logoutUsecase.execute(resolveRefreshToken).let {
 			ResponseEntity.ok().build()
@@ -50,7 +59,9 @@ class AuthController (
 	}
 
 	@PatchMapping("re-issue")
-	fun reissueToken(@RequestHeader("Refresh-Token") refreshToken: String): ResponseEntity<ReissueTokenResponse> {
+	fun reissueToken(
+		@RequestHeader("Refresh-Token") refreshToken: String,
+	): ResponseEntity<ReissueTokenResponse> {
 		val resolveRefreshToken = refreshToken.substring(7)
 		return reissueTokenUsecase.execute(resolveRefreshToken).let {
 			ResponseEntity.ok(it)
@@ -60,7 +71,7 @@ class AuthController (
 	@GetMapping("verify")
 	fun verifyEmail(
 		@RequestParam("email") email: String,
-		@RequestParam("code") code: String
+		@RequestParam("code") code: String,
 	): ResponseEntity<String> {
 		verifyEmailUsecase.execute(email, code)
 		return ResponseEntity.ok("인증에 성공하였습니다.")
@@ -68,10 +79,9 @@ class AuthController (
 
 	@PatchMapping("re-verify")
 	fun regenerateVerifyCode(
-		@RequestBody regenerateEmailCodeRequest: RegenerateEmailCodeRequest
-	): ResponseEntity<Unit> {
-		return regenerateEmailCodeUsecase.execute(regenerateEmailCodeRequest.email).let {
+		@RequestBody regenerateEmailCodeRequest: RegenerateEmailCodeRequest,
+	): ResponseEntity<Unit> =
+		regenerateEmailCodeUsecase.execute(regenerateEmailCodeRequest.email).let {
 			ResponseEntity.ok().build()
 		}
-	}
 }

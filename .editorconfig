@@ -1,0 +1,17 @@
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+indent_size = 4
+indent_style = tab
+insert_final_newline = true
+max_line_length = 120
+trim_trailing_whitespace = true
+
+[*.{kt,kts}]
+ktlint_code_style = ktlint_official
+ktlint_standard_no-consecutive-blank-lines-in-method-declaration = disabled
+ktlint_standard_no-blank-line-in-list = disabled
+ij_kotlin_name_count_to_use_star_import = 2147483647
+ij_kotlin_name_count_to_use_star_import_for_members = 2147483647

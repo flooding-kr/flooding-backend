@@ -1,5 +1,8 @@
 package team.gsm.flooding.domain.auth.usecase
 
+import org.springframework.security.crypto.password.PasswordEncoder
+import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import team.gsm.flooding.domain.auth.dto.request.SignInRequest
 import team.gsm.flooding.domain.auth.dto.response.SignInResponse
 import team.gsm.flooding.domain.auth.entity.RefreshToken
@@ -10,28 +13,26 @@ import team.gsm.flooding.global.exception.ExpectedException
 import team.gsm.flooding.global.security.jwt.JwtProvider
 import team.gsm.flooding.global.security.jwt.JwtType
 import team.gsm.flooding.global.security.jwt.dto.JwtDetails
-import org.springframework.security.crypto.password.PasswordEncoder
-import org.springframework.stereotype.Service
-import org.springframework.transaction.annotation.Transactional
 import java.time.Duration
 import java.time.LocalDateTime
-import java.util.*
+import java.util.UUID
 
 @Service
 @Transactional
-class SignInUsecase (
+class SignInUsecase(
 	private val userRepository: UserRepository,
 	private val passwordEncoder: PasswordEncoder,
 	private val jwtProvider: JwtProvider,
-	private val refreshTokenRepository: RefreshTokenRepository
+	private val refreshTokenRepository: RefreshTokenRepository,
 ) {
 	fun execute(signInRequest: SignInRequest): SignInResponse {
 		val email = signInRequest.email
-		val user = userRepository.findByEmail(email).orElseThrow {
-			ExpectedException(ExceptionEnum.NOT_FOUND_USER)
-		}
+		val user =
+			userRepository.findByEmail(email).orElseThrow {
+				ExpectedException(ExceptionEnum.NOT_FOUND_USER)
+			}
 
-		if(!user.isVerified){
+		if (!user.isVerified) {
 			throw ExpectedException(ExceptionEnum.NOT_VERIFIED_EMAIL)
 		}
 
@@ -41,7 +42,7 @@ class SignInUsecase (
 		val rawPassword = signInRequest.password
 		val encodedPassword = user.encodedPassword
 
-		if(!passwordEncoder.matches(rawPassword, encodedPassword)){
+		if (!passwordEncoder.matches(rawPassword, encodedPassword)) {
 			throw ExpectedException(ExceptionEnum.WRONG_PASSWORD)
 		}
 
@@ -52,25 +53,27 @@ class SignInUsecase (
 			accessToken = accessToken.token,
 			accessTokenExpiredAt = accessToken.expiredAt,
 			refreshToken = refreshToken.token,
-			refreshTokenExpiredAt = refreshToken.expiredAt
+			refreshTokenExpiredAt = refreshToken.expiredAt,
 		)
 	}
 
 	fun getRefreshTokenOrSave(id: UUID): JwtDetails {
 		val refreshToken = refreshTokenRepository.findById(id)
 
-		if(refreshToken.isEmpty){
+		if (refreshToken.isEmpty) {
 			val newRefreshToken = jwtProvider.generateToken(id.toString(), JwtType.REFRESH_TOKEN)
-			refreshTokenRepository.save(RefreshToken(
-				id = id,
-				refreshToken = newRefreshToken.token,
-				expires = jwtProvider.refreshTokenExpires,
-			))
+			refreshTokenRepository.save(
+				RefreshToken(
+					id = id,
+					refreshToken = newRefreshToken.token,
+					expires = jwtProvider.refreshTokenExpires,
+				),
+			)
 			return newRefreshToken
 		} else {
 			return JwtDetails(
 				token = refreshToken.get().refreshToken,
-				expiredAt = LocalDateTime.now().plus(Duration.ofMillis(refreshToken.get().expires))
+				expiredAt = LocalDateTime.now().plus(Duration.ofMillis(refreshToken.get().expires)),
 			)
 		}
 	}
