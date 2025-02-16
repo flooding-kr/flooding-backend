@@ -35,9 +35,16 @@ enum class ExceptionEnum(
 	NOT_FOUND_ATTENDANCE(HttpStatus.BAD_REQUEST, "출결 기록을 찾을 수 없습니다."),
 	NOT_FOUND_GROUP(HttpStatus.NOT_FOUND, "홈베이스 그룹이 없습니다."),
 	USER_MISMATCH(HttpStatus.BAD_REQUEST, "유저가 일치하지 않습니다."),
+	IS_HOMEBASE_CLASSROOM(HttpStatus.BAD_REQUEST, "해당 교실은 홈베이스입니다."),
+
+	// 동아리
+	ALREADY_USED_CLUB_NAME(HttpStatus.BAD_REQUEST, "이미 사용중인 동아리명입니다."),
 
 	// 급식
 	NOT_FOUND_LUNCH(HttpStatus.NOT_FOUND, "해당 날짜의 급식 일정을 찾을 수 없습니다."),
+
+	// 교실
+	NOT_FOUND_CLASSROOM(HttpStatus.NOT_FOUND, "해당하는 교실을 찾을 수 없습니다."),
 
 	// 알 수 없는 에러
 	UNKNOWN_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "의도하지 않은 에러가 발생하였습니다."),
