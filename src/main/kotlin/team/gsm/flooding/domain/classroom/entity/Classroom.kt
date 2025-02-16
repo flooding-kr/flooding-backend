@@ -19,6 +19,8 @@ data class Classroom(
 
 	val description: String,
 
+	val isHomebase: Boolean,
+
 	@ManyToOne
 	val teacher: User,
 )
