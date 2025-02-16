@@ -8,7 +8,7 @@ import team.gsm.flooding.domain.club.entity.Club
 import team.gsm.flooding.domain.club.entity.ClubStatus
 import team.gsm.flooding.domain.club.repository.ClubRepository
 import team.gsm.flooding.global.exception.ExceptionEnum
-import team.gsm.flooding.global.exception.ExpectedException
+import team.gsm.flooding.global.exception.HttpException
 
 @Service
 @Transactional
@@ -18,16 +18,16 @@ class CreateClubUsecase(
 ) {
 	fun execute(createClubRequest: CreateClubRequest) {
 		clubRepository.existsByName(createClubRequest.name).takeIf { it }?.let {
-			throw ExpectedException(ExceptionEnum.ALREADY_USED_CLUB_NAME)
+			throw HttpException(ExceptionEnum.ALREADY_USED_CLUB_NAME)
 		}
 
 		val classroom =
 			classroomRepository.findById(createClubRequest.classroomId).orElseThrow {
-				ExpectedException(ExceptionEnum.NOT_FOUND_CLASSROOM)
+				HttpException(ExceptionEnum.NOT_FOUND_CLASSROOM)
 			}
 
 		if (classroom.isHomebase) {
-			throw ExpectedException(ExceptionEnum.IS_HOMEBASE_CLASSROOM)
+			throw HttpException(ExceptionEnum.IS_HOMEBASE_CLASSROOM)
 		}
 
 		clubRepository.save(
