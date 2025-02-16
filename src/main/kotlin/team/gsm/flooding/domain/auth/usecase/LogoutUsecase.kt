@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import team.gsm.flooding.domain.auth.repository.RefreshTokenRepository
 import team.gsm.flooding.global.exception.ExceptionEnum
-import team.gsm.flooding.global.exception.ExpectedException
+import team.gsm.flooding.global.exception.HttpException
 import team.gsm.flooding.global.security.jwt.JwtProvider
 
 @Service
@@ -17,7 +17,7 @@ class LogoutUsecase(
 		val savedRefreshToken = jwtProvider.getSavedRefreshTokenByRefreshToken(resolveRefreshToken)
 
 		if (resolveRefreshToken != savedRefreshToken.refreshToken) {
-			throw ExpectedException(ExceptionEnum.INVALID_REFRESH_TOKEN)
+			throw HttpException(ExceptionEnum.INVALID_REFRESH_TOKEN)
 		}
 
 		refreshTokenRepository.delete(savedRefreshToken)

@@ -9,7 +9,7 @@ import jakarta.servlet.http.HttpServletResponse
 import jakarta.ws.rs.core.MediaType
 import org.springframework.web.filter.OncePerRequestFilter
 import team.gsm.flooding.global.exception.ExceptionEnum
-import team.gsm.flooding.global.exception.ExpectedException
+import team.gsm.flooding.global.exception.HttpException
 import team.gsm.flooding.global.exception.dto.HttpExceptionResponse
 
 class ExceptionFilter : OncePerRequestFilter() {
@@ -22,7 +22,7 @@ class ExceptionFilter : OncePerRequestFilter() {
 			filterChain.doFilter(request, response)
 		} catch (exception: Exception) {
 			val exceptionResponse =
-				if (exception is ExpectedException) {
+				if (exception is HttpException) {
 					HttpExceptionResponse(exception.exceptionEnum)
 				} else {
 					HttpExceptionResponse(ExceptionEnum.UNKNOWN_SERVER_ERROR)

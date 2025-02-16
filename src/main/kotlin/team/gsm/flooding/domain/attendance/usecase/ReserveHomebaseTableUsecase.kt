@@ -10,7 +10,7 @@ import team.gsm.flooding.domain.attendance.repository.HomebaseGroupRepository
 import team.gsm.flooding.domain.classroom.repository.HomebaseTableRepository
 import team.gsm.flooding.domain.user.repository.UserRepository
 import team.gsm.flooding.global.exception.ExceptionEnum
-import team.gsm.flooding.global.exception.ExpectedException
+import team.gsm.flooding.global.exception.HttpException
 import team.gsm.flooding.global.util.UserUtil
 import java.time.LocalDate
 
@@ -33,7 +33,7 @@ class ReserveHomebaseTableUsecase(
 				.findByTableNumberAndHomebaseFloor(
 					request.tableNumber,
 					request.floor,
-				).orElseThrow { ExpectedException(ExceptionEnum.NOT_FOUND_TABLE) }
+				).orElseThrow { HttpException(ExceptionEnum.NOT_FOUND_TABLE) }
 
 		// 해당 자리의 사용 여부
 		homebaseGroupRepository
@@ -43,7 +43,7 @@ class ReserveHomebaseTableUsecase(
 				nowDate,
 			).takeIf { it }
 			?.let {
-				throw ExpectedException(ExceptionEnum.EXISTS_USED_TABLE)
+				throw HttpException(ExceptionEnum.EXISTS_USED_TABLE)
 			}
 
 		// 이미 자리가 예약된 참여자 여부
@@ -55,7 +55,7 @@ class ReserveHomebaseTableUsecase(
 				allUsers,
 			).takeIf { it }
 			?.let {
-				throw ExpectedException(ExceptionEnum.ALREADY_JOINED_ATTENDANCE)
+				throw HttpException(ExceptionEnum.ALREADY_JOINED_ATTENDANCE)
 			}
 
 		val currentUserAttendance =

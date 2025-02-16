@@ -6,7 +6,7 @@ import team.gsm.flooding.domain.auth.entity.VerifyCode
 import team.gsm.flooding.domain.auth.repository.VerifyCodeRepository
 import team.gsm.flooding.domain.user.repository.UserRepository
 import team.gsm.flooding.global.exception.ExceptionEnum
-import team.gsm.flooding.global.exception.ExpectedException
+import team.gsm.flooding.global.exception.HttpException
 import team.gsm.flooding.global.thirdparty.email.EmailAdapter
 import team.gsm.flooding.global.util.PasswordUtil
 
@@ -21,13 +21,13 @@ class RegenerateEmailCodeUsecase(
 	fun execute(email: String) {
 		val userByEmail =
 			userRepository.findByEmail(email).orElseThrow {
-				ExpectedException(ExceptionEnum.NOT_FOUND_USER)
+				HttpException(ExceptionEnum.NOT_FOUND_USER)
 			}
 		val id = userByEmail.id
 		requireNotNull(id) { "id cannot be null" }
 
 		if (userByEmail.isVerified) {
-			throw ExpectedException(ExceptionEnum.ALREADY_VERIFY_EMAIL)
+			throw HttpException(ExceptionEnum.ALREADY_VERIFY_EMAIL)
 		}
 
 		val newVerifyCode = passwordUtil.generateSixRandomCode()

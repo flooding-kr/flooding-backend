@@ -5,7 +5,7 @@ import org.springframework.transaction.annotation.Transactional
 import team.gsm.flooding.domain.attendance.repository.AttendanceRepository
 import team.gsm.flooding.domain.attendance.repository.HomebaseGroupRepository
 import team.gsm.flooding.global.exception.ExceptionEnum
-import team.gsm.flooding.global.exception.ExpectedException
+import team.gsm.flooding.global.exception.HttpException
 import team.gsm.flooding.global.util.UserUtil
 import java.util.UUID
 
@@ -20,11 +20,12 @@ class CancelHomebaseTableUsecase(
 		val currentUser = userUtil.getUser()
 
 		val homebaseGroup =
-			homebaseGroupRepository.findById(homebaseGroupId)
-				.orElseThrow { ExpectedException(ExceptionEnum.NOT_FOUND_GROUP) }
+			homebaseGroupRepository
+				.findById(homebaseGroupId)
+				.orElseThrow { HttpException(ExceptionEnum.NOT_FOUND_GROUP) }
 
 		if (homebaseGroup.proposer.student != currentUser) {
-			throw ExpectedException(ExceptionEnum.USER_MISMATCH)
+			throw HttpException(ExceptionEnum.USER_MISMATCH)
 		}
 
 		attendanceRepository.deleteAll(homebaseGroup.participants)
