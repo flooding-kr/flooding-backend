@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component
 import team.gsm.flooding.domain.auth.entity.RefreshToken
 import team.gsm.flooding.domain.auth.repository.RefreshTokenRepository
 import team.gsm.flooding.global.exception.ExceptionEnum
-import team.gsm.flooding.global.exception.ExpectedException
+import team.gsm.flooding.global.exception.HttpException
 import team.gsm.flooding.global.security.details.AuthDetailsService
 import team.gsm.flooding.global.security.jwt.dto.JwtDetails
 import team.gsm.flooding.global.util.toDate
@@ -33,16 +33,27 @@ class JwtProvider(
 	@Value("\${jwt.refresh-token-expires}")
 	val refreshTokenExpires: Long,
 ) {
-	fun getAuthentication(token: String): UsernamePasswordAuthenticationToken {
-		val userDetails = authDetailsService.loadUserByUsername(getPayload(token).subject)
+	fun getAuthentication(token: String?): UsernamePasswordAuthenticationToken? {
+		val resolvedToken = resolveToken(token)
+		val payload = getPayload(resolvedToken)
+
+		val userDetails = authDetailsService.loadUserByUsername(payload.subject)
+
 		return UsernamePasswordAuthenticationToken(userDetails, null, userDetails.authorities)
 	}
+
+	fun resolveToken(token: String?): String? =
+		if (token == null || !token.startsWith("Bearer ")) {
+			null
+		} else {
+			token.substring(7)
+		}
 
 	fun getSavedRefreshTokenByRefreshToken(refreshToken: String): RefreshToken {
 		val userId = UUID.fromString(getPayload(refreshToken).subject)
 		val savedRefreshToken =
 			refreshTokenRepository.findById(userId).orElseThrow {
-				ExpectedException(ExceptionEnum.NOT_FOUND_REFRESH_TOKEN)
+				HttpException(ExceptionEnum.NOT_FOUND_REFRESH_TOKEN)
 			}
 
 		return savedRefreshToken
@@ -52,7 +63,7 @@ class JwtProvider(
 
 	fun getPayload(token: String?): Claims {
 		if (token == null) {
-			throw ExpectedException(ExceptionEnum.EMPTY_TOKEN)
+			throw HttpException(ExceptionEnum.EMPTY_TOKEN)
 		}
 
 		val keyBytes = Base64.getEncoder().encode(accessTokenKey.encodeToByteArray())
@@ -66,13 +77,13 @@ class JwtProvider(
 				.parseSignedClaims(token)
 				.payload
 		} catch (e: ExpiredJwtException) {
-			throw ExpectedException(ExceptionEnum.EXPIRED_TOKEN)
+			throw HttpException(ExceptionEnum.EXPIRED_TOKEN)
 		} catch (e: UnsupportedJwtException) {
-			throw ExpectedException(ExceptionEnum.UNSUPPORTED_TOKEN)
+			throw HttpException(ExceptionEnum.UNSUPPORTED_TOKEN)
 		} catch (e: MalformedJwtException) {
-			throw ExpectedException(ExceptionEnum.MALFORMED_TOKEN)
+			throw HttpException(ExceptionEnum.MALFORMED_TOKEN)
 		} catch (e: RuntimeException) {
-			throw ExpectedException(ExceptionEnum.OTHER_TOKEN)
+			throw HttpException(ExceptionEnum.OTHER_TOKEN)
 		}
 	}
 

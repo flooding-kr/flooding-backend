@@ -11,7 +11,7 @@ import team.gsm.flooding.domain.user.entity.StudentInfo
 import team.gsm.flooding.domain.user.entity.User
 import team.gsm.flooding.domain.user.repository.UserRepository
 import team.gsm.flooding.global.exception.ExceptionEnum
-import team.gsm.flooding.global.exception.ExpectedException
+import team.gsm.flooding.global.exception.HttpException
 import team.gsm.flooding.global.thirdparty.email.EmailAdapter
 import team.gsm.flooding.global.util.PasswordUtil
 import team.gsm.flooding.global.util.StudentUtil.Companion.calcGradeToYear
@@ -29,12 +29,12 @@ class SignUpUsecase(
 		val encodedPassword = passwordEncoder.encode(request.password)
 
 		if (userRepository.existsByEmail(request.email)) {
-			throw ExpectedException(ExceptionEnum.DUPLICATED_EMAIL)
+			throw HttpException(ExceptionEnum.DUPLICATED_EMAIL)
 		}
 
 		val maxYear = calcGradeToYear(1)
 		if (request.year > maxYear) {
-			throw ExpectedException(ExceptionEnum.WRONG_YEAR)
+			throw HttpException(ExceptionEnum.WRONG_YEAR)
 		}
 
 		val studentInfo =
@@ -45,7 +45,7 @@ class SignUpUsecase(
 			)
 
 		if (userRepository.existsByStudentInfo(studentInfo)) {
-			throw ExpectedException(ExceptionEnum.DUPLICATED_STUDENT_INFO)
+			throw HttpException(ExceptionEnum.DUPLICATED_STUDENT_INFO)
 		}
 
 		val user =

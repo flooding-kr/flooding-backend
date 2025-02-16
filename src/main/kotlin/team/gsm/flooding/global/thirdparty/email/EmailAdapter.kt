@@ -5,7 +5,7 @@ import org.springframework.mail.javamail.MimeMessageHelper
 import org.springframework.scheduling.annotation.Async
 import org.springframework.stereotype.Component
 import team.gsm.flooding.global.exception.ExceptionEnum
-import team.gsm.flooding.global.exception.ExpectedException
+import team.gsm.flooding.global.exception.HttpException
 
 @Component
 class EmailAdapter(
@@ -31,7 +31,7 @@ class EmailAdapter(
 		runCatching {
 			mailSender.send(message)
 		}.onFailure {
-			throw ExpectedException(ExceptionEnum.UNKNOWN_ERROR_EMAIL)
+			throw HttpException(ExceptionEnum.UNKNOWN_ERROR_EMAIL)
 		}
 	}
 }

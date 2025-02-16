@@ -6,7 +6,7 @@ import org.springframework.transaction.annotation.Transactional
 import team.gsm.flooding.domain.auth.repository.RefreshTokenRepository
 import team.gsm.flooding.domain.user.repository.UserRepository
 import team.gsm.flooding.global.exception.ExceptionEnum
-import team.gsm.flooding.global.exception.ExpectedException
+import team.gsm.flooding.global.exception.HttpException
 import team.gsm.flooding.global.util.UserUtil
 
 @Service
@@ -25,7 +25,7 @@ class WithdrawUsecase(
 		requireNotNull(id) { "id cannot be null" }
 
 		if (!isComparePassword) {
-			throw ExpectedException(ExceptionEnum.WRONG_PASSWORD)
+			throw HttpException(ExceptionEnum.WRONG_PASSWORD)
 		}
 
 		refreshTokenRepository.deleteById(id)

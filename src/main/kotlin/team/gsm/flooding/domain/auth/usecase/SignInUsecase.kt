@@ -9,7 +9,7 @@ import team.gsm.flooding.domain.auth.entity.RefreshToken
 import team.gsm.flooding.domain.auth.repository.RefreshTokenRepository
 import team.gsm.flooding.domain.user.repository.UserRepository
 import team.gsm.flooding.global.exception.ExceptionEnum
-import team.gsm.flooding.global.exception.ExpectedException
+import team.gsm.flooding.global.exception.HttpException
 import team.gsm.flooding.global.security.jwt.JwtProvider
 import team.gsm.flooding.global.security.jwt.JwtType
 import team.gsm.flooding.global.security.jwt.dto.JwtDetails
@@ -29,11 +29,11 @@ class SignInUsecase(
 		val email = signInRequest.email
 		val user =
 			userRepository.findByEmail(email).orElseThrow {
-				ExpectedException(ExceptionEnum.NOT_FOUND_USER)
+				HttpException(ExceptionEnum.NOT_FOUND_USER)
 			}
 
 		if (!user.isVerified) {
-			throw ExpectedException(ExceptionEnum.NOT_VERIFIED_EMAIL)
+			throw HttpException(ExceptionEnum.NOT_VERIFIED_EMAIL)
 		}
 
 		val id = user.id
@@ -43,7 +43,7 @@ class SignInUsecase(
 		val encodedPassword = user.encodedPassword
 
 		if (!passwordEncoder.matches(rawPassword, encodedPassword)) {
-			throw ExpectedException(ExceptionEnum.WRONG_PASSWORD)
+			throw HttpException(ExceptionEnum.WRONG_PASSWORD)
 		}
 
 		val accessToken = jwtProvider.generateToken(id.toString(), JwtType.ACCESS_TOKEN)

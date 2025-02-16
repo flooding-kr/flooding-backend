@@ -5,7 +5,7 @@ import org.springframework.transaction.annotation.Transactional
 import team.gsm.flooding.domain.auth.repository.VerifyCodeRepository
 import team.gsm.flooding.domain.user.repository.UserRepository
 import team.gsm.flooding.global.exception.ExceptionEnum
-import team.gsm.flooding.global.exception.ExpectedException
+import team.gsm.flooding.global.exception.HttpException
 
 @Service
 @Transactional
@@ -19,22 +19,22 @@ class VerifyEmailUsecase(
 	) {
 		val user =
 			userRepository.findByEmail(email).orElseThrow {
-				ExpectedException(ExceptionEnum.NOT_FOUND_USER)
+				HttpException(ExceptionEnum.NOT_FOUND_USER)
 			}
 		val id = user.id
 		requireNotNull(id) { "id cannot be null" }
 
 		if (user.isVerified) {
-			throw ExpectedException(ExceptionEnum.ALREADY_VERIFY_EMAIL)
+			throw HttpException(ExceptionEnum.ALREADY_VERIFY_EMAIL)
 		}
 
 		val verifyCodeEntity =
 			verifyCodeRepository.findById(id).orElseThrow {
-				ExpectedException(ExceptionEnum.NOT_FOUND_VERIFY_CODE)
+				HttpException(ExceptionEnum.NOT_FOUND_VERIFY_CODE)
 			}
 
 		if (verifyCodeEntity.code != code) {
-			throw ExpectedException(ExceptionEnum.NOT_FOUND_VERIFY_CODE)
+			throw HttpException(ExceptionEnum.NOT_FOUND_VERIFY_CODE)
 		}
 
 		val updatedUser = user.copy(isVerified = true)

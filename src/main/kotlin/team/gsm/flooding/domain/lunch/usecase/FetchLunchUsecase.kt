@@ -7,7 +7,7 @@ import team.gsm.flooding.domain.lunch.controller.dto.request.LunchTime
 import team.gsm.flooding.domain.lunch.controller.dto.response.FetchLunchClientResponse
 import team.gsm.flooding.domain.lunch.controller.dto.response.FetchLunchResponse
 import team.gsm.flooding.global.exception.ExceptionEnum
-import team.gsm.flooding.global.exception.ExpectedException
+import team.gsm.flooding.global.exception.HttpException
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
@@ -21,7 +21,7 @@ class FetchLunchUsecase(
 	): FetchLunchResponse {
 		val response = getLunchResponse(date, lunchTime)
 		if (response?.mealServiceDietInfo == null) {
-			throw ExpectedException(ExceptionEnum.NOT_FOUND_LUNCH)
+			throw HttpException(ExceptionEnum.NOT_FOUND_LUNCH)
 		}
 
 		val row = response.mealServiceDietInfo[1].row ?: emptyList()
