@@ -6,7 +6,7 @@ import team.gsm.flooding.domain.auth.dto.response.ReissueTokenResponse
 import team.gsm.flooding.domain.auth.entity.RefreshToken
 import team.gsm.flooding.domain.auth.repository.RefreshTokenRepository
 import team.gsm.flooding.global.exception.ExceptionEnum
-import team.gsm.flooding.global.exception.ExpectedException
+import team.gsm.flooding.global.exception.HttpException
 import team.gsm.flooding.global.security.jwt.JwtProvider
 import team.gsm.flooding.global.security.jwt.JwtType
 import team.gsm.flooding.global.security.jwt.dto.JwtDetails
@@ -23,7 +23,7 @@ class ReissueTokenUsecase(
 		val savedRefreshToken = jwtProvider.getSavedRefreshTokenByRefreshToken(resolveRefreshToken)
 
 		if (resolveRefreshToken != savedRefreshToken.refreshToken) {
-			throw ExpectedException(ExceptionEnum.INVALID_REFRESH_TOKEN)
+			throw HttpException(ExceptionEnum.INVALID_REFRESH_TOKEN)
 		}
 
 		val newAccessToken = jwtProvider.generateToken(currentUserId, JwtType.ACCESS_TOKEN)
@@ -48,7 +48,7 @@ class ReissueTokenUsecase(
 	fun deleteRefreshTokenOrSave(id: String): JwtDetails {
 		val refreshToken =
 			refreshTokenRepository.findById(UUID.fromString(id)).orElseThrow {
-				ExpectedException(ExceptionEnum.NOT_FOUND_REFRESH_TOKEN)
+				HttpException(ExceptionEnum.NOT_FOUND_REFRESH_TOKEN)
 			}
 
 		refreshTokenRepository.delete(refreshToken)

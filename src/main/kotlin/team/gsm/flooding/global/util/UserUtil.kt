@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component
 import team.gsm.flooding.domain.user.entity.User
 import team.gsm.flooding.domain.user.repository.UserRepository
 import team.gsm.flooding.global.exception.ExceptionEnum
-import team.gsm.flooding.global.exception.ExpectedException
+import team.gsm.flooding.global.exception.HttpException
 
 @Component
 class UserUtil(
@@ -14,7 +14,7 @@ class UserUtil(
 	fun getUser(): User {
 		val email = SecurityContextHolder.getContext().authentication.name
 		return userRepository.findByEmail(email).orElseThrow {
-			ExpectedException(ExceptionEnum.NOT_FOUND_USER)
+			HttpException(ExceptionEnum.NOT_FOUND_USER)
 		}
 	}
 }
