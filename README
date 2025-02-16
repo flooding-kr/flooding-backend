@@ -1,3 +1,12 @@
 # IDE 설정
 
 `IntelliJ IDEA`를 사용하시는 경우, 우측 상단의 설정에서 Plugins - Marketplace에서 Ktlint를 설치해주세요.
+
+## Cloudflare R2
+
+AWS S3 2.30.x는 R2 API를 완벽하게 지원하지 않기 때문에, 다음과 같은 코드를 추가해야 합니다.
+
+```kotlin
+.responseChecksumValidation(ResponseChecksumValidation.WHEN_REQUIRED)
+.requestChecksumCalculation(RequestChecksumCalculation.WHEN_REQUIRED)
+```
