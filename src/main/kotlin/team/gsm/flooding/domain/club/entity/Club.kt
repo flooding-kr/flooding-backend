@@ -4,6 +4,8 @@ import jakarta.persistence.Convert
 import jakarta.persistence.Entity
 import jakarta.persistence.Id
 import jakarta.persistence.ManyToOne
+import org.hibernate.annotations.OnDelete
+import org.hibernate.annotations.OnDeleteAction
 import org.hibernate.annotations.UuidGenerator
 import team.gsm.flooding.domain.classroom.entity.Classroom
 import team.gsm.flooding.domain.user.entity.User
@@ -21,6 +23,7 @@ data class Club(
 	val description: String,
 
 	@ManyToOne
+	@OnDelete(action = OnDeleteAction.SET_NULL)
 	val classroom: Classroom,
 
 	val thumbnailImageUrl: String? = null,
@@ -33,5 +36,6 @@ data class Club(
 	val type: ClubType,
 
 	@ManyToOne
+	@OnDelete(action = OnDeleteAction.SET_NULL)
 	val leader: User,
 )
