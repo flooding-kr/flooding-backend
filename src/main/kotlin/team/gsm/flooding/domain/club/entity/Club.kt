@@ -6,6 +6,7 @@ import jakarta.persistence.Id
 import jakarta.persistence.ManyToOne
 import org.hibernate.annotations.UuidGenerator
 import team.gsm.flooding.domain.classroom.entity.Classroom
+import team.gsm.flooding.domain.user.entity.User
 import team.gsm.flooding.global.converter.StringListConverter
 import java.util.UUID
 
@@ -30,4 +31,7 @@ data class Club(
 	val status: ClubStatus,
 
 	val type: ClubType,
+
+	@ManyToOne
+	val leader: User,
 )
