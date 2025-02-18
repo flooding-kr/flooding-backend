@@ -1,6 +1,6 @@
-package team.gsm.flooding.domain.attendance.dto.response
+package team.gsm.flooding.domain.homebase.dto.response
 
-import team.gsm.flooding.domain.attendance.entity.HomebaseGroup
+import team.gsm.flooding.domain.homebase.entity.HomebaseGroup
 import team.gsm.flooding.domain.user.entity.User
 import java.time.LocalDate
 import java.util.UUID
@@ -16,14 +16,13 @@ class FindMyReservedHomebaseResponse(
 		fun toDto(
 			homebaseGroup: HomebaseGroup,
 			currentUser: User,
-		): FindMyReservedHomebaseResponse {
-			return FindMyReservedHomebaseResponse(
+		): FindMyReservedHomebaseResponse =
+			FindMyReservedHomebaseResponse(
 				homebaseGroupId = homebaseGroup.id,
 				homebaseTable = HomebaseTableResponse.toDto(homebaseGroup.homebaseTable),
 				attendedAt = homebaseGroup.attendedAt,
 				participants = homebaseGroup.participants.map { AttendanceResponse.toDto(it) },
 				isProposer = homebaseGroup.proposer.student == currentUser,
 			)
-		}
 	}
 }

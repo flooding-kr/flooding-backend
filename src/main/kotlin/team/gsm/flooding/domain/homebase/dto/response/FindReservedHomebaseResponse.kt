@@ -1,7 +1,7 @@
-package team.gsm.flooding.domain.attendance.dto.response
+package team.gsm.flooding.domain.homebase.dto.response
 
-import team.gsm.flooding.domain.attendance.entity.HomebaseGroup
 import team.gsm.flooding.domain.classroom.entity.HomebaseTable
+import team.gsm.flooding.domain.homebase.entity.HomebaseGroup
 import java.time.LocalDate
 
 class FindReservedHomebaseResponse(
@@ -16,8 +16,8 @@ class FindReservedHomebaseResponse(
 		fun toDto(
 			homebaseTable: HomebaseTable,
 			homebaseGroup: HomebaseGroup?,
-		): FindReservedHomebaseResponse {
-			return FindReservedHomebaseResponse(
+		): FindReservedHomebaseResponse =
+			FindReservedHomebaseResponse(
 				homebaseTableId = homebaseTable.id,
 				floor = homebaseTable.homebase.floor,
 				tableNumber = homebaseTable.tableNumber,
@@ -25,6 +25,5 @@ class FindReservedHomebaseResponse(
 				isAttended = homebaseGroup != null,
 				participants = homebaseGroup?.participants.orEmpty().map { AttendanceResponse.toDto(it) },
 			)
-		}
 	}
 }

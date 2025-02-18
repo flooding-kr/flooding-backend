@@ -23,8 +23,7 @@ class RegenerateEmailCodeUsecase(
 			userRepository.findByEmail(email).orElseThrow {
 				HttpException(ExceptionEnum.NOT_FOUND_USER)
 			}
-		val id = userByEmail.id
-		requireNotNull(id) { "id cannot be null" }
+		val id = requireNotNull(userByEmail.id)
 
 		if (userByEmail.isVerified) {
 			throw HttpException(ExceptionEnum.ALREADY_VERIFY_EMAIL)

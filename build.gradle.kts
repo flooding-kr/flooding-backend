@@ -58,6 +58,9 @@ dependencies {
 	implementation("com.amazonaws:aws-lambda-java-core:1.2.3")
 	implementation("com.amazonaws:aws-lambda-java-events:3.14.0")
 	implementation("org.springframework.boot:spring-boot-maven-plugin:3.4.2")
+
+	// S3
+	implementation("software.amazon.awssdk:s3:2.30.21")
 }
 
 kotlin {

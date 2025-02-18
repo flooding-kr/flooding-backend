@@ -1,4 +1,4 @@
-package team.gsm.flooding.domain.attendance.dto.request
+package team.gsm.flooding.domain.homebase.dto.request
 
 import java.util.UUID
 

@@ -1,9 +1,9 @@
-package team.gsm.flooding.domain.attendance.usecase
+package team.gsm.flooding.domain.homebase.usecase
 
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import team.gsm.flooding.domain.attendance.repository.AttendanceRepository
-import team.gsm.flooding.domain.attendance.repository.HomebaseGroupRepository
+import team.gsm.flooding.domain.homebase.repository.HomebaseGroupRepository
 import team.gsm.flooding.global.exception.ExceptionEnum
 import team.gsm.flooding.global.exception.HttpException
 import team.gsm.flooding.global.util.UserUtil

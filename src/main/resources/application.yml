@@ -48,3 +48,10 @@ jwt:
 lunch-api:
   key: ${MEAL_API_KEY}
 
+cloudflare:
+    r2:
+        public-url: ${CLOUDFLARE_R2_PUBLIC_URL}
+        endpoint: ${CLOUDFLARE_R2_ENDPOINT}
+        bucket-name: ${CLOUDFLARE_R2_BUCKET_NAME}
+        access-key-id: ${CLOUDFLARE_ACCESS_KEY_ID}
+        secret-access-key: ${CLOUDFLARE_SECRET_ACCESS_KEY}

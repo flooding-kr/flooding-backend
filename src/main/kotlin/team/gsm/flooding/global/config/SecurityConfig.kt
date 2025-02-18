@@ -50,15 +50,21 @@ class SecurityConfig(
 					.requestMatchers(HttpMethod.GET, "/lunch")
 					.hasAuthority(Role.ROLE_USER.name)
 					// 홈베이스
-					.requestMatchers(HttpMethod.POST, "/attendance/homebase")
+					.requestMatchers(HttpMethod.POST, "/homebase")
 					.hasAuthority(Role.ROLE_USER.name)
-					.requestMatchers(HttpMethod.PATCH, "/attendance/homebase")
+					.requestMatchers(HttpMethod.PATCH, "/homebase")
 					.hasAuthority(Role.ROLE_USER.name)
-					.requestMatchers(HttpMethod.DELETE, "/attendance/homebase/{homebaseGroupId}")
+					.requestMatchers(HttpMethod.DELETE, "/homebase/{homebaseGroupId}")
 					.hasAuthority(Role.ROLE_USER.name)
-					.requestMatchers(HttpMethod.GET, "/attendance/homebase")
+					.requestMatchers(HttpMethod.GET, "/homebase")
 					.hasAnyAuthority(Role.ROLE_USER.name)
-					.requestMatchers(HttpMethod.GET, "/attendance/homebase/myself")
+					.requestMatchers(HttpMethod.GET, "/homebase/myself")
+					.hasAnyAuthority(Role.ROLE_USER.name)
+					// 동아리
+					.requestMatchers(HttpMethod.POST, "/club")
+					.hasAnyAuthority(Role.ROLE_USER.name)
+					// 파일
+					.requestMatchers(HttpMethod.POST, "/file/image")
 					.hasAnyAuthority(Role.ROLE_USER.name)
 					// 서버 상태
 					.requestMatchers(HttpMethod.GET, "/health")
