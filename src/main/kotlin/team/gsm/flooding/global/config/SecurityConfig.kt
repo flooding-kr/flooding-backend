@@ -60,13 +60,11 @@ class SecurityConfig(
 					.hasAnyAuthority(Role.ROLE_USER.name)
 					.requestMatchers(HttpMethod.GET, "/attendance/homebase/myself")
 					.hasAnyAuthority(Role.ROLE_USER.name)
+					// 동아리
 					.requestMatchers(HttpMethod.POST, "/club")
 					.hasAnyAuthority(Role.ROLE_USER.name)
 					// 파일
 					.requestMatchers(HttpMethod.POST, "/file/image")
-					.hasAnyAuthority(Role.ROLE_USER.name)
-					// 동아리
-					.requestMatchers(HttpMethod.POST, "/club")
 					.hasAnyAuthority(Role.ROLE_USER.name)
 					// 서버 상태
 					.requestMatchers(HttpMethod.GET, "/health")
