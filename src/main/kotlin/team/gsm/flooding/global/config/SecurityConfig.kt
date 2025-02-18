@@ -66,8 +66,8 @@ class SecurityConfig(
 					// 파일
 					.requestMatchers(HttpMethod.POST, "/file/image")
 					.hasAnyAuthority(Role.ROLE_USER.name)
-					// 서버 상태
-					.requestMatchers(HttpMethod.GET, "/health")
+					// 상태 확인
+					.requestMatchers(HttpMethod.GET, "/actuator/health")
 					.permitAll()
 			}.csrf { it.disable() }
 			.formLogin { it.disable() }
