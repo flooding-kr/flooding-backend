@@ -67,7 +67,12 @@ class SecurityConfig(
 					.requestMatchers(HttpMethod.POST, "/file/image")
 					.hasAnyAuthority(Role.ROLE_USER.name)
 					// 상태 확인
-					.requestMatchers(HttpMethod.GET, "/actuator/health")
+					.requestMatchers(HttpMethod.GET, "/actuator/**")
+					.permitAll()
+					// API 명세서
+					.requestMatchers(HttpMethod.GET, "/swagger-ui/**")
+					.permitAll()
+					.requestMatchers(HttpMethod.GET, "/api-docs/**")
 					.permitAll()
 			}.csrf { it.disable() }
 			.formLogin { it.disable() }
