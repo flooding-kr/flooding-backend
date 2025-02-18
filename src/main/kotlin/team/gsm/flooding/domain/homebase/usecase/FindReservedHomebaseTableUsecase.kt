@@ -1,11 +1,11 @@
-package team.gsm.flooding.domain.attendance.usecase
+package team.gsm.flooding.domain.homebase.usecase
 
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import team.gsm.flooding.domain.attendance.dto.request.FindReservedHomebaseTableRequest
-import team.gsm.flooding.domain.attendance.dto.response.FindReservedHomebaseResponse
-import team.gsm.flooding.domain.attendance.repository.HomebaseGroupRepository
 import team.gsm.flooding.domain.classroom.repository.HomebaseTableRepository
+import team.gsm.flooding.domain.homebase.dto.request.FindReservedHomebaseTableRequest
+import team.gsm.flooding.domain.homebase.dto.response.FindReservedHomebaseResponse
+import team.gsm.flooding.domain.homebase.repository.HomebaseGroupRepository
 import java.time.LocalDate
 
 @Service

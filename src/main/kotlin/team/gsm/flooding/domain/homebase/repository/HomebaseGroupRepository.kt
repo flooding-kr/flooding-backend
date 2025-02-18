@@ -1,9 +1,9 @@
-package team.gsm.flooding.domain.attendance.repository
+package team.gsm.flooding.domain.homebase.repository
 
 import org.springframework.data.jpa.repository.JpaRepository
 import team.gsm.flooding.domain.attendance.entity.Attendance
-import team.gsm.flooding.domain.attendance.entity.HomebaseGroup
 import team.gsm.flooding.domain.classroom.entity.HomebaseTable
+import team.gsm.flooding.domain.homebase.entity.HomebaseGroup
 import team.gsm.flooding.domain.user.entity.User
 import java.time.LocalDate
 import java.util.UUID

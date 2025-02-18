@@ -1,13 +1,13 @@
-package team.gsm.flooding.domain.attendance.usecase
+package team.gsm.flooding.domain.homebase.usecase
 
 import jakarta.transaction.Transactional
 import org.springframework.stereotype.Service
-import team.gsm.flooding.domain.attendance.dto.request.ReserveHomebaseTableRequest
 import team.gsm.flooding.domain.attendance.entity.Attendance
-import team.gsm.flooding.domain.attendance.entity.HomebaseGroup
 import team.gsm.flooding.domain.attendance.repository.AttendanceRepository
-import team.gsm.flooding.domain.attendance.repository.HomebaseGroupRepository
 import team.gsm.flooding.domain.classroom.repository.HomebaseTableRepository
+import team.gsm.flooding.domain.homebase.dto.request.ReserveHomebaseTableRequest
+import team.gsm.flooding.domain.homebase.entity.HomebaseGroup
+import team.gsm.flooding.domain.homebase.repository.HomebaseGroupRepository
 import team.gsm.flooding.domain.user.repository.UserRepository
 import team.gsm.flooding.global.exception.ExceptionEnum
 import team.gsm.flooding.global.exception.HttpException

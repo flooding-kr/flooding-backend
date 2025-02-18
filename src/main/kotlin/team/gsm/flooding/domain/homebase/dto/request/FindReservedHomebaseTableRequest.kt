@@ -1,4 +1,4 @@
-package team.gsm.flooding.domain.attendance.dto.request
+package team.gsm.flooding.domain.homebase.dto.request
 
 class FindReservedHomebaseTableRequest(
 	val floor: Int,

@@ -1,4 +1,4 @@
-package team.gsm.flooding.domain.attendance.dto.response
+package team.gsm.flooding.domain.homebase.dto.response
 
 import team.gsm.flooding.domain.classroom.entity.HomebaseTable
 
@@ -8,12 +8,11 @@ class HomebaseTableResponse(
 	val tableNumber: Int,
 ) {
 	companion object {
-		fun toDto(homebaseTable: HomebaseTable): HomebaseTableResponse {
-			return HomebaseTableResponse(
+		fun toDto(homebaseTable: HomebaseTable): HomebaseTableResponse =
+			HomebaseTableResponse(
 				id = homebaseTable.id,
 				floor = homebaseTable.homebase.floor,
 				tableNumber = homebaseTable.tableNumber,
 			)
-		}
 	}
 }

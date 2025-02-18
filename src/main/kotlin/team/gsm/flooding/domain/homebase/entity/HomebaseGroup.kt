@@ -1,4 +1,4 @@
-package team.gsm.flooding.domain.attendance.entity
+package team.gsm.flooding.domain.homebase.entity
 
 import jakarta.persistence.CascadeType
 import jakarta.persistence.Entity
@@ -7,6 +7,7 @@ import jakarta.persistence.ManyToOne
 import jakarta.persistence.OneToMany
 import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.UuidGenerator
+import team.gsm.flooding.domain.attendance.entity.Attendance
 import team.gsm.flooding.domain.classroom.entity.HomebaseTable
 import java.time.LocalDate
 import java.util.UUID
