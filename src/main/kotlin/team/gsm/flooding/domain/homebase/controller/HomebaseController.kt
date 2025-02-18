@@ -16,7 +16,7 @@ import team.gsm.flooding.domain.homebase.usecase.CancelHomebaseTableUsecase
 import team.gsm.flooding.domain.homebase.usecase.FindMyReservedHomebaseUsecase
 import team.gsm.flooding.domain.homebase.usecase.FindReservedHomebaseTableUsecase
 import team.gsm.flooding.domain.homebase.usecase.ReserveHomebaseTableUsecase
-import java.util.*
+import java.util.UUID
 
 @RestController
 @RequestMapping("/homebase")
