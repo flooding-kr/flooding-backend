@@ -1,5 +1,6 @@
 package team.gsm.flooding.domain.classroom.entity
 
+import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
@@ -15,8 +16,10 @@ data class Classroom(
 
 	val floor: Int,
 
+	@Column(nullable = false)
 	val name: String,
 
+	@Column(nullable = false)
 	val description: String,
 
 	val isHomebase: Boolean,

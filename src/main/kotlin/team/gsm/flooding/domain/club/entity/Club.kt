@@ -1,5 +1,6 @@
 package team.gsm.flooding.domain.club.entity
 
+import jakarta.persistence.Column
 import jakarta.persistence.Convert
 import jakarta.persistence.Entity
 import jakarta.persistence.Id
@@ -18,8 +19,10 @@ data class Club(
 	@UuidGenerator
 	val id: UUID? = null,
 
+	@Column(nullable = false)
 	val name: String,
 
+	@Column(nullable = false)
 	val description: String,
 
 	@ManyToOne
@@ -31,8 +34,10 @@ data class Club(
 	@Convert(converter = StringListConverter::class)
 	val activityImageUrls: List<String> = listOf(),
 
+	@Column(nullable = false)
 	val status: ClubStatus,
 
+	@Column(nullable = false)
 	val type: ClubType,
 
 	@ManyToOne

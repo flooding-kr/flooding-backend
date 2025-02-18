@@ -1,5 +1,6 @@
 package team.gsm.flooding.domain.attendance.entity
 
+import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.Id
 import jakarta.persistence.ManyToOne
@@ -25,8 +26,10 @@ data class Attendance(
 
 	@ManyToOne
 	val student: User,
+
 	val period: Int,
 
 	@CreationTimestamp
+	@Column(nullable = false)
 	val attendedAt: LocalDate? = null,
 )

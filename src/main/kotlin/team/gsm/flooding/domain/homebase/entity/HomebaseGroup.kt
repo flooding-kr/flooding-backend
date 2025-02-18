@@ -1,6 +1,7 @@
 package team.gsm.flooding.domain.homebase.entity
 
 import jakarta.persistence.CascadeType
+import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.Id
 import jakarta.persistence.ManyToOne
@@ -30,5 +31,6 @@ data class HomebaseGroup(
 	val proposer: Attendance,
 
 	@CreationTimestamp
+	@Column(nullable = false)
 	val attendedAt: LocalDate? = null,
 )

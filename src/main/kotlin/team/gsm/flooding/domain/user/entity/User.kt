@@ -17,9 +17,10 @@ data class User(
 	@GeneratedValue
 	val id: UUID? = null,
 
-	@Column(unique = true)
+	@Column(unique = true, nullable = false)
 	val email: String,
 
+	@Column(nullable = false)
 	val encodedPassword: String,
 
 	val isVerified: Boolean,
@@ -27,8 +28,10 @@ data class User(
 	@Embedded
 	val studentInfo: StudentInfo,
 
+	@Column(nullable = false)
 	val gender: Gender,
 
+	@Column(nullable = false)
 	val name: String,
 
 	@Convert(converter = StringListConverter::class)
