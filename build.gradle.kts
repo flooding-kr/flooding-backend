@@ -23,44 +23,42 @@ repositories {
 }
 
 dependencies {
-	// Database
-	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-	implementation("org.postgresql:postgresql")
+	// 기본
+	testImplementation("org.springframework.boot:spring-boot-starter-test")
+	implementation("org.springframework.boot:spring-boot-starter-web")
+	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+	implementation("org.jetbrains.kotlin:kotlin-reflect")
+	testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
+	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 
-	// Spring Actuator
+	// 검증
+	implementation("org.springframework.boot:spring-boot-starter-validation")
+
+	// 통신
+	implementation("org.springframework.boot:spring-boot-starter-webflux")
+	implementation("org.springframework.boot:spring-boot-starter-mail")
+
+	// 상태 확인
 	implementation("org.springframework.boot:spring-boot-starter-actuator")
 
-	// JWT
+	// 보안
+	implementation("org.springframework.boot:spring-boot-starter-security")
+	testImplementation("org.springframework.security:spring-security-test")
 	compileOnly("io.jsonwebtoken:jjwt-api:0.12.6")
 	runtimeOnly("io.jsonwebtoken:jjwt-impl:0.12.6")
 	runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.12.6")
 
-	// Validation
-	implementation("org.springframework.boot:spring-boot-starter-validation")
-
-	// API Client
-	implementation("org.springframework.boot:spring-boot-starter-webflux")
-
+	// 데이터 저장
+	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+	implementation("org.postgresql:postgresql")
+	implementation("software.amazon.awssdk:s3:2.30.21")
 	implementation("org.springframework.boot:spring-boot-starter-data-redis")
-	implementation("org.springframework.boot:spring-boot-starter-mail")
-	implementation("org.springframework.boot:spring-boot-starter-security")
-	implementation("org.springframework.boot:spring-boot-starter-web")
-	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-	implementation("org.jetbrains.kotlin:kotlin-reflect")
-	testImplementation("org.springframework.boot:spring-boot-starter-test")
-	testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
-	testImplementation("org.springframework.batch:spring-batch-test")
-	testImplementation("org.springframework.security:spring-security-test")
-	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 
 	// Serverless
 	implementation("com.amazonaws.serverless:aws-serverless-java-container-springboot3:2.1.2")
 	implementation("com.amazonaws:aws-lambda-java-core:1.2.3")
 	implementation("com.amazonaws:aws-lambda-java-events:3.14.0")
 	implementation("org.springframework.boot:spring-boot-maven-plugin:3.4.2")
-
-	// S3
-	implementation("software.amazon.awssdk:s3:2.30.21")
 }
 
 kotlin {
