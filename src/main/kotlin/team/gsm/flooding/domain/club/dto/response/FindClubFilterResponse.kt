@@ -13,7 +13,7 @@ class FindClubFilterResponse(
 	companion object {
 		fun toDto(
 			myClubs: List<Club>,
-			otherClub: Map<ClubType, List<Club>>
+			otherClub: Map<ClubType, List<Club>>,
 		): FindClubFilterResponse =
 			FindClubFilterResponse(
 				myClubs = myClubs.map { ClubFilterResponse.toDto(it) },
@@ -29,9 +29,7 @@ class FindClubFilterResponse(
 		val thumbnailImageUrl: String?,
 	) {
 		companion object {
-			fun toDto(
-				club: Club
-			): ClubFilterResponse =
+			fun toDto(club: Club): ClubFilterResponse =
 				ClubFilterResponse(
 					id = club.id,
 					name = club.name,

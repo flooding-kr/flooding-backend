@@ -16,7 +16,7 @@ import team.gsm.flooding.domain.club.usecase.FindClubFilterUsecase
 @RequestMapping("club")
 class ClubController(
 	private val createClubUsecase: CreateClubUsecase,
-	private val findClubFilterUsecase: FindClubFilterUsecase
+	private val findClubFilterUsecase: FindClubFilterUsecase,
 ) {
 	@PostMapping
 	fun createClub(
