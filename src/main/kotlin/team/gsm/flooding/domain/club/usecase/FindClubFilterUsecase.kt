@@ -16,10 +16,16 @@ class FindClubFilterUsecase(
 	fun execute(): FindClubFilterResponse {
 		val clubs = clubRepository.findAll()
 		val currentUser = userUtil.getUser()
-		val myClubs = clubs.filter { club -> club.leader == currentUser }
-		val otherClubs = clubs
-			.filter { club -> (club.leader != currentUser) && (club.status != ClubStatus.PENDING) }
-			.groupBy { it.type }
+		val myClubs =
+			clubs.filter { club ->
+				club.leader == currentUser
+			}
+		val otherClubs =
+			clubs
+				.filter { club ->
+					(club.leader != currentUser) && (club.status != ClubStatus.PENDING)
+				}
+				.groupBy { it.type }
 
 		return FindClubFilterResponse.toDto(myClubs, otherClubs)
 	}
