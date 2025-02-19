@@ -46,8 +46,8 @@ class SecurityConfig(
 					.hasAuthority(Role.ROLE_USER.name)
 					.requestMatchers(HttpMethod.DELETE, "/user/withdraw")
 					.hasAuthority(Role.ROLE_USER.name)
-					// 급식
-					.requestMatchers(HttpMethod.GET, "/lunch")
+					// 나이스 API
+					.requestMatchers(HttpMethod.GET, "/neis/**")
 					.hasAuthority(Role.ROLE_USER.name)
 					// 홈베이스
 					.requestMatchers(HttpMethod.POST, "/homebase")

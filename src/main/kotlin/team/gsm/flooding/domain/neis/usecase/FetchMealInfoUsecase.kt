@@ -1,25 +1,26 @@
-package team.gsm.flooding.domain.lunch.usecase
+package team.gsm.flooding.domain.neis.usecase
 
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import org.springframework.web.reactive.function.client.WebClient
-import team.gsm.flooding.domain.lunch.controller.dto.request.LunchTime
-import team.gsm.flooding.domain.lunch.controller.dto.response.FetchLunchClientResponse
-import team.gsm.flooding.domain.lunch.controller.dto.response.FetchLunchResponse
+import team.gsm.flooding.domain.neis.dto.request.LunchTime
+import team.gsm.flooding.domain.neis.dto.response.FetchMealInfoClientResponse
+import team.gsm.flooding.domain.neis.dto.response.FetchMealInfoResponse
 import team.gsm.flooding.global.exception.ExceptionEnum
 import team.gsm.flooding.global.exception.HttpException
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 @Service
-class FetchLunchUsecase(
+class FetchMealInfoUsecase(
 	@Value("\${lunch-api.key}") private val mealApiKey: String,
 ) {
 	fun execute(
-		date: LocalDate,
+		date: LocalDate?,
 		lunchTime: LunchTime,
-	): FetchLunchResponse {
-		val response = getLunchResponse(date, lunchTime)
+	): FetchMealInfoResponse {
+		val requestDate = date ?: LocalDate.now()
+		val response = getMealInfoResponse(requestDate, lunchTime)
 		if (response?.mealServiceDietInfo == null) {
 			throw HttpException(ExceptionEnum.NOT_FOUND_LUNCH)
 		}
@@ -35,13 +36,13 @@ class FetchLunchUsecase(
 						.replace("""[^\w가-힣]""".toRegex(), "")
 				}.toList()
 
-		return FetchLunchResponse(menu)
+		return FetchMealInfoResponse(menu)
 	}
 
-	fun getLunchResponse(
+	fun getMealInfoResponse(
 		date: LocalDate,
 		lunchTime: LunchTime,
-	): FetchLunchClientResponse? {
+	): FetchMealInfoClientResponse? {
 		val webClient = WebClient.builder().build()
 		val dateFormat = DateTimeFormatter.ofPattern("yyyyMMdd")
 
@@ -60,7 +61,7 @@ class FetchLunchUsecase(
 					.queryParam("MLSV_YMD", date.format(dateFormat))
 					.build(true)
 			}.retrieve()
-			.bodyToMono(FetchLunchClientResponse::class.java)
+			.bodyToMono(FetchMealInfoClientResponse::class.java)
 			.block()
 	}
 }
