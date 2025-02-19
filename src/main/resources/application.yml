@@ -2,6 +2,13 @@ server:
     servlet:
         context-path: /v1
 
+springdoc:
+    show-actuator: true
+    api-docs:
+        path: /api-docs
+    default-consumes-media-type: application/json
+    default-produces-media-type: application/json
+
 spring:
   application:
     name: demo

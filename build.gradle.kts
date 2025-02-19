@@ -59,6 +59,11 @@ dependencies {
 	implementation("com.amazonaws:aws-lambda-java-core:1.2.3")
 	implementation("com.amazonaws:aws-lambda-java-events:3.14.0")
 	implementation("org.springframework.boot:spring-boot-maven-plugin:3.4.2")
+
+	// Swagger
+	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.5")
+	implementation("org.springdoc:springdoc-openapi-starter-webmvc-api:2.8.5")
+	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 }
 
 kotlin {
