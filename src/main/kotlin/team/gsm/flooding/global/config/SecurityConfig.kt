@@ -63,6 +63,8 @@ class SecurityConfig(
 					// 동아리
 					.requestMatchers(HttpMethod.POST, "/club")
 					.hasAnyAuthority(Role.ROLE_USER.name)
+					.requestMatchers(HttpMethod.GET, "/club")
+					.hasAnyAuthority(Role.ROLE_USER.name)
 					// 파일
 					.requestMatchers(HttpMethod.POST, "/file/image")
 					.hasAnyAuthority(Role.ROLE_USER.name)
