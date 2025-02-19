@@ -13,4 +13,6 @@ interface ClubRepository : JpaRepository<Club, UUID> {
 		type: ClubType,
 		leader: User,
 	): Boolean
+
+	fun findByType(type: ClubType): List<Club>
 }
