@@ -1,4 +1,4 @@
-package team.gsm.flooding.domain.lunch.controller.dto.request
+package team.gsm.flooding.domain.neis.controller.dto.request
 
 enum class LunchTime(
 	val number: String,

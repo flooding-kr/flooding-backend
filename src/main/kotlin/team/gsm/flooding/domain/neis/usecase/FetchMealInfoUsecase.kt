@@ -1,11 +1,11 @@
-package team.gsm.flooding.domain.lunch.usecase
+package team.gsm.flooding.domain.neis.usecase
 
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import org.springframework.web.reactive.function.client.WebClient
-import team.gsm.flooding.domain.lunch.controller.dto.request.LunchTime
-import team.gsm.flooding.domain.lunch.controller.dto.response.FetchLunchClientResponse
-import team.gsm.flooding.domain.lunch.controller.dto.response.FetchLunchResponse
+import team.gsm.flooding.domain.neis.dto.request.LunchTime
+import team.gsm.flooding.domain.neis.dto.response.FetchLunchClientResponse
+import team.gsm.flooding.domain.neis.dto.response.FetchLunchResponse
 import team.gsm.flooding.global.exception.ExceptionEnum
 import team.gsm.flooding.global.exception.HttpException
 import java.time.LocalDate
