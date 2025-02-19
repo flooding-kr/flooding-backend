@@ -1,5 +1,5 @@
 package team.gsm.flooding.domain.neis.dto.response
 
-data class FetchLunchResponse(
+data class FetchMealInfoResponse(
 	val menu: List<String>,
 )

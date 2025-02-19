@@ -2,7 +2,7 @@ package team.gsm.flooding.domain.neis.model
 
 import com.fasterxml.jackson.annotation.JsonProperty
 
-class Row(
+class MealInfoRow(
 	@JsonProperty("ATPT_OFCDC_SC_CODE")
 	val atptOfcdcScCode: String,
 	@JsonProperty("ATPT_OFCDC_SC_NM")

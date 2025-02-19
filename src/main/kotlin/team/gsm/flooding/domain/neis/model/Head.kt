@@ -2,7 +2,7 @@ package team.gsm.flooding.domain.neis.model
 
 import com.fasterxml.jackson.annotation.JsonProperty
 
-class TimetableHead(
+class Head(
 	val listTotalCount: Int?,
 	@JsonProperty("RESULT")
 	val result: Result?,
