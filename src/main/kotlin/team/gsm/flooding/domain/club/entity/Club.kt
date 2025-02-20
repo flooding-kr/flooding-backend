@@ -3,6 +3,8 @@ package team.gsm.flooding.domain.club.entity
 import jakarta.persistence.Column
 import jakarta.persistence.Convert
 import jakarta.persistence.Entity
+import jakarta.persistence.EnumType
+import jakarta.persistence.Enumerated
 import jakarta.persistence.Id
 import jakarta.persistence.ManyToOne
 import org.hibernate.annotations.OnDelete
@@ -35,9 +37,11 @@ data class Club(
 	val activityImageUrls: List<String> = listOf(),
 
 	@Column(nullable = false)
+	@Enumerated(EnumType.STRING)
 	val status: ClubStatus,
 
 	@Column(nullable = false)
+	@Enumerated(EnumType.STRING)
 	val type: ClubType,
 
 	@ManyToOne

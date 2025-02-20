@@ -4,6 +4,8 @@ import jakarta.persistence.Column
 import jakarta.persistence.Convert
 import jakarta.persistence.Embedded
 import jakarta.persistence.Entity
+import jakarta.persistence.EnumType
+import jakarta.persistence.Enumerated
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.Id
 import org.hibernate.annotations.UuidGenerator
@@ -29,6 +31,7 @@ data class User(
 	val studentInfo: StudentInfo,
 
 	@Column(nullable = false)
+	@Enumerated(EnumType.STRING)
 	val gender: Gender,
 
 	@Column(nullable = false)
