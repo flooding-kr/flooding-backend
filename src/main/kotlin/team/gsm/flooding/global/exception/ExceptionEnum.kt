@@ -38,6 +38,9 @@ enum class ExceptionEnum(
 	IS_HOMEBASE_CLASSROOM(HttpStatus.BAD_REQUEST, "해당 교실은 홈베이스입니다."),
 
 	// 동아리
+	NOT_FOUND_CLUB(HttpStatus.NOT_FOUND, "해당하는 동아리를 찾을 수 없습니다."),
+	NOT_FOUND_CLUB_MEMBER(HttpStatus.NOT_FOUND, "해당하는 동아리 구성원을 찾을 수 없습니다."),
+	NOT_CLUB_LEADER(HttpStatus.FORBIDDEN, "해당 동아리의 리더가 아닙니다."),
 	ALREADY_USED_CLUB_NAME(HttpStatus.BAD_REQUEST, "이미 사용중인 동아리명입니다."),
 	EXISTS_PENDING_CLUB(HttpStatus.BAD_REQUEST, "동일한 유형의 동아리가 이미 심사를 대기중입니다."),
 	ALREADY_JOINED_CLUB(HttpStatus.BAD_REQUEST, "이미 참여중인 동일한 유형의 동아리가 존재합니다."),

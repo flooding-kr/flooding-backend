@@ -4,6 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository
 import team.gsm.flooding.domain.club.entity.ClubType
 import team.gsm.flooding.domain.clubMember.entity.ClubMember
 import team.gsm.flooding.domain.user.entity.User
+import java.util.Optional
 import java.util.UUID
 
 interface ClubMemberRepository : JpaRepository<ClubMember, UUID> {
@@ -12,4 +13,9 @@ interface ClubMemberRepository : JpaRepository<ClubMember, UUID> {
 		type: ClubType,
 		user: User,
 	): Boolean
+
+	fun findByClubIdAndUserId(
+		clubId: UUID,
+		userId: UUID,
+	): Optional<ClubMember>
 }
