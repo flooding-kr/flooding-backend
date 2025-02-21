@@ -6,7 +6,7 @@ COPY src ./src
 
 RUN chmod +x ./gradlew
 
-RUN ./gradlew clean build
+RUN ./gradlew bootJar
 
 COPY /build/libs/flooding-0.0.1-SNAPSHOT.jar ./app.jar
 
