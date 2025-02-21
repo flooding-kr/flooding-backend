@@ -1,5 +1,6 @@
 package team.gsm.flooding.global.thirdparty.email
 
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.mail.javamail.JavaMailSender
 import org.springframework.mail.javamail.MimeMessageHelper
 import org.springframework.scheduling.annotation.Async
@@ -10,6 +11,8 @@ import team.gsm.flooding.global.exception.HttpException
 @Component
 class EmailAdapter(
 	private val mailSender: JavaMailSender,
+	@Value("\${server.base-url}")
+	private val baseUrl: String,
 ) {
 	@Async
 	fun sendVerifyCode(
@@ -23,7 +26,7 @@ class EmailAdapter(
 		helper.setText(
 			"""
 			<h1>$verifyCode</h1>
-			<a href="${"http://localhost:8080/auth/verify?code=$verifyCode&email=$email"}">${"http://localhost:8080/auth/verify?code=$verifyCode&email=$email"}</a>
+			<a href="${"$baseUrl/signup/auth/verify?code=$verifyCode&email=$email"}">${"$baseUrl/signup/auth/verify?code=$verifyCode&email=$email"}</a>
 			""".trimIndent(),
 			true,
 		)

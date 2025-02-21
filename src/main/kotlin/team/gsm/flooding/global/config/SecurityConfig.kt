@@ -33,11 +33,11 @@ class SecurityConfig(
 					.permitAll()
 					.requestMatchers(HttpMethod.POST, "/auth/logout")
 					.permitAll()
-					.requestMatchers(HttpMethod.GET, "/auth/verify")
+					.requestMatchers(HttpMethod.GET, "/signup/auth/verify")
 					.permitAll()
 					.requestMatchers(HttpMethod.PATCH, "/auth/re-issue")
 					.permitAll()
-					.requestMatchers(HttpMethod.PATCH, "/auth/re-verify")
+					.requestMatchers(HttpMethod.PATCH, "/signup/auth/re-verify")
 					.permitAll()
 					// 사용자
 					.requestMatchers(HttpMethod.GET, "/user")
