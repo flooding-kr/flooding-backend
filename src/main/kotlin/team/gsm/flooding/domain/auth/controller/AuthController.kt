@@ -28,9 +28,9 @@ class AuthController(
 	private val signUpUsecase: SignUpUsecase,
 	private val signInUsecase: SignInUsecase,
 	private val reissueTokenUsecase: ReissueTokenUsecase,
+	private val logoutUsecase: LogoutUsecase,
 	private val verifyEmailUsecase: VerifyEmailUsecase,
 	private val regenerateEmailCodeUsecase: RegenerateEmailCodeUsecase,
-	private val logoutUsecase: LogoutUsecase,
 ) {
 	@PostMapping("sign-up")
 	fun signUp(
@@ -72,10 +72,10 @@ class AuthController(
 	fun verifyEmail(
 		@RequestParam("email") email: String,
 		@RequestParam("code") code: String,
-	): ResponseEntity<String> {
-		verifyEmailUsecase.execute(email, code)
-		return ResponseEntity.ok("인증에 성공하였습니다.")
-	}
+	): ResponseEntity<Unit> =
+		verifyEmailUsecase.execute(email, code).let {
+			ResponseEntity.ok().build()
+		}
 
 	@PatchMapping("re-verify")
 	fun regenerateVerifyCode(

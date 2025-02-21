@@ -50,6 +50,7 @@ spring:
     host: ${MAIL_HOST}
     username: ${MAIL_USERNAME}
     password: ${MAIL_PASSWORD}
+    verify-url: "http://localhost:3000/signup/auth/verify"
 
 jwt:
   access-token-key: ${ACCESS_TOKEN_KEY}
