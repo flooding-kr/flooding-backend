@@ -1,7 +1,6 @@
 server:
     servlet:
         context-path: /v1
-    base-url: "http://localhost:8080/v1"
 
 springdoc:
     show-actuator: true
@@ -51,6 +50,7 @@ spring:
     host: ${MAIL_HOST}
     username: ${MAIL_USERNAME}
     password: ${MAIL_PASSWORD}
+    verify-url: "http://localhost:8080/v1/auth/verify"
 
 jwt:
   access-token-key: ${ACCESS_TOKEN_KEY}

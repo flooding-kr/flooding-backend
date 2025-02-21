@@ -11,8 +11,8 @@ import team.gsm.flooding.global.exception.HttpException
 @Component
 class EmailAdapter(
 	private val mailSender: JavaMailSender,
-	@Value("\${server.base-url}")
-	private val baseUrl: String,
+	@Value("\${spring.mail.verify-url}")
+	private val verifyUrl: String,
 ) {
 	@Async
 	fun sendVerifyCode(
@@ -26,7 +26,7 @@ class EmailAdapter(
 		helper.setText(
 			"""
 			<h1>$verifyCode</h1>
-			<a href="${"$baseUrl/signup/auth/verify?code=$verifyCode&email=$email"}">${"$baseUrl/signup/auth/verify?code=$verifyCode&email=$email"}</a>
+			<a href="${"$verifyUrl?code=$verifyCode&email=$email"}">${"$verifyUrl?code=$verifyCode&email=$email"}</a>
 			""".trimIndent(),
 			true,
 		)
