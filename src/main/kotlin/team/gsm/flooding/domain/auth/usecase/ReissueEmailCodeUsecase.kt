@@ -12,7 +12,7 @@ import team.gsm.flooding.global.util.PasswordUtil
 
 @Service
 @Transactional
-class RegenerateEmailCodeUsecase(
+class ReissueEmailCodeUsecase(
 	private val userRepository: UserRepository,
 	private val verifyCodeRepository: VerifyCodeRepository,
 	private val passwordUtil: PasswordUtil,

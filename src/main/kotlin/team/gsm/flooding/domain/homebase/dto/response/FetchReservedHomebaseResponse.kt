@@ -4,7 +4,7 @@ import team.gsm.flooding.domain.classroom.entity.HomebaseTable
 import team.gsm.flooding.domain.homebase.entity.HomebaseGroup
 import java.time.LocalDate
 
-class FindReservedHomebaseResponse(
+class FetchReservedHomebaseResponse(
 	val homebaseTableId: Long,
 	val floor: Int,
 	val tableNumber: Int,
@@ -16,8 +16,8 @@ class FindReservedHomebaseResponse(
 		fun toDto(
 			homebaseTable: HomebaseTable,
 			homebaseGroup: HomebaseGroup?,
-		): FindReservedHomebaseResponse =
-			FindReservedHomebaseResponse(
+		): FetchReservedHomebaseResponse =
+			FetchReservedHomebaseResponse(
 				homebaseTableId = homebaseTable.id,
 				floor = homebaseTable.homebase.floor,
 				tableNumber = homebaseTable.tableNumber,

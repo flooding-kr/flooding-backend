@@ -8,13 +8,13 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
-import team.gsm.flooding.domain.homebase.dto.request.FindReservedHomebaseTableRequest
+import team.gsm.flooding.domain.homebase.dto.request.FetchReservedHomebaseTableRequest
 import team.gsm.flooding.domain.homebase.dto.request.ReserveHomebaseTableRequest
-import team.gsm.flooding.domain.homebase.dto.response.FindMyReservedHomebaseResponse
-import team.gsm.flooding.domain.homebase.dto.response.FindReservedHomebaseResponse
+import team.gsm.flooding.domain.homebase.dto.response.FetchMyReservedHomebaseResponse
+import team.gsm.flooding.domain.homebase.dto.response.FetchReservedHomebaseResponse
 import team.gsm.flooding.domain.homebase.usecase.CancelHomebaseTableUsecase
-import team.gsm.flooding.domain.homebase.usecase.FindMyReservedHomebaseUsecase
-import team.gsm.flooding.domain.homebase.usecase.FindReservedHomebaseTableUsecase
+import team.gsm.flooding.domain.homebase.usecase.FetchMyReservedHomebaseUsecase
+import team.gsm.flooding.domain.homebase.usecase.FetchReservedHomebaseTableUsecase
 import team.gsm.flooding.domain.homebase.usecase.ReserveHomebaseTableUsecase
 import java.util.UUID
 
@@ -22,8 +22,8 @@ import java.util.UUID
 @RequestMapping("/homebase")
 class HomebaseController(
 	private val reserveHomebaseTableUsecase: ReserveHomebaseTableUsecase,
-	private val findMyReservedHomebaseTableUsecase: FindMyReservedHomebaseUsecase,
-	private val findReservedHomebaseTableUsecase: FindReservedHomebaseTableUsecase,
+	private val findMyReservedHomebaseTableUsecase: FetchMyReservedHomebaseUsecase,
+	private val fetchReservedHomebaseTableUsecase: FetchReservedHomebaseTableUsecase,
 	private val cancelHomebaseTableUsecase: CancelHomebaseTableUsecase,
 ) {
 	@PostMapping
@@ -36,14 +36,14 @@ class HomebaseController(
 
 	@GetMapping
 	fun findReservedHomebaseTable(
-		@RequestBody request: FindReservedHomebaseTableRequest,
-	): ResponseEntity<List<FindReservedHomebaseResponse>> =
-		findReservedHomebaseTableUsecase.execute(request).run {
+		@RequestBody request: FetchReservedHomebaseTableRequest,
+	): ResponseEntity<List<FetchReservedHomebaseResponse>> =
+		fetchReservedHomebaseTableUsecase.execute(request).run {
 			ResponseEntity.ok(this)
 		}
 
 	@GetMapping("myself")
-	fun findMyReservedHomebaseTable(): ResponseEntity<List<FindMyReservedHomebaseResponse>> =
+	fun findMyReservedHomebaseTable(): ResponseEntity<List<FetchMyReservedHomebaseResponse>> =
 		findMyReservedHomebaseTableUsecase.execute().run {
 			ResponseEntity.ok(this)
 		}

@@ -10,7 +10,7 @@ import team.gsm.flooding.global.util.StudentUtil.Companion.calcYearToGrade
 
 @Service
 @Transactional
-class SearchUserUsecase(
+class FetchFilteredUserUsecase(
 	private val userRepository: UserRepository,
 ) {
 	fun execute(name: String): List<FetchUserInfoResponse> {
