@@ -3,18 +3,18 @@ package team.gsm.flooding.domain.homebase.usecase
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import team.gsm.flooding.domain.classroom.repository.HomebaseTableRepository
-import team.gsm.flooding.domain.homebase.dto.request.FindReservedHomebaseTableRequest
-import team.gsm.flooding.domain.homebase.dto.response.FindReservedHomebaseResponse
+import team.gsm.flooding.domain.homebase.dto.request.FetchReservedHomebaseTableRequest
+import team.gsm.flooding.domain.homebase.dto.response.FetchReservedHomebaseResponse
 import team.gsm.flooding.domain.homebase.repository.HomebaseGroupRepository
 import java.time.LocalDate
 
 @Service
 @Transactional
-class FindReservedHomebaseTableUsecase(
+class FetchReservedHomebaseTableUsecase(
 	private val homebaseGroupRepository: HomebaseGroupRepository,
 	private val homebaseTableRepository: HomebaseTableRepository,
 ) {
-	fun execute(request: FindReservedHomebaseTableRequest): List<FindReservedHomebaseResponse> {
+	fun execute(request: FetchReservedHomebaseTableRequest): List<FetchReservedHomebaseResponse> {
 		val homebaseGroupList =
 			homebaseGroupRepository.findByPeriodAndHomebaseTableHomebaseFloorAndAttendedAt(
 				request.period,
@@ -25,7 +25,7 @@ class FindReservedHomebaseTableUsecase(
 
 		return homebaseTableList.map { homebaseTable ->
 			val currentHomebaseGroup = homebaseGroupList.find { homebaseTable == it.homebaseTable }
-			FindReservedHomebaseResponse.toDto(homebaseTable, currentHomebaseGroup)
+			FetchReservedHomebaseResponse.toDto(homebaseTable, currentHomebaseGroup)
 		}
 	}
 }

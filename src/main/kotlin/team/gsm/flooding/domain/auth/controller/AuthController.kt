@@ -10,15 +10,15 @@ import org.springframework.web.bind.annotation.RequestHeader
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
-import team.gsm.flooding.domain.auth.dto.request.RegenerateEmailCodeRequest
+import team.gsm.flooding.domain.auth.dto.request.ReissueEmailCodeRequest
 import team.gsm.flooding.domain.auth.dto.request.SignInRequest
 import team.gsm.flooding.domain.auth.dto.request.SignUpRequest
 import team.gsm.flooding.domain.auth.dto.response.ReissueTokenResponse
 import team.gsm.flooding.domain.auth.dto.response.SignInResponse
-import team.gsm.flooding.domain.auth.usecase.LogoutUsecase
-import team.gsm.flooding.domain.auth.usecase.RegenerateEmailCodeUsecase
+import team.gsm.flooding.domain.auth.usecase.ReissueEmailCodeUsecase
 import team.gsm.flooding.domain.auth.usecase.ReissueTokenUsecase
 import team.gsm.flooding.domain.auth.usecase.SignInUsecase
+import team.gsm.flooding.domain.auth.usecase.SignOutUsecase
 import team.gsm.flooding.domain.auth.usecase.SignUpUsecase
 import team.gsm.flooding.domain.auth.usecase.VerifyEmailUsecase
 
@@ -28,9 +28,9 @@ class AuthController(
 	private val signUpUsecase: SignUpUsecase,
 	private val signInUsecase: SignInUsecase,
 	private val reissueTokenUsecase: ReissueTokenUsecase,
-	private val logoutUsecase: LogoutUsecase,
+	private val signOutUsecase: SignOutUsecase,
 	private val verifyEmailUsecase: VerifyEmailUsecase,
-	private val regenerateEmailCodeUsecase: RegenerateEmailCodeUsecase,
+	private val reissueEmailCodeUsecase: ReissueEmailCodeUsecase,
 ) {
 	@PostMapping("sign-up")
 	fun signUp(
@@ -49,11 +49,11 @@ class AuthController(
 		}
 
 	@PostMapping("logout")
-	fun logout(
+	fun signOut(
 		@RequestHeader("Refresh-Token") refreshToken: String,
 	): ResponseEntity<Unit> {
 		val resolveRefreshToken = refreshToken.substring(7)
-		return logoutUsecase.execute(resolveRefreshToken).let {
+		return signOutUsecase.execute(resolveRefreshToken).let {
 			ResponseEntity.ok().build()
 		}
 	}
@@ -78,10 +78,10 @@ class AuthController(
 		}
 
 	@PatchMapping("re-verify")
-	fun regenerateVerifyCode(
-		@RequestBody regenerateEmailCodeRequest: RegenerateEmailCodeRequest,
+	fun reissueVerifyCode(
+		@RequestBody reissueEmailCodeRequest: ReissueEmailCodeRequest,
 	): ResponseEntity<Unit> =
-		regenerateEmailCodeUsecase.execute(regenerateEmailCodeRequest.email).let {
+		reissueEmailCodeUsecase.execute(reissueEmailCodeRequest.email).let {
 			ResponseEntity.ok().build()
 		}
 }

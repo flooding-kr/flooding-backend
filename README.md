@@ -10,6 +10,10 @@
 |로그아웃| SignOut |
 |회원가입| SignUp  |
 |인증하기| Verify  |
+|재발급|Reissue|
+|취소하기|Cancel|
+|예약하기|Reserve|
+|탈퇴하기|Withdraw|
 
 ## IDE 설정
 

@@ -1,6 +1,6 @@
 package team.gsm.flooding.domain.homebase.dto.request
 
-class FindReservedHomebaseTableRequest(
+class FetchReservedHomebaseTableRequest(
 	val floor: Int,
 	val period: Int,
 )

@@ -5,7 +5,7 @@ import team.gsm.flooding.domain.user.entity.User
 import java.time.LocalDate
 import java.util.UUID
 
-class FindMyReservedHomebaseResponse(
+class FetchMyReservedHomebaseResponse(
 	val homebaseGroupId: UUID?,
 	val homebaseTable: HomebaseTableResponse,
 	val attendedAt: LocalDate?,
@@ -16,8 +16,8 @@ class FindMyReservedHomebaseResponse(
 		fun toDto(
 			homebaseGroup: HomebaseGroup,
 			currentUser: User,
-		): FindMyReservedHomebaseResponse =
-			FindMyReservedHomebaseResponse(
+		): FetchMyReservedHomebaseResponse =
+			FetchMyReservedHomebaseResponse(
 				homebaseGroupId = homebaseGroup.id,
 				homebaseTable = HomebaseTableResponse.toDto(homebaseGroup.homebaseTable),
 				attendedAt = homebaseGroup.attendedAt,

@@ -9,7 +9,7 @@ import team.gsm.flooding.global.security.jwt.JwtProvider
 
 @Service
 @Transactional
-class LogoutUsecase(
+class SignOutUsecase(
 	private val refreshTokenRepository: RefreshTokenRepository,
 	private val jwtProvider: JwtProvider,
 ) {

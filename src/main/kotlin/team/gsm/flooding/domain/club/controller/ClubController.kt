@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import team.gsm.flooding.domain.club.dto.request.CreateClubRequest
-import team.gsm.flooding.domain.club.dto.response.FindClubFilterResponse
+import team.gsm.flooding.domain.club.dto.response.FetchClubFilterResponse
 import team.gsm.flooding.domain.club.entity.ClubType
 import team.gsm.flooding.domain.club.usecase.CreateClubUsecase
-import team.gsm.flooding.domain.club.usecase.FindClubFilterUsecase
+import team.gsm.flooding.domain.club.usecase.FetchClubFilterUsecase
 import team.gsm.flooding.domain.club.usecase.RemoveClubMemberUsecase
 import java.util.UUID
 
@@ -22,7 +22,7 @@ import java.util.UUID
 @RequestMapping("club")
 class ClubController(
 	private val createClubUsecase: CreateClubUsecase,
-	private val findClubFilterUsecase: FindClubFilterUsecase,
+	private val fetchClubFilterUsecase: FetchClubFilterUsecase,
 	private val removeClubMemberUsecase: RemoveClubMemberUsecase,
 ) {
 	@PostMapping
@@ -36,8 +36,8 @@ class ClubController(
 	@GetMapping
 	fun findClubFilter(
 		@RequestParam type: ClubType,
-	): ResponseEntity<FindClubFilterResponse> =
-		findClubFilterUsecase.execute(type).run {
+	): ResponseEntity<FetchClubFilterResponse> =
+		fetchClubFilterUsecase.execute(type).run {
 			ResponseEntity.ok(this)
 		}
 

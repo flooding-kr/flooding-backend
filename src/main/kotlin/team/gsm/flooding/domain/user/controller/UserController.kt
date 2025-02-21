@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import team.gsm.flooding.domain.user.dto.request.WithdrawRequest
 import team.gsm.flooding.domain.user.dto.response.FetchUserInfoResponse
+import team.gsm.flooding.domain.user.usecase.FetchFilteredUserUsecase
 import team.gsm.flooding.domain.user.usecase.FetchUserUsecase
-import team.gsm.flooding.domain.user.usecase.SearchUserUsecase
 import team.gsm.flooding.domain.user.usecase.WithdrawUsecase
 
 @RestController
@@ -18,7 +18,7 @@ import team.gsm.flooding.domain.user.usecase.WithdrawUsecase
 class UserController(
 	private val fetchUserUsecase: FetchUserUsecase,
 	private val withdrawUsecase: WithdrawUsecase,
-	private val searchUserUsecase: SearchUserUsecase,
+	private val fetchFilteredUserUsecase: FetchFilteredUserUsecase,
 ) {
 	@GetMapping
 	fun getUserInfo(): ResponseEntity<FetchUserInfoResponse> =
@@ -30,7 +30,7 @@ class UserController(
 	fun searchUser(
 		@RequestParam("name", required = false) name: String?,
 	): ResponseEntity<List<FetchUserInfoResponse>> =
-		searchUserUsecase.execute(name ?: "").let {
+		fetchFilteredUserUsecase.execute(name ?: "").let {
 			ResponseEntity.ok(it)
 		}
 
