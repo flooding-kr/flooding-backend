@@ -1,4 +1,13 @@
-# IDE 설정
+## 도메인 용어
+
+|로직|단어|
+|---|---|
+|수정하기|Update|
+|조회하기|Fetch|
+|삭제하기|Remove|
+|생성하기|Create|
+
+## IDE 설정
 
 `IntelliJ IDEA`를 사용하시는 경우, 우측 상단의 설정에서 Plugins - Marketplace에서 Ktlint를 설치해주세요.
 
