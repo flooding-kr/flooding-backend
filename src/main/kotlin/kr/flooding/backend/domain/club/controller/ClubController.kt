@@ -77,7 +77,7 @@ class ClubController(
 		}
 
 	@PostMapping("{clubId}/open")
-	fun removeClubMember(
+	fun openClub(
 		@PathVariable clubId: UUID,
 	): ResponseEntity<Unit> =
 		openClubUsecase.execute(clubId).run {
