@@ -9,7 +9,7 @@ plugins {
 	id("org.jlleitschuh.gradle.ktlint") version "12.1.2"
 }
 
-group = "team.gsm"
+group = "kr.flooding"
 version = "0.0.1-SNAPSHOT"
 
 java {
@@ -90,7 +90,7 @@ tasks.register<Jar>("buildJar") {
 		from(configurations.runtimeClasspath)
 	}
 	manifest {
-		attributes["Main-Class"] = "team.gsm.flooding.FloodingApplication"
+		attributes["Main-Class"] = "kr.flooding.backend.FloodingApplication"
 	}
 }
 

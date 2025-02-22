@@ -1,1 +1,1 @@
-rootProject.name = "flooding"
+rootProject.name = "flooding-backend"
