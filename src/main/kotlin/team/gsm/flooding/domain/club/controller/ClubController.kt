@@ -63,8 +63,8 @@ class ClubController(
 		@PathVariable clubId: UUID,
 	): ResponseEntity<Unit> =
 		updateClubUsecase.execute(updateClubRequest.copy(clubId = clubId)).run {
-      ResponseEntity.ok().build() 
-    } 
+			ResponseEntity.ok().build()
+		}
 
 	@PostMapping("applicant")
 	fun applyClub(
