@@ -12,6 +12,7 @@ import kr.flooding.backend.domain.club.usecase.FetchClubFilterUsecase
 import kr.flooding.backend.domain.club.usecase.OpenClubUsecase
 import kr.flooding.backend.domain.club.usecase.RemoveClubMemberUsecase
 import kr.flooding.backend.domain.club.usecase.UpdateClubUsecase
+import kr.flooding.backend.domain.club.usecase.CloseClubUsecase
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
@@ -33,6 +34,7 @@ class ClubController(
 	private val updateClubUsecase: UpdateClubUsecase,
 	private val applyClubUsecase: ApplyClubUsecase,
 	private val openClubUsecase: OpenClubUsecase,
+	private val closeClubUsecase: CloseClubUsecase,
 ) {
 	@PostMapping
 	fun createClub(
@@ -81,6 +83,14 @@ class ClubController(
 		@PathVariable clubId: UUID,
 	): ResponseEntity<Unit> =
 		openClubUsecase.execute(clubId).run {
+			ResponseEntity.ok().build()
+		}
+
+	@PostMapping("{clubId}/close")
+	fun closeClub(
+		@PathVariable clubId: UUID,
+	): ResponseEntity<Unit> =
+		closeClubUsecase.execute(clubId).run {
 			ResponseEntity.ok().build()
 		}
 }
