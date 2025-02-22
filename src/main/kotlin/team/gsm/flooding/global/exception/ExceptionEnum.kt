@@ -45,7 +45,7 @@ enum class ExceptionEnum(
 	EXISTS_PENDING_CLUB(HttpStatus.BAD_REQUEST, "동일한 유형의 동아리가 이미 심사를 대기중입니다."),
 	ALREADY_JOINED_CLUB(HttpStatus.BAD_REQUEST, "이미 참여중인 동일한 유형의 동아리가 존재합니다."),
 	ALREADY_APPLY_CLUB(HttpStatus.BAD_REQUEST, "이미 동일한 유형의 동아리에 지원 신청 했습니다."),
-	NOT_APPROVED_CLUB(HttpStatus.BAD_REQUEST, "구성원을 모집중인 동아리가 아닙니다."),
+	NOT_APPROVED_CLUB(HttpStatus.BAD_REQUEST, "아직 관리자 승인이 되지 않은 동아리입니다."),
 
 	// 급식
 	NOT_FOUND_LUNCH(HttpStatus.NOT_FOUND, "해당 날짜의 급식 일정을 찾을 수 없습니다."),
