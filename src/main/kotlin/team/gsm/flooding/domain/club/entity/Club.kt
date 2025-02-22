@@ -47,4 +47,15 @@ data class Club(
 	@ManyToOne
 	@OnDelete(action = OnDeleteAction.SET_NULL)
 	val leader: User,
-)
+
+	@Column(nullable = false)
+	var isRecruiting: Boolean = false,
+) {
+	fun startRecruitment() {
+		isRecruiting = true
+	}
+
+	fun stopRecruitment() {
+		isRecruiting = false
+	}
+}
