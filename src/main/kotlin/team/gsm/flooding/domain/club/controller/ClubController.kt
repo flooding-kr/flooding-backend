@@ -4,6 +4,7 @@ import jakarta.validation.Valid
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -12,12 +13,14 @@ import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import team.gsm.flooding.domain.club.dto.request.ApplyClubRequest
 import team.gsm.flooding.domain.club.dto.request.CreateClubRequest
+import team.gsm.flooding.domain.club.dto.request.UpdateClubRequest
 import team.gsm.flooding.domain.club.dto.response.FetchClubFilterResponse
 import team.gsm.flooding.domain.club.entity.ClubType
 import team.gsm.flooding.domain.club.usecase.ApplyClubUsecase
 import team.gsm.flooding.domain.club.usecase.CreateClubUsecase
 import team.gsm.flooding.domain.club.usecase.FetchClubFilterUsecase
 import team.gsm.flooding.domain.club.usecase.RemoveClubMemberUsecase
+import team.gsm.flooding.domain.club.usecase.UpdateClubUsecase
 import java.util.UUID
 
 @RestController
@@ -26,6 +29,7 @@ class ClubController(
 	private val createClubUsecase: CreateClubUsecase,
 	private val fetchClubFilterUsecase: FetchClubFilterUsecase,
 	private val removeClubMemberUsecase: RemoveClubMemberUsecase,
+	private val updateClubUsecase: UpdateClubUsecase,
 	private val applyClubUsecase: ApplyClubUsecase,
 ) {
 	@PostMapping
@@ -50,6 +54,15 @@ class ClubController(
 		@PathVariable userId: UUID,
 	): ResponseEntity<Unit> =
 		removeClubMemberUsecase.execute(clubId, userId).run {
+			ResponseEntity.ok().build()
+		}
+
+	@PatchMapping("{clubId}")
+	fun updateClubInfo(
+		@RequestBody updateClubRequest: UpdateClubRequest,
+		@PathVariable clubId: UUID,
+	): ResponseEntity<Unit> =
+		updateClubUsecase.execute(updateClubRequest.copy(clubId = clubId)).run {
 			ResponseEntity.ok().build()
 		}
 
