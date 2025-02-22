@@ -58,6 +58,10 @@ class ApplyClubUsecase(
 			throw HttpException(ExceptionEnum.NOT_APPROVED_CLUB)
 		}
 
+		if (!club.isRecruiting) {
+			throw HttpException(ExceptionEnum.NOT_CLUB_RECRUITING)
+		}
+
 		clubMemberRepository.save(
 			ClubMember(
 				club = club,
