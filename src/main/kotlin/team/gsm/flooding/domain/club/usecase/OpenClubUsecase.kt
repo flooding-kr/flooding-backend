@@ -12,23 +12,24 @@ import java.util.UUID
 @Service
 @Transactional
 class OpenClubUsecase(
-    private val userUtil: UserUtil,
-    private val clubRepository: ClubRepository,
+	private val userUtil: UserUtil,
+	private val clubRepository: ClubRepository,
 ) {
-    fun execute(clubId: UUID) {
-        val currentUser = userUtil.getUser()
-        val club = clubRepository.findById(clubId).orElseThrow {
-            HttpException(ExceptionEnum.NOT_FOUND_CLUB)
-        }
+	fun execute(clubId: UUID) {
+		val currentUser = userUtil.getUser()
+		val club =
+			clubRepository.findById(clubId).orElseThrow {
+				HttpException(ExceptionEnum.NOT_FOUND_CLUB)
+			}
 
-        if (currentUser != club.leader) {
-            throw HttpException(ExceptionEnum.NOT_CLUB_LEADER)
-        }
+		if (currentUser != club.leader) {
+			throw HttpException(ExceptionEnum.NOT_CLUB_LEADER)
+		}
 
-        if (club.status != ClubStatus.APPROVED) {
-            throw HttpException(ExceptionEnum.NOT_APPROVED_CLUB)
-        }
+		if (club.status != ClubStatus.APPROVED) {
+			throw HttpException(ExceptionEnum.NOT_APPROVED_CLUB)
+		}
 
-        club.startRecruitment()
-    }
+		club.startRecruitment()
+	}
 }

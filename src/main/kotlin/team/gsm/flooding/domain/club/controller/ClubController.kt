@@ -19,9 +19,9 @@ import team.gsm.flooding.domain.club.entity.ClubType
 import team.gsm.flooding.domain.club.usecase.ApplyClubUsecase
 import team.gsm.flooding.domain.club.usecase.CreateClubUsecase
 import team.gsm.flooding.domain.club.usecase.FetchClubFilterUsecase
+import team.gsm.flooding.domain.club.usecase.OpenClubUsecase
 import team.gsm.flooding.domain.club.usecase.RemoveClubMemberUsecase
 import team.gsm.flooding.domain.club.usecase.UpdateClubUsecase
-import team.gsm.flooding.domain.club.usecase.OpenClubUsecase
 import java.util.UUID
 
 @RestController
