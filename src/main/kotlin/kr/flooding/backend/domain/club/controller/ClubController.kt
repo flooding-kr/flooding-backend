@@ -7,12 +7,12 @@ import kr.flooding.backend.domain.club.dto.request.UpdateClubRequest
 import kr.flooding.backend.domain.club.dto.response.FetchClubFilterResponse
 import kr.flooding.backend.domain.club.entity.ClubType
 import kr.flooding.backend.domain.club.usecase.ApplyClubUsecase
+import kr.flooding.backend.domain.club.usecase.CloseClubUsecase
 import kr.flooding.backend.domain.club.usecase.CreateClubUsecase
 import kr.flooding.backend.domain.club.usecase.FetchClubFilterUsecase
 import kr.flooding.backend.domain.club.usecase.OpenClubUsecase
 import kr.flooding.backend.domain.club.usecase.RemoveClubMemberUsecase
 import kr.flooding.backend.domain.club.usecase.UpdateClubUsecase
-import kr.flooding.backend.domain.club.usecase.CloseClubUsecase
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
