@@ -19,6 +19,7 @@ import team.gsm.flooding.domain.club.entity.ClubType
 import team.gsm.flooding.domain.club.usecase.ApplyClubUsecase
 import team.gsm.flooding.domain.club.usecase.CreateClubUsecase
 import team.gsm.flooding.domain.club.usecase.FetchClubFilterUsecase
+import team.gsm.flooding.domain.club.usecase.OpenClubUsecase
 import team.gsm.flooding.domain.club.usecase.RemoveClubMemberUsecase
 import team.gsm.flooding.domain.club.usecase.UpdateClubUsecase
 import java.util.UUID
@@ -31,6 +32,7 @@ class ClubController(
 	private val removeClubMemberUsecase: RemoveClubMemberUsecase,
 	private val updateClubUsecase: UpdateClubUsecase,
 	private val applyClubUsecase: ApplyClubUsecase,
+	private val openClubUsecase: OpenClubUsecase,
 ) {
 	@PostMapping
 	fun createClub(
@@ -71,6 +73,14 @@ class ClubController(
 		@Valid @RequestBody applyClubRequest: ApplyClubRequest,
 	): ResponseEntity<Unit> =
 		applyClubUsecase.execute(applyClubRequest).run {
+			ResponseEntity.ok().build()
+		}
+
+	@PostMapping("{clubId}/open")
+	fun removeClubMember(
+		@PathVariable clubId: UUID,
+	): ResponseEntity<Unit> =
+		openClubUsecase.execute(clubId).run {
 			ResponseEntity.ok().build()
 		}
 }

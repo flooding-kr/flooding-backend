@@ -71,6 +71,8 @@ class SecurityConfig(
 					.hasAnyAuthority(Role.ROLE_USER.name)
 					.requestMatchers(HttpMethod.POST, "/club/applicant")
 					.hasAnyAuthority(Role.ROLE_USER.name)
+					.requestMatchers(HttpMethod.POST, "/club/{clubId}/open")
+					.hasAnyAuthority(Role.ROLE_USER.name)
 					// 파일
 					.requestMatchers(HttpMethod.POST, "/file/image")
 					.hasAnyAuthority(Role.ROLE_USER.name)
