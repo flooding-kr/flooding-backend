@@ -7,6 +7,7 @@ import kr.flooding.backend.domain.club.dto.request.UpdateClubRequest
 import kr.flooding.backend.domain.club.dto.response.FetchClubFilterResponse
 import kr.flooding.backend.domain.club.entity.ClubType
 import kr.flooding.backend.domain.club.usecase.ApplyClubUsecase
+import kr.flooding.backend.domain.club.usecase.CloseClubUsecase
 import kr.flooding.backend.domain.club.usecase.CreateClubUsecase
 import kr.flooding.backend.domain.club.usecase.FetchClubFilterUsecase
 import kr.flooding.backend.domain.club.usecase.OpenClubUsecase
@@ -34,6 +35,7 @@ class ClubController(
 	private val updateClubUsecase: UpdateClubUsecase,
 	private val applyClubUsecase: ApplyClubUsecase,
 	private val openClubUsecase: OpenClubUsecase,
+	private val closeClubUsecase: CloseClubUsecase,
 	private val removeClubUsecase: RemoveClubUsecase,
 ) {
 	@PostMapping
@@ -79,10 +81,18 @@ class ClubController(
 		}
 
 	@PostMapping("{clubId}/open")
-	fun removeClubMember(
+	fun openClub(
 		@PathVariable clubId: UUID,
 	): ResponseEntity<Unit> =
 		openClubUsecase.execute(clubId).run {
+			ResponseEntity.ok().build()
+		}
+
+	@PostMapping("{clubId}/close")
+	fun closeClub(
+		@PathVariable clubId: UUID,
+	): ResponseEntity<Unit> =
+		closeClubUsecase.execute(clubId).run {
 			ResponseEntity.ok().build()
 		}
 
