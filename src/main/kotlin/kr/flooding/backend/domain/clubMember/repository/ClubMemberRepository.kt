@@ -18,4 +18,9 @@ interface ClubMemberRepository : JpaRepository<ClubMember, UUID> {
 		clubId: UUID,
 		userId: UUID,
 	): Optional<ClubMember>
+
+	fun existsByClubIdAndUserId(
+		clubId: UUID,
+		userId: UUID,
+	): Boolean
 }
