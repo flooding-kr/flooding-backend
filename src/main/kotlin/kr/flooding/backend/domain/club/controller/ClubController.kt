@@ -106,7 +106,7 @@ class ClubController(
 			ResponseEntity.noContent().build()
 		}
 
-	@DeleteMapping("member/{clubId}")
+	@DeleteMapping("{clubId}/member")
 	fun withdrawClub(
 		@PathVariable clubId: UUID,
 	): ResponseEntity<Unit> =
