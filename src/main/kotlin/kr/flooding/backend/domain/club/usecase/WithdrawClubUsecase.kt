@@ -18,6 +18,7 @@ class WithdrawClubUsecase(
 ) {
 	fun execute(clubId: UUID) {
 		val user = userUtil.getUser()
+		val userId = requireNotNull(user.id)
 
 		val club =
 			clubRepository.findById(clubId).orElseThrow {
@@ -26,7 +27,7 @@ class WithdrawClubUsecase(
 
 		val clubMember =
 			clubMemberRepository
-				.findByClubIdAndUserId(club.id, user.id)
+				.findByClubIdAndUserId(clubId, userId)
 				.orElseThrow { throw HttpException(ExceptionEnum.NOT_FOUND_CLUB_MEMBER) }
 
 		clubMemberRepository.delete(clubMember)

@@ -15,7 +15,7 @@ interface ClubMemberRepository : JpaRepository<ClubMember, UUID> {
 	): Boolean
 
 	fun findByClubIdAndUserId(
-		clubId: UUID?,
-		userId: UUID?,
+		clubId: UUID,
+		userId: UUID,
 	): Optional<ClubMember>
 }
