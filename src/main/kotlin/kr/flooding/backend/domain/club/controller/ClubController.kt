@@ -3,6 +3,7 @@ package kr.flooding.backend.domain.club.controller
 import jakarta.validation.Valid
 import kr.flooding.backend.domain.club.dto.request.ApplyClubRequest
 import kr.flooding.backend.domain.club.dto.request.CreateClubRequest
+import kr.flooding.backend.domain.club.dto.request.CreateRecruitmentFormRequest
 import kr.flooding.backend.domain.club.dto.request.UpdateClubRequest
 import kr.flooding.backend.domain.club.dto.response.FetchClubFilterResponse
 import kr.flooding.backend.domain.club.entity.ClubType
@@ -10,6 +11,7 @@ import kr.flooding.backend.domain.club.usecase.ApplyClubUsecase
 import kr.flooding.backend.domain.club.usecase.CreateClubUsecase
 import kr.flooding.backend.domain.club.usecase.FetchClubFilterUsecase
 import kr.flooding.backend.domain.club.usecase.OpenClubUsecase
+import kr.flooding.backend.domain.club.usecase.RecruitmentFormUsecase
 import kr.flooding.backend.domain.club.usecase.RemoveClubMemberUsecase
 import kr.flooding.backend.domain.club.usecase.RemoveClubUsecase
 import kr.flooding.backend.domain.club.usecase.UpdateClubUsecase
@@ -35,6 +37,7 @@ class ClubController(
 	private val applyClubUsecase: ApplyClubUsecase,
 	private val openClubUsecase: OpenClubUsecase,
 	private val removeClubUsecase: RemoveClubUsecase,
+	private val recruitmentFormUsecase: RecruitmentFormUsecase,
 ) {
 	@PostMapping
 	fun createClub(
@@ -92,5 +95,13 @@ class ClubController(
 	): ResponseEntity<Unit> =
 		removeClubUsecase.execute(clubId).run {
 			ResponseEntity.noContent().build()
+		}
+
+	@PostMapping("form")
+	fun createRecruitmentForm(
+		@Valid @RequestBody createRecruitmentFormRequest: CreateRecruitmentFormRequest,
+	): ResponseEntity<Unit> =
+		recruitmentFormUsecase.execute(createRecruitmentFormRequest).run {
+			ResponseEntity.ok().build()
 		}
 }
