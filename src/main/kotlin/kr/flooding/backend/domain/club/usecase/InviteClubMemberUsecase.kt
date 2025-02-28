@@ -1,6 +1,7 @@
 package kr.flooding.backend.domain.club.usecase
 
 import jakarta.transaction.Transactional
+import kr.flooding.backend.domain.club.entity.ClubStatus
 import kr.flooding.backend.domain.club.repository.ClubRepository
 import kr.flooding.backend.domain.clubMember.entity.ClubMember
 import kr.flooding.backend.domain.clubMember.repository.ClubMemberRepository
@@ -43,6 +44,9 @@ class InviteClubMemberUsecase(
 			throw HttpException(ExceptionEnum.ALREADY_JOINED_CLUB)
 		}
 
+		if (club.status != ClubStatus.APPROVED) {
+			throw HttpException(ExceptionEnum.NOT_APPROVED_CLUB)
+		}
 		clubMemberRepository.save(
 			ClubMember(
 				club = club,
