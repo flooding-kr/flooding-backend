@@ -77,7 +77,9 @@ class SecurityConfig(
 					.hasAnyAuthority(Role.ROLE_USER.name)
 					.requestMatchers(HttpMethod.DELETE, "/club/{clubId}")
 					.hasAnyAuthority(Role.ROLE_USER.name)
-					.requestMatchers(HttpMethod.DELETE, "/club/member/{userId}")
+					.requestMatchers(HttpMethod.DELETE, "/club/{clubId}/member")
+					.hasAnyAuthority(Role.ROLE_USER.name)
+					.requestMatchers(HttpMethod.POST, "/club/{clubId}/member/{userId}")
 					.hasAnyAuthority(Role.ROLE_USER.name)
 					// 파일
 					.requestMatchers(HttpMethod.POST, "/file/image")
