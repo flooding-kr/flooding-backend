@@ -5,11 +5,13 @@ import kr.flooding.backend.domain.club.dto.request.ApplyClubRequest
 import kr.flooding.backend.domain.club.dto.request.CreateClubRequest
 import kr.flooding.backend.domain.club.dto.request.UpdateClubRequest
 import kr.flooding.backend.domain.club.dto.response.FetchClubFilterResponse
+import kr.flooding.backend.domain.club.dto.response.FetchClubResponse
 import kr.flooding.backend.domain.club.entity.ClubType
 import kr.flooding.backend.domain.club.usecase.ApplyClubUsecase
 import kr.flooding.backend.domain.club.usecase.CloseClubUsecase
 import kr.flooding.backend.domain.club.usecase.CreateClubUsecase
 import kr.flooding.backend.domain.club.usecase.FetchClubFilterUsecase
+import kr.flooding.backend.domain.club.usecase.FetchClubUsecase
 import kr.flooding.backend.domain.club.usecase.InviteClubMemberUsecase
 import kr.flooding.backend.domain.club.usecase.OpenClubUsecase
 import kr.flooding.backend.domain.club.usecase.RemoveClubMemberUsecase
@@ -41,6 +43,7 @@ class ClubController(
 	private val removeClubUsecase: RemoveClubUsecase,
 	private val withdrawClubUsecase: WithdrawClubUsecase,
 	private val inviteClubMemberUsecase: InviteClubMemberUsecase,
+	private val fetchClubUsecase: FetchClubUsecase,
 ) {
 	@PostMapping
 	fun createClub(
@@ -123,5 +126,13 @@ class ClubController(
 	): ResponseEntity<Unit> =
 		inviteClubMemberUsecase.execute(clubId, userId).run {
 			ResponseEntity.ok().build()
+		}
+
+	@GetMapping("{clubId}")
+	fun fetchClub(
+		@PathVariable clubId: UUID,
+	): ResponseEntity<FetchClubResponse> =
+		fetchClubUsecase.execute(clubId).run {
+			ResponseEntity.ok(this)
 		}
 }
