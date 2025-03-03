@@ -42,6 +42,8 @@ class SecurityConfig(
 					// 사용자
 					.requestMatchers(HttpMethod.GET, "/user")
 					.hasAuthority(Role.ROLE_USER.name)
+					.requestMatchers(HttpMethod.PATCH, "/user/profile")
+					.hasAuthority(Role.ROLE_USER.name)
 					.requestMatchers(HttpMethod.GET, "/user/search")
 					.hasAuthority(Role.ROLE_USER.name)
 					.requestMatchers(HttpMethod.DELETE, "/user/withdraw")

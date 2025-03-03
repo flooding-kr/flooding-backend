@@ -30,6 +30,8 @@ data class User(
 	@Embedded
 	val studentInfo: StudentInfo,
 
+	var profileImageUrl: String? = null,
+
 	@Column(nullable = false)
 	@Enumerated(EnumType.STRING)
 	val gender: Gender,
@@ -39,4 +41,8 @@ data class User(
 
 	@Convert(converter = StringListConverter::class)
 	val roles: List<Role>,
-)
+) {
+	fun updateProfileImage(url: String) {
+		profileImageUrl = url
+	}
+}
