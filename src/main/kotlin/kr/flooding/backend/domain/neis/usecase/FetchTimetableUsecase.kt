@@ -4,6 +4,7 @@ import kr.flooding.backend.domain.neis.dto.response.FetchTimetableClientResponse
 import kr.flooding.backend.domain.neis.dto.response.FetchTimetableResponse
 import kr.flooding.backend.global.exception.ExceptionEnum
 import kr.flooding.backend.global.exception.HttpException
+import kr.flooding.backend.global.exception.toPair
 import kr.flooding.backend.global.util.StudentUtil.Companion.calcYearToGrade
 import kr.flooding.backend.global.util.UserUtil
 import org.springframework.beans.factory.annotation.Value
@@ -29,7 +30,7 @@ class FetchTimetableUsecase(
 				classroom = currentUser.studentInfo.classroom,
 			)
 		if (response?.hisTimetable == null) {
-			throw HttpException(ExceptionEnum.NOT_FOUND_LUNCH)
+			throw HttpException(ExceptionEnum.NEIS.NOT_FOUND_LUNCH.toPair())
 		}
 
 		val row =

@@ -7,6 +7,7 @@ import kr.flooding.backend.domain.auth.repository.RefreshTokenRepository
 import kr.flooding.backend.domain.user.repository.UserRepository
 import kr.flooding.backend.global.exception.ExceptionEnum
 import kr.flooding.backend.global.exception.HttpException
+import kr.flooding.backend.global.exception.toPair
 import kr.flooding.backend.global.security.jwt.JwtProvider
 import kr.flooding.backend.global.security.jwt.JwtType
 import kr.flooding.backend.global.security.jwt.dto.JwtDetails
@@ -29,11 +30,11 @@ class SignInUsecase(
 		val email = signInRequest.email
 		val user =
 			userRepository.findByEmail(email).orElseThrow {
-				HttpException(ExceptionEnum.NOT_FOUND_USER)
+				HttpException(ExceptionEnum.USER.NOT_FOUND_USER.toPair())
 			}
 
 		if (!user.isVerified) {
-			throw HttpException(ExceptionEnum.NOT_VERIFIED_EMAIL)
+			throw HttpException(ExceptionEnum.AUTH.NOT_VERIFIED_EMAIL.toPair())
 		}
 
 		val id = user.id
@@ -43,7 +44,7 @@ class SignInUsecase(
 		val encodedPassword = user.encodedPassword
 
 		if (!passwordEncoder.matches(rawPassword, encodedPassword)) {
-			throw HttpException(ExceptionEnum.WRONG_PASSWORD)
+			throw HttpException(ExceptionEnum.AUTH.WRONG_PASSWORD.toPair())
 		}
 
 		val accessToken = jwtProvider.generateToken(id.toString(), JwtType.ACCESS_TOKEN)

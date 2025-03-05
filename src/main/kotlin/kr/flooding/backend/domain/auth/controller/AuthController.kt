@@ -2,12 +2,15 @@ package kr.flooding.backend.domain.auth.controller
 
 import jakarta.validation.Valid
 import kr.flooding.backend.domain.auth.dto.request.ReissueEmailCodeRequest
+import kr.flooding.backend.domain.auth.dto.request.ResetPasswordRequest
 import kr.flooding.backend.domain.auth.dto.request.SignInRequest
 import kr.flooding.backend.domain.auth.dto.request.SignUpRequest
 import kr.flooding.backend.domain.auth.dto.response.ReissueTokenResponse
 import kr.flooding.backend.domain.auth.dto.response.SignInResponse
 import kr.flooding.backend.domain.auth.usecase.ReissueEmailCodeUsecase
 import kr.flooding.backend.domain.auth.usecase.ReissueTokenUsecase
+import kr.flooding.backend.domain.auth.usecase.RequestResetPasswordUsecase
+import kr.flooding.backend.domain.auth.usecase.ResetPasswordUsecase
 import kr.flooding.backend.domain.auth.usecase.SignInUsecase
 import kr.flooding.backend.domain.auth.usecase.SignOutUsecase
 import kr.flooding.backend.domain.auth.usecase.SignUpUsecase
@@ -31,6 +34,8 @@ class AuthController(
 	private val signOutUsecase: SignOutUsecase,
 	private val verifyEmailUsecase: VerifyEmailUsecase,
 	private val reissueEmailCodeUsecase: ReissueEmailCodeUsecase,
+	private val requestResetPasswordUsecase: RequestResetPasswordUsecase,
+	private val resetPasswordUsecase: ResetPasswordUsecase,
 ) {
 	@PostMapping("sign-up")
 	fun signUp(
@@ -82,6 +87,22 @@ class AuthController(
 		@RequestBody reissueEmailCodeRequest: ReissueEmailCodeRequest,
 	): ResponseEntity<Unit> =
 		reissueEmailCodeUsecase.execute(reissueEmailCodeRequest.email).let {
+			ResponseEntity.ok().build()
+		}
+
+	@PostMapping("/password/find")
+	fun requestFindPassword(
+		@RequestParam email: String,
+	): ResponseEntity<Unit> =
+		requestResetPasswordUsecase.execute(email).let {
+			ResponseEntity.ok().build()
+		}
+
+	@PostMapping("/password/reset")
+	fun resetPassword(
+		@RequestBody request: ResetPasswordRequest,
+	): ResponseEntity<Unit> =
+		resetPasswordUsecase.execute(request).let {
 			ResponseEntity.ok().build()
 		}
 }

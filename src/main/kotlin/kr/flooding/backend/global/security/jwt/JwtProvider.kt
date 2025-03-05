@@ -10,6 +10,7 @@ import kr.flooding.backend.domain.auth.entity.RefreshToken
 import kr.flooding.backend.domain.auth.repository.RefreshTokenRepository
 import kr.flooding.backend.global.exception.ExceptionEnum
 import kr.flooding.backend.global.exception.HttpException
+import kr.flooding.backend.global.exception.toPair
 import kr.flooding.backend.global.security.details.AuthDetailsService
 import kr.flooding.backend.global.security.jwt.dto.JwtDetails
 import kr.flooding.backend.global.util.toDate
@@ -53,7 +54,7 @@ class JwtProvider(
 		val userId = UUID.fromString(getPayload(refreshToken).subject)
 		val savedRefreshToken =
 			refreshTokenRepository.findById(userId).orElseThrow {
-				HttpException(ExceptionEnum.NOT_FOUND_REFRESH_TOKEN)
+				HttpException(ExceptionEnum.AUTH.NOT_FOUND_REFRESH_TOKEN.toPair())
 			}
 
 		return savedRefreshToken
@@ -63,7 +64,7 @@ class JwtProvider(
 
 	fun getPayload(token: String?): Claims {
 		if (token == null) {
-			throw HttpException(ExceptionEnum.EMPTY_TOKEN)
+			throw HttpException(ExceptionEnum.AUTH.EMPTY_TOKEN.toPair())
 		}
 
 		val keyBytes = Base64.getEncoder().encode(accessTokenKey.encodeToByteArray())
@@ -77,13 +78,13 @@ class JwtProvider(
 				.parseSignedClaims(token)
 				.payload
 		} catch (e: ExpiredJwtException) {
-			throw HttpException(ExceptionEnum.EXPIRED_TOKEN)
+			throw HttpException(ExceptionEnum.AUTH.EXPIRED_TOKEN.toPair())
 		} catch (e: UnsupportedJwtException) {
-			throw HttpException(ExceptionEnum.UNSUPPORTED_TOKEN)
+			throw HttpException(ExceptionEnum.AUTH.UNSUPPORTED_TOKEN.toPair())
 		} catch (e: MalformedJwtException) {
-			throw HttpException(ExceptionEnum.MALFORMED_TOKEN)
+			throw HttpException(ExceptionEnum.AUTH.MALFORMED_TOKEN.toPair())
 		} catch (e: RuntimeException) {
-			throw HttpException(ExceptionEnum.OTHER_TOKEN)
+			throw HttpException(ExceptionEnum.AUTH.OTHER_TOKEN.toPair())
 		}
 	}
 
