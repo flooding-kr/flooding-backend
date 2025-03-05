@@ -1,6 +1,5 @@
 package kr.flooding.backend.domain.club.entity
 
-import jakarta.persistence.CascadeType
 import jakarta.persistence.Entity
 import jakarta.persistence.Id
 import jakarta.persistence.OneToMany
@@ -17,6 +16,6 @@ data class RecruitmentForm(
 	@OneToOne
 	val club: Club,
 
-	@OneToMany(mappedBy = "RecruitmentForm", cascade = [(CascadeType.ALL)], orphanRemoval = true)
+	@OneToMany(mappedBy = "recruitmentForm")
 	val recruitmentFormField: List<RecruitmentFormField>,
 )
