@@ -25,7 +25,7 @@ class RequestResetPasswordUsecase(
 			}
 		val userId = requireNotNull(userByEmail.id)
 
-		val newResetPasswordCode = passwordUtil.generateRandomCode(52)
+		val newResetPasswordCode = passwordUtil.generateRandomCode(64)
 
 		val key = "reset-password-code:$userId"
 		redisTemplate.opsForList().leftPush(key, newResetPasswordCode)
