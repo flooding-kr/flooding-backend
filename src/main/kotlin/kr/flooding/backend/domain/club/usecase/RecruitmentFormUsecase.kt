@@ -8,6 +8,7 @@ import kr.flooding.backend.domain.club.repository.ClubRepository
 import kr.flooding.backend.domain.club.repository.RecruitmentFormRepository
 import kr.flooding.backend.global.exception.ExceptionEnum
 import kr.flooding.backend.global.exception.HttpException
+import kr.flooding.backend.global.exception.toPair
 import kr.flooding.backend.global.util.UserUtil
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -26,19 +27,18 @@ class RecruitmentFormUsecase(
 			clubRepository
 				.findById(request.clubId)
 				.orElseThrow {
-					HttpException(ExceptionEnum.NOT_FOUND_CLUB)
+					HttpException(ExceptionEnum.CLUB.NOT_FOUND_CLUB.toPair())
 				}
-
 		if (club.leader != currentUser) {
-			throw HttpException(ExceptionEnum.NOT_CLUB_LEADER)
+			throw HttpException(ExceptionEnum.CLUB.NOT_CLUB_LEADER.toPair())
 		}
 
 		if (club.status != ClubStatus.APPROVED) {
-			throw HttpException(ExceptionEnum.NOT_APPROVED_CLUB)
+			throw HttpException(ExceptionEnum.CLUB.NOT_APPROVED_CLUB.toPair())
 		}
 
 		if (recruitmentFormRepository.existsByClub(club)) {
-			throw HttpException(ExceptionEnum.ALREADY_EXIST_RECRUITMENT_FORM)
+			throw HttpException(ExceptionEnum.CLUB.ALREADY_EXIST_RECRUITMENT_FORM.toPair())
 		}
 
 		val fields =
