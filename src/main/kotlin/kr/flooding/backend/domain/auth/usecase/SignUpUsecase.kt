@@ -64,14 +64,13 @@ class SignUpUsecase(
 		val id = user.id
 		requireNotNull(id) { "id cannot be null" }
 
-		val randomVerifyCode = passwordUtil.generateSixRandomCode()
+		val randomVerifyCode = passwordUtil.generateRandomCode(6)
 		emailAdapter.sendVerifyCode(request.email, randomVerifyCode)
 
 		val verifyCode =
 			VerifyCode(
 				id = id,
 				code = randomVerifyCode,
-				expiredInMinutes = 15,
 			)
 		verifyCodeRepository.save(verifyCode)
 	}

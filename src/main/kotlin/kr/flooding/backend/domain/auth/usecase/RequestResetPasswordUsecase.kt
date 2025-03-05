@@ -1,20 +1,20 @@
 package kr.flooding.backend.domain.auth.usecase
 
-import kr.flooding.backend.domain.auth.entity.VerifyCode
-import kr.flooding.backend.domain.auth.repository.VerifyCodeRepository
 import kr.flooding.backend.domain.user.repository.UserRepository
 import kr.flooding.backend.global.exception.ExceptionEnum
 import kr.flooding.backend.global.exception.HttpException
 import kr.flooding.backend.global.thirdparty.email.EmailAdapter
 import kr.flooding.backend.global.util.PasswordUtil
+import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.time.Duration
 
 @Service
 @Transactional
-class ReissueEmailCodeUsecase(
+class RequestResetPasswordUsecase(
+	private val redisTemplate: RedisTemplate<String, String>,
 	private val userRepository: UserRepository,
-	private val verifyCodeRepository: VerifyCodeRepository,
 	private val passwordUtil: PasswordUtil,
 	private val emailAdapter: EmailAdapter,
 ) {
@@ -23,20 +23,15 @@ class ReissueEmailCodeUsecase(
 			userRepository.findByEmail(email).orElseThrow {
 				HttpException(ExceptionEnum.NOT_FOUND_USER)
 			}
-		val id = requireNotNull(userByEmail.id)
+		val userId = requireNotNull(userByEmail.id)
 
-		if (userByEmail.isVerified) {
-			throw HttpException(ExceptionEnum.ALREADY_VERIFY_EMAIL)
-		}
+		val newResetPasswordCode = passwordUtil.generateRandomCode(64)
 
-		val newVerifyCode = passwordUtil.generateRandomCode(64)
-		val verifyCodeEntity =
-			verifyCodeRepository.findById(id).orElse(
-				VerifyCode(id, newVerifyCode),
-			)
+		val key = "reset-password-code:$userId"
+		redisTemplate.opsForList().leftPush(key, newResetPasswordCode)
+		redisTemplate.opsForList().trim(key, 0, 7)
+		redisTemplate.expire(key, Duration.ofMinutes(30))
 
-		emailAdapter.sendVerifyCode(email, newVerifyCode)
-
-		verifyCodeRepository.save(verifyCodeEntity.copy(code = newVerifyCode))
+		emailAdapter.sendResetPassword(email, newResetPasswordCode)
 	}
 }

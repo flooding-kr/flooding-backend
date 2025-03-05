@@ -50,7 +50,6 @@ spring:
     host: ${MAIL_HOST}
     username: ${MAIL_USERNAME}
     password: ${MAIL_PASSWORD}
-    verify-url: "http://localhost:8080/v1/auth/verify"
 
 jwt:
   access-token-key: ${ACCESS_TOKEN_KEY}
@@ -67,3 +66,8 @@ cloudflare:
         bucket-name: ${CLOUDFLARE_R2_BUCKET_NAME}
         access-key-id: ${CLOUDFLARE_ACCESS_KEY_ID}
         secret-access-key: ${CLOUDFLARE_SECRET_ACCESS_KEY}
+
+client:
+  verify-url: "http://localhost:8080/v1/auth/verify"
+  reset-password-url: "http://localhost:3000/auth/reset-password"
+
