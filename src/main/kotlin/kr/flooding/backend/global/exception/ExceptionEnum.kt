@@ -21,6 +21,8 @@ enum class ExceptionEnum(
 	WRONG_PASSWORD(HttpStatus.BAD_REQUEST, "비밀번호가 일치하지 않습니다."),
 	NOT_FOUND_USER(HttpStatus.NOT_FOUND, "해당하는 회원을 찾을 수 없습니다."),
 	WRONG_YEAR(HttpStatus.BAD_REQUEST, "기수가 일치하지 않습니다."),
+	MAX_RESET_PASSWORD_REQUEST(HttpStatus.BAD_REQUEST, "비밀번호 찾기 요청 한도를 초과하였습니다."),
+	NOT_FOUND_RESET_PASSWORD_REQUEST_CODE(HttpStatus.BAD_REQUEST, "해당하는 비밀번호 변경 인증코드를 찾을 수 없습니다."),
 
 	// 이메일
 	UNKNOWN_ERROR_EMAIL(HttpStatus.SERVICE_UNAVAILABLE, "이메일 전송 중 에러가 발생하였습니다."),

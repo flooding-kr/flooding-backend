@@ -23,7 +23,7 @@ data class User(
 	val email: String,
 
 	@Column(nullable = false)
-	val encodedPassword: String,
+	var encodedPassword: String,
 
 	val isVerified: Boolean,
 
@@ -44,5 +44,9 @@ data class User(
 ) {
 	fun updateProfileImage(url: String) {
 		profileImageUrl = url
+	}
+
+	fun resetPassword(password: String) {
+		encodedPassword = password
 	}
 }
