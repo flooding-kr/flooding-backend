@@ -4,6 +4,7 @@ import kr.flooding.backend.domain.attendance.repository.AttendanceRepository
 import kr.flooding.backend.domain.homebase.repository.HomebaseGroupRepository
 import kr.flooding.backend.global.exception.ExceptionEnum
 import kr.flooding.backend.global.exception.HttpException
+import kr.flooding.backend.global.exception.toPair
 import kr.flooding.backend.global.util.UserUtil
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -22,10 +23,10 @@ class CancelHomebaseTableUsecase(
 		val homebaseGroup =
 			homebaseGroupRepository
 				.findById(homebaseGroupId)
-				.orElseThrow { HttpException(ExceptionEnum.NOT_FOUND_GROUP) }
+				.orElseThrow { HttpException(ExceptionEnum.CLASSROOM.NOT_FOUND_GROUP.toPair()) }
 
 		if (homebaseGroup.proposer.student != currentUser) {
-			throw HttpException(ExceptionEnum.USER_MISMATCH)
+			throw HttpException(ExceptionEnum.USER.USER_MISMATCH.toPair())
 		}
 
 		attendanceRepository.deleteAll(homebaseGroup.participants)

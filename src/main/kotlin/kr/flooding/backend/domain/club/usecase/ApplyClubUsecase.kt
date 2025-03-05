@@ -8,6 +8,7 @@ import kr.flooding.backend.domain.clubMember.entity.ClubMember
 import kr.flooding.backend.domain.clubMember.repository.ClubMemberRepository
 import kr.flooding.backend.global.exception.ExceptionEnum
 import kr.flooding.backend.global.exception.HttpException
+import kr.flooding.backend.global.exception.toPair
 import kr.flooding.backend.global.util.UserUtil
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -23,7 +24,7 @@ class ApplyClubUsecase(
 	fun execute(applyClubRequest: ApplyClubRequest) {
 		val club =
 			clubRepository.findById(applyClubRequest.clubId).orElseThrow {
-				HttpException(ExceptionEnum.NOT_FOUND_CLUB)
+				HttpException(ExceptionEnum.CLUB.NOT_FOUND_CLUB.toPair())
 			}
 
 		val currentUser = userUtil.getUser()
@@ -35,7 +36,7 @@ class ApplyClubUsecase(
 				leader = currentUser,
 			).takeIf { it }
 			?.let {
-				throw HttpException(ExceptionEnum.EXISTS_PENDING_CLUB)
+				throw HttpException(ExceptionEnum.CLUB.EXISTS_PENDING_CLUB.toPair())
 			}
 
 		// 동일 유형의 동아리 중 이미 참가한 동아리가 있는지
@@ -43,7 +44,7 @@ class ApplyClubUsecase(
 			.existsByClub_TypeAndUser(club.type, currentUser)
 			.takeIf { it }
 			?.let {
-				throw HttpException(ExceptionEnum.ALREADY_JOINED_CLUB)
+				throw HttpException(ExceptionEnum.CLUB.ALREADY_JOINED_CLUB.toPair())
 			}
 
 		// 동일 유형의 동아리 중 지원한 동아리가 있는지
@@ -51,15 +52,15 @@ class ApplyClubUsecase(
 			.existsByClub_TypeAndUser(club.type, currentUser)
 			.takeIf { it }
 			?.let {
-				throw HttpException(ExceptionEnum.ALREADY_APPLY_CLUB)
+				throw HttpException(ExceptionEnum.CLUB.ALREADY_APPLY_CLUB.toPair())
 			}
 
 		if (club.status != ClubStatus.APPROVED) {
-			throw HttpException(ExceptionEnum.NOT_APPROVED_CLUB)
+			throw HttpException(ExceptionEnum.CLUB.NOT_APPROVED_CLUB.toPair())
 		}
 
 		if (!club.isRecruiting) {
-			throw HttpException(ExceptionEnum.NOT_CLUB_RECRUITING)
+			throw HttpException(ExceptionEnum.CLUB.NOT_CLUB_RECRUITING.toPair())
 		}
 
 		clubMemberRepository.save(

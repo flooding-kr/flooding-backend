@@ -6,6 +6,7 @@ import kr.flooding.backend.domain.club.repository.ClubRepository
 import kr.flooding.backend.domain.clubMember.repository.ClubMemberRepository
 import kr.flooding.backend.global.exception.ExceptionEnum
 import kr.flooding.backend.global.exception.HttpException
+import kr.flooding.backend.global.exception.toPair
 import org.springframework.stereotype.Service
 import java.util.UUID
 
@@ -19,7 +20,7 @@ class FetchClubUsecase(
 		val club =
 			clubRepository
 				.findById(clubId)
-				.orElseThrow { HttpException(ExceptionEnum.NOT_FOUND_CLUB) }
+				.orElseThrow { HttpException(ExceptionEnum.CLUB.NOT_FOUND_CLUB.toPair()) }
 
 		val clubMembers = clubMemberRepository.findByClubId(clubId)
 

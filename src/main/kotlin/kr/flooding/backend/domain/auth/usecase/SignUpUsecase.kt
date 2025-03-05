@@ -9,6 +9,7 @@ import kr.flooding.backend.domain.user.entity.User
 import kr.flooding.backend.domain.user.repository.UserRepository
 import kr.flooding.backend.global.exception.ExceptionEnum
 import kr.flooding.backend.global.exception.HttpException
+import kr.flooding.backend.global.exception.toPair
 import kr.flooding.backend.global.thirdparty.email.EmailAdapter
 import kr.flooding.backend.global.util.PasswordUtil
 import kr.flooding.backend.global.util.StudentUtil.Companion.calcGradeToYear
@@ -29,12 +30,12 @@ class SignUpUsecase(
 		val encodedPassword = passwordEncoder.encode(request.password)
 
 		if (userRepository.existsByEmail(request.email)) {
-			throw HttpException(ExceptionEnum.DUPLICATED_EMAIL)
+			throw HttpException(ExceptionEnum.AUTH.DUPLICATED_EMAIL.toPair())
 		}
 
 		val maxYear = calcGradeToYear(1)
 		if (request.year > maxYear) {
-			throw HttpException(ExceptionEnum.WRONG_YEAR)
+			throw HttpException(ExceptionEnum.AUTH.WRONG_YEAR.toPair())
 		}
 
 		val studentInfo =
@@ -45,7 +46,7 @@ class SignUpUsecase(
 			)
 
 		if (userRepository.existsByStudentInfo(studentInfo)) {
-			throw HttpException(ExceptionEnum.DUPLICATED_STUDENT_INFO)
+			throw HttpException(ExceptionEnum.AUTH.DUPLICATED_STUDENT_INFO.toPair())
 		}
 
 		val user =

@@ -10,6 +10,7 @@ import kr.flooding.backend.domain.homebase.repository.HomebaseGroupRepository
 import kr.flooding.backend.domain.user.repository.UserRepository
 import kr.flooding.backend.global.exception.ExceptionEnum
 import kr.flooding.backend.global.exception.HttpException
+import kr.flooding.backend.global.exception.toPair
 import kr.flooding.backend.global.util.UserUtil
 import org.springframework.stereotype.Service
 import java.time.LocalDate
@@ -33,7 +34,7 @@ class ReserveHomebaseTableUsecase(
 				.findByTableNumberAndHomebaseFloor(
 					request.tableNumber,
 					request.floor,
-				).orElseThrow { HttpException(ExceptionEnum.NOT_FOUND_TABLE) }
+				).orElseThrow { HttpException(ExceptionEnum.CLASSROOM.NOT_FOUND_TABLE.toPair()) }
 
 		// 해당 자리의 사용 여부
 		homebaseGroupRepository
@@ -43,7 +44,7 @@ class ReserveHomebaseTableUsecase(
 				nowDate,
 			).takeIf { it }
 			?.let {
-				throw HttpException(ExceptionEnum.EXISTS_USED_TABLE)
+				throw HttpException(ExceptionEnum.CLASSROOM.EXISTS_USED_TABLE.toPair())
 			}
 
 		// 이미 자리가 예약된 참여자 여부
@@ -55,7 +56,7 @@ class ReserveHomebaseTableUsecase(
 				allUsers,
 			).takeIf { it }
 			?.let {
-				throw HttpException(ExceptionEnum.ALREADY_JOINED_ATTENDANCE)
+				throw HttpException(ExceptionEnum.CLASSROOM.ALREADY_JOINED_ATTENDANCE.toPair())
 			}
 
 		val currentUserAttendance =

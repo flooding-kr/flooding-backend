@@ -8,6 +8,7 @@ import kr.flooding.backend.domain.clubMember.repository.ClubMemberRepository
 import kr.flooding.backend.domain.user.repository.UserRepository
 import kr.flooding.backend.global.exception.ExceptionEnum
 import kr.flooding.backend.global.exception.HttpException
+import kr.flooding.backend.global.exception.toPair
 import kr.flooding.backend.global.util.UserUtil
 import org.springframework.stereotype.Service
 import java.util.UUID
@@ -28,24 +29,24 @@ class InviteClubMemberUsecase(
 
 		val club =
 			clubRepository.findById(clubId).orElseThrow {
-				HttpException(ExceptionEnum.NOT_FOUND_CLUB)
+				HttpException(ExceptionEnum.CLUB.NOT_FOUND_CLUB.toPair())
 			}
 
 		if (currentUser != club.leader) {
-			throw HttpException(ExceptionEnum.NOT_CLUB_LEADER)
+			throw HttpException(ExceptionEnum.CLUB.NOT_CLUB_LEADER.toPair())
 		}
 
 		val user =
 			userRepository
 				.findById(userId)
-				.orElseThrow { HttpException(ExceptionEnum.NOT_FOUND_USER) }
+				.orElseThrow { HttpException(ExceptionEnum.USER.NOT_FOUND_USER.toPair()) }
 
 		if (clubMemberRepository.existsByClubIdAndUserId(clubId, userId)) {
-			throw HttpException(ExceptionEnum.ALREADY_JOINED_CLUB)
+			throw HttpException(ExceptionEnum.CLUB.ALREADY_JOINED_CLUB.toPair())
 		}
 
 		if (club.status != ClubStatus.APPROVED) {
-			throw HttpException(ExceptionEnum.NOT_APPROVED_CLUB)
+			throw HttpException(ExceptionEnum.CLUB.NOT_APPROVED_CLUB.toPair())
 		}
 		clubMemberRepository.save(
 			ClubMember(

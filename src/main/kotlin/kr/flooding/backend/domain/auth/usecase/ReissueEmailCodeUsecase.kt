@@ -5,6 +5,7 @@ import kr.flooding.backend.domain.auth.repository.VerifyCodeRepository
 import kr.flooding.backend.domain.user.repository.UserRepository
 import kr.flooding.backend.global.exception.ExceptionEnum
 import kr.flooding.backend.global.exception.HttpException
+import kr.flooding.backend.global.exception.toPair
 import kr.flooding.backend.global.thirdparty.email.EmailAdapter
 import kr.flooding.backend.global.util.PasswordUtil
 import org.springframework.stereotype.Service
@@ -21,12 +22,12 @@ class ReissueEmailCodeUsecase(
 	fun execute(email: String) {
 		val userByEmail =
 			userRepository.findByEmail(email).orElseThrow {
-				HttpException(ExceptionEnum.NOT_FOUND_USER)
+				HttpException(ExceptionEnum.USER.NOT_FOUND_USER.toPair())
 			}
 		val id = requireNotNull(userByEmail.id)
 
 		if (userByEmail.isVerified) {
-			throw HttpException(ExceptionEnum.ALREADY_VERIFY_EMAIL)
+			throw HttpException(ExceptionEnum.AUTH.ALREADY_VERIFY_EMAIL.toPair())
 		}
 
 		val newVerifyCode = passwordUtil.generateRandomCode(64)
