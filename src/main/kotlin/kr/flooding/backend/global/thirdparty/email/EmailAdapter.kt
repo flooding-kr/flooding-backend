@@ -2,6 +2,7 @@ package kr.flooding.backend.global.thirdparty.email
 
 import kr.flooding.backend.global.exception.ExceptionEnum
 import kr.flooding.backend.global.exception.HttpException
+import kr.flooding.backend.global.exception.toPair
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.mail.javamail.JavaMailSender
 import org.springframework.mail.javamail.MimeMessageHelper
@@ -61,7 +62,7 @@ class EmailAdapter(
 		runCatching {
 			mailSender.send(message)
 		}.onFailure {
-			throw HttpException(ExceptionEnum.UNKNOWN_ERROR_EMAIL)
+			throw HttpException(ExceptionEnum.AUTH.UNKNOWN_ERROR_EMAIL.toPair())
 		}
 	}
 }

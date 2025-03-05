@@ -4,6 +4,7 @@ import kr.flooding.backend.domain.auth.repository.VerifyCodeRepository
 import kr.flooding.backend.domain.user.repository.UserRepository
 import kr.flooding.backend.global.exception.ExceptionEnum
 import kr.flooding.backend.global.exception.HttpException
+import kr.flooding.backend.global.exception.toPair
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -19,22 +20,22 @@ class VerifyEmailUsecase(
 	) {
 		val user =
 			userRepository.findByEmail(email).orElseThrow {
-				HttpException(ExceptionEnum.NOT_FOUND_USER)
+				HttpException(ExceptionEnum.USER.NOT_FOUND_USER.toPair())
 			}
 		val id = user.id
 		requireNotNull(id) { "id cannot be null" }
 
 		if (user.isVerified) {
-			throw HttpException(ExceptionEnum.ALREADY_VERIFY_EMAIL)
+			throw HttpException(ExceptionEnum.AUTH.ALREADY_VERIFY_EMAIL.toPair())
 		}
 
 		val verifyCodeEntity =
 			verifyCodeRepository.findById(id).orElseThrow {
-				HttpException(ExceptionEnum.NOT_FOUND_VERIFY_CODE)
+				HttpException(ExceptionEnum.AUTH.NOT_FOUND_VERIFY_CODE.toPair())
 			}
 
 		if (verifyCodeEntity.code != code) {
-			throw HttpException(ExceptionEnum.NOT_FOUND_VERIFY_CODE)
+			throw HttpException(ExceptionEnum.AUTH.NOT_FOUND_VERIFY_CODE.toPair())
 		}
 
 		val updatedUser = user.copy(isVerified = true)

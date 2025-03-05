@@ -4,6 +4,7 @@ import kr.flooding.backend.domain.auth.repository.RefreshTokenRepository
 import kr.flooding.backend.domain.user.repository.UserRepository
 import kr.flooding.backend.global.exception.ExceptionEnum
 import kr.flooding.backend.global.exception.HttpException
+import kr.flooding.backend.global.exception.toPair
 import kr.flooding.backend.global.util.UserUtil
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
@@ -25,7 +26,7 @@ class WithdrawUsecase(
 		requireNotNull(id) { "id cannot be null" }
 
 		if (!isComparePassword) {
-			throw HttpException(ExceptionEnum.WRONG_PASSWORD)
+			throw HttpException(ExceptionEnum.AUTH.WRONG_PASSWORD.toPair())
 		}
 
 		refreshTokenRepository.deleteById(id)

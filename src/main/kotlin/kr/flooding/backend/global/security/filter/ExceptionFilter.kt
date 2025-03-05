@@ -10,6 +10,7 @@ import jakarta.ws.rs.core.MediaType
 import kr.flooding.backend.global.exception.ExceptionEnum
 import kr.flooding.backend.global.exception.HttpException
 import kr.flooding.backend.global.exception.dto.HttpExceptionResponse
+import kr.flooding.backend.global.exception.toPair
 import org.springframework.web.filter.OncePerRequestFilter
 
 class ExceptionFilter : OncePerRequestFilter() {
@@ -25,7 +26,7 @@ class ExceptionFilter : OncePerRequestFilter() {
 				if (exception is HttpException) {
 					HttpExceptionResponse(exception.exceptionEnum)
 				} else {
-					HttpExceptionResponse(ExceptionEnum.UNKNOWN_SERVER_ERROR)
+					HttpExceptionResponse(ExceptionEnum.UNKNOWN.UNKNOWN_SERVER_ERROR.toPair())
 				}
 
 			val objectMapper =

@@ -5,6 +5,7 @@ import kr.flooding.backend.domain.auth.entity.RefreshToken
 import kr.flooding.backend.domain.auth.repository.RefreshTokenRepository
 import kr.flooding.backend.global.exception.ExceptionEnum
 import kr.flooding.backend.global.exception.HttpException
+import kr.flooding.backend.global.exception.toPair
 import kr.flooding.backend.global.security.jwt.JwtProvider
 import kr.flooding.backend.global.security.jwt.JwtType
 import kr.flooding.backend.global.security.jwt.dto.JwtDetails
@@ -23,7 +24,7 @@ class ReissueTokenUsecase(
 		val savedRefreshToken = jwtProvider.getSavedRefreshTokenByRefreshToken(resolveRefreshToken)
 
 		if (resolveRefreshToken != savedRefreshToken.refreshToken) {
-			throw HttpException(ExceptionEnum.INVALID_REFRESH_TOKEN)
+			throw HttpException(ExceptionEnum.AUTH.INVALID_REFRESH_TOKEN.toPair())
 		}
 
 		val newAccessToken = jwtProvider.generateToken(currentUserId, JwtType.ACCESS_TOKEN)
@@ -48,7 +49,7 @@ class ReissueTokenUsecase(
 	fun deleteRefreshTokenOrSave(id: String): JwtDetails {
 		val refreshToken =
 			refreshTokenRepository.findById(UUID.fromString(id)).orElseThrow {
-				HttpException(ExceptionEnum.NOT_FOUND_REFRESH_TOKEN)
+				HttpException(ExceptionEnum.AUTH.NOT_FOUND_REFRESH_TOKEN.toPair())
 			}
 
 		refreshTokenRepository.delete(refreshToken)

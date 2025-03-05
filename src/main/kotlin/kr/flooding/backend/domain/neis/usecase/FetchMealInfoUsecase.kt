@@ -5,6 +5,7 @@ import kr.flooding.backend.domain.neis.dto.response.FetchMealInfoClientResponse
 import kr.flooding.backend.domain.neis.dto.response.FetchMealInfoResponse
 import kr.flooding.backend.global.exception.ExceptionEnum
 import kr.flooding.backend.global.exception.HttpException
+import kr.flooding.backend.global.exception.toPair
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import org.springframework.web.reactive.function.client.WebClient
@@ -22,7 +23,7 @@ class FetchMealInfoUsecase(
 		val requestDate = date ?: LocalDate.now()
 		val response = getMealInfoResponse(requestDate, lunchTime)
 		if (response?.mealServiceDietInfo == null) {
-			throw HttpException(ExceptionEnum.NOT_FOUND_LUNCH)
+			throw HttpException(ExceptionEnum.NEIS.NOT_FOUND_LUNCH.toPair())
 		}
 
 		val row = response.mealServiceDietInfo[1].row ?: emptyList()
