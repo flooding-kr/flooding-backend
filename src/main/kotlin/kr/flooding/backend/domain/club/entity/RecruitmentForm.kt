@@ -5,7 +5,6 @@ import jakarta.persistence.Id
 import jakarta.persistence.OneToMany
 import jakarta.persistence.OneToOne
 import org.hibernate.annotations.UuidGenerator
-import team.gsm.flooding.domain.club.entity.RecruitmentFormField
 import java.util.UUID
 
 @Entity
