@@ -29,10 +29,10 @@ class ReissueEmailCodeUsecase(
 			throw HttpException(ExceptionEnum.ALREADY_VERIFY_EMAIL)
 		}
 
-		val newVerifyCode = passwordUtil.generateSixRandomCode()
+		val newVerifyCode = passwordUtil.generateRandomCode(6)
 		val verifyCodeEntity =
 			verifyCodeRepository.findById(id).orElse(
-				VerifyCode(id, newVerifyCode, 15),
+				VerifyCode(id, newVerifyCode),
 			)
 
 		emailAdapter.sendVerifyCode(email, newVerifyCode)
