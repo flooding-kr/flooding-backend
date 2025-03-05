@@ -39,6 +39,10 @@ class SecurityConfig(
 					.permitAll()
 					.requestMatchers(HttpMethod.PATCH, "/auth/re-verify")
 					.permitAll()
+					.requestMatchers(HttpMethod.POST, "/auth/password/reset")
+					.permitAll()
+					.requestMatchers(HttpMethod.POST, "/auth/password/find")
+					.permitAll()
 					// 사용자
 					.requestMatchers(HttpMethod.GET, "/user")
 					.hasAuthority(Role.ROLE_USER.name)
