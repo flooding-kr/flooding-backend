@@ -6,15 +6,20 @@ import kr.flooding.backend.domain.club.dto.request.CreateClubRequest
 import kr.flooding.backend.domain.club.dto.request.CreateRecruitmentFormRequest
 import kr.flooding.backend.domain.club.dto.request.UpdateClubRequest
 import kr.flooding.backend.domain.club.dto.response.FetchClubFilterResponse
+import kr.flooding.backend.domain.club.dto.response.FetchClubResponse
 import kr.flooding.backend.domain.club.entity.ClubType
 import kr.flooding.backend.domain.club.usecase.ApplyClubUsecase
+import kr.flooding.backend.domain.club.usecase.CloseClubUsecase
 import kr.flooding.backend.domain.club.usecase.CreateClubUsecase
 import kr.flooding.backend.domain.club.usecase.FetchClubFilterUsecase
+import kr.flooding.backend.domain.club.usecase.FetchClubUsecase
+import kr.flooding.backend.domain.club.usecase.InviteClubMemberUsecase
 import kr.flooding.backend.domain.club.usecase.OpenClubUsecase
 import kr.flooding.backend.domain.club.usecase.RecruitmentFormUsecase
 import kr.flooding.backend.domain.club.usecase.RemoveClubMemberUsecase
 import kr.flooding.backend.domain.club.usecase.RemoveClubUsecase
 import kr.flooding.backend.domain.club.usecase.UpdateClubUsecase
+import kr.flooding.backend.domain.club.usecase.WithdrawClubUsecase
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
@@ -36,7 +41,11 @@ class ClubController(
 	private val updateClubUsecase: UpdateClubUsecase,
 	private val applyClubUsecase: ApplyClubUsecase,
 	private val openClubUsecase: OpenClubUsecase,
+	private val closeClubUsecase: CloseClubUsecase,
 	private val removeClubUsecase: RemoveClubUsecase,
+	private val withdrawClubUsecase: WithdrawClubUsecase,
+	private val inviteClubMemberUsecase: InviteClubMemberUsecase,
+	private val fetchClubUsecase: FetchClubUsecase,
 	private val recruitmentFormUsecase: RecruitmentFormUsecase,
 ) {
 	@PostMapping
@@ -82,10 +91,18 @@ class ClubController(
 		}
 
 	@PostMapping("{clubId}/open")
-	fun removeClubMember(
+	fun openClub(
 		@PathVariable clubId: UUID,
 	): ResponseEntity<Unit> =
 		openClubUsecase.execute(clubId).run {
+			ResponseEntity.ok().build()
+		}
+
+	@PostMapping("{clubId}/close")
+	fun closeClub(
+		@PathVariable clubId: UUID,
+	): ResponseEntity<Unit> =
+		closeClubUsecase.execute(clubId).run {
 			ResponseEntity.ok().build()
 		}
 
@@ -95,6 +112,31 @@ class ClubController(
 	): ResponseEntity<Unit> =
 		removeClubUsecase.execute(clubId).run {
 			ResponseEntity.noContent().build()
+		}
+
+	@DeleteMapping("{clubId}/member")
+	fun withdrawClub(
+		@PathVariable clubId: UUID,
+	): ResponseEntity<Unit> =
+		withdrawClubUsecase.execute(clubId).run {
+			ResponseEntity.noContent().build()
+		}
+
+	@PostMapping("{clubId}/member/{userId}")
+	fun inviteClubMember(
+		@PathVariable clubId: UUID,
+		@PathVariable userId: UUID,
+	): ResponseEntity<Unit> =
+		inviteClubMemberUsecase.execute(clubId, userId).run {
+			ResponseEntity.ok().build()
+		}
+
+	@GetMapping("{clubId}")
+	fun fetchClub(
+		@PathVariable clubId: UUID,
+	): ResponseEntity<FetchClubResponse> =
+		fetchClubUsecase.execute(clubId).run {
+			ResponseEntity.ok(this)
 		}
 
 	@PostMapping("form")
