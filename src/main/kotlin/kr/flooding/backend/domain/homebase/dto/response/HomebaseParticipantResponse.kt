@@ -8,7 +8,9 @@ class HomebaseParticipantResponse(
 	val schoolNumber: String,
 ) {
 	companion object {
-		fun toDto(homebaseParticipant: HomebaseParticipant): kr.flooding.backend.domain.homebase.dto.response.HomebaseParticipantResponse =
+		fun toDto(
+			homebaseParticipant: HomebaseParticipant,
+		): kr.flooding.backend.domain.homebase.dto.response.HomebaseParticipantResponse =
 			kr.flooding.backend.domain.homebase.dto.response.HomebaseParticipantResponse(
 				name = homebaseParticipant.user.name,
 				schoolNumber =

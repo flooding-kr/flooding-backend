@@ -12,15 +12,15 @@ import java.util.UUID
 
 @Entity
 class HomebaseParticipant(
-    @Id
-    @UuidGenerator
-    val id: UUID? = null,
+	@Id
+	@UuidGenerator
+	val id: UUID? = null,
 
-    @ManyToOne
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    val user: User,
+	@ManyToOne
+	@OnDelete(action = OnDeleteAction.CASCADE)
+	val user: User,
 
-    @ManyToOne
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    var homebaseGroup: HomebaseGroup,
+	@ManyToOne
+	@OnDelete(action = OnDeleteAction.CASCADE)
+	var homebaseGroup: HomebaseGroup,
 )

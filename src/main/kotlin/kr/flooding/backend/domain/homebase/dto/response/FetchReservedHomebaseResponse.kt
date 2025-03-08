@@ -17,7 +17,7 @@ class FetchReservedHomebaseResponse(
 		fun toDto(
 			homebaseTable: HomebaseTable,
 			homebaseGroup: HomebaseGroup?,
-			homebaseParticipants: List<HomebaseParticipant>
+			homebaseParticipants: List<HomebaseParticipant>,
 		): FetchReservedHomebaseResponse =
 			FetchReservedHomebaseResponse(
 				homebaseTableId = homebaseTable.id,

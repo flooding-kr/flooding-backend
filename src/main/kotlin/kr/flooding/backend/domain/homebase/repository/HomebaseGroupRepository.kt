@@ -21,13 +21,15 @@ interface HomebaseGroupRepository : JpaRepository<HomebaseGroup, UUID> {
 		attendedAt: LocalDate,
 	): Boolean
 
-    @Query("""
+	@Query(
+		"""
     SELECT hg
     FROM HomebaseGroup hg
 	LEFT JOIN hg.participants p
     WHERE (hg.proposer.student = :student OR p.user = :student)
     AND hg.attendedAt = :attendedAt
-	""")
+	""",
+	)
 	fun findByProposerStudentOrParticipantsAndAttendedAt(
 		student: User,
 		attendedAt: LocalDate,
