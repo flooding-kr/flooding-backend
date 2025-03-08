@@ -5,6 +5,7 @@ import kr.flooding.backend.domain.classroom.entity.HomebaseTable
 import kr.flooding.backend.domain.homebase.entity.HomebaseGroup
 import kr.flooding.backend.domain.user.entity.User
 import org.springframework.data.jpa.repository.JpaRepository
+import org.springframework.data.jpa.repository.Query
 import java.time.LocalDate
 import java.util.UUID
 
@@ -20,7 +21,14 @@ interface HomebaseGroupRepository : JpaRepository<HomebaseGroup, UUID> {
 		attendedAt: LocalDate,
 	): Boolean
 
-	fun findByProposerStudentAndAttendedAt(
+    @Query("""
+    SELECT hg
+    FROM HomebaseGroup hg
+	LEFT JOIN hg.participants p
+    WHERE (hg.proposer.student = :student OR p.user = :student)
+    AND hg.attendedAt = :attendedAt
+	""")
+	fun findByProposerStudentOrParticipantsAndAttendedAt(
 		student: User,
 		attendedAt: LocalDate,
 	): List<HomebaseGroup>
