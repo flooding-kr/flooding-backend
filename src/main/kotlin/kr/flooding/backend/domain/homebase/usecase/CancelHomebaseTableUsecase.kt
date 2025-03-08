@@ -2,6 +2,7 @@ package kr.flooding.backend.domain.homebase.usecase
 
 import kr.flooding.backend.domain.attendance.repository.AttendanceRepository
 import kr.flooding.backend.domain.homebase.repository.HomebaseGroupRepository
+import kr.flooding.backend.domain.homebaseParticipants.repository.HomebaseParticipantRepository
 import kr.flooding.backend.global.exception.ExceptionEnum
 import kr.flooding.backend.global.exception.HttpException
 import kr.flooding.backend.global.exception.toPair
@@ -16,6 +17,7 @@ class CancelHomebaseTableUsecase(
 	private val userUtil: UserUtil,
 	private val homebaseGroupRepository: HomebaseGroupRepository,
 	private val attendanceRepository: AttendanceRepository,
+	private val homebaseParticipantRepository: HomebaseParticipantRepository,
 ) {
 	fun execute(homebaseGroupId: UUID) {
 		val currentUser = userUtil.getUser()
@@ -25,12 +27,13 @@ class CancelHomebaseTableUsecase(
 				.findById(homebaseGroupId)
 				.orElseThrow { HttpException(ExceptionEnum.CLASSROOM.NOT_FOUND_GROUP.toPair()) }
 
-		if (homebaseGroup.proposer.student != currentUser) {
+		if (homebaseGroup.proposer != currentUser) {
 			throw HttpException(ExceptionEnum.USER.USER_MISMATCH.toPair())
 		}
 
-		attendanceRepository.deleteAll(homebaseGroup.participants)
-		attendanceRepository.delete(homebaseGroup.proposer)
+		val homebaseParticipants = homebaseParticipantRepository.findByHomebaseGroup(homebaseGroup)
+
+		homebaseParticipantRepository.deleteAll(homebaseParticipants)
 		homebaseGroupRepository.delete(homebaseGroup)
 	}
 }
