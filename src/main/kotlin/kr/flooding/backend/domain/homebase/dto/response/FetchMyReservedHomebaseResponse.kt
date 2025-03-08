@@ -9,6 +9,7 @@ class FetchMyReservedHomebaseResponse(
 	val homebaseGroupId: UUID?,
 	val homebaseTable: HomebaseTableResponse,
 	val attendedAt: LocalDate?,
+	val period: Int,
 	val isProposer: Boolean,
 	val participants: List<kr.flooding.backend.domain.homebase.dto.response.HomebaseParticipantResponse>,
 ) {
@@ -23,6 +24,7 @@ class FetchMyReservedHomebaseResponse(
 				homebaseGroupId = homebaseGroup.id,
 				homebaseTable = HomebaseTableResponse.toDto(homebaseGroup.homebaseTable),
 				attendedAt = homebaseGroup.attendedAt,
+				period = homebaseGroup.period,
 				participants =
 					listOf(proposerAsHomebaseParticipant) +
 						homebaseGroup.participants.map {
