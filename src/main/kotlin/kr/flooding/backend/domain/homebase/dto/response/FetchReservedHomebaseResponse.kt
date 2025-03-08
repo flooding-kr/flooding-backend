@@ -9,7 +9,7 @@ class FetchReservedHomebaseResponse(
 	val floor: Int,
 	val tableNumber: Int,
 	val isAttended: Boolean,
-	val participants: List<kr.flooding.backend.domain.homebase.dto.response.HomebaseParticipantResponse>,
+	val participants: List<HomebaseParticipantResponse>,
 ) {
 	companion object {
 		fun toDto(
@@ -32,8 +32,7 @@ class FetchReservedHomebaseResponse(
 				participants =
 					listOfNotNull(proposerAsHomebaseParticipant) +
 						homebaseGroup?.participants.orEmpty().map {
-							kr.flooding.backend.domain.homebase.dto.response.HomebaseParticipantResponse
-								.toDto(it)
+							HomebaseParticipantResponse.toDto(it)
 						},
 			)
 		}
