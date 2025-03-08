@@ -1,6 +1,11 @@
 package kr.flooding.backend.domain.homebase.entity
 
-import jakarta.persistence.*
+import jakarta.persistence.CascadeType
+import jakarta.persistence.Column
+import jakarta.persistence.Entity
+import jakarta.persistence.Id
+import jakarta.persistence.ManyToOne
+import jakarta.persistence.OneToMany
 import kr.flooding.backend.domain.attendance.entity.Attendance
 import kr.flooding.backend.domain.classroom.entity.HomebaseTable
 import kr.flooding.backend.domain.homebaseParticipants.entity.HomebaseParticipant
