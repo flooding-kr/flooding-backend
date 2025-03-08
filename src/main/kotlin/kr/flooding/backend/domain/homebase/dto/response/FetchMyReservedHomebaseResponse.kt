@@ -1,7 +1,6 @@
 package kr.flooding.backend.domain.homebase.dto.response
 
 import kr.flooding.backend.domain.homebase.entity.HomebaseGroup
-import kr.flooding.backend.domain.homebaseParticipants.entity.HomebaseParticipant
 import kr.flooding.backend.domain.user.entity.User
 import java.time.LocalDate
 import java.util.UUID
@@ -17,18 +16,21 @@ class FetchMyReservedHomebaseResponse(
 		fun toDto(
 			homebaseGroup: HomebaseGroup,
 			currentUser: User,
-			homebaseParticipants: List<HomebaseParticipant>,
-		): FetchMyReservedHomebaseResponse =
-			FetchMyReservedHomebaseResponse(
+		): FetchMyReservedHomebaseResponse {
+			val proposerAsHomebaseParticipant = HomebaseParticipantResponse.fromUser(homebaseGroup.proposer.student)
+
+			return FetchMyReservedHomebaseResponse(
 				homebaseGroupId = homebaseGroup.id,
 				homebaseTable = HomebaseTableResponse.toDto(homebaseGroup.homebaseTable),
 				attendedAt = homebaseGroup.attendedAt,
 				participants =
-					homebaseParticipants.map {
-						kr.flooding.backend.domain.homebase.dto.response.HomebaseParticipantResponse
-							.toDto(it)
-					},
+					listOf(proposerAsHomebaseParticipant) +
+						homebaseGroup.participants.map {
+							kr.flooding.backend.domain.homebase.dto.response.HomebaseParticipantResponse
+								.toDto(it)
+						},
 				isProposer = homebaseGroup.proposer.student == currentUser,
 			)
+		}
 	}
 }

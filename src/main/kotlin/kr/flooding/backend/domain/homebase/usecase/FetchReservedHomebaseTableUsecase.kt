@@ -27,8 +27,7 @@ class FetchReservedHomebaseTableUsecase(
 
 		return homebaseTableList.map { homebaseTable ->
 			val currentHomebaseGroup = homebaseGroupList.find { homebaseTable == it.homebaseTable }
-			val homebaseParticipants = homebaseParticipantRepository.findByHomebaseGroup(currentHomebaseGroup)
-			FetchReservedHomebaseResponse.toDto(homebaseTable, currentHomebaseGroup, homebaseParticipants)
+			FetchReservedHomebaseResponse.toDto(homebaseTable, currentHomebaseGroup)
 		}
 	}
 }
