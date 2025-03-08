@@ -18,7 +18,7 @@ class FetchReservedHomebaseResponse(
 			homebaseGroup: HomebaseGroup?,
 		): FetchReservedHomebaseResponse {
 			val proposerAsHomebaseParticipant =
-				homebaseGroup?.proposer?.student?.let {
+				homebaseGroup?.proposer?.let {
 					HomebaseParticipantResponse.fromUser(it)
 				}
 

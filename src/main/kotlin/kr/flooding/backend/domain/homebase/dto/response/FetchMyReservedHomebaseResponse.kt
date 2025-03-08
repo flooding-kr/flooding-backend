@@ -17,7 +17,7 @@ class FetchMyReservedHomebaseResponse(
 			homebaseGroup: HomebaseGroup,
 			currentUser: User,
 		): FetchMyReservedHomebaseResponse {
-			val proposerAsHomebaseParticipant = HomebaseParticipantResponse.fromUser(homebaseGroup.proposer.student)
+			val proposerAsHomebaseParticipant = HomebaseParticipantResponse.fromUser(homebaseGroup.proposer)
 
 			return FetchMyReservedHomebaseResponse(
 				homebaseGroupId = homebaseGroup.id,
@@ -29,7 +29,7 @@ class FetchMyReservedHomebaseResponse(
 							kr.flooding.backend.domain.homebase.dto.response.HomebaseParticipantResponse
 								.toDto(it)
 						},
-				isProposer = homebaseGroup.proposer.student == currentUser,
+				isProposer = homebaseGroup.proposer == currentUser,
 			)
 		}
 	}

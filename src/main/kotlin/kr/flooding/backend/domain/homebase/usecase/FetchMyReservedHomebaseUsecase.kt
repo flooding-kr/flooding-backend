@@ -17,7 +17,7 @@ class FetchMyReservedHomebaseUsecase(
 ) {
 	fun execute(): List<FetchMyReservedHomebaseResponse> =
 		homebaseGroupRepository
-			.findByProposerStudentOrParticipantsAndAttendedAt(userUtil.getUser(), LocalDate.now())
+			.findByProposerOrParticipantsAndAttendedAt(userUtil.getUser(), LocalDate.now())
 			.map {
 				FetchMyReservedHomebaseResponse.toDto(it, userUtil.getUser())
 			}

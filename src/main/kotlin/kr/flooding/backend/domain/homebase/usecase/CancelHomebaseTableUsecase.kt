@@ -27,14 +27,13 @@ class CancelHomebaseTableUsecase(
 				.findById(homebaseGroupId)
 				.orElseThrow { HttpException(ExceptionEnum.CLASSROOM.NOT_FOUND_GROUP.toPair()) }
 
-		if (homebaseGroup.proposer.student != currentUser) {
+		if (homebaseGroup.proposer != currentUser) {
 			throw HttpException(ExceptionEnum.USER.USER_MISMATCH.toPair())
 		}
 
 		val homebaseParticipants = homebaseParticipantRepository.findByHomebaseGroup(homebaseGroup)
 
 		homebaseParticipantRepository.deleteAll(homebaseParticipants)
-		attendanceRepository.delete(homebaseGroup.proposer)
 		homebaseGroupRepository.delete(homebaseGroup)
 	}
 }

@@ -52,10 +52,11 @@ class ReserveHomebaseTableUsecase(
 
 		// 이미 자리가 예약된 참여자 여부
 		val allUsers = participants + currentUser
-		attendanceRepository
-			.existsByAttendedAtAndPeriodAndStudentIn(
+		homebaseParticipantRepository
+			.existsByHomebaseGroupAttendedAtAndHomebaseGroupPeriodAndHomebaseGroupProposerInAndUserIn(
 				nowDate,
 				request.period,
+				allUsers,
 				allUsers,
 			).takeIf { it }
 			?.let {
@@ -86,7 +87,7 @@ class ReserveHomebaseTableUsecase(
 			HomebaseGroup(
 				homebaseTable = homebaseTable,
 				period = request.period,
-				proposer = currentUserAttendance,
+				proposer = currentUser,
 			)
 
 		val homebaseParticipants =
