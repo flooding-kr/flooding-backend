@@ -7,6 +7,8 @@ import kr.flooding.backend.domain.classroom.repository.HomebaseTableRepository
 import kr.flooding.backend.domain.homebase.dto.request.ReserveHomebaseTableRequest
 import kr.flooding.backend.domain.homebase.entity.HomebaseGroup
 import kr.flooding.backend.domain.homebase.repository.HomebaseGroupRepository
+import kr.flooding.backend.domain.homebaseParticipants.entity.HomebaseParticipant
+import kr.flooding.backend.domain.homebaseParticipants.repository.HomebaseParticipantRepository
 import kr.flooding.backend.domain.user.repository.UserRepository
 import kr.flooding.backend.global.exception.ExceptionEnum
 import kr.flooding.backend.global.exception.HttpException
@@ -21,6 +23,7 @@ class ReserveHomebaseTableUsecase(
 	private val attendanceRepository: AttendanceRepository,
 	private val homebaseGroupRepository: HomebaseGroupRepository,
 	private val homebaseTableRepository: HomebaseTableRepository,
+	private val homebaseParticipantRepository: HomebaseParticipantRepository,
 	private val userRepository: UserRepository,
 	private val userUtil: UserUtil,
 ) {
@@ -83,10 +86,18 @@ class ReserveHomebaseTableUsecase(
 			HomebaseGroup(
 				homebaseTable = homebaseTable,
 				period = request.period,
-				participants = participantAttendances,
 				proposer = currentUserAttendance,
 			)
 
+		val homebaseParticipants =
+			participants.map {
+				HomebaseParticipant(
+					user = it,
+					homebaseGroup = homebaseGroup,
+				)
+			}
+
+		homebaseParticipantRepository.saveAll(homebaseParticipants)
 		attendanceRepository.saveAll(allAttendances)
 		homebaseGroupRepository.save(homebaseGroup)
 	}

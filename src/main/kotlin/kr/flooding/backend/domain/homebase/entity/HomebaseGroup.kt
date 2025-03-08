@@ -5,7 +5,6 @@ import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.Id
 import jakarta.persistence.ManyToOne
-import jakarta.persistence.OneToMany
 import kr.flooding.backend.domain.attendance.entity.Attendance
 import kr.flooding.backend.domain.classroom.entity.HomebaseTable
 import org.hibernate.annotations.CreationTimestamp
@@ -23,9 +22,6 @@ data class HomebaseGroup(
 	val homebaseTable: HomebaseTable,
 
 	val period: Int,
-
-	@OneToMany(cascade = [CascadeType.ALL], orphanRemoval = true)
-	val participants: MutableList<Attendance> = mutableListOf(),
 
 	@ManyToOne(cascade = [CascadeType.ALL])
 	val proposer: Attendance,
