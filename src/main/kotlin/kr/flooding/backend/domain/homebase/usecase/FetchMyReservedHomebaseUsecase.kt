@@ -19,7 +19,6 @@ class FetchMyReservedHomebaseUsecase(
 		homebaseGroupRepository
 			.findByProposerStudentOrParticipantsAndAttendedAt(userUtil.getUser(), LocalDate.now())
 			.map {
-				val homebaseParticipants = homebaseParticipantRepository.findByHomebaseGroup(it)
-				FetchMyReservedHomebaseResponse.toDto(it, userUtil.getUser(), homebaseParticipants)
+				FetchMyReservedHomebaseResponse.toDto(it, userUtil.getUser())
 			}
 }
