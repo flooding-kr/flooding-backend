@@ -1,12 +1,9 @@
 package kr.flooding.backend.domain.homebase.entity
 
-import jakarta.persistence.CascadeType
-import jakarta.persistence.Column
-import jakarta.persistence.Entity
-import jakarta.persistence.Id
-import jakarta.persistence.ManyToOne
+import jakarta.persistence.*
 import kr.flooding.backend.domain.attendance.entity.Attendance
 import kr.flooding.backend.domain.classroom.entity.HomebaseTable
+import kr.flooding.backend.domain.homebaseParticipants.entity.HomebaseParticipant
 import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.UuidGenerator
 import java.time.LocalDate
@@ -26,7 +23,15 @@ data class HomebaseGroup(
 	@ManyToOne(cascade = [CascadeType.ALL])
 	val proposer: Attendance,
 
+	@OneToMany(mappedBy = "homebaseGroup", cascade = [CascadeType.ALL], orphanRemoval = true)
+	val participants: MutableList<HomebaseParticipant> = mutableListOf(),
+
 	@CreationTimestamp
 	@Column(nullable = false)
 	val attendedAt: LocalDate? = null,
-)
+) {
+	fun addParticipant(participant: HomebaseParticipant) {
+		participants.add(participant)
+		participant.homebaseGroup = this
+	}
+}

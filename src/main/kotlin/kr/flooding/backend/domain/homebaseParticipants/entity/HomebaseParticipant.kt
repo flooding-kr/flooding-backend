@@ -22,5 +22,5 @@ class HomebaseParticipant(
 
     @ManyToOne
     @OnDelete(action = OnDeleteAction.CASCADE)
-    val homebaseGroup: HomebaseGroup,
+    var homebaseGroup: HomebaseGroup,
 )
