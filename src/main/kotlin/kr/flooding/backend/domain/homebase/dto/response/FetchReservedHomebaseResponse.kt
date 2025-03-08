@@ -2,6 +2,7 @@ package kr.flooding.backend.domain.homebase.dto.response
 
 import kr.flooding.backend.domain.classroom.entity.HomebaseTable
 import kr.flooding.backend.domain.homebase.entity.HomebaseGroup
+import kr.flooding.backend.domain.user.entity.User
 import java.time.LocalDate
 
 class FetchReservedHomebaseResponse(
@@ -16,6 +17,7 @@ class FetchReservedHomebaseResponse(
 		fun toDto(
 			homebaseTable: HomebaseTable,
 			homebaseGroup: HomebaseGroup?,
+			currentUser: User,
 		): FetchReservedHomebaseResponse {
 			val proposerAsHomebaseParticipant =
 				homebaseGroup?.proposer?.let {
@@ -27,7 +29,9 @@ class FetchReservedHomebaseResponse(
 				floor = homebaseTable.homebase.floor,
 				tableNumber = homebaseTable.tableNumber,
 				attendedAt = homebaseGroup?.attendedAt,
-				isAttended = homebaseGroup != null,
+				isAttended =
+					(homebaseGroup?.participants?.any { it == currentUser } ?: false) ||
+						(currentUser == homebaseGroup?.proposer),
 				participants =
 					listOfNotNull(proposerAsHomebaseParticipant) +
 						homebaseGroup?.participants.orEmpty().map {
