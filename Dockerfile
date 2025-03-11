@@ -1,6 +1,6 @@
 FROM gradle:jdk21-alpine
 
-COPY build.gradle.kts settings.gradle.kts gradlew ./
+COPY build.gradle.kts settings.gradle.kts gradlew .editorconfig ./
 COPY gradle ./gradle
 COPY src ./src
 
