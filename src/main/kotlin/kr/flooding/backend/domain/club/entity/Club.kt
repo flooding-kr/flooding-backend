@@ -5,6 +5,7 @@ import jakarta.persistence.Convert
 import jakarta.persistence.Entity
 import jakarta.persistence.EnumType
 import jakarta.persistence.Enumerated
+import jakarta.persistence.FetchType
 import jakarta.persistence.Id
 import jakarta.persistence.ManyToOne
 import kr.flooding.backend.domain.classroom.entity.Classroom
@@ -27,7 +28,7 @@ data class Club(
 	@Column(nullable = false)
 	val description: String,
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@OnDelete(action = OnDeleteAction.SET_NULL)
 	val classroom: Classroom,
 
@@ -44,7 +45,7 @@ data class Club(
 	@Enumerated(EnumType.STRING)
 	val type: ClubType,
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@OnDelete(action = OnDeleteAction.SET_NULL)
 	val leader: User,
 

@@ -3,6 +3,7 @@ package kr.flooding.backend.domain.homebase.entity
 import jakarta.persistence.CascadeType
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
+import jakarta.persistence.FetchType
 import jakarta.persistence.Id
 import jakarta.persistence.ManyToOne
 import jakarta.persistence.OneToMany
@@ -20,12 +21,12 @@ data class HomebaseGroup(
 	@UuidGenerator(style = UuidGenerator.Style.RANDOM)
 	val id: UUID? = null,
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	val homebaseTable: HomebaseTable,
 
 	val period: Int,
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	val proposer: User,
 
 	@OneToMany(mappedBy = "homebaseGroup", cascade = [CascadeType.ALL], orphanRemoval = true)
