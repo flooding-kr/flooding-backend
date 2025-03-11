@@ -32,6 +32,12 @@ class ReserveHomebaseTableUsecase(
 		val participants = userRepository.findByIdIn(request.participants)
 		val nowDate = LocalDate.now()
 
+		request.participants
+			.takeIf { it.contains(currentUser.id) }
+			?.let {
+				throw HttpException(ExceptionEnum.CLASSROOM.PROPOSER_CANNOT_BE_PARTICIPANT.toPair())
+			}
+
 		val homebaseTable =
 			homebaseTableRepository
 				.findByTableNumberAndHomebaseFloor(
