@@ -6,7 +6,7 @@ import kr.flooding.backend.domain.user.repository.UserRepository
 import kr.flooding.backend.global.exception.ExceptionEnum
 import kr.flooding.backend.global.exception.HttpException
 import kr.flooding.backend.global.exception.toPair
-import kr.flooding.backend.global.thirdparty.email.EmailAdapter
+import kr.flooding.backend.global.thirdparty.mail.MailAdapter
 import kr.flooding.backend.global.util.PasswordUtil
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -17,7 +17,7 @@ class ReissueEmailCodeUsecase(
 	private val userRepository: UserRepository,
 	private val verifyCodeRepository: VerifyCodeRepository,
 	private val passwordUtil: PasswordUtil,
-	private val emailAdapter: EmailAdapter,
+	private val mailAdapter: MailAdapter,
 ) {
 	fun execute(email: String) {
 		val userByEmail =
@@ -36,7 +36,7 @@ class ReissueEmailCodeUsecase(
 				VerifyCode(id, newVerifyCode),
 			)
 
-		emailAdapter.sendVerifyCode(email, newVerifyCode)
+		mailAdapter.sendVerifyCode(email, newVerifyCode)
 
 		verifyCodeRepository.save(verifyCodeEntity.copy(code = newVerifyCode))
 	}

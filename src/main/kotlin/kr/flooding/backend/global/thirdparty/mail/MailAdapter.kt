@@ -1,4 +1,4 @@
-package kr.flooding.backend.global.thirdparty.email
+package kr.flooding.backend.global.thirdparty.mail
 
 import kr.flooding.backend.global.exception.ExceptionEnum
 import kr.flooding.backend.global.exception.HttpException
@@ -10,7 +10,7 @@ import org.springframework.scheduling.annotation.Async
 import org.springframework.stereotype.Component
 
 @Component
-class EmailAdapter(
+class MailAdapter(
 	private val mailSender: JavaMailSender,
 	@Value("\${client.verify-url}")
 	private val verifyUrl: String,

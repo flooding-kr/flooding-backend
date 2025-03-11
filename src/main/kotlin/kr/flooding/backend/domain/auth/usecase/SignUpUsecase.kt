@@ -10,7 +10,7 @@ import kr.flooding.backend.domain.user.repository.UserRepository
 import kr.flooding.backend.global.exception.ExceptionEnum
 import kr.flooding.backend.global.exception.HttpException
 import kr.flooding.backend.global.exception.toPair
-import kr.flooding.backend.global.thirdparty.email.EmailAdapter
+import kr.flooding.backend.global.thirdparty.mail.MailAdapter
 import kr.flooding.backend.global.util.PasswordUtil
 import kr.flooding.backend.global.util.StudentUtil.Companion.calcGradeToYear
 import org.springframework.security.crypto.password.PasswordEncoder
@@ -22,7 +22,7 @@ class SignUpUsecase(
 	private val userRepository: UserRepository,
 	private val verifyCodeRepository: VerifyCodeRepository,
 	private val passwordEncoder: PasswordEncoder,
-	private val emailAdapter: EmailAdapter,
+	private val mailAdapter: MailAdapter,
 	private val passwordUtil: PasswordUtil,
 ) {
 	@Transactional
@@ -66,7 +66,7 @@ class SignUpUsecase(
 		requireNotNull(id) { "id cannot be null" }
 
 		val randomVerifyCode = passwordUtil.generateRandomCode(6)
-		emailAdapter.sendVerifyCode(request.email, randomVerifyCode)
+		mailAdapter.sendVerifyCode(request.email, randomVerifyCode)
 
 		val verifyCode =
 			VerifyCode(
