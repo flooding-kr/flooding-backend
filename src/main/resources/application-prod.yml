@@ -46,7 +46,6 @@ spring:
             enable: true
             required: true
           auth: true
-    port: 587
     host: ${MAIL_HOST}
     username: ${MAIL_USERNAME}
     password: ${MAIL_PASSWORD}

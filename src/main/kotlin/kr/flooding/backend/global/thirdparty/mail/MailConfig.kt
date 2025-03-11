@@ -23,7 +23,6 @@ class MailConfig(
 		javaMailSender.username = username
 		javaMailSender.password = password
 
-		javaMailSender.port = 587
 		javaMailSender.javaMailProperties = getMailProperties()
 
 		return javaMailSender
