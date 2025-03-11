@@ -46,7 +46,7 @@ spring:
             enable: true
             required: true
           auth: true
-    port: ${MAIL_PORT}
+    port: 587
     host: ${MAIL_HOST}
     username: ${MAIL_USERNAME}
     password: ${MAIL_PASSWORD}
@@ -70,3 +70,9 @@ cloudflare:
 client:
     verify-url: "http://localhost:3000/signup/auth/verify"
     reset-password-url: "http://localhost:3000/auth/reset-password"
+
+logging:
+    level:
+      kr:
+        flooding:
+            backend: debug
