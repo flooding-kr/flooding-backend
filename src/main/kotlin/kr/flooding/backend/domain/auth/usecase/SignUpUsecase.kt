@@ -66,7 +66,12 @@ class SignUpUsecase(
 		requireNotNull(id) { "id cannot be null" }
 
 		val randomVerifyCode = passwordUtil.generateRandomCode(6)
-		mailAdapter.sendVerifyCode(request.email, randomVerifyCode)
+
+		try {
+			mailAdapter.sendVerifyCode(request.email, randomVerifyCode)
+		} catch (e: Exception) {
+			println(e.message)
+		}
 
 		val verifyCode =
 			VerifyCode(
@@ -74,5 +79,7 @@ class SignUpUsecase(
 				code = randomVerifyCode,
 			)
 		verifyCodeRepository.save(verifyCode)
+
+		println(verifyCode.toString())
 	}
 }
