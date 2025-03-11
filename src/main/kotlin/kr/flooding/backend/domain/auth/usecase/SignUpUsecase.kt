@@ -13,6 +13,7 @@ import kr.flooding.backend.global.exception.toPair
 import kr.flooding.backend.global.thirdparty.mail.MailAdapter
 import kr.flooding.backend.global.util.PasswordUtil
 import kr.flooding.backend.global.util.StudentUtil.Companion.calcGradeToYear
+import org.slf4j.LoggerFactory
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -25,6 +26,8 @@ class SignUpUsecase(
 	private val mailAdapter: MailAdapter,
 	private val passwordUtil: PasswordUtil,
 ) {
+	private val logger = LoggerFactory.getLogger(SignUpUsecase::class.java)
+
 	@Transactional
 	fun execute(request: SignUpRequest) {
 		val encodedPassword = passwordEncoder.encode(request.password)
@@ -70,7 +73,7 @@ class SignUpUsecase(
 		try {
 			mailAdapter.sendVerifyCode(request.email, randomVerifyCode)
 		} catch (e: Exception) {
-			println(e.message)
+			logger.info(e.message)
 		}
 
 		val verifyCode =
@@ -80,6 +83,6 @@ class SignUpUsecase(
 			)
 		verifyCodeRepository.save(verifyCode)
 
-		println(verifyCode.toString())
+		logger.info(verifyCode.toString())
 	}
 }
