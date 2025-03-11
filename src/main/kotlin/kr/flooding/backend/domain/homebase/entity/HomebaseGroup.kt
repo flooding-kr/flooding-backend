@@ -25,7 +25,7 @@ data class HomebaseGroup(
 
 	val period: Int,
 
-	@ManyToOne(cascade = [CascadeType.ALL])
+	@ManyToOne
 	val proposer: User,
 
 	@OneToMany(mappedBy = "homebaseGroup", cascade = [CascadeType.ALL], orphanRemoval = true)
