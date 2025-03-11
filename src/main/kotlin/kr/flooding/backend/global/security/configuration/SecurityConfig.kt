@@ -1,7 +1,6 @@
-package kr.flooding.backend.global.config
+package kr.flooding.backend.global.security.configuration
 
 import kr.flooding.backend.domain.user.entity.Role
-import kr.flooding.backend.global.security.filter.ExceptionFilter
 import kr.flooding.backend.global.security.filter.JwtFilter
 import kr.flooding.backend.global.security.jwt.JwtProvider
 import org.springframework.context.annotation.Bean
