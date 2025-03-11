@@ -13,6 +13,7 @@ import kr.flooding.backend.global.exception.toPair
 import kr.flooding.backend.global.thirdparty.mail.MailAdapter
 import kr.flooding.backend.global.util.PasswordUtil
 import kr.flooding.backend.global.util.StudentUtil.Companion.calcGradeToYear
+import org.springframework.http.HttpStatus
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -67,7 +68,11 @@ class SignUpUsecase(
 
 		val randomVerifyCode = passwordUtil.generateRandomCode(6)
 
-		mailAdapter.sendVerifyCode(request.email, randomVerifyCode)
+		try {
+			mailAdapter.sendVerifyCode(request.email, randomVerifyCode)
+		} catch (e: Exception) {
+			throw HttpException(Pair(HttpStatus.INTERNAL_SERVER_ERROR, e.stackTraceToString()))
+		}
 
 		val verifyCode =
 			VerifyCode(
