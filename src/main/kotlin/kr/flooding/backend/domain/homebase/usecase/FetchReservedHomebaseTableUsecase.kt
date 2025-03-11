@@ -18,16 +18,17 @@ class FetchReservedHomebaseTableUsecase(
 ) {
 	fun execute(request: FetchReservedHomebaseTableRequest): List<FetchReservedHomebaseResponse> {
 		val homebaseGroupList =
-			homebaseGroupRepository.findByPeriodAndHomebaseTableHomebaseFloorAndAttendedAt(
+			homebaseGroupRepository.findWithParticipantsAndProposerByPeriodAndHomebaseTableHomebaseFloorAndAttendedAt(
 				request.period,
 				request.floor,
 				LocalDate.now(),
 			)
-		val homebaseTableList = homebaseTableRepository.findByHomebaseFloor(request.floor)
+		val homebaseTableList = homebaseTableRepository.findWithHomebaseByFloor(request.floor)
+		val currentUser = userUtil.getUser()
 
 		return homebaseTableList.map { homebaseTable ->
 			val currentHomebaseGroup = homebaseGroupList.find { homebaseTable == it.homebaseTable }
-			FetchReservedHomebaseResponse.toDto(homebaseTable, currentHomebaseGroup, userUtil.getUser())
+			FetchReservedHomebaseResponse.toDto(homebaseTable, currentHomebaseGroup, currentUser)
 		}
 	}
 }

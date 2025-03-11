@@ -10,6 +10,7 @@ import jakarta.persistence.OneToMany
 import kr.flooding.backend.domain.classroom.entity.HomebaseTable
 import kr.flooding.backend.domain.homebaseParticipants.entity.HomebaseParticipant
 import kr.flooding.backend.domain.user.entity.User
+import org.hibernate.annotations.BatchSize
 import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.UuidGenerator
 import java.time.LocalDate
@@ -29,6 +30,7 @@ data class HomebaseGroup(
 	@ManyToOne(fetch = FetchType.LAZY)
 	val proposer: User,
 
+	@BatchSize(size = 100)
 	@OneToMany(mappedBy = "homebaseGroup", cascade = [CascadeType.ALL], orphanRemoval = true)
 	val participants: MutableList<HomebaseParticipant> = mutableListOf(),
 
