@@ -4,8 +4,8 @@ import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.Id
 import jakarta.persistence.ManyToOne
-import kr.flooding.backend.domain.classroom.entity.Classroom
 import kr.flooding.backend.domain.classroom.entity.HomebaseTable
+import kr.flooding.backend.domain.club.entity.Club
 import kr.flooding.backend.domain.user.entity.User
 import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.UuidGenerator
@@ -19,9 +19,6 @@ data class Attendance(
 	val id: UUID? = null,
 
 	@ManyToOne
-	val classroom: Classroom? = null,
-
-	@ManyToOne
 	val homebaseTable: HomebaseTable? = null,
 
 	@ManyToOne
@@ -32,4 +29,13 @@ data class Attendance(
 	@CreationTimestamp
 	@Column(nullable = false)
 	val attendedAt: LocalDate? = null,
+
+	@ManyToOne
+	val club: Club? = null,
+
+	var reason: String? = null,
+
+	@Column(nullable = false)
+	var isPresent: Boolean = true,
+
 )
