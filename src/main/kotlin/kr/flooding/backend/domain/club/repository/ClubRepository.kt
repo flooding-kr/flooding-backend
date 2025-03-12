@@ -5,6 +5,7 @@ import kr.flooding.backend.domain.club.entity.ClubType
 import kr.flooding.backend.domain.user.entity.User
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
+import java.util.Optional
 import java.util.UUID
 
 interface ClubRepository : JpaRepository<Club, UUID> {
@@ -24,4 +25,15 @@ interface ClubRepository : JpaRepository<Club, UUID> {
 	""",
 	)
 	fun findWithLeaderByType(type: ClubType): List<Club>
+
+	@Query(
+		"""
+			SELECT c
+			FROM Club c
+			JOIN FETCH c.classroom
+			JOIN FETCH c.classroom.teacher
+			WHERE c.id = :id
+	""",
+	)
+	fun findWithClassroomWithTeacherById(id: UUID): Optional<Club>
 }
