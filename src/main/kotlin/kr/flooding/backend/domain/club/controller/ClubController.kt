@@ -1,13 +1,22 @@
 package kr.flooding.backend.domain.club.controller
 
 import jakarta.validation.Valid
+import jdk.jshell.execution.Util
+import kr.flooding.backend.domain.club.dto.request.AbsenceClubLeaderRequest
+import kr.flooding.backend.domain.club.dto.request.AbsenceClubRequest
 import kr.flooding.backend.domain.club.dto.request.ApplyClubRequest
+import kr.flooding.backend.domain.club.dto.request.AttendClubLeaderRequest
+import kr.flooding.backend.domain.club.dto.request.AttendClubRequest
 import kr.flooding.backend.domain.club.dto.request.CreateClubRequest
 import kr.flooding.backend.domain.club.dto.request.UpdateClubRequest
 import kr.flooding.backend.domain.club.dto.response.FetchClubFilterResponse
 import kr.flooding.backend.domain.club.dto.response.FetchClubResponse
 import kr.flooding.backend.domain.club.entity.ClubType
+import kr.flooding.backend.domain.club.usecase.AbsenceClubLeaderUsecase
+import kr.flooding.backend.domain.club.usecase.AbsenceClubMyselfUsecase
 import kr.flooding.backend.domain.club.usecase.ApplyClubUsecase
+import kr.flooding.backend.domain.club.usecase.AttendClubLeaderUsecase
+import kr.flooding.backend.domain.club.usecase.AttendClubMyselfUsecase
 import kr.flooding.backend.domain.club.usecase.CloseClubUsecase
 import kr.flooding.backend.domain.club.usecase.CreateClubUsecase
 import kr.flooding.backend.domain.club.usecase.FetchClubFilterUsecase
@@ -44,6 +53,10 @@ class ClubController(
 	private val withdrawClubUsecase: WithdrawClubUsecase,
 	private val inviteClubMemberUsecase: InviteClubMemberUsecase,
 	private val fetchClubUsecase: FetchClubUsecase,
+	private val attendClubMyselfUsecase: AttendClubMyselfUsecase,
+	private val absenceClubMyselfUsecase: AbsenceClubMyselfUsecase,
+	private val attendClubLeaderUsecase: AttendClubLeaderUsecase,
+	private val absenceClubLeaderUsecase: AbsenceClubLeaderUsecase,
 ) {
 	@PostMapping
 	fun createClub(
@@ -134,5 +147,37 @@ class ClubController(
 	): ResponseEntity<FetchClubResponse> =
 		fetchClubUsecase.execute(clubId).run {
 			ResponseEntity.ok(this)
+		}
+
+	@PostMapping("attend")
+	fun attendanceClub(
+		@Valid @RequestBody attendClubRequest: AttendClubRequest,
+	): ResponseEntity<Util> =
+		attendClubMyselfUsecase.execute(attendClubRequest).run {
+			ResponseEntity.ok().build()
+		}
+
+	@PostMapping("absence")
+	fun absenceClub(
+		@Valid @RequestBody absenceClubRequest: AbsenceClubRequest,
+	): ResponseEntity<Util> =
+		absenceClubMyselfUsecase.execute(absenceClubRequest).run {
+			ResponseEntity.ok().build()
+		}
+
+	@PostMapping("leader/attend")
+	fun attendanceClubLeader(
+		@Valid @RequestBody attendClubLeaderRequest: AttendClubLeaderRequest,
+	): ResponseEntity<Util> =
+		attendClubLeaderUsecase.execute(attendClubLeaderRequest).run {
+			ResponseEntity.ok().build()
+		}
+
+	@PostMapping("leader/absence")
+	fun absenceClubLeader(
+		@Valid @RequestBody absenceClubLeaderRequest: AbsenceClubLeaderRequest,
+	): ResponseEntity<Util> =
+		absenceClubLeaderUsecase.execute(absenceClubLeaderRequest).run {
+			ResponseEntity.ok().build()
 		}
 }

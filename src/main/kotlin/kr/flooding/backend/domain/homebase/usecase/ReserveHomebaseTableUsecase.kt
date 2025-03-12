@@ -62,7 +62,6 @@ class ReserveHomebaseTableUsecase(
 		val currentUserAttendance =
 			Attendance(
 				homebaseTable = homebaseTable,
-				classroom = homebaseTable.homebase,
 				period = request.period,
 				student = currentUser,
 			)
@@ -72,7 +71,6 @@ class ReserveHomebaseTableUsecase(
 				.map {
 					Attendance(
 						homebaseTable = homebaseTable,
-						classroom = homebaseTable.homebase,
 						period = request.period,
 						student = it,
 					)
