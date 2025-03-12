@@ -1,7 +1,7 @@
 package kr.flooding.backend.domain.club.entity
 
 import jakarta.persistence.Column
-import jakarta.persistence.Convert
+import jakarta.persistence.ElementCollection
 import jakarta.persistence.Entity
 import jakarta.persistence.EnumType
 import jakarta.persistence.Enumerated
@@ -10,7 +10,6 @@ import jakarta.persistence.Id
 import jakarta.persistence.ManyToOne
 import kr.flooding.backend.domain.classroom.entity.Classroom
 import kr.flooding.backend.domain.user.entity.User
-import kr.flooding.backend.global.converter.StringListConverter
 import org.hibernate.annotations.OnDelete
 import org.hibernate.annotations.OnDeleteAction
 import org.hibernate.annotations.UuidGenerator
@@ -34,7 +33,7 @@ data class Club(
 
 	val thumbnailImageUrl: String? = null,
 
-	@Convert(converter = StringListConverter::class)
+	@ElementCollection
 	val activityImageUrls: List<String> = listOf(),
 
 	@Column(nullable = false)
