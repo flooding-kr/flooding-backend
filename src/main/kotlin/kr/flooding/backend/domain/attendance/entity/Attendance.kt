@@ -2,6 +2,7 @@ package kr.flooding.backend.domain.attendance.entity
 
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
+import jakarta.persistence.FetchType
 import jakarta.persistence.Id
 import jakarta.persistence.ManyToOne
 import kr.flooding.backend.domain.classroom.entity.Classroom
@@ -18,13 +19,13 @@ data class Attendance(
 	@UuidGenerator(style = UuidGenerator.Style.RANDOM)
 	val id: UUID? = null,
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	val classroom: Classroom? = null,
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	val homebaseTable: HomebaseTable? = null,
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	val student: User,
 
 	val period: Int,

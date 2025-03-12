@@ -15,10 +15,15 @@ class FetchMyReservedHomebaseUsecase(
 	private val homebaseParticipantRepository: HomebaseParticipantRepository,
 	private val userUtil: UserUtil,
 ) {
-	fun execute(): List<FetchMyReservedHomebaseResponse> =
-		homebaseGroupRepository
-			.findByProposerOrParticipantsAndAttendedAt(userUtil.getUser(), LocalDate.now())
+	fun execute(): List<FetchMyReservedHomebaseResponse> {
+		val currentUser = userUtil.getUser()
+		return homebaseGroupRepository
+			.findWithHomebaseTableWithHomebaseAndProposerByProposerOrParticipantsAndAttendedAt(
+				currentUser,
+				LocalDate.now(),
+			)
 			.map {
-				FetchMyReservedHomebaseResponse.toDto(it, userUtil.getUser())
+				FetchMyReservedHomebaseResponse.toDto(it, currentUser)
 			}
+	}
 }
