@@ -1,4 +1,4 @@
-package kr.flooding.backend.global.config
+package kr.flooding.backend.global.jackson.configuration
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer

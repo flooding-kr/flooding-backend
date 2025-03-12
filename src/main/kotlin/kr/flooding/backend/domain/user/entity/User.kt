@@ -8,7 +8,7 @@ import jakarta.persistence.EnumType
 import jakarta.persistence.Enumerated
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.Id
-import kr.flooding.backend.global.converter.StringListConverter
+import kr.flooding.backend.global.database.converter.StringListConverter
 import org.hibernate.annotations.UuidGenerator
 import java.util.UUID
 

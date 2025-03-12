@@ -9,7 +9,7 @@ import jakarta.persistence.Id
 import jakarta.persistence.ManyToOne
 import kr.flooding.backend.domain.classroom.entity.Classroom
 import kr.flooding.backend.domain.user.entity.User
-import kr.flooding.backend.global.converter.StringListConverter
+import kr.flooding.backend.global.database.converter.StringListConverter
 import org.hibernate.annotations.OnDelete
 import org.hibernate.annotations.OnDeleteAction
 import org.hibernate.annotations.UuidGenerator

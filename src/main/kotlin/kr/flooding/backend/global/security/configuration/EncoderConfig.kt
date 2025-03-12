@@ -1,4 +1,4 @@
-package kr.flooding.backend.global.config
+package kr.flooding.backend.global.security.configuration
 
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
