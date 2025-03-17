@@ -20,7 +20,7 @@ interface ClubRepository : JpaRepository<Club, UUID> {
 		"""
 			SELECT c
 			FROM Club c
-			JOIN FETCH c.leader
+			LEFT JOIN FETCH c.leader
 			WHERE c.type = :type
 	""",
 	)
@@ -30,8 +30,8 @@ interface ClubRepository : JpaRepository<Club, UUID> {
 		"""
 			SELECT c
 			FROM Club c
-			JOIN FETCH c.classroom
-			JOIN FETCH c.classroom.teacher
+			LEFT JOIN FETCH c.classroom
+			LEFT JOIN FETCH c.classroom.teacher
 			WHERE c.id = :id
 	""",
 	)
