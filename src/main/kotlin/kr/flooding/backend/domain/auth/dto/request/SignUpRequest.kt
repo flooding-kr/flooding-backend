@@ -4,7 +4,7 @@ import jakarta.validation.constraints.Max
 import jakarta.validation.constraints.Min
 import jakarta.validation.constraints.Pattern
 import jakarta.validation.constraints.Positive
-import kr.flooding.backend.domain.user.entity.Gender
+import kr.flooding.backend.domain.user.enums.Gender
 
 data class SignUpRequest(
 	@field:Pattern(regexp = "^[a-zA-Z0-9._%+-]{1,64}@gsm.hs.kr$", message = "gsm.hs.kr 도메인의 이메일이어야 합니다.")

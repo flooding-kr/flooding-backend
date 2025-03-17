@@ -4,6 +4,7 @@ import kr.flooding.backend.domain.auth.dto.request.SignInRequest
 import kr.flooding.backend.domain.auth.dto.response.SignInResponse
 import kr.flooding.backend.domain.auth.entity.RefreshToken
 import kr.flooding.backend.domain.auth.repository.RefreshTokenRepository
+import kr.flooding.backend.domain.user.enums.UserState
 import kr.flooding.backend.domain.user.repository.UserRepository
 import kr.flooding.backend.global.exception.ExceptionEnum
 import kr.flooding.backend.global.exception.HttpException
@@ -33,8 +34,12 @@ class SignInUsecase(
 				HttpException(ExceptionEnum.USER.NOT_FOUND_USER.toPair())
 			}
 
-		if (!user.isVerified) {
+		if (!user.emailVerifyStatus) {
 			throw HttpException(ExceptionEnum.AUTH.NOT_VERIFIED_EMAIL.toPair())
+		}
+
+		if (user.userState != UserState.APPROVED) {
+			throw HttpException(ExceptionEnum.AUTH.NOT_APPROVED_USER.toPair())
 		}
 
 		val id = user.id

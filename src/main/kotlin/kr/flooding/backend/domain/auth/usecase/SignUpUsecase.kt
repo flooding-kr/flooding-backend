@@ -3,9 +3,10 @@ package kr.flooding.backend.domain.auth.usecase
 import kr.flooding.backend.domain.auth.dto.request.SignUpRequest
 import kr.flooding.backend.domain.auth.entity.VerifyCode
 import kr.flooding.backend.domain.auth.repository.VerifyCodeRepository
-import kr.flooding.backend.domain.user.entity.Role
 import kr.flooding.backend.domain.user.entity.StudentInfo
 import kr.flooding.backend.domain.user.entity.User
+import kr.flooding.backend.domain.user.enums.Role
+import kr.flooding.backend.domain.user.enums.UserState
 import kr.flooding.backend.domain.user.repository.UserRepository
 import kr.flooding.backend.global.exception.ExceptionEnum
 import kr.flooding.backend.global.exception.HttpException
@@ -56,7 +57,8 @@ class SignUpUsecase(
 					encodedPassword = encodedPassword,
 					studentInfo = studentInfo,
 					roles = mutableListOf(Role.ROLE_USER),
-					isVerified = false,
+					emailVerifyStatus = false,
+					userState = UserState.PENDING,
 					gender = request.gender,
 					name = request.name,
 				),

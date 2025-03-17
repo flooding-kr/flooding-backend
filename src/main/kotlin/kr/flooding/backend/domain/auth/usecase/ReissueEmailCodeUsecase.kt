@@ -26,7 +26,7 @@ class ReissueEmailCodeUsecase(
 			}
 		val id = requireNotNull(userByEmail.id)
 
-		if (userByEmail.isVerified) {
+		if (userByEmail.emailVerifyStatus) {
 			throw HttpException(ExceptionEnum.AUTH.ALREADY_VERIFY_EMAIL.toPair())
 		}
 
