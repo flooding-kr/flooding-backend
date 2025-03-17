@@ -2,31 +2,33 @@ package kr.flooding.backend.domain.homebase.dto.response
 
 import kr.flooding.backend.domain.homebase.entity.HomebaseGroup
 import kr.flooding.backend.domain.user.entity.User
-import java.time.LocalDate
 import java.util.UUID
 
 class FetchMyReservedHomebaseResponse(
 	val homebaseGroupId: UUID?,
 	val homebaseTable: HomebaseTableResponse,
-	val attendedAt: LocalDate?,
+	val period: Int,
 	val isProposer: Boolean,
-	val participants: List<kr.flooding.backend.domain.homebase.dto.response.AttendanceResponse>,
+	val participants: List<HomebaseParticipantResponse>,
 ) {
 	companion object {
 		fun toDto(
 			homebaseGroup: HomebaseGroup,
 			currentUser: User,
-		): FetchMyReservedHomebaseResponse =
-			FetchMyReservedHomebaseResponse(
+		): FetchMyReservedHomebaseResponse {
+			val proposerAsHomebaseParticipant = HomebaseParticipantResponse.fromUser(homebaseGroup.proposer)
+
+			return FetchMyReservedHomebaseResponse(
 				homebaseGroupId = homebaseGroup.id,
 				homebaseTable = HomebaseTableResponse.toDto(homebaseGroup.homebaseTable),
-				attendedAt = homebaseGroup.attendedAt,
+				period = homebaseGroup.period,
 				participants =
-					homebaseGroup.participants.map {
-						kr.flooding.backend.domain.homebase.dto.response.AttendanceResponse
-							.toDto(it)
-					},
-				isProposer = homebaseGroup.proposer.student == currentUser,
+					listOf(proposerAsHomebaseParticipant) +
+						homebaseGroup.participants.map {
+							HomebaseParticipantResponse.toDto(it)
+						},
+				isProposer = homebaseGroup.proposer == currentUser,
 			)
+		}
 	}
 }

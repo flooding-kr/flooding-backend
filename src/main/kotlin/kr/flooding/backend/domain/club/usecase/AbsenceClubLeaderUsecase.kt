@@ -51,7 +51,6 @@ class AbsenceClubLeaderUsecase(
 				.findByStudentAndClubAndPeriodAndAttendedAt(currentUser, club, request.period, nowDate)
 				.map { it.copy(isPresent = false, reason = request.reason) }
 				.orElse(
-
 					Attendance(
 						student = currentUser,
 						period = request.period,

@@ -7,6 +7,8 @@ import kr.flooding.backend.domain.classroom.repository.HomebaseTableRepository
 import kr.flooding.backend.domain.homebase.dto.request.ReserveHomebaseTableRequest
 import kr.flooding.backend.domain.homebase.entity.HomebaseGroup
 import kr.flooding.backend.domain.homebase.repository.HomebaseGroupRepository
+import kr.flooding.backend.domain.homebaseParticipants.entity.HomebaseParticipant
+import kr.flooding.backend.domain.homebaseParticipants.repository.HomebaseParticipantRepository
 import kr.flooding.backend.domain.user.repository.UserRepository
 import kr.flooding.backend.global.exception.ExceptionEnum
 import kr.flooding.backend.global.exception.HttpException
@@ -21,6 +23,7 @@ class ReserveHomebaseTableUsecase(
 	private val attendanceRepository: AttendanceRepository,
 	private val homebaseGroupRepository: HomebaseGroupRepository,
 	private val homebaseTableRepository: HomebaseTableRepository,
+	private val homebaseParticipantRepository: HomebaseParticipantRepository,
 	private val userRepository: UserRepository,
 	private val userUtil: UserUtil,
 ) {
@@ -28,6 +31,12 @@ class ReserveHomebaseTableUsecase(
 		val currentUser = userUtil.getUser()
 		val participants = userRepository.findByIdIn(request.participants)
 		val nowDate = LocalDate.now()
+
+		request.participants
+			.takeIf { it.contains(currentUser.id) }
+			?.let {
+				throw HttpException(ExceptionEnum.CLASSROOM.PROPOSER_CANNOT_BE_PARTICIPANT.toPair())
+			}
 
 		val homebaseTable =
 			homebaseTableRepository
@@ -49,10 +58,11 @@ class ReserveHomebaseTableUsecase(
 
 		// 이미 자리가 예약된 참여자 여부
 		val allUsers = participants + currentUser
-		attendanceRepository
-			.existsByAttendedAtAndPeriodAndStudentIn(
+		homebaseParticipantRepository
+			.existsByHomebaseGroupAttendedAtAndHomebaseGroupPeriodAndHomebaseGroupProposerInAndUserIn(
 				nowDate,
 				request.period,
+				allUsers,
 				allUsers,
 			).takeIf { it }
 			?.let {
@@ -81,10 +91,18 @@ class ReserveHomebaseTableUsecase(
 			HomebaseGroup(
 				homebaseTable = homebaseTable,
 				period = request.period,
-				participants = participantAttendances,
-				proposer = currentUserAttendance,
+				proposer = currentUser,
 			)
 
+		val homebaseParticipants =
+			participants.map {
+				HomebaseParticipant(
+					user = it,
+					homebaseGroup = homebaseGroup,
+				)
+			}
+
+		homebaseParticipantRepository.saveAll(homebaseParticipants)
 		attendanceRepository.saveAll(allAttendances)
 		homebaseGroupRepository.save(homebaseGroup)
 	}

@@ -76,6 +76,7 @@ sealed interface ExceptionEnum {
 		EXISTS_USED_TABLE(HttpStatus.BAD_REQUEST, "이미 사용중인 자리입니다."),
 		NOT_FOUND_ATTENDANCE(HttpStatus.BAD_REQUEST, "출결 기록을 찾을 수 없습니다."),
 		NOT_FOUND_GROUP(HttpStatus.NOT_FOUND, "홈베이스 그룹이 없습니다."),
+		PROPOSER_CANNOT_BE_PARTICIPANT(HttpStatus.BAD_REQUEST, "신청자가 참가자에 포함될 수 없습니다."),
 	}
 }
 

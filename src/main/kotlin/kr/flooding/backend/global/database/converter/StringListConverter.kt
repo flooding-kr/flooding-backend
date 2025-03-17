@@ -1,4 +1,4 @@
-package kr.flooding.backend.global.converter
+package kr.flooding.backend.global.database.converter
 
 import jakarta.persistence.AttributeConverter
 import jakarta.persistence.Converter
