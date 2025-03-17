@@ -40,12 +40,15 @@ class HomebaseController(
 		@RequestParam floor: Int,
 		@RequestParam period: Int,
 	): ResponseEntity<List<FetchReservedHomebaseResponse>> =
-		fetchReservedHomebaseTableUsecase.execute(FetchReservedHomebaseTableRequest(
-			floor = floor,
-			period = period,
-		)).run {
-			ResponseEntity.ok(this)
-		}
+		fetchReservedHomebaseTableUsecase
+			.execute(
+				FetchReservedHomebaseTableRequest(
+					floor = floor,
+					period = period,
+				),
+			).run {
+				ResponseEntity.ok(this)
+			}
 
 	@GetMapping("myself")
 	fun findMyReservedHomebaseTable(): ResponseEntity<List<FetchMyReservedHomebaseResponse>> =
