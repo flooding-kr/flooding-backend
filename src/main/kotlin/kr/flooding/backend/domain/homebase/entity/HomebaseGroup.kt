@@ -12,6 +12,8 @@ import kr.flooding.backend.domain.homebaseTable.entity.HomebaseTable
 import kr.flooding.backend.domain.user.entity.User
 import org.hibernate.annotations.BatchSize
 import org.hibernate.annotations.CreationTimestamp
+import org.hibernate.annotations.OnDelete
+import org.hibernate.annotations.OnDeleteAction
 import org.hibernate.annotations.UuidGenerator
 import java.time.LocalDate
 import java.util.UUID
@@ -23,11 +25,13 @@ data class HomebaseGroup(
 	val id: UUID? = null,
 
 	@ManyToOne(fetch = FetchType.LAZY)
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	val homebaseTable: HomebaseTable,
 
 	val period: Int,
 
 	@ManyToOne(fetch = FetchType.LAZY)
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	val proposer: User,
 
 	@BatchSize(size = 100)
