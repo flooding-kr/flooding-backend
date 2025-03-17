@@ -7,9 +7,12 @@ import jakarta.validation.constraints.Positive
 import kr.flooding.backend.domain.user.entity.Gender
 
 data class SignUpRequest(
-	@Pattern(regexp = "^[a-zA-Z0-9]{1,64}@gsm\\.hs\\.kr\$\n", message = "gsm.hs.kr 도메인의 이메일이어야 합니다.")
+	@field:Pattern(regexp = "^[a-zA-Z0-9._%+-]{1,64}@gsm.hs.kr$", message = "gsm.hs.kr 도메인의 이메일이어야 합니다.")
 	val email: String,
-	@Pattern(regexp = "^(?=.*[a-zA-Z])(?=.*\\d)(?=.*[\\W_]).{8,}\$\n", message = "특수문자, 영문과 숫자를 포함한 8자리 이상의 비밀번호를 만들어주세요.")
+	@field:Pattern(
+		regexp = "^(?=.*[a-zA-Z])(?=.*\\d)(?=.*[\\W_]).{8,}$",
+		message = "특수문자, 영문과 숫자를 포함한 8자리 이상의 비밀번호를 만들어주세요.",
+	)
 	val password: String,
 	@field:Min(1)
 	@field:Max(4)

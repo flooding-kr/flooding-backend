@@ -4,6 +4,7 @@ import kr.flooding.backend.global.exception.HttpException
 import kr.flooding.backend.global.exception.dto.HttpExceptionResponse
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestControllerAdvice
 
@@ -18,6 +19,14 @@ class ExceptionHandler {
 	@ExceptionHandler(RuntimeException::class)
 	fun runtimeException(exception: RuntimeException): ResponseEntity<HttpExceptionResponse> {
 		val response = HttpExceptionResponse(HttpStatus.INTERNAL_SERVER_ERROR, exception.message ?: "")
+		return ResponseEntity.status(response.status).body(response)
+	}
+
+	@ExceptionHandler(MethodArgumentNotValidException::class)
+	fun methodArgumentNotValidException(
+		exception: MethodArgumentNotValidException,
+	): ResponseEntity<HttpExceptionResponse> {
+		val response = HttpExceptionResponse(HttpStatus.BAD_REQUEST, exception.fieldError?.defaultMessage ?: "")
 		return ResponseEntity.status(response.status).body(response)
 	}
 }
