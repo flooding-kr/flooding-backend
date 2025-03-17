@@ -64,6 +64,11 @@ dependencies {
 	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.5")
 	implementation("org.springdoc:springdoc-openapi-starter-webmvc-api:2.8.5")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+
+	// Kotlin JDSL
+	implementation("com.linecorp.kotlin-jdsl:jpql-dsl:3.5.5")
+	implementation("com.linecorp.kotlin-jdsl:jpql-render:3.5.5")
+	implementation("com.linecorp.kotlin-jdsl:spring-data-jpa-support:3.5.5")
 }
 
 kotlin {

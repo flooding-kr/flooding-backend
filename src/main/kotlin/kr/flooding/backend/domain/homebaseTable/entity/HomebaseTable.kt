@@ -1,4 +1,4 @@
-package kr.flooding.backend.domain.classroom.entity
+package kr.flooding.backend.domain.homebaseTable.entity
 
 import jakarta.persistence.Entity
 import jakarta.persistence.FetchType
@@ -6,6 +6,7 @@ import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 import jakarta.persistence.ManyToOne
+import kr.flooding.backend.domain.classroom.entity.Classroom
 import org.hibernate.annotations.OnDelete
 import org.hibernate.annotations.OnDeleteAction
 

@@ -7,8 +7,8 @@ import jakarta.persistence.FetchType
 import jakarta.persistence.Id
 import jakarta.persistence.ManyToOne
 import jakarta.persistence.OneToMany
-import kr.flooding.backend.domain.classroom.entity.HomebaseTable
 import kr.flooding.backend.domain.homebaseParticipants.entity.HomebaseParticipant
+import kr.flooding.backend.domain.homebaseTable.entity.HomebaseTable
 import kr.flooding.backend.domain.user.entity.User
 import org.hibernate.annotations.BatchSize
 import org.hibernate.annotations.CreationTimestamp
