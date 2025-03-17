@@ -1,6 +1,5 @@
-package kr.flooding.backend.domain.homebase.repository
+package kr.flooding.backend.domain.homebase.repository.jdsl
 
-import kr.flooding.backend.domain.classroom.entity.HomebaseTable
 import kr.flooding.backend.domain.homebase.entity.HomebaseGroup
 import kr.flooding.backend.domain.user.entity.User
 import org.springframework.data.jpa.repository.JpaRepository
@@ -8,18 +7,7 @@ import org.springframework.data.jpa.repository.Query
 import java.time.LocalDate
 import java.util.UUID
 
-interface HomebaseGroupRepository : JpaRepository<HomebaseGroup, UUID> {
-	fun findByAttendedAtAndProposer(
-		attendedAt: LocalDate,
-		proposer: User,
-	): HomebaseGroup
-
-	fun existsByHomebaseTableAndPeriodAndAttendedAt(
-		homebaseTable: HomebaseTable,
-		period: Int,
-		attendedAt: LocalDate,
-	): Boolean
-
+interface HomebaseGroupJdslRepository : JpaRepository<HomebaseGroup, UUID> {
 	@Query(
 		"""
 			SELECT hg
@@ -40,7 +28,7 @@ interface HomebaseGroupRepository : JpaRepository<HomebaseGroup, UUID> {
 	@Query(
 		"""
 			SELECT hg
-			FROM HomebaseGroup hg 
+			FROM HomebaseGroup hg
 			JOIN FETCH hg.proposer
 			WHERE hg.period = :period
 			AND hg.homebaseTable.homebase.floor = :floor
