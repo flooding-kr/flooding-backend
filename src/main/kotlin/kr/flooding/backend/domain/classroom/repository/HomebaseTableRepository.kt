@@ -13,7 +13,7 @@ interface HomebaseTableRepository : JpaRepository<HomebaseTable, Long> {
 			JOIN FETCH t.homebase
 			WHERE t.tableNumber = :tableNumber
 			AND t.homebase.floor = :homebaseFloor
-		"""
+		""",
 	)
 	fun findWithHomebaseByTableNumberAndFloor(
 		tableNumber: Int,
