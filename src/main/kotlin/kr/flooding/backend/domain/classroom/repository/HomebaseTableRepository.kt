@@ -6,7 +6,16 @@ import org.springframework.data.jpa.repository.Query
 import java.util.Optional
 
 interface HomebaseTableRepository : JpaRepository<HomebaseTable, Long> {
-	fun findByTableNumberAndHomebaseFloor(
+	@Query(
+		"""
+			SELECT t
+			FROM HomebaseTable t
+			JOIN FETCH t.homebase
+			WHERE t.tableNumber = :tableNumber
+			AND t.homebase.floor = :homebaseFloor
+		"""
+	)
+	fun findWithHomebaseByTableNumberAndFloor(
 		tableNumber: Int,
 		homebaseFloor: Int,
 	): Optional<HomebaseTable>

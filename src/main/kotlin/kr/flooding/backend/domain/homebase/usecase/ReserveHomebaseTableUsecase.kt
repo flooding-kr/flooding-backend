@@ -40,7 +40,7 @@ class ReserveHomebaseTableUsecase(
 
 		val homebaseTable =
 			homebaseTableRepository
-				.findByTableNumberAndHomebaseFloor(
+				.findWithHomebaseByTableNumberAndFloor(
 					request.tableNumber,
 					request.floor,
 				).orElseThrow { HttpException(ExceptionEnum.CLASSROOM.NOT_FOUND_TABLE.toPair()) }
