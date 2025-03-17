@@ -4,7 +4,7 @@ import java.util.UUID
 
 data class AbsenceClubLeaderRequest(
 	val clubId: UUID,
-	var reason: String,
+	val reason: String,
 	val period: Int,
 	val studentId: UUID,
 )

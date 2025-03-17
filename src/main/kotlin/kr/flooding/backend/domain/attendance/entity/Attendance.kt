@@ -33,9 +33,9 @@ data class Attendance(
 	@ManyToOne
 	val club: Club? = null,
 
-	var reason: String? = null,
+	val reason: String? = null,
 
 	@Column(nullable = false)
-	var isPresent: Boolean = true,
+	val isPresent: Boolean = true,
 
 )

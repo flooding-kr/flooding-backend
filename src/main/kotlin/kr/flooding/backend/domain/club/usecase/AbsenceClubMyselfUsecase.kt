@@ -36,28 +36,26 @@ class AbsenceClubMyselfUsecase(
 			throw HttpException(ExceptionEnum.CLUB.NOT_CLUB_MEMBER.toPair())
 		}
 
-		val equalAttendance =
-			attendanceRepository
-				.findByStudentAndClubAndPeriodAndAttendedAt(currentUser, club, request.period, nowDate)
-
-		if (equalAttendance.isPresent) {
-			val attendance = equalAttendance.get()
-			if (!attendance.isPresent) {
-				throw HttpException(ExceptionEnum.CLUB.NOT_CHANGED_ATTENDANCE_STATE.toPair())
-			}
-		}
-
 		if (request.reason.isBlank()) {
 			throw HttpException(ExceptionEnum.CLUB.MISSING_ABSENCE_REASON.toPair())
 		}
 
 		val attendance =
-			equalAttendance.orElse(
-				Attendance(student = currentUser, period = request.period, club = club, attendedAt = nowDate),
-			)
+			attendanceRepository
+				.findByStudentAndClubAndPeriodAndAttendedAt(currentUser, club, request.period, nowDate)
+				.map { it.copy(isPresent = false, reason = request.reason) }
+				.orElse(
 
-		attendance.isPresent = false
-		attendance.reason = request.reason
+					Attendance(
+						student = currentUser,
+						period = request.period,
+						club = club,
+						attendedAt = nowDate,
+						isPresent = false,
+						reason = request.reason,
+					),
+				)
+
 		attendanceRepository.save(attendance)
 	}
 }

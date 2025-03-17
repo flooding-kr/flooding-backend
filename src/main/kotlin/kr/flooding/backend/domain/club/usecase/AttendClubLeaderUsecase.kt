@@ -37,17 +37,6 @@ class AttendClubLeaderUsecase(
 			throw HttpException(ExceptionEnum.CLUB.NOT_CLUB_LEADER.toPair())
 		}
 
-		val equalAttendance =
-			attendanceRepository
-				.findByStudentAndClubAndPeriodAndAttendedAt(currentUser, club, request.period, nowDate)
-
-		if (equalAttendance.isPresent) {
-			val attendance = equalAttendance.get()
-			if (attendance.isPresent) {
-				throw HttpException(ExceptionEnum.CLUB.NOT_CHANGED_ATTENDANCE_STATE.toPair())
-			}
-		}
-
 		val student =
 			userRepository.findById(request.studentId).orElseThrow {
 				HttpException(ExceptionEnum.USER.NOT_FOUND_USER.toPair())
@@ -56,10 +45,18 @@ class AttendClubLeaderUsecase(
 		val attendance =
 			attendanceRepository
 				.findByStudentAndClubAndPeriodAndAttendedAt(student, club, request.period, nowDate)
-				.orElse(Attendance(student = student, period = request.period, club = club, attendedAt = nowDate))
+				.map { it.copy(isPresent = true, reason = null) }
+				.orElse(
+					Attendance(
+						student = student,
+						period = request.period,
+						club = club,
+						attendedAt = nowDate,
+						isPresent = true,
+						reason = null,
+					),
+				)
 
-		attendance.isPresent = true
-		attendance.reason = null
 		attendanceRepository.save(attendance)
 	}
 }

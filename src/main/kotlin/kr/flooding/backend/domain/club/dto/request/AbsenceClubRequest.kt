@@ -4,6 +4,6 @@ import java.util.UUID
 
 data class AbsenceClubRequest(
 	val clubId: UUID,
-	var reason: String,
+	val reason: String,
 	val period: Int,
 )
