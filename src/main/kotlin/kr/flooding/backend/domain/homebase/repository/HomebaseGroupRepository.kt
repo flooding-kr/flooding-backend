@@ -22,19 +22,32 @@ interface HomebaseGroupRepository : JpaRepository<HomebaseGroup, UUID> {
 
 	@Query(
 		"""
-    SELECT hg
-    FROM HomebaseGroup hg
-	LEFT JOIN hg.participants p
-    WHERE (hg.proposer = :student OR p.user = :student)
-    AND hg.attendedAt = :attendedAt
+			SELECT hg
+    		FROM HomebaseGroup hg
+			LEFT JOIN hg.participants p
+			JOIN FETCH hg.homebaseTable
+			JOIN FETCH hg.homebaseTable.homebase
+			JOIN FETCH hg.proposer
+    		WHERE (hg.proposer = :student OR p.user = :student)
+    		AND hg.attendedAt = :attendedAt
 	""",
 	)
-	fun findByProposerOrParticipantsAndAttendedAt(
+	fun findWithHomebaseTableWithHomebaseAndProposerByProposerOrParticipantsAndAttendedAt(
 		student: User,
 		attendedAt: LocalDate,
 	): List<HomebaseGroup>
 
-	fun findByPeriodAndHomebaseTableHomebaseFloorAndAttendedAt(
+	@Query(
+		"""
+			SELECT hg
+			FROM HomebaseGroup hg 
+			JOIN FETCH hg.proposer
+			WHERE hg.period = :period
+			AND hg.homebaseTable.homebase.floor = :floor
+			AND hg.attendedAt = :attendedAt
+	""",
+	)
+	fun findWithParticipantsAndProposerByPeriodAndHomebaseTableHomebaseFloorAndAttendedAt(
 		period: Int,
 		floor: Int,
 		attendedAt: LocalDate,

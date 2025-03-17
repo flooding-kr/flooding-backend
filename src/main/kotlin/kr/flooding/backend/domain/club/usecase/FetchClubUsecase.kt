@@ -19,10 +19,10 @@ class FetchClubUsecase(
 	fun execute(clubId: UUID): FetchClubResponse {
 		val club =
 			clubRepository
-				.findById(clubId)
+				.findWithClassroomWithTeacherById(clubId)
 				.orElseThrow { HttpException(ExceptionEnum.CLUB.NOT_FOUND_CLUB.toPair()) }
 
-		val clubMembers = clubMemberRepository.findByClubId(clubId)
+		val clubMembers = clubMemberRepository.findWithUserByClubId(clubId)
 
 		return FetchClubResponse.toDto(club, clubMembers)
 	}
