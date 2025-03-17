@@ -9,6 +9,8 @@ import kr.flooding.backend.domain.classroom.entity.Classroom
 import kr.flooding.backend.domain.classroom.entity.HomebaseTable
 import kr.flooding.backend.domain.user.entity.User
 import org.hibernate.annotations.CreationTimestamp
+import org.hibernate.annotations.OnDelete
+import org.hibernate.annotations.OnDeleteAction
 import org.hibernate.annotations.UuidGenerator
 import java.time.LocalDate
 import java.util.UUID
@@ -20,12 +22,15 @@ data class Attendance(
 	val id: UUID? = null,
 
 	@ManyToOne(fetch = FetchType.LAZY)
+	@OnDelete(action = OnDeleteAction.SET_NULL)
 	val classroom: Classroom? = null,
 
 	@ManyToOne(fetch = FetchType.LAZY)
+	@OnDelete(action = OnDeleteAction.SET_NULL)
 	val homebaseTable: HomebaseTable? = null,
 
 	@ManyToOne(fetch = FetchType.LAZY)
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	val student: User,
 
 	val period: Int,
