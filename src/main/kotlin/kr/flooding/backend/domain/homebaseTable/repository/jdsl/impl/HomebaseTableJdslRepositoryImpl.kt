@@ -1,12 +1,12 @@
-package kr.flooding.backend.domain.classroom.repository.jdsl.impl
+package kr.flooding.backend.domain.homebaseTable.repository.jdsl.impl
 
 import com.linecorp.kotlinjdsl.dsl.jpql.jpql
 import com.linecorp.kotlinjdsl.render.jpql.JpqlRenderContext
 import com.linecorp.kotlinjdsl.support.spring.data.jpa.extension.createQuery
 import jakarta.persistence.EntityManager
 import kr.flooding.backend.domain.classroom.entity.Classroom
-import kr.flooding.backend.domain.classroom.entity.HomebaseTable
-import kr.flooding.backend.domain.classroom.repository.jdsl.HomebaseTableJdslRepository
+import kr.flooding.backend.domain.homebaseTable.entity.HomebaseTable
+import kr.flooding.backend.domain.homebaseTable.repository.jdsl.HomebaseTableJdslRepository
 import org.springframework.stereotype.Repository
 import java.util.Optional
 

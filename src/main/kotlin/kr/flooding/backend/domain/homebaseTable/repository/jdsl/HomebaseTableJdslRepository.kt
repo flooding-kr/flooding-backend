@@ -1,6 +1,6 @@
-package kr.flooding.backend.domain.classroom.repository.jdsl
+package kr.flooding.backend.domain.homebaseTable.repository.jdsl
 
-import kr.flooding.backend.domain.classroom.entity.HomebaseTable
+import kr.flooding.backend.domain.homebaseTable.entity.HomebaseTable
 import java.util.Optional
 
 interface HomebaseTableJdslRepository {
