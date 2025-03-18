@@ -2,12 +2,16 @@ package kr.flooding.backend.domain.attendance.entity
 
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
+import jakarta.persistence.FetchType
 import jakarta.persistence.Id
 import jakarta.persistence.ManyToOne
+import kr.flooding.backend.domain.classroom.entity.Classroom
 import kr.flooding.backend.domain.classroom.entity.HomebaseTable
 import kr.flooding.backend.domain.club.entity.Club
 import kr.flooding.backend.domain.user.entity.User
 import org.hibernate.annotations.CreationTimestamp
+import org.hibernate.annotations.OnDelete
+import org.hibernate.annotations.OnDeleteAction
 import org.hibernate.annotations.UuidGenerator
 import java.time.LocalDate
 import java.util.UUID
@@ -18,10 +22,16 @@ data class Attendance(
 	@UuidGenerator(style = UuidGenerator.Style.RANDOM)
 	val id: UUID? = null,
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
+	@OnDelete(action = OnDeleteAction.SET_NULL)
+	val classroom: Classroom? = null,
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@OnDelete(action = OnDeleteAction.SET_NULL)
 	val homebaseTable: HomebaseTable? = null,
 
-	@ManyToOne
+	@CreationTimestamp
+	@Column(nullable = false)
 	val student: User,
 
 	val period: Int,
