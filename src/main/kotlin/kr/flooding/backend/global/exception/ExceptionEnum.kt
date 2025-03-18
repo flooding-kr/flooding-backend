@@ -60,6 +60,8 @@ sealed interface ExceptionEnum {
 		ALREADY_APPLY_CLUB(HttpStatus.BAD_REQUEST, "이미 동일한 유형의 동아리에 지원 신청 했습니다."),
 		NOT_APPROVED_CLUB(HttpStatus.BAD_REQUEST, "아직 관리자 승인이 되지 않은 동아리입니다."),
 		NOT_CLUB_RECRUITING(HttpStatus.BAD_REQUEST, "구성원을 모집중인 동아리가 아닙니다."),
+		MISSING_ABSENCE_REASON(HttpStatus.BAD_REQUEST, "미출석 사유를 입력해야 합니다."),
+		NOT_CLUB_MEMBER(HttpStatus.FORBIDDEN, "해당 동아리의 구성원이 아닙니다."),
 	}
 
 	enum class CLASSROOM(
