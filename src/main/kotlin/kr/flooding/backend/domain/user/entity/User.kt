@@ -28,11 +28,11 @@ data class User(
 	@Column(nullable = false)
 	var encodedPassword: String,
 
-	var emailVerifyStatus: Boolean,
+	var emailVerifyStatus: Boolean = false,
 
 	@Column(nullable = false)
 	@Enumerated(EnumType.STRING)
-	val userState: UserState,
+	val userState: UserState = UserState.PENDING,
 
 	@Embedded
 	val studentInfo: StudentInfo,
