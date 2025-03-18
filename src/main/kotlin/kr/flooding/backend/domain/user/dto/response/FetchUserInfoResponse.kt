@@ -1,6 +1,6 @@
 package kr.flooding.backend.domain.user.dto.response
 
-import kr.flooding.backend.domain.user.entity.Gender
+import kr.flooding.backend.domain.user.enums.Gender
 import java.util.UUID
 
 data class FetchUserInfoResponse(

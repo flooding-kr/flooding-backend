@@ -8,6 +8,9 @@ import jakarta.persistence.EnumType
 import jakarta.persistence.Enumerated
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.Id
+import kr.flooding.backend.domain.user.enums.Gender
+import kr.flooding.backend.domain.user.enums.Role
+import kr.flooding.backend.domain.user.enums.UserState
 import kr.flooding.backend.global.database.converter.StringListConverter
 import org.hibernate.annotations.UuidGenerator
 import java.util.UUID
@@ -25,7 +28,11 @@ data class User(
 	@Column(nullable = false)
 	var encodedPassword: String,
 
-	val isVerified: Boolean,
+	var emailVerifyStatus: Boolean = false,
+
+	@Column(nullable = false)
+	@Enumerated(EnumType.STRING)
+	val userState: UserState = UserState.PENDING,
 
 	@Embedded
 	val studentInfo: StudentInfo,
@@ -48,5 +55,9 @@ data class User(
 
 	fun resetPassword(password: String) {
 		encodedPassword = password
+	}
+
+	fun enableEmailVerify() {
+		emailVerifyStatus = true
 	}
 }

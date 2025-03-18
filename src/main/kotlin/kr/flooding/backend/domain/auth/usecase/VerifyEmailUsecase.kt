@@ -25,7 +25,7 @@ class VerifyEmailUsecase(
 		val id = user.id
 		requireNotNull(id) { "id cannot be null" }
 
-		if (user.isVerified) {
+		if (user.emailVerifyStatus) {
 			throw HttpException(ExceptionEnum.AUTH.ALREADY_VERIFY_EMAIL.toPair())
 		}
 
@@ -38,7 +38,6 @@ class VerifyEmailUsecase(
 			throw HttpException(ExceptionEnum.AUTH.NOT_FOUND_VERIFY_CODE.toPair())
 		}
 
-		val updatedUser = user.copy(isVerified = true)
-		userRepository.save(updatedUser)
+		user.enableEmailVerify()
 	}
 }
