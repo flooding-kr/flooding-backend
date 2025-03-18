@@ -56,8 +56,6 @@ spring:
 
 jwt:
     access-token-key: ${ACCESS_TOKEN_KEY}
-    access-token-expires: 900000
-    refresh-token-expires: 1209600000
 
 lunch-api:
     key: ${MEAL_API_KEY}

@@ -6,3 +6,7 @@ spring:
 client:
   verify-url: "http://localhost:3000/signup/auth/verify"
   reset-password-url: "http://localhost:3000/signin/resetpassword"
+
+jwt:
+    access-token-expires: 900000        # 15분
+    refresh-token-expires: 1209600000   # 14일

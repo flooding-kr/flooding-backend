@@ -7,3 +7,6 @@ client:
   verify-url: "http://localhost:8080/v1/auth/verify"
   reset-password-url: "http://localhost:3000/auth/reset-password"
 
+jwt:
+    access-token-expires: 2629746000    # 1달
+    refresh-token-expires: 31556952000  # 1년
