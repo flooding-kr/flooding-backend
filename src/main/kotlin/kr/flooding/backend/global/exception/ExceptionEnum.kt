@@ -8,6 +8,7 @@ sealed interface ExceptionEnum {
 		val reason: String,
 	) {
 		EMPTY_TOKEN(HttpStatus.UNAUTHORIZED, "토큰이 비어있습니다."),
+		NOT_APPROVED_USER(HttpStatus.UNAUTHORIZED, "아직 관리자 승인되지 않은 유저입니다."),
 		EXPIRED_TOKEN(HttpStatus.UNAUTHORIZED, "만료된 토큰입니다."),
 		UNSUPPORTED_TOKEN(HttpStatus.FORBIDDEN, "형식이 일치하지 않은 토큰입니다."),
 		MALFORMED_TOKEN(HttpStatus.FORBIDDEN, "올바르지 않은 구성의 토큰입니다."),
