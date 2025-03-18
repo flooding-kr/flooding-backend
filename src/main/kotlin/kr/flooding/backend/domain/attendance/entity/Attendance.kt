@@ -30,8 +30,8 @@ data class Attendance(
 	@OnDelete(action = OnDeleteAction.SET_NULL)
 	val homebaseTable: HomebaseTable? = null,
 
-	@CreationTimestamp
-	@Column(nullable = false)
+	@ManyToOne(fetch = FetchType.LAZY)
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	val student: User,
 
 	val period: Int,
