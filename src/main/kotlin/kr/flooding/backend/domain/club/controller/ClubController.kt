@@ -151,17 +151,17 @@ class ClubController(
 
 	@PostMapping("attend")
 	fun attendanceClub(
-		@Valid @RequestBody attendClubRequest: AttendClubMyselfRequest,
+		@Valid @RequestBody attendClubMyselfRequest: AttendClubMyselfRequest,
 	): ResponseEntity<Util> =
-		attendClubMyselfUsecase.execute(attendClubRequest).run {
+		attendClubMyselfUsecase.execute(attendClubMyselfRequest).run {
 			ResponseEntity.ok().build()
 		}
 
 	@PostMapping("absence")
 	fun absenceClub(
-		@Valid @RequestBody absenceClubRequest: AbsenceClubMyselfRequest,
+		@Valid @RequestBody absenceClubMyselfRequest: AbsenceClubMyselfRequest,
 	): ResponseEntity<Util> =
-		absenceClubMyselfUsecase.execute(absenceClubRequest).run {
+		absenceClubMyselfUsecase.execute(absenceClubMyselfRequest).run {
 			ResponseEntity.ok().build()
 		}
 
