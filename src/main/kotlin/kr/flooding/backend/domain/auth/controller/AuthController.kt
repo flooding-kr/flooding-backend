@@ -1,5 +1,9 @@
 package kr.flooding.backend.domain.auth.controller
 
+import io.swagger.v3.oas.annotations.Operation
+import io.swagger.v3.oas.annotations.responses.ApiResponse
+import io.swagger.v3.oas.annotations.responses.ApiResponses
+import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.Valid
 import kr.flooding.backend.domain.auth.dto.request.ReissueEmailCodeRequest
 import kr.flooding.backend.domain.auth.dto.request.ResetPasswordRequest
@@ -25,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
+@Tag(name = "Auth", description = "회원 인증")
 @RestController
 @RequestMapping("auth")
 class AuthController(
@@ -37,6 +42,14 @@ class AuthController(
 	private val requestResetPasswordUsecase: RequestResetPasswordUsecase,
 	private val resetPasswordUsecase: ResetPasswordUsecase,
 ) {
+	@Operation(summary = "회원가입")
+	@ApiResponses(
+		value = [
+			ApiResponse(responseCode = "200", description = "성공"),
+			ApiResponse(responseCode = "400", description = "잘못된 요청"),
+			ApiResponse(responseCode = "500", description = "이메일 전송 실패 혹은 예기치 못한 오류"),
+		],
+	)
 	@PostMapping("sign-up")
 	fun signUp(
 		@Valid @RequestBody signUpRequest: SignUpRequest,
@@ -45,6 +58,7 @@ class AuthController(
 			ResponseEntity.ok().build()
 		}
 
+	@Operation(summary = "로그인")
 	@PostMapping("sign-in")
 	fun signIn(
 		@Valid @RequestBody signInRequest: SignInRequest,
@@ -53,6 +67,7 @@ class AuthController(
 			ResponseEntity.ok(it)
 		}
 
+	@Operation(summary = "로그아웃")
 	@PostMapping("logout")
 	fun signOut(
 		@RequestHeader("Refresh-Token") refreshToken: String,
@@ -63,6 +78,7 @@ class AuthController(
 		}
 	}
 
+	@Operation(summary = "엑세스 토큰 재발급")
 	@PatchMapping("re-issue")
 	fun reissueToken(
 		@RequestHeader("Refresh-Token") refreshToken: String,
@@ -73,6 +89,7 @@ class AuthController(
 		}
 	}
 
+	@Operation(summary = "회원 이메일 인증")
 	@GetMapping("verify")
 	fun verifyEmail(
 		@RequestParam("email") email: String,
@@ -82,6 +99,7 @@ class AuthController(
 			ResponseEntity.ok().build()
 		}
 
+	@Operation(summary = "회원 인증 메일 재발송")
 	@PatchMapping("re-verify")
 	fun reissueVerifyCode(
 		@RequestBody reissueEmailCodeRequest: ReissueEmailCodeRequest,
@@ -90,6 +108,7 @@ class AuthController(
 			ResponseEntity.ok().build()
 		}
 
+	@Operation(summary = "비밀번호 찾기 메일 발송")
 	@PostMapping("/password/find")
 	fun requestFindPassword(
 		@RequestParam email: String,
@@ -98,6 +117,7 @@ class AuthController(
 			ResponseEntity.ok().build()
 		}
 
+	@Operation(summary = "이메일 인증으로 비밀번호 변경하기")
 	@PostMapping("/password/reset")
 	fun resetPassword(
 		@RequestBody request: ResetPasswordRequest,
