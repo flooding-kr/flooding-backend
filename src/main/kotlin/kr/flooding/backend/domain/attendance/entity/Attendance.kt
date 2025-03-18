@@ -8,6 +8,7 @@ import jakarta.persistence.ManyToOne
 import kr.flooding.backend.domain.classroom.entity.Classroom
 import kr.flooding.backend.domain.classroom.entity.HomebaseTable
 import kr.flooding.backend.domain.club.entity.Club
+import kr.flooding.backend.domain.homebaseTable.entity.HomebaseTable
 import kr.flooding.backend.domain.user.entity.User
 import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.OnDelete

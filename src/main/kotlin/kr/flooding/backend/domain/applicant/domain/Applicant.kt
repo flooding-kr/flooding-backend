@@ -1,6 +1,7 @@
 package kr.flooding.backend.domain.applicant.domain
 
 import jakarta.persistence.Entity
+import jakarta.persistence.FetchType
 import jakarta.persistence.Id
 import jakarta.persistence.ManyToOne
 import kr.flooding.backend.domain.club.entity.Club
@@ -16,11 +17,11 @@ class Applicant(
 	@UuidGenerator
 	val id: UUID? = null,
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	val club: Club,
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	val user: User,
 )

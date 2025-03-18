@@ -4,11 +4,14 @@ import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.EnumType
 import jakarta.persistence.Enumerated
+import jakarta.persistence.FetchType
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 import jakarta.persistence.ManyToOne
 import kr.flooding.backend.domain.user.entity.User
+import org.hibernate.annotations.OnDelete
+import org.hibernate.annotations.OnDeleteAction
 
 @Entity
 data class Classroom(
@@ -29,6 +32,7 @@ data class Classroom(
 	@Enumerated(EnumType.STRING)
 	val buildingType: BuildingType,
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
+	@OnDelete(action = OnDeleteAction.SET_NULL)
 	val teacher: User,
 )

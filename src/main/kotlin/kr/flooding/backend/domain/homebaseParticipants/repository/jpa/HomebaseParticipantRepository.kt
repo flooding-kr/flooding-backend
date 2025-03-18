@@ -1,4 +1,4 @@
-package kr.flooding.backend.domain.homebaseParticipants.repository
+package kr.flooding.backend.domain.homebaseParticipants.repository.jpa
 
 import kr.flooding.backend.domain.homebase.entity.HomebaseGroup
 import kr.flooding.backend.domain.homebaseParticipants.entity.HomebaseParticipant

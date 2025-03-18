@@ -1,0 +1,67 @@
+server:
+    servlet:
+        context-path: /v1
+
+springdoc:
+    show-actuator: true
+    api-docs:
+        path: /api-docs
+    default-consumes-media-type: application/json
+    default-produces-media-type: application/json
+
+spring:
+    application:
+        name: flooding-backend
+
+    jackson:
+        serialization:
+            write-dates-as-timestamps: false
+        date-format: yyyy-MM-dd'T'HH:mm:ss
+
+    data:
+        redis:
+            host: ${REDIS_HOST}
+            port: ${REDIS_PORT}
+
+    datasource:
+        url: ${DB_HOST}
+        username: ${DB_USERNAME}
+        password: ${DB_PASSWORD}
+        hikari:
+            driver-class-name: org.postgresql.Driver
+
+    jpa:
+        show-sql: true
+        properties:
+            hibernate:
+                format_sql: true
+
+    mail:
+        properties:
+            mail:
+                smtp:
+                    starttls:
+                        enable: true
+                        required: true
+                    auth: true
+        port: ${MAIL_PORT}
+        host: ${MAIL_HOST}
+        username: ${MAIL_USERNAME}
+        password: ${MAIL_PASSWORD}
+
+jwt:
+    access-token-key: ${ACCESS_TOKEN_KEY}
+    access-token-expires: 900000
+    refresh-token-expires: 1209600000
+
+lunch-api:
+    key: ${MEAL_API_KEY}
+
+cloudflare:
+    r2:
+        public-url: ${CLOUDFLARE_R2_PUBLIC_URL}
+        endpoint: ${CLOUDFLARE_R2_ENDPOINT}
+        bucket-name: ${CLOUDFLARE_R2_BUCKET_NAME}
+        access-key-id: ${CLOUDFLARE_ACCESS_KEY_ID}
+        secret-access-key: ${CLOUDFLARE_SECRET_ACCESS_KEY}
+
