@@ -6,6 +6,7 @@ import jakarta.persistence.FetchType
 import jakarta.persistence.Id
 import jakarta.persistence.ManyToOne
 import kr.flooding.backend.domain.classroom.entity.Classroom
+import kr.flooding.backend.domain.club.entity.Club
 import kr.flooding.backend.domain.homebaseTable.entity.HomebaseTable
 import kr.flooding.backend.domain.user.entity.User
 import org.hibernate.annotations.CreationTimestamp
@@ -38,4 +39,12 @@ data class Attendance(
 	@CreationTimestamp
 	@Column(nullable = false)
 	val attendedAt: LocalDate? = null,
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	val club: Club? = null,
+
+	val reason: String? = null,
+
+	@Column(nullable = false)
+	val isPresent: Boolean = true,
 )
