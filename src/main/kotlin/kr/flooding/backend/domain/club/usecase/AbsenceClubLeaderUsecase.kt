@@ -42,25 +42,24 @@ class AbsenceClubLeaderUsecase(
 			throw HttpException(ExceptionEnum.CLUB.MISSING_ABSENCE_REASON.toPair())
 		}
 
-		val student =
-			userRepository.findById(request.studentId).orElseThrow {
-				HttpException(ExceptionEnum.USER.NOT_FOUND_USER.toPair())
-			}
+		val students = userRepository.findAllById(request.studentIds)
 
 		val attendance =
-			attendanceRepository
-				.findByStudentAndClubAndPeriodAndAttendedAt(currentUser, club, request.period, nowDate)
-				.map { it.copy(isPresent = false, reason = request.reason) }
-				.orElse(
-					Attendance(
-						student = currentUser,
-						period = request.period,
-						club = club,
-						attendedAt = nowDate,
-						isPresent = false,
-						reason = request.reason,
-					),
-				)
-		attendanceRepository.save(attendance)
+			students.map { student ->
+				attendanceRepository
+					.findByStudentAndClubAndPeriodAndAttendedAt(currentUser, club, request.period, nowDate)
+					.map { it.copy(isPresent = false, reason = request.reason) }
+					.orElse(
+						Attendance(
+							student = currentUser,
+							period = request.period,
+							club = club,
+							attendedAt = nowDate,
+							isPresent = false,
+							reason = request.reason,
+						),
+					)
+			}
+		attendanceRepository.saveAll(attendance)
 	}
 }

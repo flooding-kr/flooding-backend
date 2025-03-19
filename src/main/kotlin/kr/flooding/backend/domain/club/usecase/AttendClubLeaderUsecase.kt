@@ -37,26 +37,24 @@ class AttendClubLeaderUsecase(
 			throw HttpException(ExceptionEnum.CLUB.NOT_CLUB_LEADER.toPair())
 		}
 
-		val student =
-			userRepository.findById(request.studentId).orElseThrow {
-				HttpException(ExceptionEnum.USER.NOT_FOUND_USER.toPair())
-			}
+		val students = userRepository.findAllById(request.studentIds)
 
 		val attendance =
-			attendanceRepository
-				.findByStudentAndClubAndPeriodAndAttendedAt(student, club, request.period, nowDate)
-				.map { it.copy(isPresent = true, reason = null) }
-				.orElse(
-					Attendance(
-						student = student,
-						period = request.period,
-						club = club,
-						attendedAt = nowDate,
-						isPresent = true,
-						reason = null,
-					),
-				)
-
-		attendanceRepository.save(attendance)
+			students.map { student ->
+				attendanceRepository
+					.findByStudentAndClubAndPeriodAndAttendedAt(student, club, request.period, nowDate)
+					.map { it.copy(isPresent = true, reason = null) }
+					.orElse(
+						Attendance(
+							student = student,
+							period = request.period,
+							club = club,
+							attendedAt = nowDate,
+							isPresent = true,
+							reason = null,
+						),
+					)
+			}
+		attendanceRepository.saveAll(attendance)
 	}
 }

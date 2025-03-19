@@ -6,5 +6,5 @@ data class AbsenceClubLeaderRequest(
 	val clubId: UUID,
 	val period: Int,
 	val reason: String,
-	val studentId: UUID,
+	val studentIds: List<UUID>,
 )

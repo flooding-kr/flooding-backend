@@ -5,5 +5,5 @@ import java.util.UUID
 data class AttendClubLeaderRequest(
 	val clubId: UUID,
 	val period: Int,
-	val studentId: UUID,
+	val studentIds: List<UUID>,
 )
