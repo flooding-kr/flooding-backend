@@ -40,7 +40,7 @@ data class Attendance(
 	@Column(nullable = false)
 	val attendedAt: LocalDate? = null,
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	val club: Club? = null,
 
 	val reason: String? = null,
