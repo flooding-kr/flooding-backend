@@ -19,5 +19,8 @@ data class HomebaseTable(
 	@ManyToOne(fetch = FetchType.LAZY)
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	val homebase: Classroom,
+
 	val tableNumber: Int,
+
+	val maxSeats: Int,
 )
