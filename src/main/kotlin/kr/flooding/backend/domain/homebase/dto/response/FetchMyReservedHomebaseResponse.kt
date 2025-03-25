@@ -10,6 +10,7 @@ class FetchMyReservedHomebaseResponse(
 	val period: Int,
 	val isProposer: Boolean,
 	val participants: List<HomebaseParticipantResponse>,
+	val maxSeats: Int,
 ) {
 	companion object {
 		fun toDto(
@@ -28,6 +29,7 @@ class FetchMyReservedHomebaseResponse(
 							HomebaseParticipantResponse.toDto(it)
 						},
 				isProposer = homebaseGroup.proposer == currentUser,
+				maxSeats = homebaseGroup.homebaseTable.maxSeats,
 			)
 		}
 	}
