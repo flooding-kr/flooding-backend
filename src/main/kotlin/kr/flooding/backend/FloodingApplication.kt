@@ -2,7 +2,7 @@ package kr.flooding.backend
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
-import java.util.*
+import java.util.TimeZone
 
 @SpringBootApplication
 class FloodingApplication
