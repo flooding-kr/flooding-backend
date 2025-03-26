@@ -5,6 +5,7 @@ import kr.flooding.backend.domain.attendance.repository.AttendanceRepository
 import kr.flooding.backend.domain.club.dto.request.AttendClubLeaderRequest
 import kr.flooding.backend.domain.club.entity.ClubStatus
 import kr.flooding.backend.domain.club.repository.ClubRepository
+import kr.flooding.backend.domain.clubMember.repository.ClubMemberRepository
 import kr.flooding.backend.domain.user.repository.UserRepository
 import kr.flooding.backend.global.exception.ExceptionEnum
 import kr.flooding.backend.global.exception.HttpException
@@ -21,6 +22,7 @@ class AttendClubLeaderUsecase(
 	private val clubRepository: ClubRepository,
 	private val attendanceRepository: AttendanceRepository,
 	private val userRepository: UserRepository,
+	private val clubMemberRepository: ClubMemberRepository,
 ) {
 	fun execute(request: AttendClubLeaderRequest) {
 		val currentUser = userUtil.getUser()
@@ -38,6 +40,15 @@ class AttendClubLeaderUsecase(
 		}
 
 		val students = userRepository.findAllById(request.studentIds)
+
+		val noMember =
+			students.filterNot { student ->
+				clubMemberRepository.existsByClubIdAndUserId(request.clubId, student.id)
+			}
+
+		if (noMember.isNotEmpty()) {
+			throw HttpException(ExceptionEnum.CLUB.NOT_CLUB_MEMBER.toPair())
+		}
 
 		val attendance =
 			students.map { student ->
