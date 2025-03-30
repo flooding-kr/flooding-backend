@@ -78,6 +78,13 @@ sealed interface ExceptionEnum {
 		NOT_FOUND_GROUP(HttpStatus.NOT_FOUND, "홈베이스 그룹이 없습니다."),
 		PROPOSER_CANNOT_BE_PARTICIPANT(HttpStatus.BAD_REQUEST, "신청자가 참가자에 포함될 수 없습니다."),
 	}
+
+	enum class HOMEBASE(
+		val status: HttpStatus,
+		val reason: String,
+	) {
+		MAX_CAPACITY_EXCEEDED(HttpStatus.BAD_REQUEST, "해당 테이블의 자리보다 신청자가 많습니다."),
+	}
 }
 
 fun ExceptionEnum.CLASSROOM.toPair() = Pair(this.status, this.reason)
@@ -91,3 +98,5 @@ fun ExceptionEnum.AUTH.toPair() = Pair(this.status, this.reason)
 fun ExceptionEnum.CLUB.toPair() = Pair(this.status, this.reason)
 
 fun ExceptionEnum.NEIS.toPair() = Pair(this.status, this.reason)
+
+fun ExceptionEnum.HOMEBASE.toPair() = Pair(this.status, this.reason)

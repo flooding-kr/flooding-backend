@@ -6,6 +6,11 @@ springdoc:
     show-actuator: true
     api-docs:
         path: /api-docs
+    swagger-ui:
+        persist-authorization: true
+        tags-sorter: alpha
+        operations-sorter: method
+        doc-expansion: none
     default-consumes-media-type: application/json
     default-produces-media-type: application/json
 
@@ -51,8 +56,6 @@ spring:
 
 jwt:
     access-token-key: ${ACCESS_TOKEN_KEY}
-    access-token-expires: 900000
-    refresh-token-expires: 1209600000
 
 lunch-api:
     key: ${MEAL_API_KEY}

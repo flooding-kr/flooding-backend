@@ -45,6 +45,10 @@ class ReserveHomebaseTableUsecase(
 					request.floor,
 				).orElseThrow { HttpException(ExceptionEnum.CLASSROOM.NOT_FOUND_TABLE.toPair()) }
 
+		if (request.participants.size + 1 > homebaseTable.maxSeats) {
+			throw HttpException(ExceptionEnum.HOMEBASE.MAX_CAPACITY_EXCEEDED.toPair())
+		}
+
 		// 해당 자리의 사용 여부
 		homebaseGroupRepository
 			.existsByHomebaseTableAndPeriodAndAttendedAt(

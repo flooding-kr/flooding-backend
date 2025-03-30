@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.media.Content
 import io.swagger.v3.oas.annotations.media.Schema
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
+import io.swagger.v3.oas.annotations.tags.Tag
 import kr.flooding.backend.domain.neis.dto.request.LunchTime
 import kr.flooding.backend.domain.neis.dto.response.FetchMealInfoResponse
 import kr.flooding.backend.domain.neis.dto.response.FetchTimetableResponse
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import java.time.LocalDate
 
+@Tag(name = "Neis", description = "나이스 API")
 @RestController
 @RequestMapping("neis")
 class NeisController(

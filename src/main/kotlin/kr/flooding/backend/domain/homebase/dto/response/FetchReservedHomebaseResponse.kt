@@ -10,6 +10,7 @@ class FetchReservedHomebaseResponse(
 	val tableNumber: Int,
 	val isAttended: Boolean,
 	val participants: List<HomebaseParticipantResponse>,
+	val maxSeats: Int,
 ) {
 	companion object {
 		fun toDto(
@@ -24,6 +25,7 @@ class FetchReservedHomebaseResponse(
 
 			return FetchReservedHomebaseResponse(
 				homebaseTableId = homebaseTable.id,
+				maxSeats = homebaseTable.maxSeats,
 				floor = homebaseTable.homebase.floor,
 				tableNumber = homebaseTable.tableNumber,
 				isAttended =

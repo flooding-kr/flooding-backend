@@ -1,5 +1,6 @@
 package kr.flooding.backend.domain.club.controller
 
+import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.Valid
 import jdk.jshell.execution.Util
 import kr.flooding.backend.domain.club.dto.request.AbsenceClubLeaderRequest
@@ -39,6 +40,7 @@ import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import java.util.UUID
 
+@Tag(name = "Club", description = "동아리")
 @RestController
 @RequestMapping("club")
 class ClubController(

@@ -1,5 +1,6 @@
 package kr.flooding.backend.domain.homebase.controller
 
+import io.swagger.v3.oas.annotations.tags.Tag
 import kr.flooding.backend.domain.homebase.dto.request.FetchReservedHomebaseTableRequest
 import kr.flooding.backend.domain.homebase.dto.request.ReserveHomebaseTableRequest
 import kr.flooding.backend.domain.homebase.dto.response.FetchMyReservedHomebaseResponse
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import java.util.UUID
 
+@Tag(name = "Homebase", description = "홈베이스")
 @RestController
 @RequestMapping("/homebase")
 class HomebaseController(

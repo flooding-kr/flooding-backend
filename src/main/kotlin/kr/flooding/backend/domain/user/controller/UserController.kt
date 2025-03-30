@@ -1,5 +1,6 @@
 package kr.flooding.backend.domain.user.controller
 
+import io.swagger.v3.oas.annotations.tags.Tag
 import kr.flooding.backend.domain.user.dto.request.WithdrawRequest
 import kr.flooding.backend.domain.user.dto.response.FetchUserInfoResponse
 import kr.flooding.backend.domain.user.usecase.FetchFilteredUserUsecase
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestPart
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.multipart.MultipartFile
 
+@Tag(name = "User", description = "회원")
 @RestController
 @RequestMapping("user")
 class UserController(
