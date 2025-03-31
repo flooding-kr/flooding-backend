@@ -32,7 +32,7 @@ interface AttendanceRepository : JpaRepository<Attendance, UUID> {
 		student: User,
 	): Optional<Attendance>
 
-	fun findByClubAndPeriodAnAndAttendedAt(
+	fun findByClubAndPeriodAndAttendedAt(
 		club: Club,
 		period: Int,
 		attendedAt: LocalDate,

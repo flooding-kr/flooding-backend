@@ -51,7 +51,7 @@ class AttendClubLeaderUsecase(
 
 		val existingAttendAnce =
 			attendanceRepository
-				.findByClubAndPeriodAnAndAttendedAt(
+				.findByClubAndPeriodAndAttendedAt(
 					club,
 					request.period,
 					nowDate,
