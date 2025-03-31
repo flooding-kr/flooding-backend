@@ -36,8 +36,16 @@ class FetchMealInfoUsecase(
 						.replace("""\s*\(.*?\)""".toRegex(), "")
 						.replace("""[^\w가-힣]""".toRegex(), "")
 				}.toList()
+		val kcal =
+			row[0]
+				.calInfo
+				.split(' ')[0]
+				.toDouble()
 
-		return FetchMealInfoResponse(menu)
+		return FetchMealInfoResponse(
+			menu = menu,
+			kcal = kcal,
+		)
 	}
 
 	fun getMealInfoResponse(
