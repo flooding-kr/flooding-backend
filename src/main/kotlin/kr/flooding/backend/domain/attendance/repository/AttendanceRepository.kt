@@ -31,4 +31,10 @@ interface AttendanceRepository : JpaRepository<Attendance, UUID> {
 		attendedAt: LocalDate,
 		student: User,
 	): Optional<Attendance>
+
+	fun findByClubAndPeriodAnAndAttendedAt(
+		club: Club,
+		period: Int,
+		attendedAt: LocalDate,
+	): List<Attendance>
 }

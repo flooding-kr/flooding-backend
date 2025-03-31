@@ -39,33 +39,39 @@ class AttendClubLeaderUsecase(
 			throw HttpException(ExceptionEnum.CLUB.NOT_CLUB_LEADER.toPair())
 		}
 
-		val students = userRepository.findAllById(request.studentIds)
+		val clubMembers = clubMemberRepository.findByClubId(request.clubId)
+		val clubMemberIds = clubMembers.map { it.user.id }.toSet()
 
-		val noMember =
-			students.filterNot { student ->
-				clubMemberRepository.existsByClubIdAndUserId(request.clubId, student.id)
-			}
-
-		if (noMember.isNotEmpty()) {
+		val nonClubMembers = request.studentIds.filterNot { it in clubMemberIds }
+		if (nonClubMembers.isNotEmpty()) {
 			throw HttpException(ExceptionEnum.CLUB.NOT_CLUB_MEMBER.toPair())
 		}
 
+		val students = userRepository.findAllById(request.studentIds)
+
+		val existingAttendAnce =
+			attendanceRepository
+				.findByClubAndPeriodAnAndAttendedAt(
+					club,
+					request.period,
+					nowDate,
+				).associateBy {
+					it.student.id
+				}
+
 		val attendance =
 			students.map { student ->
-				attendanceRepository
-					.findByStudentAndClubAndPeriodAndAttendedAt(student, club, request.period, nowDate)
-					.map { it.copy(isPresent = true, reason = null) }
-					.orElse(
-						Attendance(
-							student = student,
-							period = request.period,
-							club = club,
-							attendedAt = nowDate,
-							isPresent = true,
-							reason = null,
-						),
+				existingAttendAnce[student.id]?.copy(isPresent = true, reason = null)
+					?: Attendance(
+						student = student,
+						period = request.period,
+						club = club,
+						attendedAt = nowDate,
+						isPresent = true,
+						reason = null,
 					)
 			}
+
 		attendanceRepository.saveAll(attendance)
 	}
 }

@@ -34,4 +34,6 @@ interface ClubMemberRepository : JpaRepository<ClubMember, UUID> {
 	""",
 	)
 	fun findWithUserByClubId(clubId: UUID): List<ClubMember>
+
+	fun findByClubId(clubId: UUID): List<ClubMember>
 }
