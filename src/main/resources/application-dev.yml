@@ -6,6 +6,7 @@ spring:
 client:
   verify-url: "http://localhost:8080/v1/auth/verify"
   reset-password-url: "http://localhost:3000/auth/reset-password"
+  invite-club-url: "http://localhost:3000/club/invite"
 
 jwt:
     access-token-expires: 2629746000    # 1달
