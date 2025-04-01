@@ -7,6 +7,7 @@ import kr.flooding.backend.global.util.UserUtil
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.util.Optional
+import kotlin.jvm.optionals.getOrNull
 
 @Service
 @Transactional
@@ -38,7 +39,7 @@ class FetchUserUsecase(
 			id = requireNotNull(user.id),
 			name = user.name,
 			gender = user.gender,
-			studentInfo = if (studentInfoResponse.isPresent) studentInfoResponse.get() else null,
+			studentInfo = studentInfoResponse.getOrNull(),
 			email = user.email,
 		)
 	}
