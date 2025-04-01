@@ -5,12 +5,12 @@ import jakarta.persistence.Embeddable
 
 @Embeddable
 data class StudentInfo(
-	@Column(nullable = false)
-	val year: Int,
+	@Column(nullable = true)
+	val year: Int? = null,
 
-	@Column(nullable = false)
-	val classroom: Int,
+	@Column(nullable = true)
+	val classroom: Int? = null,
 
-	@Column(nullable = false)
-	val number: Int,
+	@Column(nullable = true)
+	val number: Int? = null,
 )
