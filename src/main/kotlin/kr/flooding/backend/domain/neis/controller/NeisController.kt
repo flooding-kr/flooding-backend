@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.media.Schema
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
 import io.swagger.v3.oas.annotations.tags.Tag
+import kr.flooding.backend.domain.neis.dto.request.FetchTimetableRequest
 import kr.flooding.backend.domain.neis.dto.request.LunchTime
 import kr.flooding.backend.domain.neis.dto.response.FetchMealInfoResponse
 import kr.flooding.backend.domain.neis.dto.response.FetchTimetableResponse
@@ -50,9 +51,18 @@ class NeisController(
 
 	@GetMapping("timetable")
 	fun fetchTimetable(
-		@RequestParam date: LocalDate?,
+		@RequestParam date: LocalDate,
+		@RequestParam grade: Int,
+		@RequestParam classroom: Int,
 	): ResponseEntity<FetchTimetableResponse> =
-		fetchTimetableUsecase.execute(date).let {
-			ResponseEntity.ok(it)
-		}
+		fetchTimetableUsecase
+			.execute(
+				FetchTimetableRequest(
+					date = date,
+					grade = grade,
+					classroom = classroom,
+				),
+			).let {
+				ResponseEntity.ok(it)
+			}
 }

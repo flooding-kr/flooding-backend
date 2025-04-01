@@ -1,11 +1,11 @@
 package kr.flooding.backend.domain.neis.usecase
 
+import kr.flooding.backend.domain.neis.dto.request.FetchTimetableRequest
 import kr.flooding.backend.domain.neis.dto.response.FetchTimetableClientResponse
 import kr.flooding.backend.domain.neis.dto.response.FetchTimetableResponse
 import kr.flooding.backend.global.exception.ExceptionEnum
 import kr.flooding.backend.global.exception.HttpException
 import kr.flooding.backend.global.exception.toPair
-import kr.flooding.backend.global.util.StudentUtil.Companion.calcYearToGrade
 import kr.flooding.backend.global.util.UserUtil
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
@@ -18,16 +18,12 @@ class FetchTimetableUsecase(
 	@Value("\${lunch-api.key}") private val mealApiKey: String,
 	private val userUtil: UserUtil,
 ) {
-	fun execute(date: LocalDate?): FetchTimetableResponse {
-		val requestDate = date ?: LocalDate.now()
-		val currentUser = userUtil.getUser()
-		val grade = calcYearToGrade(currentUser.studentInfo.year)
-
+	fun execute(request: FetchTimetableRequest): FetchTimetableResponse {
 		val response =
 			getTimetableResponse(
-				date = requestDate,
-				grade = grade,
-				classroom = currentUser.studentInfo.classroom,
+				date = request.date,
+				grade = request.grade,
+				classroom = request.classroom,
 			)
 		if (response?.hisTimetable == null) {
 			throw HttpException(ExceptionEnum.NEIS.NOT_FOUND_LUNCH.toPair())
