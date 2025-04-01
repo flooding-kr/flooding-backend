@@ -19,6 +19,7 @@ import kr.flooding.backend.domain.club.usecase.ApplyClubUsecase
 import kr.flooding.backend.domain.club.usecase.AttendClubLeaderUsecase
 import kr.flooding.backend.domain.club.usecase.AttendClubMyselfUsecase
 import kr.flooding.backend.domain.club.usecase.CloseClubUsecase
+import kr.flooding.backend.domain.club.usecase.ConfirmClubInviteUsecase
 import kr.flooding.backend.domain.club.usecase.CreateClubUsecase
 import kr.flooding.backend.domain.club.usecase.FetchClubFilterUsecase
 import kr.flooding.backend.domain.club.usecase.FetchClubUsecase
@@ -55,6 +56,7 @@ class ClubController(
 	private val withdrawClubUsecase: WithdrawClubUsecase,
 	private val inviteClubMemberUsecase: InviteClubMemberUsecase,
 	private val fetchClubUsecase: FetchClubUsecase,
+	private val confirmClubInviteUsecase: ConfirmClubInviteUsecase,
 	private val attendClubMyselfUsecase: AttendClubMyselfUsecase,
 	private val absenceClubMyselfUsecase: AbsenceClubMyselfUsecase,
 	private val attendClubLeaderUsecase: AttendClubLeaderUsecase,
@@ -142,6 +144,16 @@ class ClubController(
 		inviteClubMemberUsecase.execute(clubId, userId).run {
 			ResponseEntity.ok().build()
 		}
+
+	@PostMapping("invite/confirm")
+	fun confirmInviteClub(
+		@RequestParam code: String,
+	): ResponseEntity<Unit> =
+		confirmClubInviteUsecase
+			.execute(code)
+			.run {
+				ResponseEntity.ok().build()
+			}
 
 	@GetMapping("{clubId}")
 	fun fetchClub(

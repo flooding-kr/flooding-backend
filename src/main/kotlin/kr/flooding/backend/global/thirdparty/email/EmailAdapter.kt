@@ -16,7 +16,25 @@ class EmailAdapter(
 	private val verifyUrl: String,
 	@Value("\${client.reset-password-url}")
 	private val resetPasswordUrl: String,
+	@Value("\${client.invite-club-url}")
+	private val inviteClubUrl: String,
 ) {
+	fun sendInviteClub(
+		email: String,
+		inviteCode: String,
+		clubName: String,
+	) {
+		this.sendEmail(
+			email = email,
+			subject = "플러딩 | 동아리 초대 확인",
+			text =
+				"""
+				<h1>$clubName 동아리에서 초대했습니다. 아래의 링크를 통해서 초대를 수락해주세요.</h1>
+				<a href="$inviteClubUrl?code=$inviteCode">[수락하기]</a>
+				""".trimIndent(),
+		)
+	}
+
 	fun sendVerifyCode(
 		email: String,
 		verifyCode: String,

@@ -88,6 +88,8 @@ class SecurityConfig(
 					.hasAnyAuthority(Role.ROLE_USER.name)
 					.requestMatchers(HttpMethod.GET, "/club/{clubId}")
 					.hasAnyAuthority(Role.ROLE_USER.name)
+					.requestMatchers(HttpMethod.POST, "/club/invite/confirm")
+					.hasAnyAuthority(Role.ROLE_USER.name)
 					.requestMatchers(HttpMethod.POST, "/club/leader/attend")
 					.hasAnyAuthority(Role.ROLE_USER.name)
 					.requestMatchers(HttpMethod.POST, "/club/leader/absence")

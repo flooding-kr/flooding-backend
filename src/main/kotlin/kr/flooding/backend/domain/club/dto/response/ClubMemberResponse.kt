@@ -10,11 +10,13 @@ class ClubMemberResponse(
 	val studentInfo: StudentInfo,
 ) {
 	companion object {
-		fun toDto(user: User): ClubMemberResponse =
-			ClubMemberResponse(
+		fun toDto(user: User): ClubMemberResponse {
+			val studentInfo = requireNotNull(user.studentInfo)
+			return ClubMemberResponse(
 				id = user.id,
 				name = user.name,
-				studentInfo = user.studentInfo,
+				studentInfo = studentInfo,
 			)
+		}
 	}
 }

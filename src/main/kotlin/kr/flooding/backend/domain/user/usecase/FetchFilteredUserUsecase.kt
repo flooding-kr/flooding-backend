@@ -15,19 +15,26 @@ class FetchFilteredUserUsecase(
 ) {
 	fun execute(name: String): List<FetchUserInfoResponse> {
 		val thirdGradeYear = calcGradeToYear(3)
-		val users = userRepository.findByNameContainsAndStudentInfoYearGreaterThanEqual(name, thirdGradeYear)
+		val users =
+			userRepository.findByNameContainsAndStudentInfoYearGreaterThanEqualAndStudentInfoIsNotNull(
+				name,
+				thirdGradeYear,
+			)
 
 		return users.map { user ->
-			val studentInfo = user.studentInfo
-			val grade = calcYearToGrade(user.studentInfo.year)
+			val year = requireNotNull(user.studentInfo.year)
+			val classroom = requireNotNull(user.studentInfo.classroom)
+			val number = requireNotNull(user.studentInfo.number)
+
+			val grade = calcYearToGrade(year)
 			val isGraduate = grade > 3
 			val studentInfoResponse =
 				StudentInfoResponse(
 					grade = if (isGraduate) 0 else grade,
 					isGraduate = isGraduate,
-					classroom = studentInfo.classroom,
-					number = studentInfo.number,
-					year = studentInfo.year,
+					classroom = classroom,
+					number = number,
+					year = year,
 				)
 
 			FetchUserInfoResponse(
