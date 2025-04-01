@@ -5,6 +5,7 @@ import kr.flooding.backend.domain.club.dto.request.CreateClubRequest
 import kr.flooding.backend.domain.club.entity.Club
 import kr.flooding.backend.domain.club.entity.ClubStatus
 import kr.flooding.backend.domain.club.repository.ClubRepository
+import kr.flooding.backend.domain.clubMember.entity.ClubMember
 import kr.flooding.backend.domain.clubMember.repository.ClubMemberRepository
 import kr.flooding.backend.domain.homebaseTable.repository.jpa.ClassroomRepository
 import kr.flooding.backend.global.exception.ExceptionEnum
@@ -69,16 +70,24 @@ class CreateClubUsecase(
 			throw HttpException(ExceptionEnum.CLASSROOM.IS_HOMEBASE_CLASSROOM.toPair())
 		}
 
-		clubRepository.save(
-			Club(
-				name = createClubRequest.name,
-				description = createClubRequest.description,
-				classroom = classroom,
-				activityImageUrls = createClubRequest.activityImageUrls,
-				status = ClubStatus.PENDING,
-				type = createClubRequest.type,
-				thumbnailImageUrl = createClubRequest.mainImageUrl,
-				leader = currentUser,
+		val club =
+			clubRepository.save(
+				Club(
+					name = createClubRequest.name,
+					description = createClubRequest.description,
+					classroom = classroom,
+					activityImageUrls = createClubRequest.activityImageUrls,
+					status = ClubStatus.PENDING,
+					type = createClubRequest.type,
+					thumbnailImageUrl = createClubRequest.mainImageUrl,
+					leader = currentUser,
+				),
+			)
+
+		clubMemberRepository.save(
+			ClubMember(
+				club = club,
+				user = currentUser,
 			),
 		)
 	}
