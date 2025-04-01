@@ -22,7 +22,7 @@ interface ClubMemberRepository : JpaRepository<ClubMember, UUID> {
 
 	fun existsByClubIdAndUserId(
 		clubId: UUID,
-		userId: UUID,
+		userId: UUID?,
 	): Boolean
 
 	@Query(
@@ -34,4 +34,6 @@ interface ClubMemberRepository : JpaRepository<ClubMember, UUID> {
 	""",
 	)
 	fun findWithUserByClubId(clubId: UUID): List<ClubMember>
+
+	fun findByClubId(clubId: UUID): List<ClubMember>
 }
