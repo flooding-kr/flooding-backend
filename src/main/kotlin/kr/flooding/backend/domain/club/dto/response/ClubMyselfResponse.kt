@@ -6,21 +6,21 @@ import kr.flooding.backend.domain.club.entity.ClubType
 import kr.flooding.backend.domain.user.entity.User
 import java.util.UUID
 
-class ClubFilterResponse(
+class ClubMyselfResponse(
 	val id: UUID?,
 	val name: String,
 	val thumbnailImageUrl: String?,
 	val isLeader: Boolean,
-	val status: ClubStatus,
 	val isRecruiting: Boolean,
+	val status: ClubStatus,
 	val type: ClubType,
 ) {
 	companion object {
 		fun toDto(
 			club: Club,
 			currentUser: User,
-		): ClubFilterResponse =
-			ClubFilterResponse(
+		): ClubMyselfResponse =
+			ClubMyselfResponse(
 				id = club.id,
 				name = club.name,
 				thumbnailImageUrl = club.thumbnailImageUrl,
