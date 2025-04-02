@@ -2,7 +2,7 @@ package kr.flooding.backend.domain.club.usecase
 
 import jakarta.transaction.Transactional
 import kr.flooding.backend.domain.club.repository.ClubRepository
-import kr.flooding.backend.domain.clubMember.repository.ClubMemberRepository
+import kr.flooding.backend.domain.clubMember.repository.jpa.ClubMemberJpaRepository
 import kr.flooding.backend.global.exception.ExceptionEnum
 import kr.flooding.backend.global.exception.HttpException
 import kr.flooding.backend.global.exception.toPair
@@ -15,7 +15,7 @@ import java.util.UUID
 class WithdrawClubUsecase(
 	private val clubRepository: ClubRepository,
 	private val userUtil: UserUtil,
-	private val clubMemberRepository: ClubMemberRepository,
+	private val clubMemberJpaRepository: ClubMemberJpaRepository,
 ) {
 	fun execute(clubId: UUID) {
 		val user = userUtil.getUser()
@@ -27,10 +27,10 @@ class WithdrawClubUsecase(
 			}
 
 		val clubMember =
-			clubMemberRepository
+			clubMemberJpaRepository
 				.findByClubIdAndUserId(clubId, userId)
 				.orElseThrow { throw HttpException(ExceptionEnum.CLUB.NOT_FOUND_CLUB_MEMBER.toPair()) }
 
-		clubMemberRepository.delete(clubMember)
+		clubMemberJpaRepository.delete(clubMember)
 	}
 }

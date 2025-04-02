@@ -6,7 +6,7 @@ import kr.flooding.backend.domain.club.entity.Club
 import kr.flooding.backend.domain.club.entity.ClubStatus
 import kr.flooding.backend.domain.club.repository.ClubRepository
 import kr.flooding.backend.domain.clubMember.entity.ClubMember
-import kr.flooding.backend.domain.clubMember.repository.ClubMemberRepository
+import kr.flooding.backend.domain.clubMember.repository.jpa.ClubMemberJpaRepository
 import kr.flooding.backend.domain.homebaseTable.repository.jpa.ClassroomRepository
 import kr.flooding.backend.global.exception.ExceptionEnum
 import kr.flooding.backend.global.exception.HttpException
@@ -21,7 +21,7 @@ class CreateClubUsecase(
 	private val clubRepository: ClubRepository,
 	private val classroomRepository: ClassroomRepository,
 	private val applicantRepository: ApplicantRepository,
-	private val clubMemberRepository: ClubMemberRepository,
+	private val clubMemberJpaRepository: ClubMemberJpaRepository,
 	private val userUtil: UserUtil,
 ) {
 	fun execute(createClubRequest: CreateClubRequest) {
@@ -46,7 +46,7 @@ class CreateClubUsecase(
 			}
 
 		// 동일 유형의 동아리 중 이미 참가한 동아리가 있는지
-		clubMemberRepository
+		clubMemberJpaRepository
 			.existsByClub_TypeAndUser(createClubRequest.type, currentUser)
 			.takeIf { it }
 			?.let {
@@ -84,7 +84,7 @@ class CreateClubUsecase(
 				),
 			)
 
-		clubMemberRepository.save(
+		clubMemberJpaRepository.save(
 			ClubMember(
 				club = club,
 				user = currentUser,

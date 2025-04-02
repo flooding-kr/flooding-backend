@@ -58,6 +58,8 @@ class SecurityConfig(
 					.hasAnyAuthority(Role.ROLE_USER.name)
 					.requestMatchers(HttpMethod.GET, "/club")
 					.hasAnyAuthority(Role.ROLE_USER.name)
+					.requestMatchers(HttpMethod.GET, "/club/myself")
+					.hasAnyAuthority(Role.ROLE_USER.name)
 					.requestMatchers(HttpMethod.DELETE, "/club/{clubId}/member/{userId}")
 					.hasAnyAuthority(Role.ROLE_USER.name)
 					.requestMatchers(HttpMethod.POST, "/club/applicant")

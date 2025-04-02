@@ -4,7 +4,7 @@ import jakarta.transaction.Transactional
 import kr.flooding.backend.domain.club.repository.ClubInviteRepository
 import kr.flooding.backend.domain.club.repository.ClubRepository
 import kr.flooding.backend.domain.clubMember.entity.ClubMember
-import kr.flooding.backend.domain.clubMember.repository.ClubMemberRepository
+import kr.flooding.backend.domain.clubMember.repository.jpa.ClubMemberJpaRepository
 import kr.flooding.backend.global.exception.ExceptionEnum
 import kr.flooding.backend.global.exception.HttpException
 import kr.flooding.backend.global.exception.toPair
@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service
 class ConfirmClubInviteUsecase(
 	private val userUtil: UserUtil,
 	private val clubRepository: ClubRepository,
-	private val clubMemberRepository: ClubMemberRepository,
+	private val clubMemberJpaRepository: ClubMemberJpaRepository,
 	private val clubInviteRepository: ClubInviteRepository,
 ) {
 	fun execute(inviteCode: String) {
@@ -43,7 +43,7 @@ class ConfirmClubInviteUsecase(
 				user = currentUser,
 			)
 
-		clubMemberRepository.save(newClubMember)
+		clubMemberJpaRepository.save(newClubMember)
 		clubInviteRepository.deleteById(userId)
 	}
 }

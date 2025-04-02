@@ -88,6 +88,14 @@ sealed interface ExceptionEnum {
 	) {
 		MAX_CAPACITY_EXCEEDED(HttpStatus.BAD_REQUEST, "해당 테이블의 자리보다 신청자가 많습니다."),
 	}
+
+	enum class ATTENDANCE(
+		val status: HttpStatus,
+		val reason: String,
+	) {
+		NOT_FOUND_PERIOD_INFO(HttpStatus.BAD_REQUEST, "교시 정보를 받아오지 못했습니다."),
+		ATTENDANCE_OUT_OF_TIME_RANGE(HttpStatus.BAD_REQUEST, "현재 시간에 해당하는 교시가 아닙니다."),
+	}
 }
 
 fun ExceptionEnum.CLASSROOM.toPair() = Pair(this.status, this.reason)
@@ -103,3 +111,5 @@ fun ExceptionEnum.CLUB.toPair() = Pair(this.status, this.reason)
 fun ExceptionEnum.NEIS.toPair() = Pair(this.status, this.reason)
 
 fun ExceptionEnum.HOMEBASE.toPair() = Pair(this.status, this.reason)
+
+fun ExceptionEnum.ATTENDANCE.toPair() = Pair(this.status, this.reason)
