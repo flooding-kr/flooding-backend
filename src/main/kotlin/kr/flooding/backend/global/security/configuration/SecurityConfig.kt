@@ -26,21 +26,7 @@ class SecurityConfig(
 			.authorizeHttpRequests {
 				it
 					// 인증
-					.requestMatchers(HttpMethod.POST, "/auth/sign-up")
-					.permitAll()
-					.requestMatchers(HttpMethod.POST, "/auth/sign-in")
-					.permitAll()
-					.requestMatchers(HttpMethod.POST, "/auth/logout")
-					.permitAll()
-					.requestMatchers(HttpMethod.GET, "/auth/verify")
-					.permitAll()
-					.requestMatchers(HttpMethod.PATCH, "/auth/re-issue")
-					.permitAll()
-					.requestMatchers(HttpMethod.PATCH, "/auth/re-verify")
-					.permitAll()
-					.requestMatchers(HttpMethod.POST, "/auth/password/reset")
-					.permitAll()
-					.requestMatchers(HttpMethod.POST, "/auth/password/find")
+					.requestMatchers(HttpMethod.POST, "/auth/**")
 					.permitAll()
 					// 사용자
 					.requestMatchers(HttpMethod.GET, "/user")
@@ -90,13 +76,14 @@ class SecurityConfig(
 					.hasAnyAuthority(Role.ROLE_USER.name)
 					.requestMatchers(HttpMethod.POST, "/club/invite/confirm")
 					.hasAnyAuthority(Role.ROLE_USER.name)
-					.requestMatchers(HttpMethod.POST, "/club/leader/attend")
+					// 출석
+					.requestMatchers(HttpMethod.POST, "/attendance/club")
 					.hasAnyAuthority(Role.ROLE_USER.name)
-					.requestMatchers(HttpMethod.POST, "/club/leader/absence")
+					.requestMatchers(HttpMethod.DELETE, "/attendance/club")
 					.hasAnyAuthority(Role.ROLE_USER.name)
-					.requestMatchers(HttpMethod.POST, "/club/attend")
+					.requestMatchers(HttpMethod.POST, "/attendance/club/leader")
 					.hasAnyAuthority(Role.ROLE_USER.name)
-					.requestMatchers(HttpMethod.POST, "/club/absence")
+					.requestMatchers(HttpMethod.DELETE, "/attendance/club/leader")
 					.hasAnyAuthority(Role.ROLE_USER.name)
 					// 파일
 					.requestMatchers(HttpMethod.POST, "/file/image")

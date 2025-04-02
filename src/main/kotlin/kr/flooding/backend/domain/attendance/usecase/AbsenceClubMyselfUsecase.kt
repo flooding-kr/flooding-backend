@@ -1,4 +1,4 @@
-package kr.flooding.backend.domain.club.usecase
+package kr.flooding.backend.domain.attendance.usecase
 
 import kr.flooding.backend.domain.attendance.entity.Attendance
 import kr.flooding.backend.domain.attendance.repository.AttendanceRepository
