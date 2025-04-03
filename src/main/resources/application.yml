@@ -22,6 +22,8 @@ spring:
         serialization:
             write-dates-as-timestamps: false
         date-format: yyyy-MM-dd'T'HH:mm:ss
+        time-zone: Asia/Seoul
+        property-naming-strategy: SNAKE_CASE
 
     data:
         redis:

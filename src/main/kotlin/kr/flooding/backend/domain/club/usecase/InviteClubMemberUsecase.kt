@@ -5,7 +5,7 @@ import kr.flooding.backend.domain.club.entity.ClubInvite
 import kr.flooding.backend.domain.club.entity.ClubStatus
 import kr.flooding.backend.domain.club.repository.ClubInviteRepository
 import kr.flooding.backend.domain.club.repository.ClubRepository
-import kr.flooding.backend.domain.clubMember.repository.ClubMemberRepository
+import kr.flooding.backend.domain.clubMember.repository.jpa.ClubMemberJpaRepository
 import kr.flooding.backend.domain.user.repository.UserRepository
 import kr.flooding.backend.global.exception.ExceptionEnum
 import kr.flooding.backend.global.exception.HttpException
@@ -21,7 +21,7 @@ import java.util.UUID
 class InviteClubMemberUsecase(
 	private val userUtil: UserUtil,
 	private val clubRepository: ClubRepository,
-	private val clubMemberRepository: ClubMemberRepository,
+	private val clubMemberJpaRepository: ClubMemberJpaRepository,
 	private val userRepository: UserRepository,
 	private val passwordUtil: PasswordUtil,
 	private val clubInviteRepository: ClubInviteRepository,
@@ -43,7 +43,7 @@ class InviteClubMemberUsecase(
 		}
 
 		// 초대 받는 대상이 이미 해당 동아리의 구성원이라면
-		if (clubMemberRepository.existsByClubIdAndUserId(clubId, userId)) {
+		if (clubMemberJpaRepository.existsByClubIdAndUserId(clubId, userId)) {
 			throw HttpException(ExceptionEnum.CLUB.ALREADY_JOINED_CLUB.toPair())
 		}
 
