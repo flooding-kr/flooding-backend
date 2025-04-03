@@ -1,4 +1,4 @@
-package kr.flooding.backend.domain.applicant.domain
+package kr.flooding.backend.domain.clubApplicant.domain
 
 import jakarta.persistence.Entity
 import jakarta.persistence.FetchType
@@ -12,7 +12,7 @@ import org.hibernate.annotations.UuidGenerator
 import java.util.UUID
 
 @Entity
-class Applicant(
+class ClubApplicant(
 	@Id
 	@UuidGenerator
 	val id: UUID? = null,

@@ -2,14 +2,12 @@ package kr.flooding.backend.domain.club.controller
 
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.Valid
-import kr.flooding.backend.domain.club.dto.request.ApplyClubRequest
 import kr.flooding.backend.domain.club.dto.request.CreateClubRequest
 import kr.flooding.backend.domain.club.dto.request.UpdateClubRequest
 import kr.flooding.backend.domain.club.dto.response.FetchClubFilterResponse
 import kr.flooding.backend.domain.club.dto.response.FetchClubMyselfResponse
 import kr.flooding.backend.domain.club.dto.response.FetchClubResponse
 import kr.flooding.backend.domain.club.entity.ClubType
-import kr.flooding.backend.domain.club.usecase.ApplyClubUsecase
 import kr.flooding.backend.domain.club.usecase.CloseClubUsecase
 import kr.flooding.backend.domain.club.usecase.ConfirmClubInviteUsecase
 import kr.flooding.backend.domain.club.usecase.CreateClubUsecase
@@ -43,7 +41,6 @@ class ClubController(
 	private val fetchClubMyselfUsecase: FetchClubMyselfUsecase,
 	private val removeClubMemberUsecase: RemoveClubMemberUsecase,
 	private val updateClubUsecase: UpdateClubUsecase,
-	private val applyClubUsecase: ApplyClubUsecase,
 	private val openClubUsecase: OpenClubUsecase,
 	private val closeClubUsecase: CloseClubUsecase,
 	private val removeClubUsecase: RemoveClubUsecase,
@@ -89,14 +86,6 @@ class ClubController(
 		@PathVariable clubId: UUID,
 	): ResponseEntity<Unit> =
 		updateClubUsecase.execute(updateClubRequest.copy(clubId = clubId)).run {
-			ResponseEntity.ok().build()
-		}
-
-	@PostMapping("applicant")
-	fun applyClub(
-		@Valid @RequestBody applyClubRequest: ApplyClubRequest,
-	): ResponseEntity<Unit> =
-		applyClubUsecase.execute(applyClubRequest).run {
 			ResponseEntity.ok().build()
 		}
 

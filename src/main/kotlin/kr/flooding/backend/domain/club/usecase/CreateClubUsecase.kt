@@ -1,10 +1,10 @@
 package kr.flooding.backend.domain.club.usecase
 
-import kr.flooding.backend.domain.applicant.repository.ApplicantRepository
 import kr.flooding.backend.domain.club.dto.request.CreateClubRequest
 import kr.flooding.backend.domain.club.entity.Club
 import kr.flooding.backend.domain.club.entity.ClubStatus
 import kr.flooding.backend.domain.club.repository.ClubRepository
+import kr.flooding.backend.domain.clubApplicant.repository.jpa.ClubApplicantJpaRepository
 import kr.flooding.backend.domain.clubMember.entity.ClubMember
 import kr.flooding.backend.domain.clubMember.repository.jpa.ClubMemberJpaRepository
 import kr.flooding.backend.domain.homebaseTable.repository.jpa.ClassroomRepository
@@ -20,7 +20,7 @@ import org.springframework.transaction.annotation.Transactional
 class CreateClubUsecase(
 	private val clubRepository: ClubRepository,
 	private val classroomRepository: ClassroomRepository,
-	private val applicantRepository: ApplicantRepository,
+	private val clubApplicantJpaRepository: ClubApplicantJpaRepository,
 	private val clubMemberJpaRepository: ClubMemberJpaRepository,
 	private val userUtil: UserUtil,
 ) {
@@ -54,7 +54,7 @@ class CreateClubUsecase(
 			}
 
 		// 동일 유형의 동아리 중 지원한 동아리가 있는지
-		applicantRepository
+		clubApplicantJpaRepository
 			.existsByClub_TypeAndUser(createClubRequest.type, currentUser)
 			.takeIf { it }
 			?.let {
