@@ -1,10 +1,10 @@
-package kr.flooding.backend.domain.club.usecase
+package kr.flooding.backend.domain.clubApplicant.usecase
 
-import kr.flooding.backend.domain.applicant.repository.ApplicantRepository
-import kr.flooding.backend.domain.club.dto.request.ApplyClubRequest
 import kr.flooding.backend.domain.club.entity.ClubStatus
 import kr.flooding.backend.domain.club.repository.ClubRepository
-import kr.flooding.backend.domain.clubMember.entity.ClubMember
+import kr.flooding.backend.domain.clubApplicant.domain.ClubApplicant
+import kr.flooding.backend.domain.clubApplicant.dto.request.ApplyClubRequest
+import kr.flooding.backend.domain.clubApplicant.repository.jpa.ClubApplicantJpaRepository
 import kr.flooding.backend.domain.clubMember.repository.jpa.ClubMemberJpaRepository
 import kr.flooding.backend.global.exception.ExceptionEnum
 import kr.flooding.backend.global.exception.HttpException
@@ -19,40 +19,12 @@ class ApplyClubUsecase(
 	private val clubRepository: ClubRepository,
 	private val userUtil: UserUtil,
 	private val clubMemberJpaRepository: ClubMemberJpaRepository,
-	private val applicantRepository: ApplicantRepository,
+	private val clubApplicantJpaRepository: ClubApplicantJpaRepository,
 ) {
 	fun execute(applyClubRequest: ApplyClubRequest) {
 		val club =
 			clubRepository.findById(applyClubRequest.clubId).orElseThrow {
 				HttpException(ExceptionEnum.CLUB.NOT_FOUND_CLUB.toPair())
-			}
-
-		val currentUser = userUtil.getUser()
-
-		// 이미 동일 유형의 동아리의 부장인지
-		clubRepository
-			.existsByTypeAndLeader(
-				type = club.type,
-				leader = currentUser,
-			).takeIf { it }
-			?.let {
-				throw HttpException(ExceptionEnum.CLUB.EXISTS_PENDING_CLUB.toPair())
-			}
-
-		// 동일 유형의 동아리 중 이미 참가한 동아리가 있는지
-		clubMemberJpaRepository
-			.existsByClub_TypeAndUser(club.type, currentUser)
-			.takeIf { it }
-			?.let {
-				throw HttpException(ExceptionEnum.CLUB.ALREADY_JOINED_CLUB.toPair())
-			}
-
-		// 동일 유형의 동아리 중 지원한 동아리가 있는지
-		applicantRepository
-			.existsByClub_TypeAndUser(club.type, currentUser)
-			.takeIf { it }
-			?.let {
-				throw HttpException(ExceptionEnum.CLUB.ALREADY_APPLY_CLUB.toPair())
 			}
 
 		if (club.status != ClubStatus.APPROVED) {
@@ -63,8 +35,26 @@ class ApplyClubUsecase(
 			throw HttpException(ExceptionEnum.CLUB.NOT_CLUB_RECRUITING.toPair())
 		}
 
-		clubMemberJpaRepository.save(
-			ClubMember(
+		val currentUser = userUtil.getUser()
+
+		// 동일 유형의 동아리 중 이미 참가한 동아리가 있는지
+		clubMemberJpaRepository
+			.existsByClub_TypeAndUser(club.type, currentUser)
+			.takeIf { it }
+			?.let {
+				throw HttpException(ExceptionEnum.CLUB.ALREADY_JOINED_CLUB.toPair())
+			}
+
+		// 동일 유형의 동아리 중 지원한 동아리가 있는지
+		clubApplicantJpaRepository
+			.existsByClub_TypeAndUser(club.type, currentUser)
+			.takeIf { it }
+			?.let {
+				throw HttpException(ExceptionEnum.CLUB.ALREADY_APPLY_CLUB.toPair())
+			}
+
+		clubApplicantJpaRepository.save(
+			ClubApplicant(
 				club = club,
 				user = currentUser,
 			),
