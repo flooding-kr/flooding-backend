@@ -66,6 +66,7 @@ sealed interface ExceptionEnum {
 		INVALID_CLUB_INVITE_CODE(HttpStatus.BAD_REQUEST, "일치하지 않는 동아리 초대 코드입니다."),
 		MISSING_ABSENCE_REASON(HttpStatus.BAD_REQUEST, "미출석 사유를 입력해야 합니다."),
 		NOT_CLUB_MEMBER(HttpStatus.FORBIDDEN, "해당 동아리의 구성원이 아닙니다."),
+		NOT_FOUND_CLUB_APPLICANT(HttpStatus.NOT_FOUND, "해당하는 동아리 지원을 찾을 수 없습니다."),
 	}
 
 	enum class CLASSROOM(
