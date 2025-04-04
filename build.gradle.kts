@@ -54,12 +54,6 @@ dependencies {
 	implementation("software.amazon.awssdk:s3:2.30.21")
 	implementation("org.springframework.boot:spring-boot-starter-data-redis")
 
-	// Serverless
-	implementation("com.amazonaws.serverless:aws-serverless-java-container-springboot3:2.1.2")
-	implementation("com.amazonaws:aws-lambda-java-core:1.2.3")
-	implementation("com.amazonaws:aws-lambda-java-events:3.14.0")
-	implementation("org.springframework.boot:spring-boot-maven-plugin:3.4.2")
-
 	// Swagger
 	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.5")
 	implementation("org.springdoc:springdoc-openapi-starter-webmvc-api:2.8.5")
