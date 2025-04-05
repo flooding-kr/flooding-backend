@@ -26,7 +26,7 @@ class SecurityConfig(
 			.authorizeHttpRequests {
 				it
 					// 인증
-					.requestMatchers(HttpMethod.POST, "/auth/**")
+					.requestMatchers("/auth/**")
 					.permitAll()
 					// 사용자
 					.requestMatchers(HttpMethod.GET, "/user")

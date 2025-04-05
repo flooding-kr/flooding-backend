@@ -6,7 +6,6 @@ import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import jakarta.servlet.FilterChain
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
-import jakarta.ws.rs.core.MediaType
 import kr.flooding.backend.global.exception.ExceptionEnum
 import kr.flooding.backend.global.exception.HttpException
 import kr.flooding.backend.global.exception.dto.HttpExceptionResponse
@@ -37,7 +36,7 @@ class ExceptionFilter : OncePerRequestFilter() {
 			response.status = exceptionResponse.status.value()
 			response.writer.write(objectMapper.writeValueAsString(exceptionResponse))
 			response.characterEncoding = "UTF-8"
-			response.contentType = MediaType.APPLICATION_JSON
+			response.contentType = "application/json"
 		}
 	}
 }
