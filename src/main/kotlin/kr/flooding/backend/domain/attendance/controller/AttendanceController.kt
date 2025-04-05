@@ -3,7 +3,6 @@ package kr.flooding.backend.domain.attendance.controller
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.Valid
-import jdk.jshell.execution.Util
 import kr.flooding.backend.domain.attendance.usecase.AbsenceClubLeaderUsecase
 import kr.flooding.backend.domain.attendance.usecase.AbsenceClubMyselfUsecase
 import kr.flooding.backend.domain.attendance.usecase.AttendClubLeaderUsecase
@@ -32,7 +31,7 @@ class AttendanceController(
 	@PostMapping("club")
 	fun attendanceClub(
 		@Valid @RequestBody attendClubMyselfRequest: AttendClubMyselfRequest,
-	): ResponseEntity<Util> =
+	): ResponseEntity<Unit> =
 		attendClubMyselfUsecase.execute(attendClubMyselfRequest).run {
 			ResponseEntity.ok().build()
 		}
@@ -41,7 +40,7 @@ class AttendanceController(
 	@DeleteMapping("club")
 	fun absenceClub(
 		@Valid @RequestBody absenceClubMyselfRequest: AbsenceClubMyselfRequest,
-	): ResponseEntity<Util> =
+	): ResponseEntity<Unit> =
 		absenceClubMyselfUsecase.execute(absenceClubMyselfRequest).run {
 			ResponseEntity.ok().build()
 		}
@@ -50,7 +49,7 @@ class AttendanceController(
 	@PostMapping("club/leader")
 	fun attendanceClubLeader(
 		@Valid @RequestBody attendClubLeaderRequest: AttendClubLeaderRequest,
-	): ResponseEntity<Util> =
+	): ResponseEntity<Unit> =
 		attendClubLeaderUsecase.execute(attendClubLeaderRequest).run {
 			ResponseEntity.ok().build()
 		}
@@ -59,7 +58,7 @@ class AttendanceController(
 	@DeleteMapping("club/leader")
 	fun absenceClubLeader(
 		@Valid @RequestBody absenceClubLeaderRequest: AbsenceClubLeaderRequest,
-	): ResponseEntity<Util> =
+	): ResponseEntity<Unit> =
 		absenceClubLeaderUsecase.execute(absenceClubLeaderRequest).run {
 			ResponseEntity.ok().build()
 		}
