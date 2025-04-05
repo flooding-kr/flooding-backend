@@ -1,4 +1,4 @@
-package kr.flooding.backend.domain.classroom.contorller
+package kr.flooding.backend.domain.classroom.controller
 
 import io.swagger.v3.oas.annotations.tags.Tag
 import kr.flooding.backend.domain.classroom.dto.request.FetchClassroomRequest
