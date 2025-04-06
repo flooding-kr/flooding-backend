@@ -20,8 +20,12 @@ class ReissueTokenUsecase(
 	private val refreshTokenRepository: RefreshTokenRepository,
 ) {
 	fun execute(resolveRefreshToken: String): ReissueTokenResponse {
-		val currentUserId = jwtProvider.getIdByRefreshToken(resolveRefreshToken)
-		val savedRefreshToken = jwtProvider.getSavedRefreshTokenByRefreshToken(resolveRefreshToken)
+		val currentUserId = UUID.fromString(jwtProvider.getIdByRefreshToken(resolveRefreshToken))
+
+		val savedRefreshToken =
+			refreshTokenRepository.findById(currentUserId).orElseThrow {
+				HttpException(ExceptionEnum.AUTH.NOT_FOUND_REFRESH_TOKEN.toPair())
+			}
 
 		if (resolveRefreshToken != savedRefreshToken.refreshToken) {
 			throw HttpException(ExceptionEnum.AUTH.INVALID_REFRESH_TOKEN.toPair())
@@ -29,14 +33,6 @@ class ReissueTokenUsecase(
 
 		val newAccessToken = jwtProvider.generateToken(currentUserId, JwtType.ACCESS_TOKEN)
 		val newRefreshToken = deleteRefreshTokenOrSave(currentUserId)
-
-		refreshTokenRepository.save(
-			RefreshToken(
-				id = UUID.fromString(currentUserId),
-				refreshToken = newRefreshToken.token,
-				expires = jwtProvider.refreshTokenExpires,
-			),
-		)
 
 		return ReissueTokenResponse(
 			accessToken = newAccessToken.token,
@@ -46,9 +42,9 @@ class ReissueTokenUsecase(
 		)
 	}
 
-	fun deleteRefreshTokenOrSave(id: String): JwtDetails {
+	private fun deleteRefreshTokenOrSave(id: UUID): JwtDetails {
 		val refreshToken =
-			refreshTokenRepository.findById(UUID.fromString(id)).orElseThrow {
+			refreshTokenRepository.findById(id).orElseThrow {
 				HttpException(ExceptionEnum.AUTH.NOT_FOUND_REFRESH_TOKEN.toPair())
 			}
 
@@ -57,7 +53,7 @@ class ReissueTokenUsecase(
 
 		val newRefreshTokenEntity =
 			RefreshToken(
-				id = UUID.fromString(id),
+				id = id,
 				refreshToken = newRefreshToken.token,
 				expires = jwtProvider.refreshTokenExpires,
 			)

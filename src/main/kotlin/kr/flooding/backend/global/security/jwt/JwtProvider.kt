@@ -6,7 +6,6 @@ import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.MalformedJwtException
 import io.jsonwebtoken.UnsupportedJwtException
 import io.jsonwebtoken.security.Keys
-import kr.flooding.backend.domain.auth.entity.RefreshToken
 import kr.flooding.backend.domain.auth.repository.RefreshTokenRepository
 import kr.flooding.backend.global.exception.ExceptionEnum
 import kr.flooding.backend.global.exception.HttpException
@@ -29,6 +28,8 @@ class JwtProvider(
 	private val refreshTokenRepository: RefreshTokenRepository,
 	@Value("\${jwt.access-token-key}")
 	private val accessTokenKey: String,
+	@Value("\${jwt.refresh-token-key}")
+	private val refreshTokenKey: String,
 	@Value("\${jwt.access-token-expires}")
 	private val accessTokenExpires: Long,
 	@Value("\${jwt.refresh-token-expires}")
@@ -36,7 +37,7 @@ class JwtProvider(
 ) {
 	fun getAuthentication(token: String?): UsernamePasswordAuthenticationToken? {
 		val resolvedToken = resolveToken(token)
-		val payload = getPayload(resolvedToken)
+		val payload = getPayload(resolvedToken, JwtType.ACCESS_TOKEN)
 
 		val userDetails = authDetailsService.loadUserByUsername(payload.subject)
 
@@ -50,24 +51,18 @@ class JwtProvider(
 			token.substring(7)
 		}
 
-	fun getSavedRefreshTokenByRefreshToken(refreshToken: String): RefreshToken {
-		val userId = UUID.fromString(getPayload(refreshToken).subject)
-		val savedRefreshToken =
-			refreshTokenRepository.findById(userId).orElseThrow {
-				HttpException(ExceptionEnum.AUTH.NOT_FOUND_REFRESH_TOKEN.toPair())
-			}
+	fun getIdByRefreshToken(refreshToken: String): String = getPayload(refreshToken, JwtType.REFRESH_TOKEN).subject
 
-		return savedRefreshToken
-	}
-
-	fun getIdByRefreshToken(refreshToken: String): String = getPayload(refreshToken).subject
-
-	fun getPayload(token: String?): Claims {
+	fun getPayload(
+		token: String?,
+		jwtType: JwtType,
+	): Claims {
 		if (token == null) {
 			throw HttpException(ExceptionEnum.AUTH.EMPTY_TOKEN.toPair())
 		}
 
-		val keyBytes = Base64.getEncoder().encode(accessTokenKey.encodeToByteArray())
+		val tokenKey = if (jwtType == JwtType.ACCESS_TOKEN) accessTokenKey else refreshTokenKey
+		val keyBytes = Base64.getEncoder().encode(tokenKey.encodeToByteArray())
 		val signingKey = Keys.hmacShaKeyFor(keyBytes)
 
 		try {
@@ -89,28 +84,23 @@ class JwtProvider(
 	}
 
 	fun generateToken(
-		id: String,
+		id: UUID,
 		jwtType: JwtType,
 	): JwtDetails {
-		val isAccessToken = jwtType == JwtType.ACCESS_TOKEN
+		val tokenExpires = if (jwtType == JwtType.ACCESS_TOKEN) accessTokenExpires else refreshTokenExpires
 		val expiredAt =
 			LocalDateTime.now().plus(
-				Duration.ofMillis(
-					if (isAccessToken) {
-						accessTokenExpires
-					} else {
-						refreshTokenExpires
-					},
-				),
+				Duration.ofMillis(tokenExpires),
 			)
 
-		val keyBytes = Base64.getEncoder().encode(accessTokenKey.encodeToByteArray())
+		val tokenKey = if (jwtType == JwtType.ACCESS_TOKEN) accessTokenKey else refreshTokenKey
+		val keyBytes = Base64.getEncoder().encode(tokenKey.encodeToByteArray())
 		val signingKey = Keys.hmacShaKeyFor(keyBytes)
 
 		val token =
 			Jwts
 				.builder()
-				.subject(id)
+				.subject(id.toString())
 				.signWith(signingKey)
 				.issuedAt(Date())
 				.expiration(expiredAt.toDate())

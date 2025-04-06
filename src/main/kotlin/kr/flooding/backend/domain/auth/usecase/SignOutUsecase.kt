@@ -7,6 +7,7 @@ import kr.flooding.backend.global.exception.toPair
 import kr.flooding.backend.global.security.jwt.JwtProvider
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.util.UUID
 
 @Service
 @Transactional
@@ -15,12 +16,16 @@ class SignOutUsecase(
 	private val jwtProvider: JwtProvider,
 ) {
 	fun execute(resolveRefreshToken: String) {
-		val savedRefreshToken = jwtProvider.getSavedRefreshTokenByRefreshToken(resolveRefreshToken)
+		val currentUserId = UUID.fromString(jwtProvider.getIdByRefreshToken(resolveRefreshToken))
+		val savedRefreshToken =
+			refreshTokenRepository.findById(currentUserId).orElseThrow {
+				HttpException(ExceptionEnum.AUTH.NOT_FOUND_REFRESH_TOKEN.toPair())
+			}
 
 		if (resolveRefreshToken != savedRefreshToken.refreshToken) {
 			throw HttpException(ExceptionEnum.AUTH.INVALID_REFRESH_TOKEN.toPair())
 		}
 
-		refreshTokenRepository.delete(savedRefreshToken)
+		refreshTokenRepository.deleteById(currentUserId)
 	}
 }

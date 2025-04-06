@@ -52,7 +52,7 @@ class SignInUsecase(
 			throw HttpException(ExceptionEnum.AUTH.WRONG_PASSWORD.toPair())
 		}
 
-		val accessToken = jwtProvider.generateToken(id.toString(), JwtType.ACCESS_TOKEN)
+		val accessToken = jwtProvider.generateToken(id, JwtType.ACCESS_TOKEN)
 		val refreshToken = getRefreshTokenOrSave(id)
 
 		return SignInResponse(
@@ -67,7 +67,7 @@ class SignInUsecase(
 		val refreshToken = refreshTokenRepository.findById(id)
 
 		if (refreshToken.isEmpty) {
-			val newRefreshToken = jwtProvider.generateToken(id.toString(), JwtType.REFRESH_TOKEN)
+			val newRefreshToken = jwtProvider.generateToken(id, JwtType.REFRESH_TOKEN)
 			refreshTokenRepository.save(
 				RefreshToken(
 					id = id,
