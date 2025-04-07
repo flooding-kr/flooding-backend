@@ -14,25 +14,25 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 @Transactional
 class CreateMusicUsecase(
-    private val youtubeAdapter: YoutubeAdapter,
-    private val userUtil: UserUtil,
-    private val musicJpaRepository: MusicJpaRepository,
+	private val youtubeAdapter: YoutubeAdapter,
+	private val userUtil: UserUtil,
+	private val musicJpaRepository: MusicJpaRepository,
 ) {
-    fun execute(createMusicRequest: CreateMusicRequest) {
-        val currentUser = userUtil.getUser()
+	fun execute(createMusicRequest: CreateMusicRequest) {
+		val currentUser = userUtil.getUser()
 
-        if (musicJpaRepository.existsByProposer(currentUser)) {
-            throw HttpException(ExceptionEnum.MUSIC.ALREADY_REQUESTED_MUSIC.toPair())
-        }
+		if (musicJpaRepository.existsByProposer(currentUser)) {
+			throw HttpException(ExceptionEnum.MUSIC.ALREADY_REQUESTED_MUSIC.toPair())
+		}
 
-        val youtubeInfo = youtubeAdapter.fetchYoutubeInfo(createMusicRequest.musicUrl)
-        musicJpaRepository.save(
-            Music(
-                musicUrl = youtubeInfo.musicUrl,
-                title = youtubeInfo.title,
-                thumbImageUrl = youtubeInfo.thumbnailImageUrl,
-                proposer = currentUser
-            )
-        )
-    }
+		val youtubeInfo = youtubeAdapter.fetchYoutubeInfo(createMusicRequest.musicUrl)
+		musicJpaRepository.save(
+			Music(
+				musicUrl = youtubeInfo.musicUrl,
+				title = youtubeInfo.title,
+				thumbImageUrl = youtubeInfo.thumbnailImageUrl,
+				proposer = currentUser,
+			),
+		)
+	}
 }

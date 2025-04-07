@@ -8,13 +8,12 @@ import org.springframework.context.annotation.Configuration
 
 @Configuration
 class YoutubeConfig {
-    @Bean
-    fun youTubeConfig(): YouTube {
-        return YouTube.Builder(
-            GoogleNetHttpTransport.newTrustedTransport(),
-            GsonFactory.getDefaultInstance(),
-            null
-        ).setApplicationName("music-server").build()
-    }
-
+	@Bean
+	fun youTubeConfig(): YouTube {
+		return YouTube.Builder(
+			GoogleNetHttpTransport.newTrustedTransport(),
+			GsonFactory.getDefaultInstance(),
+			null,
+		).setApplicationName("music-server").build()
+	}
 }

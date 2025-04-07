@@ -5,6 +5,6 @@ import kr.flooding.backend.domain.user.entity.User
 import org.springframework.data.jpa.repository.JpaRepository
 import java.util.UUID
 
-interface MusicJpaRepository: JpaRepository<Music, UUID> {
-    fun existsByProposer(proposer: User): Boolean
+interface MusicJpaRepository : JpaRepository<Music, UUID> {
+	fun existsByProposer(proposer: User): Boolean
 }

@@ -14,12 +14,13 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/music")
 class MusicController(
-    private val createMusicUsecase: CreateMusicUsecase,
+	private val createMusicUsecase: CreateMusicUsecase,
 ) {
-    @PostMapping
-    fun createMusic(@Valid @RequestBody createMusicRequest: CreateMusicRequest): ResponseEntity<Unit> =
-        createMusicUsecase.execute(createMusicRequest).run {
-            ResponseEntity.ok().build()
-        }
-
+	@PostMapping
+	fun createMusic(
+		@Valid @RequestBody createMusicRequest: CreateMusicRequest,
+	): ResponseEntity<Unit> =
+		createMusicUsecase.execute(createMusicRequest).run {
+			ResponseEntity.ok().build()
+		}
 }
