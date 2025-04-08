@@ -1,6 +1,6 @@
 package kr.flooding.backend.domain.homebase.usecase
 
-import kr.flooding.backend.domain.attendance.repository.AttendanceRepository
+import kr.flooding.backend.domain.attendance.repository.jpa.AttendanceJpaRepository
 import kr.flooding.backend.domain.homebase.repository.jpa.HomebaseGroupRepository
 import kr.flooding.backend.domain.homebaseParticipants.repository.jpa.HomebaseParticipantRepository
 import kr.flooding.backend.global.exception.ExceptionEnum
@@ -16,7 +16,7 @@ import java.util.UUID
 class CancelHomebaseTableUsecase(
 	private val userUtil: UserUtil,
 	private val homebaseGroupRepository: HomebaseGroupRepository,
-	private val attendanceRepository: AttendanceRepository,
+	private val attendanceJpaRepository: AttendanceJpaRepository,
 	private val homebaseParticipantRepository: HomebaseParticipantRepository,
 ) {
 	fun execute(homebaseGroupId: UUID) {

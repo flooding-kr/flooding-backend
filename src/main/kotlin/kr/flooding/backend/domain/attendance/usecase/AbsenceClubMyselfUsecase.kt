@@ -1,8 +1,8 @@
 package kr.flooding.backend.domain.attendance.usecase
 
+import kr.flooding.backend.domain.attendance.dto.request.AbsenceClubMyselfRequest
 import kr.flooding.backend.domain.attendance.entity.Attendance
-import kr.flooding.backend.domain.attendance.repository.AttendanceRepository
-import kr.flooding.backend.domain.club.dto.request.AbsenceClubMyselfRequest
+import kr.flooding.backend.domain.attendance.repository.jpa.AttendanceJpaRepository
 import kr.flooding.backend.domain.club.entity.ClubStatus
 import kr.flooding.backend.domain.club.repository.ClubRepository
 import kr.flooding.backend.domain.period.repository.PeriodRepository
@@ -19,7 +19,7 @@ import java.time.LocalTime
 @Transactional
 class AbsenceClubMyselfUsecase(
 	private val userUtil: UserUtil,
-	private val attendanceRepository: AttendanceRepository,
+	private val attendanceJpaRepository: AttendanceJpaRepository,
 	private val clubRepository: ClubRepository,
 	private val periodRepository: PeriodRepository,
 ) {
@@ -35,7 +35,7 @@ class AbsenceClubMyselfUsecase(
 
 		val currentUser = userUtil.getUser()
 
-		if (!attendanceRepository.existsByStudentAndClub(currentUser, club)) {
+		if (!attendanceJpaRepository.existsByStudentAndClub(currentUser, club)) {
 			throw HttpException(ExceptionEnum.CLUB.NOT_CLUB_MEMBER.toPair())
 		}
 
@@ -51,7 +51,7 @@ class AbsenceClubMyselfUsecase(
 		}
 
 		val attendance =
-			attendanceRepository
+			attendanceJpaRepository
 				.findByStudentAndClubAndPeriodAndAttendedAt(currentUser, club, request.period, nowDate)
 				.map { it.copy(isPresent = false, reason = request.reason) }
 				.orElse(
@@ -65,6 +65,6 @@ class AbsenceClubMyselfUsecase(
 					),
 				)
 
-		attendanceRepository.save(attendance)
+		attendanceJpaRepository.save(attendance)
 	}
 }
