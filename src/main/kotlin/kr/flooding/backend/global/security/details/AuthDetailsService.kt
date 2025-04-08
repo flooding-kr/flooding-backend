@@ -1,6 +1,7 @@
 package kr.flooding.backend.global.security.details
 
-import kr.flooding.backend.domain.user.repository.UserRepository
+import kr.flooding.backend.domain.role.repository.jpa.RoleJpaRepository
+import kr.flooding.backend.domain.user.repository.jdsl.UserJdslRepository
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.stereotype.Service
@@ -8,15 +9,18 @@ import java.util.UUID
 
 @Service
 class AuthDetailsService(
-	private val userRepository: UserRepository,
+	private val userJdslRepository: UserJdslRepository,
+	private val roleJpaRepository: RoleJpaRepository,
 ) : UserDetailsService {
 	// username is user's id
 	override fun loadUserByUsername(username: String): UserDetails {
 		val id = UUID.fromString(username)
-		val userByEmail =
-			userRepository.findById(id).orElseThrow {
+		val userCredential =
+			userJdslRepository.findCredentialById(id).orElseThrow {
 				IllegalAccessException()
 			}
-		return AuthDetails(userByEmail)
+		val roles = roleJpaRepository.findByUserId(userCredential.id)
+
+		return AuthDetails(userCredential, roles)
 	}
 }
