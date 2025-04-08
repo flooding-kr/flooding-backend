@@ -1,4 +1,4 @@
-package kr.flooding.backend.domain.user.repository
+package kr.flooding.backend.domain.user.repository.jpa
 
 import kr.flooding.backend.domain.user.entity.StudentInfo
 import kr.flooding.backend.domain.user.entity.User
@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository
 import java.util.Optional
 import java.util.UUID
 
-interface UserRepository : JpaRepository<User, UUID> {
+interface UserJpaRepository : JpaRepository<User, UUID> {
 	fun findByEmail(email: String): Optional<User>
 
 	fun existsByEmail(email: String): Boolean
@@ -14,9 +14,4 @@ interface UserRepository : JpaRepository<User, UUID> {
 	fun existsByStudentInfo(studentInfo: StudentInfo): Boolean
 
 	fun findByIdIn(ids: List<UUID>): MutableList<User>
-
-	fun findByNameContainsAndStudentInfoYearGreaterThanEqualAndStudentInfoIsNotNull(
-		name: String,
-		year: Int,
-	): List<User>
 }
