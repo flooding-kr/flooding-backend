@@ -94,8 +94,9 @@ sealed interface ExceptionEnum {
 		val status: HttpStatus,
 		val reason: String,
 	) {
-		NOT_FOUND_PERIOD_INFO(HttpStatus.BAD_REQUEST, "교시 정보를 받아오지 못했습니다."),
+		NOT_FOUND_PERIOD_INFO(HttpStatus.NOT_FOUND, "교시 정보를 찾을 수 없습니다."),
 		ATTENDANCE_OUT_OF_TIME_RANGE(HttpStatus.BAD_REQUEST, "현재 시간에 해당하는 교시가 아닙니다."),
+		NOT_FOUND_ATTENDANCE_INFO(HttpStatus.NOT_FOUND, "출석 정보를 찾을 수 없습니다."),
 	}
 
 	enum class MUSIC(

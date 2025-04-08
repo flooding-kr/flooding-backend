@@ -1,4 +1,4 @@
-package kr.flooding.backend.domain.club.dto.request
+package kr.flooding.backend.domain.attendance.dto.request
 
 import java.util.UUID
 

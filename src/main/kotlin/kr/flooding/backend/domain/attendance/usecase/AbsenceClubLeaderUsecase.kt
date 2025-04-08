@@ -1,8 +1,8 @@
 package kr.flooding.backend.domain.attendance.usecase
 
+import kr.flooding.backend.domain.attendance.dto.request.AbsenceClubLeaderRequest
 import kr.flooding.backend.domain.attendance.entity.Attendance
-import kr.flooding.backend.domain.attendance.repository.AttendanceRepository
-import kr.flooding.backend.domain.club.dto.request.AbsenceClubLeaderRequest
+import kr.flooding.backend.domain.attendance.repository.jpa.AttendanceJpaRepository
 import kr.flooding.backend.domain.club.entity.ClubStatus
 import kr.flooding.backend.domain.club.repository.ClubRepository
 import kr.flooding.backend.domain.clubMember.repository.jpa.ClubMemberJpaRepository
@@ -22,7 +22,7 @@ import java.time.LocalTime
 class AbsenceClubLeaderUsecase(
 	private val userUtil: UserUtil,
 	private val clubRepository: ClubRepository,
-	private val attendanceRepository: AttendanceRepository,
+	private val attendanceJpaRepository: AttendanceJpaRepository,
 	private val userRepository: UserRepository,
 	private val clubMemberJpaRepository: ClubMemberJpaRepository,
 	private val periodRepository: PeriodRepository,
@@ -65,7 +65,7 @@ class AbsenceClubLeaderUsecase(
 		}
 
 		val existingAttendance =
-			attendanceRepository
+			attendanceJpaRepository
 				.findByClubAndPeriodAndAttendedAt(
 					club,
 					request.period,
@@ -87,6 +87,6 @@ class AbsenceClubLeaderUsecase(
 					)
 			}
 
-		attendanceRepository.saveAll(attendance)
+		attendanceJpaRepository.saveAll(attendance)
 	}
 }

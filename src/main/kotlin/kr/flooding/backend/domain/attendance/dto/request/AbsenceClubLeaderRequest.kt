@@ -1,4 +1,4 @@
-package kr.flooding.backend.domain.club.dto.request
+package kr.flooding.backend.domain.attendance.dto.request
 
 import jakarta.validation.constraints.NotBlank
 import java.util.UUID

@@ -2,7 +2,7 @@ package kr.flooding.backend.domain.homebase.usecase
 
 import jakarta.transaction.Transactional
 import kr.flooding.backend.domain.attendance.entity.Attendance
-import kr.flooding.backend.domain.attendance.repository.AttendanceRepository
+import kr.flooding.backend.domain.attendance.repository.jpa.AttendanceJpaRepository
 import kr.flooding.backend.domain.homebase.dto.request.ReserveHomebaseTableRequest
 import kr.flooding.backend.domain.homebase.entity.HomebaseGroup
 import kr.flooding.backend.domain.homebase.repository.jpa.HomebaseGroupRepository
@@ -20,7 +20,7 @@ import java.time.LocalDate
 @Service
 @Transactional
 class ReserveHomebaseTableUsecase(
-	private val attendanceRepository: AttendanceRepository,
+	private val attendanceJpaRepository: AttendanceJpaRepository,
 	private val homebaseGroupRepository: HomebaseGroupRepository,
 	private val homebaseTableJdslRepository: HomebaseTableJdslRepository,
 	private val homebaseParticipantRepository: HomebaseParticipantRepository,
@@ -109,7 +109,7 @@ class ReserveHomebaseTableUsecase(
 			}
 
 		homebaseParticipantRepository.saveAll(homebaseParticipants)
-		attendanceRepository.saveAll(allAttendances)
+		attendanceJpaRepository.saveAll(allAttendances)
 		homebaseGroupRepository.save(homebaseGroup)
 	}
 }

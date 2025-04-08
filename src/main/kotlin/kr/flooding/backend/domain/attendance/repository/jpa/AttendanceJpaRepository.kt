@@ -1,4 +1,4 @@
-package kr.flooding.backend.domain.attendance.repository
+package kr.flooding.backend.domain.attendance.repository.jpa
 
 import kr.flooding.backend.domain.attendance.entity.Attendance
 import kr.flooding.backend.domain.club.entity.Club
@@ -8,12 +8,18 @@ import java.time.LocalDate
 import java.util.Optional
 import java.util.UUID
 
-interface AttendanceRepository : JpaRepository<Attendance, UUID> {
+interface AttendanceJpaRepository : JpaRepository<Attendance, UUID> {
 	fun existsByAttendedAtAndPeriodAndStudentIn(
 		attendedAt: LocalDate,
 		period: Int,
 		students: List<User>,
 	): Boolean
+
+	fun findByAttendedAtAndPeriodAndStudent(
+		attendedAt: LocalDate,
+		period: Int,
+		student: User,
+	): Optional<Attendance>
 
 	fun findByStudentAndClubAndPeriodAndAttendedAt(
 		student: User,
