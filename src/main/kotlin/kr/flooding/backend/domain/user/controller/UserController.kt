@@ -3,8 +3,11 @@ package kr.flooding.backend.domain.user.controller
 import io.swagger.v3.oas.annotations.tags.Tag
 import kr.flooding.backend.domain.user.dto.request.WithdrawRequest
 import kr.flooding.backend.domain.user.dto.response.FetchUserInfoResponse
-import kr.flooding.backend.domain.user.usecase.FetchFilteredUserUsecase
+import kr.flooding.backend.domain.user.dto.response.SearchStudentListResponse
+import kr.flooding.backend.domain.user.dto.response.SearchTeacherListResponse
 import kr.flooding.backend.domain.user.usecase.FetchUserUsecase
+import kr.flooding.backend.domain.user.usecase.SearchStudentUsecase
+import kr.flooding.backend.domain.user.usecase.SearchTeacherUsecase
 import kr.flooding.backend.domain.user.usecase.UpdateProfileImageUsecase
 import kr.flooding.backend.domain.user.usecase.WithdrawUsecase
 import org.springframework.http.ResponseEntity
@@ -24,20 +27,13 @@ import org.springframework.web.multipart.MultipartFile
 class UserController(
 	private val fetchUserUsecase: FetchUserUsecase,
 	private val withdrawUsecase: WithdrawUsecase,
-	private val fetchFilteredUserUsecase: FetchFilteredUserUsecase,
 	private val updateProfileImageUsecase: UpdateProfileImageUsecase,
+	private val searchStudentUsecase: SearchStudentUsecase,
+	private val searchTeacherUsecase: SearchTeacherUsecase,
 ) {
 	@GetMapping
 	fun getUserInfo(): ResponseEntity<FetchUserInfoResponse> =
 		fetchUserUsecase.execute().let {
-			ResponseEntity.ok(it)
-		}
-
-	@GetMapping("search")
-	fun searchUser(
-		@RequestParam("name", required = false) name: String?,
-	): ResponseEntity<List<FetchUserInfoResponse>> =
-		fetchFilteredUserUsecase.execute(name ?: "").let {
 			ResponseEntity.ok(it)
 		}
 
@@ -55,5 +51,21 @@ class UserController(
 	): ResponseEntity<Unit> =
 		updateProfileImageUsecase.execute(image).let {
 			ResponseEntity.ok().build()
+		}
+
+	@GetMapping("student/search")
+	fun searchStudent(
+		@RequestParam("name", required = false) name: String?,
+	): ResponseEntity<SearchStudentListResponse> =
+		searchStudentUsecase.execute(name ?: "").let {
+			ResponseEntity.ok(it)
+		}
+
+	@GetMapping("teacher/search")
+	fun searchTeacher(
+		@RequestParam("name", required = false) name: String?,
+	): ResponseEntity<SearchTeacherListResponse> =
+		searchTeacherUsecase.execute(name ?: "").let {
+			ResponseEntity.ok(it)
 		}
 }
