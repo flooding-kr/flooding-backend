@@ -1,23 +1,19 @@
 package kr.flooding.backend.global.security.configuration
 
-import org.springframework.context.annotation.Bean
-import org.springframework.web.cors.CorsConfiguration
-import org.springframework.web.cors.CorsConfigurationSource
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource
+import org.springframework.context.annotation.Configuration
+import org.springframework.web.servlet.config.annotation.CorsRegistry
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 
-class CorsConfig {
-	@Bean
-	fun corsConfigurationSource(): CorsConfigurationSource {
-		val corsConfigurationSource = CorsConfiguration()
-		corsConfigurationSource.addAllowedHeader("*")
-		corsConfigurationSource.addAllowedMethod("*")
-		corsConfigurationSource.addAllowedOriginPattern("*")
-		corsConfigurationSource.allowCredentials = true
-		corsConfigurationSource.addExposedHeader("Authorization")
-
-		val urlBasedCorsConfigurationSource = UrlBasedCorsConfigurationSource()
-
-		urlBasedCorsConfigurationSource.registerCorsConfiguration("/**", corsConfigurationSource)
-		return urlBasedCorsConfigurationSource
+@Configuration
+class CorsConfig : WebMvcConfigurer {
+	override fun addCorsMappings(registry: CorsRegistry) {
+		registry
+			.addMapping("/**")
+			.allowedOrigins("*")
+			.allowedOriginPatterns("*")
+			.allowedHeaders("*")
+			.allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS")
+			.exposedHeaders("Authorization", "Refresh-Token")
+			.allowCredentials(true)
 	}
 }

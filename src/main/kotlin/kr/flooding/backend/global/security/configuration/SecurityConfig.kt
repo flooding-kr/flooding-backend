@@ -15,12 +15,10 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.web.SecurityFilterChain
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
-import org.springframework.web.cors.CorsConfigurationSource
 
 @Configuration
 class SecurityConfig(
 	private val jwtProvider: JwtProvider,
-	private val corsConfigurationSource: CorsConfigurationSource,
 ) {
 	companion object {
 		private val ROLE_USER = RoleType.ROLE_USER.name
@@ -100,8 +98,6 @@ class SecurityConfig(
 			.httpBasic { it.disable() }
 			.sessionManagement {
 				it.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-			}.cors {
-				it.configurationSource(corsConfigurationSource)
 			}.addFilterBefore(
 				ExceptionFilter(),
 				UsernamePasswordAuthenticationFilter::class.java,
