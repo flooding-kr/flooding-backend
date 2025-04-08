@@ -91,6 +91,8 @@ class SecurityConfig(
 					.hasAnyAuthority(Role.ROLE_USER.name)
 					.requestMatchers(HttpMethod.DELETE, "/attendance/club/leader")
 					.hasAnyAuthority(Role.ROLE_USER.name)
+					.requestMatchers(HttpMethod.GET, "/attendance/myself")
+					.hasAnyAuthority(Role.ROLE_USER.name)
 					// 교실
 					.requestMatchers(HttpMethod.GET, "/classroom")
 					.hasAnyAuthority(Role.ROLE_USER.name)
