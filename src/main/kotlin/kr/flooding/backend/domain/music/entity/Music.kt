@@ -39,5 +39,5 @@ class Music(
 
 	@CreationTimestamp
 	@Column(nullable = false)
-	val createdAt: LocalDate? = null
+	val createdAt: LocalDate? = null,
 )

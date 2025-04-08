@@ -7,5 +7,8 @@ import java.time.LocalDate
 import java.util.UUID
 
 interface MusicJpaRepository : JpaRepository<Music, UUID> {
-	fun existsByProposerAndCreatedAt(proposer: User, createdAt: LocalDate): Boolean
+	fun existsByProposerAndCreatedAt(
+		proposer: User,
+		createdAt: LocalDate,
+	): Boolean
 }
