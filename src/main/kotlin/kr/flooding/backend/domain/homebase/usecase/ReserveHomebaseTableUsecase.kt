@@ -9,7 +9,7 @@ import kr.flooding.backend.domain.homebase.repository.jpa.HomebaseGroupRepositor
 import kr.flooding.backend.domain.homebaseParticipants.entity.HomebaseParticipant
 import kr.flooding.backend.domain.homebaseParticipants.repository.jpa.HomebaseParticipantRepository
 import kr.flooding.backend.domain.homebaseTable.repository.jdsl.HomebaseTableJdslRepository
-import kr.flooding.backend.domain.user.repository.UserRepository
+import kr.flooding.backend.domain.user.repository.jpa.UserJpaRepository
 import kr.flooding.backend.global.exception.ExceptionEnum
 import kr.flooding.backend.global.exception.HttpException
 import kr.flooding.backend.global.exception.toPair
@@ -24,12 +24,12 @@ class ReserveHomebaseTableUsecase(
 	private val homebaseGroupRepository: HomebaseGroupRepository,
 	private val homebaseTableJdslRepository: HomebaseTableJdslRepository,
 	private val homebaseParticipantRepository: HomebaseParticipantRepository,
-	private val userRepository: UserRepository,
+	private val userJpaRepository: UserJpaRepository,
 	private val userUtil: UserUtil,
 ) {
 	fun execute(request: ReserveHomebaseTableRequest) {
 		val currentUser = userUtil.getUser()
-		val participants = userRepository.findByIdIn(request.participants)
+		val participants = userJpaRepository.findByIdIn(request.participants)
 		val nowDate = LocalDate.now()
 
 		request.participants

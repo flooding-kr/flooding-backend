@@ -1,6 +1,6 @@
 package kr.flooding.backend.domain.auth.usecase
 
-import kr.flooding.backend.domain.user.repository.UserRepository
+import kr.flooding.backend.domain.user.repository.jpa.UserJpaRepository
 import kr.flooding.backend.global.exception.ExceptionEnum
 import kr.flooding.backend.global.exception.HttpException
 import kr.flooding.backend.global.exception.toPair
@@ -15,13 +15,13 @@ import java.time.Duration
 @Transactional
 class RequestResetPasswordUsecase(
 	private val redisTemplate: RedisTemplate<String, String>,
-	private val userRepository: UserRepository,
+	private val userJpaRepository: UserJpaRepository,
 	private val passwordUtil: PasswordUtil,
 	private val emailAdapter: EmailAdapter,
 ) {
 	fun execute(email: String) {
 		val userByEmail =
-			userRepository.findByEmail(email).orElseThrow {
+			userJpaRepository.findByEmail(email).orElseThrow {
 				HttpException(ExceptionEnum.USER.NOT_FOUND_USER.toPair())
 			}
 		val userId = requireNotNull(userByEmail.id)

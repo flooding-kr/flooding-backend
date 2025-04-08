@@ -1,6 +1,6 @@
-package kr.flooding.backend.domain.user.dto.response
+package kr.flooding.backend.domain.user.model
 
-data class StudentInfoResponse(
+data class StudentInfoModel(
 	val isGraduate: Boolean,
 	val grade: Int,
 	val classroom: Int,

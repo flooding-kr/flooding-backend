@@ -6,7 +6,7 @@ import kr.flooding.backend.domain.club.entity.ClubStatus
 import kr.flooding.backend.domain.club.repository.ClubInviteRepository
 import kr.flooding.backend.domain.club.repository.ClubRepository
 import kr.flooding.backend.domain.clubMember.repository.jpa.ClubMemberJpaRepository
-import kr.flooding.backend.domain.user.repository.UserRepository
+import kr.flooding.backend.domain.user.repository.jpa.UserJpaRepository
 import kr.flooding.backend.global.exception.ExceptionEnum
 import kr.flooding.backend.global.exception.HttpException
 import kr.flooding.backend.global.exception.toPair
@@ -22,7 +22,7 @@ class InviteClubMemberUsecase(
 	private val userUtil: UserUtil,
 	private val clubRepository: ClubRepository,
 	private val clubMemberJpaRepository: ClubMemberJpaRepository,
-	private val userRepository: UserRepository,
+	private val userJpaRepository: UserJpaRepository,
 	private val passwordUtil: PasswordUtil,
 	private val clubInviteRepository: ClubInviteRepository,
 	private val emailAdapter: EmailAdapter,
@@ -58,7 +58,7 @@ class InviteClubMemberUsecase(
 		}
 
 		val user =
-			userRepository.findById(userId).orElseThrow {
+			userJpaRepository.findById(userId).orElseThrow {
 				HttpException(ExceptionEnum.USER.NOT_FOUND_USER.toPair())
 			}
 

@@ -7,7 +7,7 @@ import kr.flooding.backend.domain.club.entity.ClubStatus
 import kr.flooding.backend.domain.club.repository.ClubRepository
 import kr.flooding.backend.domain.clubMember.repository.jpa.ClubMemberJpaRepository
 import kr.flooding.backend.domain.period.repository.PeriodRepository
-import kr.flooding.backend.domain.user.repository.UserRepository
+import kr.flooding.backend.domain.user.repository.jpa.UserJpaRepository
 import kr.flooding.backend.global.exception.ExceptionEnum
 import kr.flooding.backend.global.exception.HttpException
 import kr.flooding.backend.global.exception.toPair
@@ -23,7 +23,7 @@ class AttendClubLeaderUsecase(
 	private val userUtil: UserUtil,
 	private val clubRepository: ClubRepository,
 	private val attendanceJpaRepository: AttendanceJpaRepository,
-	private val userRepository: UserRepository,
+	private val userJpaRepository: UserJpaRepository,
 	private val clubMemberJpaRepository: ClubMemberJpaRepository,
 	private val periodRepository: PeriodRepository,
 ) {
@@ -61,7 +61,7 @@ class AttendClubLeaderUsecase(
 			throw HttpException(ExceptionEnum.CLUB.NOT_CLUB_MEMBER.toPair())
 		}
 
-		val students = userRepository.findAllById(request.studentIds)
+		val students = userJpaRepository.findAllById(request.studentIds)
 
 		val existingAttendAnce =
 			attendanceJpaRepository
