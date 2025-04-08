@@ -10,6 +10,7 @@ import kr.flooding.backend.global.thirdparty.youtube.YoutubeAdapter
 import kr.flooding.backend.global.util.UserUtil
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.time.LocalDate
 
 @Service
 @Transactional
@@ -21,7 +22,7 @@ class CreateMusicUsecase(
 	fun execute(createMusicRequest: CreateMusicRequest) {
 		val currentUser = userUtil.getUser()
 
-		if (musicJpaRepository.existsByProposer(currentUser)) {
+		if (musicJpaRepository.existsByProposerAndCreatedAt(currentUser, LocalDate.now())) {
 			throw HttpException(ExceptionEnum.MUSIC.ALREADY_REQUESTED_MUSIC.toPair())
 		}
 

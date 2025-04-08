@@ -5,11 +5,13 @@ import jakarta.persistence.Entity
 import jakarta.persistence.FetchType
 import jakarta.persistence.Id
 import jakarta.persistence.JoinColumn
-import jakarta.persistence.OneToOne
+import jakarta.persistence.ManyToOne
 import kr.flooding.backend.domain.user.entity.User
+import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.OnDelete
 import org.hibernate.annotations.OnDeleteAction
 import org.hibernate.annotations.UuidGenerator
+import java.time.LocalDate
 import java.util.UUID
 
 @Entity
@@ -30,9 +32,12 @@ class Music(
 	@Column(nullable = false)
 	val likeCount: Int = 0,
 
-	@OneToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id", nullable = false)
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	val proposer: User,
 
+	@CreationTimestamp
+	@Column(nullable = false)
+	val createdAt: LocalDate? = null
 )
