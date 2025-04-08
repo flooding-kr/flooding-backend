@@ -97,6 +97,15 @@ sealed interface ExceptionEnum {
 		NOT_FOUND_PERIOD_INFO(HttpStatus.BAD_REQUEST, "교시 정보를 받아오지 못했습니다."),
 		ATTENDANCE_OUT_OF_TIME_RANGE(HttpStatus.BAD_REQUEST, "현재 시간에 해당하는 교시가 아닙니다."),
 	}
+
+	enum class MUSIC(
+		val status: HttpStatus,
+		val reason: String,
+	) {
+		ALREADY_REQUESTED_MUSIC(HttpStatus.BAD_REQUEST, "이미 신청한 음악이 존재합니다."),
+		INVALID_MUSIC_URL(HttpStatus.BAD_REQUEST, "잘못된 형식의 음악 URL 입니다."),
+		NOT_FOUND_MUSIC(HttpStatus.NOT_FOUND, "존재하지 않는 음악 URL 입니다."),
+	}
 }
 
 fun ExceptionEnum.CLASSROOM.toPair() = Pair(this.status, this.reason)
@@ -114,3 +123,5 @@ fun ExceptionEnum.NEIS.toPair() = Pair(this.status, this.reason)
 fun ExceptionEnum.HOMEBASE.toPair() = Pair(this.status, this.reason)
 
 fun ExceptionEnum.ATTENDANCE.toPair() = Pair(this.status, this.reason)
+
+fun ExceptionEnum.MUSIC.toPair() = Pair(this.status, this.reason)

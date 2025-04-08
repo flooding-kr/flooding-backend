@@ -71,3 +71,5 @@ cloudflare:
         access-key-id: ${CLOUDFLARE_ACCESS_KEY_ID}
         secret-access-key: ${CLOUDFLARE_SECRET_ACCESS_KEY}
 
+youtube-api:
+    key: ${YOUTUBE_API_KEY}

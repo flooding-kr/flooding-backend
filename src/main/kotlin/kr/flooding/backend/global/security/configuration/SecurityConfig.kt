@@ -94,6 +94,9 @@ class SecurityConfig(
 					// 교실
 					.requestMatchers(HttpMethod.GET, "/classroom")
 					.hasAnyAuthority(Role.ROLE_USER.name)
+					// 기상 음악
+					.requestMatchers(HttpMethod.POST, "/music")
+					.hasAnyAuthority(Role.ROLE_USER.name)
 					// 파일
 					.requestMatchers(HttpMethod.POST, "/file/image")
 					.hasAnyAuthority(Role.ROLE_USER.name)

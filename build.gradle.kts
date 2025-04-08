@@ -63,6 +63,9 @@ dependencies {
 	implementation("com.linecorp.kotlin-jdsl:jpql-dsl:3.5.5")
 	implementation("com.linecorp.kotlin-jdsl:jpql-render:3.5.5")
 	implementation("com.linecorp.kotlin-jdsl:spring-data-jpa-support:3.5.5")
+
+	// youtube
+	implementation("com.google.apis:google-api-services-youtube:v3-rev20230816-2.0.0")
 }
 
 kotlin {
