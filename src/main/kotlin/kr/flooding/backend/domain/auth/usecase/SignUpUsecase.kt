@@ -3,9 +3,9 @@ package kr.flooding.backend.domain.auth.usecase
 import kr.flooding.backend.domain.auth.dto.request.SignUpRequest
 import kr.flooding.backend.domain.auth.entity.VerifyCode
 import kr.flooding.backend.domain.auth.repository.VerifyCodeRepository
+import kr.flooding.backend.domain.role.enums.RoleType
 import kr.flooding.backend.domain.user.entity.StudentInfo
 import kr.flooding.backend.domain.user.entity.User
-import kr.flooding.backend.domain.user.enums.RoleType
 import kr.flooding.backend.domain.user.enums.UserState
 import kr.flooding.backend.domain.user.repository.jpa.UserJpaRepository
 import kr.flooding.backend.global.exception.ExceptionEnum

@@ -1,4 +1,4 @@
-package kr.flooding.backend.domain.user.enums
+package kr.flooding.backend.domain.role.enums
 
 enum class RoleType {
 	ROLE_USER,

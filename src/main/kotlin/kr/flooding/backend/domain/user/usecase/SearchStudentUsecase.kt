@@ -1,8 +1,8 @@
 package kr.flooding.backend.domain.user.usecase
 
+import kr.flooding.backend.domain.role.enums.RoleType
 import kr.flooding.backend.domain.user.dto.response.SearchStudentListResponse
 import kr.flooding.backend.domain.user.dto.response.SearchStudentResponse
-import kr.flooding.backend.domain.user.enums.RoleType
 import kr.flooding.backend.domain.user.model.StudentInfoModel
 import kr.flooding.backend.domain.user.repository.jdsl.UserJdslRepository
 import kr.flooding.backend.global.util.StudentUtil.Companion.calcGradeToYear
