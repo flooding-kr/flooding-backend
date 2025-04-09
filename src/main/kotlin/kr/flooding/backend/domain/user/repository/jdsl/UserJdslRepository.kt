@@ -1,7 +1,7 @@
 package kr.flooding.backend.domain.user.repository.jdsl
 
+import kr.flooding.backend.domain.role.enums.RoleType
 import kr.flooding.backend.domain.user.entity.User
-import kr.flooding.backend.domain.user.enums.RoleType
 import kr.flooding.backend.global.security.model.UserCredential
 import java.util.Optional
 import java.util.UUID

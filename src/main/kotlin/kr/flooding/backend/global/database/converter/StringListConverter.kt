@@ -2,7 +2,7 @@ package kr.flooding.backend.global.database.converter
 
 import jakarta.persistence.AttributeConverter
 import jakarta.persistence.Converter
-import kr.flooding.backend.domain.user.enums.RoleType
+import kr.flooding.backend.domain.role.enums.RoleType
 
 @Converter
 class StringListConverter : AttributeConverter<List<RoleType?>?, String?> {

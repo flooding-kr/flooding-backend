@@ -5,9 +5,9 @@ import com.linecorp.kotlinjdsl.render.jpql.JpqlRenderContext
 import com.linecorp.kotlinjdsl.support.spring.data.jpa.extension.createQuery
 import jakarta.persistence.EntityManager
 import kr.flooding.backend.domain.role.entity.Role
+import kr.flooding.backend.domain.role.enums.RoleType
 import kr.flooding.backend.domain.user.entity.StudentInfo
 import kr.flooding.backend.domain.user.entity.User
-import kr.flooding.backend.domain.user.enums.RoleType
 import kr.flooding.backend.domain.user.repository.jdsl.UserJdslRepository
 import kr.flooding.backend.global.security.model.UserCredential
 import org.springframework.stereotype.Repository

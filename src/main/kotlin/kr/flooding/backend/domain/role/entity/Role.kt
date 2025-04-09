@@ -10,8 +10,8 @@ import jakarta.persistence.Id
 import jakarta.persistence.ManyToOne
 import jakarta.persistence.Table
 import jakarta.persistence.UniqueConstraint
+import kr.flooding.backend.domain.role.enums.RoleType
 import kr.flooding.backend.domain.user.entity.User
-import kr.flooding.backend.domain.user.enums.RoleType
 import org.hibernate.annotations.OnDelete
 import org.hibernate.annotations.OnDeleteAction
 

@@ -1,6 +1,6 @@
 package kr.flooding.backend.global.security.configuration
 
-import kr.flooding.backend.domain.user.enums.RoleType
+import kr.flooding.backend.domain.role.enums.RoleType
 import kr.flooding.backend.global.security.filter.ExceptionFilter
 import kr.flooding.backend.global.security.filter.JwtFilter
 import kr.flooding.backend.global.security.jwt.JwtProvider
