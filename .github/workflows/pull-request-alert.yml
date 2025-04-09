@@ -1,0 +1,19 @@
+name: Open PR Discord Alert
+
+on:
+    pull_request:
+        branches: [ "main" ]
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        permissions:
+            contents: read
+
+        steps:
+            - name: Send success message to Discord
+              uses: enbraining/discord-webhook-action@v1.0.1
+              with:
+                  webhook-url: ${{ secrets.DISCORD_WEBHOOK_URL }}
+                  type: CONTENT
+                  content: "<@&1315864933069619210> 새로운 PR이 올라왔어요."
