@@ -55,17 +55,17 @@ class UserController(
 
 	@GetMapping("student/search")
 	fun searchStudent(
-		@RequestParam("name", required = false) name: String?,
+		@RequestParam("name", required = false, defaultValue = "") name: String,
 	): ResponseEntity<SearchStudentListResponse> =
-		searchStudentUsecase.execute(name ?: "").let {
+		searchStudentUsecase.execute(name).let {
 			ResponseEntity.ok(it)
 		}
 
 	@GetMapping("teacher/search")
 	fun searchTeacher(
-		@RequestParam("name", required = false) name: String?,
+		@RequestParam("name", required = false, defaultValue = "") name: String,
 	): ResponseEntity<SearchTeacherListResponse> =
-		searchTeacherUsecase.execute(name ?: "").let {
+		searchTeacherUsecase.execute(name).let {
 			ResponseEntity.ok(it)
 		}
 }
