@@ -107,6 +107,13 @@ sealed interface ExceptionEnum {
 		INVALID_MUSIC_URL(HttpStatus.BAD_REQUEST, "잘못된 형식의 음악 URL 입니다."),
 		NOT_FOUND_MUSIC(HttpStatus.NOT_FOUND, "존재하지 않는 음악 URL 입니다."),
 	}
+
+	enum class FILE(
+		val status: HttpStatus,
+		val reason: String,
+	) {
+		INVALID_IMAGE_EXTENSION(HttpStatus.BAD_REQUEST, "jpg, png, jpeg 형식의 이미지만 업로드할 수 있습니다."),
+	}
 }
 
 fun ExceptionEnum.CLASSROOM.toPair() = Pair(this.status, this.reason)
@@ -126,3 +133,5 @@ fun ExceptionEnum.HOMEBASE.toPair() = Pair(this.status, this.reason)
 fun ExceptionEnum.ATTENDANCE.toPair() = Pair(this.status, this.reason)
 
 fun ExceptionEnum.MUSIC.toPair() = Pair(this.status, this.reason)
+
+fun ExceptionEnum.FILE.toPair() = Pair(this.status, this.reason)

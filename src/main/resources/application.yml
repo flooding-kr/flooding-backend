@@ -56,6 +56,11 @@ spring:
         username: ${MAIL_USERNAME}
         password: ${MAIL_PASSWORD}
 
+    servlet:
+      multipart:
+          max-file-size: 10MB
+          max-request-size: 50MB
+
 jwt:
     access-token-key: ${ACCESS_TOKEN_KEY}
     refresh-token-key: ${REFRESH_TOKEN_KEY}
