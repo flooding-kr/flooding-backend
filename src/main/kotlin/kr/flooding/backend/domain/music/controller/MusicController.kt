@@ -1,5 +1,6 @@
 package kr.flooding.backend.domain.music.controller
 
+import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.Valid
 import kr.flooding.backend.domain.music.dto.request.CreateMusicRequest
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController
 class MusicController(
 	private val createMusicUsecase: CreateMusicUsecase,
 ) {
+	@Operation(summary = "기상 음악 신청")
 	@PostMapping
 	fun createMusic(
 		@Valid @RequestBody createMusicRequest: CreateMusicRequest,
