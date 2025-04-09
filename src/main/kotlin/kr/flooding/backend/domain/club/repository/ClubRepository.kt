@@ -30,6 +30,15 @@ interface ClubRepository : JpaRepository<Club, UUID> {
 		"""
 			SELECT c
 			FROM Club c
+			LEFT JOIN FETCH c.leader
+	""",
+	)
+	fun findWithLeader(): List<Club>
+
+	@Query(
+		"""
+			SELECT c
+			FROM Club c
 			LEFT JOIN FETCH c.classroom
 			LEFT JOIN FETCH c.classroom.teacher
 			WHERE c.id = :id

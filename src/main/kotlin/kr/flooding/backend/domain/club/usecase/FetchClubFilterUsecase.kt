@@ -14,8 +14,14 @@ class FetchClubFilterUsecase(
 	private val clubRepository: ClubRepository,
 	private val userUtil: UserUtil,
 ) {
-	fun execute(type: ClubType): FetchClubFilterResponse {
-		val clubs = clubRepository.findWithLeaderByType(type)
+	fun execute(type: ClubType?): FetchClubFilterResponse {
+		val clubs =
+			if (type == null) {
+				clubRepository.findWithLeader()
+			} else {
+				clubRepository.findWithLeaderByType(type)
+			}
+
 		val currentUser = userUtil.getUser()
 
 		return FetchClubFilterResponse(clubs.map { ClubFilterResponse.toDto(it, currentUser) })
