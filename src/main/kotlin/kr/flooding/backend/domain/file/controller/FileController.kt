@@ -18,7 +18,7 @@ class FileController(
 	private val uploadImageUsecase: UploadImageUsecase,
 ) {
 	@PostMapping("image")
-	@Operation(summary = "이미지 업로드", description = "jpg, jpeg, jpg 확장자를 사용하는 이미지를 업로드합니다. (아직 확장자 제한 안함)")
+	@Operation(summary = "이미지 업로드")
 	fun uploadImage(
 		@RequestPart images: List<MultipartFile>,
 	): ResponseEntity<UploadImageResponse> =
