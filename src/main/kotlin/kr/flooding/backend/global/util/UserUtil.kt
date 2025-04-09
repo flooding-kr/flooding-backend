@@ -1,7 +1,7 @@
 package kr.flooding.backend.global.util
 
 import kr.flooding.backend.domain.user.entity.User
-import kr.flooding.backend.domain.user.repository.UserRepository
+import kr.flooding.backend.domain.user.repository.jpa.UserJpaRepository
 import kr.flooding.backend.global.exception.ExceptionEnum
 import kr.flooding.backend.global.exception.HttpException
 import kr.flooding.backend.global.exception.toPair
@@ -10,11 +10,11 @@ import org.springframework.stereotype.Component
 
 @Component
 class UserUtil(
-	private val userRepository: UserRepository,
+	private val userJpaRepository: UserJpaRepository,
 ) {
 	fun getUser(): User {
 		val email = SecurityContextHolder.getContext().authentication.name
-		return userRepository.findByEmail(email).orElseThrow {
+		return userJpaRepository.findByEmail(email).orElseThrow {
 			HttpException(ExceptionEnum.USER.NOT_FOUND_USER.toPair())
 		}
 	}

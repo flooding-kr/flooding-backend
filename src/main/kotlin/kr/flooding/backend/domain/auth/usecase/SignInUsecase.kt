@@ -5,7 +5,7 @@ import kr.flooding.backend.domain.auth.dto.response.SignInResponse
 import kr.flooding.backend.domain.auth.entity.RefreshToken
 import kr.flooding.backend.domain.auth.repository.RefreshTokenRepository
 import kr.flooding.backend.domain.user.enums.UserState
-import kr.flooding.backend.domain.user.repository.UserRepository
+import kr.flooding.backend.domain.user.repository.jpa.UserJpaRepository
 import kr.flooding.backend.global.exception.ExceptionEnum
 import kr.flooding.backend.global.exception.HttpException
 import kr.flooding.backend.global.exception.toPair
@@ -22,7 +22,7 @@ import java.util.UUID
 @Service
 @Transactional
 class SignInUsecase(
-	private val userRepository: UserRepository,
+	private val userJpaRepository: UserJpaRepository,
 	private val passwordEncoder: PasswordEncoder,
 	private val jwtProvider: JwtProvider,
 	private val refreshTokenRepository: RefreshTokenRepository,
@@ -30,7 +30,7 @@ class SignInUsecase(
 	fun execute(signInRequest: SignInRequest): SignInResponse {
 		val email = signInRequest.email
 		val user =
-			userRepository.findByEmail(email).orElseThrow {
+			userJpaRepository.findByEmail(email).orElseThrow {
 				HttpException(ExceptionEnum.USER.NOT_FOUND_USER.toPair())
 			}
 
