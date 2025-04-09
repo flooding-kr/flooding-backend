@@ -1,5 +1,6 @@
 package kr.flooding.backend.domain.club.controller
 
+import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.Valid
 import kr.flooding.backend.domain.club.dto.request.CreateClubRequest
@@ -49,6 +50,7 @@ class ClubController(
 	private val fetchClubUsecase: FetchClubUsecase,
 	private val confirmClubInviteUsecase: ConfirmClubInviteUsecase,
 ) {
+	@Operation(summary = "동아리 생성")
 	@PostMapping
 	fun createClub(
 		@Valid @RequestBody createClubRequest: CreateClubRequest,
@@ -57,6 +59,7 @@ class ClubController(
 			ResponseEntity.ok().build()
 		}
 
+	@Operation(summary = "동아리 필터 조회")
 	@GetMapping
 	fun findClubFilter(
 		@RequestParam type: ClubType,
@@ -65,12 +68,14 @@ class ClubController(
 			ResponseEntity.ok(this)
 		}
 
+	@Operation(summary = "소속된 동아리 조회")
 	@GetMapping("myself")
 	fun findClubMyself(): ResponseEntity<FetchClubMyselfResponse> =
 		fetchClubMyselfUsecase.execute().run {
 			ResponseEntity.ok(this)
 		}
 
+	@Operation(summary = "동아리 구성원 추방")
 	@DeleteMapping("{clubId}/member/{userId}")
 	fun removeClubMember(
 		@PathVariable clubId: UUID,
@@ -80,6 +85,7 @@ class ClubController(
 			ResponseEntity.ok().build()
 		}
 
+	@Operation(summary = "동아리 정보 수정")
 	@PatchMapping("{clubId}")
 	fun updateClubInfo(
 		@RequestBody updateClubRequest: UpdateClubRequest,
@@ -89,6 +95,7 @@ class ClubController(
 			ResponseEntity.ok().build()
 		}
 
+	@Operation(summary = "동아리 모집 열기")
 	@PostMapping("{clubId}/open")
 	fun openClub(
 		@PathVariable clubId: UUID,
@@ -97,6 +104,7 @@ class ClubController(
 			ResponseEntity.ok().build()
 		}
 
+	@Operation(summary = "동아리 모집 닫기")
 	@PostMapping("{clubId}/close")
 	fun closeClub(
 		@PathVariable clubId: UUID,
@@ -105,6 +113,7 @@ class ClubController(
 			ResponseEntity.ok().build()
 		}
 
+	@Operation(summary = "동아리 삭제")
 	@DeleteMapping("{clubId}")
 	fun removeClub(
 		@PathVariable clubId: UUID,
@@ -113,6 +122,7 @@ class ClubController(
 			ResponseEntity.noContent().build()
 		}
 
+	@Operation(summary = "동아리 탈퇴")
 	@DeleteMapping("{clubId}/member")
 	fun withdrawClub(
 		@PathVariable clubId: UUID,
@@ -121,6 +131,7 @@ class ClubController(
 			ResponseEntity.noContent().build()
 		}
 
+	@Operation(summary = "동아리 구성원 초대")
 	@PostMapping("{clubId}/member/{userId}")
 	fun inviteClubMember(
 		@PathVariable clubId: UUID,
@@ -130,6 +141,7 @@ class ClubController(
 			ResponseEntity.ok().build()
 		}
 
+	@Operation(summary = "동아리 초대 수락")
 	@PostMapping("invite/confirm")
 	fun confirmInviteClub(
 		@RequestParam code: String,
@@ -140,6 +152,7 @@ class ClubController(
 				ResponseEntity.ok().build()
 			}
 
+	@Operation(summary = "동아리 단일 조회")
 	@GetMapping("{clubId}")
 	fun fetchClub(
 		@PathVariable clubId: UUID,

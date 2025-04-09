@@ -1,5 +1,6 @@
 package kr.flooding.backend.domain.clubApplicant.controller
 
+import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.Valid
 import kr.flooding.backend.domain.clubApplicant.dto.request.ApplyClubRequest
@@ -25,6 +26,7 @@ class ClubApplicantController(
 	private val fetchClubApplicantUsecase: FetchClubApplicantUsecase,
 	private val approveClubApplicantUsecase: ApproveClubApplicantUsecase,
 ) {
+	@Operation(summary = "동아리 지원")
 	@PostMapping
 	fun applyClub(
 		@Valid @RequestBody applyClubRequest: ApplyClubRequest,
@@ -33,6 +35,7 @@ class ClubApplicantController(
 			ResponseEntity.ok().build()
 		}
 
+	@Operation(summary = "동아리 지원 요청 승인")
 	@PostMapping("/approve")
 	fun approveClubApplicant(
 		@Valid @RequestBody approveClubApplicantRequest: ApproveClubApplicantRequest,
@@ -41,6 +44,7 @@ class ClubApplicantController(
 			ResponseEntity.ok().build()
 		}
 
+	@Operation(summary = "동아리 구성원 조회")
 	@GetMapping
 	fun fetchClubApplicant(
 		@RequestParam clubId: UUID,

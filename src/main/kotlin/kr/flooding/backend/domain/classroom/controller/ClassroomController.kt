@@ -1,5 +1,6 @@
 package kr.flooding.backend.domain.classroom.controller
 
+import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import kr.flooding.backend.domain.classroom.dto.request.FetchClassroomRequest
 import kr.flooding.backend.domain.classroom.dto.response.FetchClassroomResponse
@@ -17,19 +18,21 @@ import org.springframework.web.bind.annotation.RestController
 class ClassroomController(
 	private val fetchClassroomUsecase: FetchClassroomUsecase,
 ) {
+	@Operation(summary = "교실 조회")
 	@GetMapping
 	fun fetchClassroom(
 		@RequestParam floor: Int,
 		@RequestParam buildingType: BuildingType,
 		@RequestParam(defaultValue = "") search: String,
 	): ResponseEntity<FetchClassroomResponse> =
-		fetchClassroomUsecase.execute(
-			FetchClassroomRequest(
-				floor = floor,
-				buildingType = buildingType,
-				search = search,
-			),
-		).run {
-			ResponseEntity.ok(this)
-		}
+		fetchClassroomUsecase
+			.execute(
+				FetchClassroomRequest(
+					floor = floor,
+					buildingType = buildingType,
+					search = search,
+				),
+			).run {
+				ResponseEntity.ok(this)
+			}
 }
