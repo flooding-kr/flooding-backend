@@ -22,7 +22,7 @@ class FetchClubUsecase(
 				.findWithClassroomWithTeacherById(clubId)
 				.orElseThrow { HttpException(ExceptionEnum.CLUB.NOT_FOUND_CLUB.toPair()) }
 
-		val clubMembers = clubMemberJpaRepository.findWithUserByClubId(clubId)
+		val clubMembers = clubMemberJpaRepository.findWithUserByClubIdAndUserIsNot(clubId, club.leader)
 
 		return FetchClubResponse.toDto(club, clubMembers)
 	}

@@ -81,6 +81,7 @@ class CreateClubUsecase(
 					type = createClubRequest.type,
 					thumbnailImageUrl = createClubRequest.mainImageUrl,
 					leader = currentUser,
+					teacher = null,
 				),
 			)
 

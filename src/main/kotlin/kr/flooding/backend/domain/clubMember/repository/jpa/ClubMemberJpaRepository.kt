@@ -30,10 +30,15 @@ interface ClubMemberJpaRepository : JpaRepository<ClubMember, UUID> {
 			SELECT cm
 			FROM ClubMember cm
 			JOIN FETCH cm.user
-			WHERE cm.club.id = :clubId
+			WHERE
+				cm.club.id = :clubId
+				AND cm.user != :user
 	""",
 	)
-	fun findWithUserByClubId(clubId: UUID): List<ClubMember>
+	fun findWithUserByClubIdAndUserIsNot(
+		clubId: UUID,
+		user: User,
+	): List<ClubMember>
 
 	fun findByClubId(clubId: UUID): List<ClubMember>
 }

@@ -48,6 +48,10 @@ data class Club(
 	@OnDelete(action = OnDeleteAction.SET_NULL)
 	val leader: User,
 
+	@ManyToOne(fetch = FetchType.LAZY)
+	@OnDelete(action = OnDeleteAction.SET_NULL)
+	val teacher: User? = null,
+
 	@Column(nullable = false)
 	var isRecruiting: Boolean = false,
 ) {

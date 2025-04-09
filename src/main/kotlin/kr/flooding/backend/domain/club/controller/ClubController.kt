@@ -62,7 +62,7 @@ class ClubController(
 	@Operation(summary = "동아리 필터 조회")
 	@GetMapping
 	fun findClubFilter(
-		@RequestParam type: ClubType,
+		@RequestParam(required = false) type: ClubType?,
 	): ResponseEntity<FetchClubFilterResponse> =
 		fetchClubFilterUsecase.execute(type).run {
 			ResponseEntity.ok(this)
