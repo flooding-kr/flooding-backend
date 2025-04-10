@@ -1,6 +1,7 @@
 package kr.flooding.backend.domain.club.repository
 
 import kr.flooding.backend.domain.club.entity.Club
+import kr.flooding.backend.domain.club.entity.ClubStatus
 import kr.flooding.backend.domain.club.entity.ClubType
 import kr.flooding.backend.domain.user.entity.User
 import org.springframework.data.jpa.repository.JpaRepository
@@ -21,19 +22,25 @@ interface ClubRepository : JpaRepository<Club, UUID> {
 			SELECT c
 			FROM Club c
 			LEFT JOIN FETCH c.leader
-			WHERE c.type = :type
+			WHERE
+				c.type = :type AND
+				c.status = :status
 	""",
 	)
-	fun findWithLeaderByType(type: ClubType): List<Club>
+	fun findWithLeaderByTypeAndStatus(
+		type: ClubType,
+		status: ClubStatus,
+	): List<Club>
 
 	@Query(
 		"""
 			SELECT c
 			FROM Club c
 			LEFT JOIN FETCH c.leader
+			WHERE c.status = :status
 	""",
 	)
-	fun findWithLeader(): List<Club>
+	fun findWithLeaderAndStatus(status: ClubStatus): List<Club>
 
 	@Query(
 		"""

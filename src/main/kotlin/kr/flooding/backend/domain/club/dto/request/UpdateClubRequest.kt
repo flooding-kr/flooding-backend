@@ -9,7 +9,7 @@ data class UpdateClubRequest(
 
 	val classroomId: Long?,
 
-	val mainImageUrl: String?,
+	val thumbnailImageUrl: String?,
 
 	val activityImageUrls: List<String>?,
 
