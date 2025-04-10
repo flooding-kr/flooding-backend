@@ -2,6 +2,7 @@ package kr.flooding.backend.domain.club.usecase
 
 import kr.flooding.backend.domain.club.dto.response.ClubFilterResponse
 import kr.flooding.backend.domain.club.dto.response.FetchClubFilterResponse
+import kr.flooding.backend.domain.club.entity.ClubStatus
 import kr.flooding.backend.domain.club.entity.ClubType
 import kr.flooding.backend.domain.club.repository.ClubRepository
 import kr.flooding.backend.global.util.UserUtil
@@ -17,9 +18,9 @@ class FetchClubFilterUsecase(
 	fun execute(type: ClubType?): FetchClubFilterResponse {
 		val clubs =
 			if (type == null) {
-				clubRepository.findWithLeader()
+				clubRepository.findWithLeaderAndStatus(ClubStatus.APPROVED)
 			} else {
-				clubRepository.findWithLeaderByType(type)
+				clubRepository.findWithLeaderByTypeAndStatus(type, ClubStatus.APPROVED)
 			}
 
 		val currentUser = userUtil.getUser()

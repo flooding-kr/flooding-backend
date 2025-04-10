@@ -53,7 +53,7 @@ class UpdateClubUsecase(
 				name = currentClub.name.updateIfNotBlank(request.name),
 				description = currentClub.description.updateIfNotBlank(request.description),
 				classroom = changedClassroom,
-				thumbnailImageUrl = currentClub.thumbnailImageUrl?.updateIfNotBlank(request.mainImageUrl),
+				thumbnailImageUrl = currentClub.thumbnailImageUrl?.updateIfNotBlank(request.thumbnailImageUrl),
 				activityImageUrls = changedActivityImages,
 			)
 
