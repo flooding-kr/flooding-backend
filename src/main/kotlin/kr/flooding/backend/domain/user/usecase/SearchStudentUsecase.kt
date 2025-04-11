@@ -3,6 +3,7 @@ package kr.flooding.backend.domain.user.usecase
 import kr.flooding.backend.domain.role.enums.RoleType
 import kr.flooding.backend.domain.user.dto.response.SearchStudentListResponse
 import kr.flooding.backend.domain.user.dto.response.SearchStudentResponse
+import kr.flooding.backend.domain.user.enums.UserState
 import kr.flooding.backend.domain.user.model.StudentInfoModel
 import kr.flooding.backend.domain.user.repository.jdsl.UserJdslRepository
 import kr.flooding.backend.global.util.StudentUtil.Companion.calcGradeToYear
@@ -14,16 +15,21 @@ import org.springframework.transaction.annotation.Transactional
 @Transactional
 class SearchStudentUsecase(
 	private val userJdslRepository: UserJdslRepository,
-
 ) {
 	fun execute(name: String): SearchStudentListResponse {
 		val thirdGradeYear = calcGradeToYear(3)
 		val users =
-			userJdslRepository.findByNameContainsAndYearGreaterThanEqualAndRolesContains(
-				name,
-				thirdGradeYear,
-				RoleType.ROLE_STUDENT,
-			)
+			if (name.isEmpty()) {
+				emptyList()
+			} else {
+				userJdslRepository.findByNameLikeAndYearGreaterThanEqualAndRoleAndUserStateAndEmailVerifyStatus(
+					name,
+					thirdGradeYear,
+					RoleType.ROLE_STUDENT,
+					UserState.APPROVED,
+					true,
+				)
+			}
 
 		return SearchStudentListResponse(
 			users.map { user ->
