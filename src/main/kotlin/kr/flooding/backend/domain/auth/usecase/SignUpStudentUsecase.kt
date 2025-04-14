@@ -1,6 +1,6 @@
 package kr.flooding.backend.domain.auth.usecase
 
-import kr.flooding.backend.domain.auth.dto.request.SignUpRequest
+import kr.flooding.backend.domain.auth.dto.request.SignUpStudentRequest
 import kr.flooding.backend.domain.auth.entity.VerifyCode
 import kr.flooding.backend.domain.auth.repository.VerifyCodeRepository
 import kr.flooding.backend.domain.role.enums.RoleType
@@ -20,7 +20,7 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
-class SignUpUsecase(
+class SignUpStudentUsecase(
 	private val userJpaRepository: UserJpaRepository,
 	private val verifyCodeRepository: VerifyCodeRepository,
 	private val passwordEncoder: PasswordEncoder,
@@ -29,7 +29,7 @@ class SignUpUsecase(
 	private val roleUtil: RoleUtil,
 ) {
 	@Transactional
-	fun execute(request: SignUpRequest) {
+	fun execute(request: SignUpStudentRequest) {
 		val encodedPassword = passwordEncoder.encode(request.password)
 
 		if (userJpaRepository.existsByEmail(request.email)) {

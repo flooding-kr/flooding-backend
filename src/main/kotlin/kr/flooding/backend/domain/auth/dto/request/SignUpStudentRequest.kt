@@ -6,7 +6,7 @@ import jakarta.validation.constraints.Pattern
 import jakarta.validation.constraints.Positive
 import kr.flooding.backend.domain.user.enums.Gender
 
-data class SignUpRequest(
+data class SignUpStudentRequest(
 	@field:Pattern(regexp = "^[a-zA-Z0-9._%+-]{1,64}@gsm.hs.kr$", message = "gsm.hs.kr 도메인의 이메일이어야 합니다.")
 	val email: String,
 	@field:Pattern(
