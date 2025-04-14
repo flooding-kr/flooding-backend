@@ -6,6 +6,7 @@ import jakarta.persistence.FetchType
 import jakarta.persistence.Id
 import jakarta.persistence.JoinColumn
 import jakarta.persistence.ManyToOne
+import jakarta.persistence.Version
 import kr.flooding.backend.domain.user.entity.User
 import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.OnDelete
@@ -29,9 +30,6 @@ class Music(
 	@Column(nullable = false)
 	val thumbImageUrl: String,
 
-	@Column(nullable = false)
-	val likeCount: Int = 0,
-
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id", nullable = false)
 	@OnDelete(action = OnDeleteAction.CASCADE)
@@ -40,4 +38,19 @@ class Music(
 	@CreationTimestamp
 	@Column(nullable = false)
 	val createdAt: LocalDate? = null,
-)
+
+	@Version
+	val version: Long? = null,
+) {
+	@Column(nullable = false)
+	var likeCount: Int = 0
+		protected set
+
+	fun incrementLikeCount() {
+		likeCount++
+	}
+
+	fun decreaseLikeCount() {
+		likeCount--
+	}
+}
