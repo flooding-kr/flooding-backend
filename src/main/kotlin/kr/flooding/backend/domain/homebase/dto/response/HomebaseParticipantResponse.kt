@@ -10,7 +10,7 @@ class HomebaseParticipantResponse(
 ) {
 	companion object {
 		fun toDto(homebaseParticipant: HomebaseParticipant): HomebaseParticipantResponse {
-			val studentInfo = homebaseParticipant.user.studentInfo
+			val studentInfo = requireNotNull(homebaseParticipant.user.studentInfo)
 
 			val year = requireNotNull(studentInfo.year)
 			val classroom = requireNotNull(studentInfo.classroom)
@@ -23,9 +23,9 @@ class HomebaseParticipantResponse(
 		}
 
 		fun fromUser(user: User): HomebaseParticipantResponse {
-			val year = requireNotNull(user.studentInfo.year)
-			val classroom = requireNotNull(user.studentInfo.classroom)
-			val number = requireNotNull(user.studentInfo.number)
+			val year = requireNotNull(user.studentInfo!!.year)
+			val classroom = requireNotNull(user.studentInfo!!.classroom)
+			val number = requireNotNull(user.studentInfo!!.number)
 
 			return HomebaseParticipantResponse(
 				name = user.name,
