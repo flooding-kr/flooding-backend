@@ -4,7 +4,7 @@ import kr.flooding.backend.domain.role.enums.RoleType
 import kr.flooding.backend.domain.user.dto.response.SearchTeacherListResponse
 import kr.flooding.backend.domain.user.dto.response.SearchTeacherResponse
 import kr.flooding.backend.domain.user.enums.UserState
-import kr.flooding.backend.domain.user.repository.jdsl.UserJdslRepository
+import kr.flooding.backend.domain.user.persistence.repository.jdsl.UserJdslRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 

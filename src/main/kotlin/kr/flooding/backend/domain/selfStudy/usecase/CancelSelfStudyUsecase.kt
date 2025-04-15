@@ -1,6 +1,6 @@
 package kr.flooding.backend.domain.selfStudy.usecase
 
-import kr.flooding.backend.domain.selfStudy.repository.SelfStudyReservationRepository
+import kr.flooding.backend.domain.selfStudy.persistence.repository.SelfStudyReservationRepository
 import kr.flooding.backend.global.exception.ExceptionEnum
 import kr.flooding.backend.global.exception.HttpException
 import kr.flooding.backend.global.exception.toPair

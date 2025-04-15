@@ -1,9 +1,9 @@
 package kr.flooding.backend.domain.selfStudy.usecase.helper
 
-import kr.flooding.backend.domain.selfStudy.entity.SelfStudyReservation
-import kr.flooding.backend.domain.selfStudy.repository.SelfStudyReservationRepository
-import kr.flooding.backend.domain.selfStudy.repository.SelfStudyRoomRepository
-import kr.flooding.backend.domain.user.entity.User
+import kr.flooding.backend.domain.selfStudy.persistence.entity.SelfStudyReservation
+import kr.flooding.backend.domain.selfStudy.persistence.repository.SelfStudyReservationRepository
+import kr.flooding.backend.domain.selfStudy.persistence.repository.SelfStudyRoomRepository
+import kr.flooding.backend.domain.user.persistence.entity.User
 import kr.flooding.backend.global.exception.ExceptionEnum
 import kr.flooding.backend.global.exception.HttpException
 import kr.flooding.backend.global.exception.toPair

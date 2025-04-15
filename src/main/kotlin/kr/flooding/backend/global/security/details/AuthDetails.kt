@@ -1,6 +1,6 @@
 package kr.flooding.backend.global.security.details
 
-import kr.flooding.backend.domain.role.entity.Role
+import kr.flooding.backend.domain.role.persistence.entity.Role
 import kr.flooding.backend.global.security.model.UserCredential
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority

@@ -1,7 +1,7 @@
 package kr.flooding.backend.global.security.details
 
-import kr.flooding.backend.domain.role.repository.jpa.RoleJpaRepository
-import kr.flooding.backend.domain.user.repository.jdsl.UserJdslRepository
+import kr.flooding.backend.domain.role.persistence.jpa.RoleJpaRepository
+import kr.flooding.backend.domain.user.persistence.repository.jdsl.UserJdslRepository
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.stereotype.Service

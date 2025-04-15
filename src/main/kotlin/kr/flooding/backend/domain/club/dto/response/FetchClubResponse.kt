@@ -1,10 +1,10 @@
 package kr.flooding.backend.domain.club.dto.response
 
-import kr.flooding.backend.domain.club.entity.Club
-import kr.flooding.backend.domain.club.entity.ClubStatus
-import kr.flooding.backend.domain.club.entity.ClubType
 import kr.flooding.backend.domain.club.model.ClubClassroomModel
-import kr.flooding.backend.domain.clubMember.entity.ClubMember
+import kr.flooding.backend.domain.club.persistence.entity.Club
+import kr.flooding.backend.domain.club.persistence.entity.ClubStatus
+import kr.flooding.backend.domain.club.persistence.entity.ClubType
+import kr.flooding.backend.domain.clubMember.persistence.entity.ClubMember
 import java.util.UUID
 
 class FetchClubResponse(

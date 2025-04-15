@@ -2,7 +2,7 @@ package kr.flooding.backend.domain.musicLike.repository.jpa
 
 import kr.flooding.backend.domain.music.entity.Music
 import kr.flooding.backend.domain.musicLike.entity.MusicLike
-import kr.flooding.backend.domain.user.entity.User
+import kr.flooding.backend.domain.user.persistence.entity.User
 import org.springframework.data.jpa.repository.JpaRepository
 import java.util.Optional
 

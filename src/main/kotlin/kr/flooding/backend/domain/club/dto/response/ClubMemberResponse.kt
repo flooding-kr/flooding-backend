@@ -1,7 +1,7 @@
 package kr.flooding.backend.domain.club.dto.response
 
-import kr.flooding.backend.domain.user.entity.StudentInfo
-import kr.flooding.backend.domain.user.entity.User
+import kr.flooding.backend.domain.user.persistence.entity.StudentInfo
+import kr.flooding.backend.domain.user.persistence.entity.User
 import java.util.UUID
 
 class ClubMemberResponse(

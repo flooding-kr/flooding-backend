@@ -1,6 +1,6 @@
 package kr.flooding.backend.domain.homebase.dto.response
 
-import kr.flooding.backend.domain.homebaseTable.entity.HomebaseTable
+import kr.flooding.backend.domain.homebaseTable.persistence.entity.HomebaseTable
 
 class HomebaseTableResponse(
 	val id: Long,

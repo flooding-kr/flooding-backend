@@ -1,7 +1,7 @@
 package kr.flooding.backend.domain.club.model
 
-import kr.flooding.backend.domain.classroom.entity.BuildingType
-import kr.flooding.backend.domain.classroom.entity.Classroom
+import kr.flooding.backend.domain.classroom.persistence.entity.BuildingType
+import kr.flooding.backend.domain.classroom.persistence.entity.Classroom
 
 class ClubClassroomModel(
 	val id: Long,

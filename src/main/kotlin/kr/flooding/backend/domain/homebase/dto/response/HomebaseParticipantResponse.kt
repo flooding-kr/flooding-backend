@@ -1,7 +1,7 @@
 package kr.flooding.backend.domain.homebase.dto.response
 
-import kr.flooding.backend.domain.homebaseParticipants.entity.HomebaseParticipant
-import kr.flooding.backend.domain.user.entity.User
+import kr.flooding.backend.domain.homebaseParticipants.persistence.entity.HomebaseParticipant
+import kr.flooding.backend.domain.user.persistence.entity.User
 import kr.flooding.backend.global.util.StudentUtil
 
 class HomebaseParticipantResponse(

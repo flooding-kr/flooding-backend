@@ -1,7 +1,7 @@
 package kr.flooding.backend.domain.club.usecase
 
 import jakarta.transaction.Transactional
-import kr.flooding.backend.domain.club.repository.ClubRepository
+import kr.flooding.backend.domain.club.persistence.repository.ClubRepository
 import kr.flooding.backend.global.exception.ExceptionEnum
 import kr.flooding.backend.global.exception.HttpException
 import kr.flooding.backend.global.exception.toPair

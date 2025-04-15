@@ -5,7 +5,7 @@ import kr.flooding.backend.domain.user.dto.response.SearchStudentListResponse
 import kr.flooding.backend.domain.user.dto.response.SearchStudentResponse
 import kr.flooding.backend.domain.user.enums.UserState
 import kr.flooding.backend.domain.user.model.StudentInfoModel
-import kr.flooding.backend.domain.user.repository.jdsl.UserJdslRepository
+import kr.flooding.backend.domain.user.persistence.repository.jdsl.UserJdslRepository
 import kr.flooding.backend.global.util.StudentUtil.Companion.calcGradeToYear
 import kr.flooding.backend.global.util.StudentUtil.Companion.calcYearToGrade
 import org.springframework.stereotype.Service

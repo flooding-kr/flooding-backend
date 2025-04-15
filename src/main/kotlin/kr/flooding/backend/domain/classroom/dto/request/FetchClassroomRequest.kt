@@ -1,6 +1,6 @@
 package kr.flooding.backend.domain.classroom.dto.request
 
-import kr.flooding.backend.domain.classroom.entity.BuildingType
+import kr.flooding.backend.domain.classroom.persistence.entity.BuildingType
 
 class FetchClassroomRequest(
 	val floor: Int,
