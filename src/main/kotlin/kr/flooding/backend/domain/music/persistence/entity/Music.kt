@@ -1,4 +1,4 @@
-package kr.flooding.backend.domain.music.entity
+package kr.flooding.backend.domain.music.persistence.entity
 
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
@@ -12,7 +12,7 @@ import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.OnDelete
 import org.hibernate.annotations.OnDeleteAction
 import org.hibernate.annotations.UuidGenerator
-import java.time.LocalDate
+import java.time.LocalDateTime
 import java.util.UUID
 
 @Entity
@@ -37,7 +37,7 @@ class Music(
 
 	@CreationTimestamp
 	@Column(nullable = false)
-	val createdAt: LocalDate? = null,
+	val createdAt: LocalDateTime? = null,
 
 	@Version
 	val version: Long? = null,
