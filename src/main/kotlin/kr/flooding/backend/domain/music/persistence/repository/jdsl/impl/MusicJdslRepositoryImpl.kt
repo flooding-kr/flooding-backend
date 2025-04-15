@@ -12,30 +12,33 @@ import java.time.LocalDate
 
 @Repository
 class MusicJdslRepositoryImpl(
-    private val context: JpqlRenderContext,
-    private val entityManager: EntityManager
-): MusicJdslRepository {
-    override fun findAllByCreatedDateOrderByMusicOrderType(createdDate: LocalDate, musicOrderType: MusicOrderType): List<Music> {
-        val createdAtStart = createdDate.atStartOfDay()
-        val createdAtEnd = createdAtStart.plusDays(1)
+	private val context: JpqlRenderContext,
+	private val entityManager: EntityManager,
+) : MusicJdslRepository {
+	override fun findAllByCreatedDateOrderByMusicOrderType(
+		createdDate: LocalDate,
+		musicOrderType: MusicOrderType,
+	): List<Music> {
+		val createdAtStart = createdDate.atStartOfDay()
+		val createdAtEnd = createdAtStart.plusDays(1)
 
-        val query =
-            jpql {
-                select(
-                    entity(Music::class),
-                ).from(
-                    entity(Music::class),
-                    fetchJoin(Music::proposer)
-                ).where(
-                    path(Music::createdAt).between(createdAtStart, createdAtEnd)
-                ).orderBy(
-                    when(musicOrderType) {
-                        MusicOrderType.LATEST -> path(Music::createdAt).desc()
-                        MusicOrderType.OLDEST -> path(Music::createdAt).asc()
-                        MusicOrderType.LIKES -> path(Music::likeCount).desc()
-                    }
-                )
-            }
-        return entityManager.createQuery(query, context).resultList
-    }
+		val query =
+			jpql {
+				select(
+					entity(Music::class),
+				).from(
+					entity(Music::class),
+					fetchJoin(Music::proposer),
+				).where(
+					path(Music::createdAt).between(createdAtStart, createdAtEnd),
+				).orderBy(
+					when (musicOrderType) {
+						MusicOrderType.LATEST -> path(Music::createdAt).desc()
+						MusicOrderType.OLDEST -> path(Music::createdAt).asc()
+						MusicOrderType.LIKES -> path(Music::likeCount).desc()
+					},
+				)
+			}
+		return entityManager.createQuery(query, context).resultList
+	}
 }

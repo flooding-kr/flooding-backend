@@ -17,16 +17,16 @@ import org.hibernate.annotations.OnDeleteAction
 @Entity
 @Table(uniqueConstraints = [UniqueConstraint(columnNames = ["user_id", "music_id"])])
 class MusicLike(
-    @Id
+	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	val id: Long? = null,
 
-    @ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(nullable = false)
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	val music: Music,
 
-    @ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(nullable = false)
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	val user: User,

@@ -8,7 +8,7 @@ import java.util.Optional
 
 interface MusicLikeJpaRepository : JpaRepository<MusicLike, Long> {
 	fun findByMusicAndUser(
-        music: Music,
-        user: User,
+		music: Music,
+		user: User,
 	): Optional<MusicLike>
 }

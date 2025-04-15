@@ -10,10 +10,13 @@ import java.time.LocalDate
 @Service
 @Transactional(readOnly = true)
 class FetchMusicUsecase(
-    private val musicJdslRepository: MusicJdslRepository,
+	private val musicJdslRepository: MusicJdslRepository,
 ) {
-    fun execute(date: LocalDate, orderType: MusicOrderType): FetchMusicResponse =
-        FetchMusicResponse.toDto(
-            musicJdslRepository.findAllByCreatedDateOrderByMusicOrderType(date, orderType)
-        )
+	fun execute(
+		date: LocalDate,
+		orderType: MusicOrderType,
+	): FetchMusicResponse =
+		FetchMusicResponse.toDto(
+			musicJdslRepository.findAllByCreatedDateOrderByMusicOrderType(date, orderType),
+		)
 }
