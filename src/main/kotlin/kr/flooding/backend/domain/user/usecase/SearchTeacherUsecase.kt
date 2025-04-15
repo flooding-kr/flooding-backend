@@ -3,6 +3,7 @@ package kr.flooding.backend.domain.user.usecase
 import kr.flooding.backend.domain.role.enums.RoleType
 import kr.flooding.backend.domain.user.dto.response.SearchTeacherListResponse
 import kr.flooding.backend.domain.user.dto.response.SearchTeacherResponse
+import kr.flooding.backend.domain.user.enums.UserState
 import kr.flooding.backend.domain.user.repository.jdsl.UserJdslRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -15,10 +16,16 @@ class SearchTeacherUsecase(
 ) {
 	fun execute(name: String): SearchTeacherListResponse {
 		val users =
-			userJdslRepository.findByNameContainsAndRolesContains(
-				name,
-				RoleType.ROLE_TEACHER,
-			)
+			if (name.isEmpty()) {
+				emptyList()
+			} else {
+				userJdslRepository.findByNameLikeAndRoleAndUserStateAndEmailVerifyStatus(
+					name,
+					RoleType.ROLE_TEACHER,
+					UserState.APPROVED,
+					true,
+				)
+			}
 
 		return SearchTeacherListResponse(
 			users.map { user ->
