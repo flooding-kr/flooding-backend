@@ -8,7 +8,8 @@ import jakarta.validation.Valid
 import kr.flooding.backend.domain.auth.dto.request.ReissueEmailCodeRequest
 import kr.flooding.backend.domain.auth.dto.request.ResetPasswordRequest
 import kr.flooding.backend.domain.auth.dto.request.SignInRequest
-import kr.flooding.backend.domain.auth.dto.request.SignUpRequest
+import kr.flooding.backend.domain.auth.dto.request.SignUpStudentRequest
+import kr.flooding.backend.domain.auth.dto.request.SignUpTeacherRequest
 import kr.flooding.backend.domain.auth.dto.response.ReissueTokenResponse
 import kr.flooding.backend.domain.auth.dto.response.SignInResponse
 import kr.flooding.backend.domain.auth.usecase.ReissueEmailCodeUsecase
@@ -17,7 +18,8 @@ import kr.flooding.backend.domain.auth.usecase.RequestResetPasswordUsecase
 import kr.flooding.backend.domain.auth.usecase.ResetPasswordUsecase
 import kr.flooding.backend.domain.auth.usecase.SignInUsecase
 import kr.flooding.backend.domain.auth.usecase.SignOutUsecase
-import kr.flooding.backend.domain.auth.usecase.SignUpUsecase
+import kr.flooding.backend.domain.auth.usecase.SignUpStudentUsecase
+import kr.flooding.backend.domain.auth.usecase.SignUpTeacherUsecase
 import kr.flooding.backend.domain.auth.usecase.VerifyEmailUsecase
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
@@ -33,8 +35,9 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("auth")
 class AuthController(
-	private val signUpUsecase: SignUpUsecase,
+	private val signUpStudentUsecase: SignUpStudentUsecase,
 	private val signInUsecase: SignInUsecase,
+	private val signUpTeacherUsecase: SignUpTeacherUsecase,
 	private val reissueTokenUsecase: ReissueTokenUsecase,
 	private val signOutUsecase: SignOutUsecase,
 	private val verifyEmailUsecase: VerifyEmailUsecase,
@@ -42,7 +45,7 @@ class AuthController(
 	private val requestResetPasswordUsecase: RequestResetPasswordUsecase,
 	private val resetPasswordUsecase: ResetPasswordUsecase,
 ) {
-	@Operation(summary = "회원가입")
+	@Operation(summary = "학생 회원가입")
 	@ApiResponses(
 		value = [
 			ApiResponse(responseCode = "200", description = "성공"),
@@ -50,11 +53,27 @@ class AuthController(
 			ApiResponse(responseCode = "500", description = "이메일 전송 실패 혹은 예기치 못한 오류"),
 		],
 	)
-	@PostMapping("sign-up")
-	fun signUp(
-		@Valid @RequestBody signUpRequest: SignUpRequest,
+	@PostMapping("student/sign-up")
+	fun studentSignUp(
+		@Valid @RequestBody signUpStudentRequest: SignUpStudentRequest,
 	): ResponseEntity<Unit> =
-		signUpUsecase.execute(signUpRequest).let {
+		signUpStudentUsecase.execute(signUpStudentRequest).let {
+			ResponseEntity.ok().build()
+		}
+
+	@Operation(summary = "선생님 회원가입")
+	@ApiResponses(
+		value = [
+			ApiResponse(responseCode = "200", description = "성공"),
+			ApiResponse(responseCode = "400", description = "잘못된 요청"),
+			ApiResponse(responseCode = "500", description = "이메일 전송 실패 혹은 에기치 못한 오류"),
+		],
+	)
+	@PostMapping("teacher/sign-up")
+	fun teacherSignUp(
+		@Valid @RequestBody signUpTeacherRequest: SignUpTeacherRequest,
+	): ResponseEntity<Unit> =
+		signUpTeacherUsecase.execute(signUpTeacherRequest).let {
 			ResponseEntity.ok().build()
 		}
 

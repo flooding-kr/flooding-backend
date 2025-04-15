@@ -32,7 +32,10 @@ data class User(
 	val userState: UserState = UserState.PENDING,
 
 	@Embedded
-	val studentInfo: StudentInfo,
+	val studentInfo: StudentInfo? = null,
+
+	@Embedded
+	val teacherInfo: TeacherInfo? = null,
 
 	var profileImageUrl: String? = null,
 
@@ -42,6 +45,7 @@ data class User(
 
 	@Column(nullable = false)
 	val name: String,
+
 ) {
 	fun updateProfileImage(url: String) {
 		profileImageUrl = url

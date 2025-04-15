@@ -27,9 +27,11 @@ class SearchStudentUsecase(
 
 		return SearchStudentListResponse(
 			users.map { user ->
-				val year = requireNotNull(user.studentInfo.year)
-				val classroom = requireNotNull(user.studentInfo.classroom)
-				val number = requireNotNull(user.studentInfo.number)
+				val studentInfo = requireNotNull(user.studentInfo) { "학생 정보가 없습니다." }
+
+				val year = requireNotNull(studentInfo.year)
+				val classroom = requireNotNull(studentInfo.classroom)
+				val number = requireNotNull(studentInfo.number)
 
 				val grade = calcYearToGrade(year)
 				val isGraduate = grade > 3
