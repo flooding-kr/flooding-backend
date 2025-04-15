@@ -14,6 +14,7 @@ import org.springframework.retry.annotation.Retryable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Propagation
 import org.springframework.transaction.annotation.Transactional
+import java.time.LocalDate
 import kotlin.jvm.optionals.getOrNull
 
 @Service
@@ -36,7 +37,8 @@ class CancelSelfStudyRetryHelper(
 	)
 	fun execute(currentUser: User) {
 		try {
-			val prevReservation = selfStudyReservationRepository.findByStudent(currentUser).getOrNull()
+			val currentDate = LocalDate.now()
+			val prevReservation = selfStudyReservationRepository.findByStudentAndCreatedAt(currentUser, currentDate).getOrNull()
 
 			if (prevReservation == null || prevReservation.isCancelled) {
 				throw HttpException(ExceptionEnum.SELF_STUDY.ALREADY_CANCELLED_SELF_STUDY.toPair())

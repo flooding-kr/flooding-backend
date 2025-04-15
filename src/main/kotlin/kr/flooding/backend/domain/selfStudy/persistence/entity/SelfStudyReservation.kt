@@ -10,8 +10,10 @@ import jakarta.persistence.Table
 import jakarta.persistence.UniqueConstraint
 import jakarta.persistence.Version
 import kr.flooding.backend.domain.user.persistence.entity.User
+import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.OnDelete
 import org.hibernate.annotations.OnDeleteAction
+import java.time.LocalDate
 
 @Entity
 @Table(uniqueConstraints = [UniqueConstraint(columnNames = ["student_id"])])
@@ -26,6 +28,10 @@ class SelfStudyReservation(
 
 	@Version
 	val version: Int = 0,
+
+	@CreationTimestamp
+	@Column(nullable = false)
+	val createdAt: LocalDate = LocalDate.now(),
 ) {
 	@Column(nullable = false)
 	var isCancelled: Boolean = false
