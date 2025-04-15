@@ -5,5 +5,5 @@ import kr.flooding.backend.domain.music.persistence.entity.Music
 import java.time.LocalDate
 
 interface MusicJdslRepository {
-    fun findAllByCreatedDateOrderByMusicOrderType(date: LocalDate, musicOrderType: MusicOrderType): List<Music>
+    fun findAllByCreatedDateOrderByMusicOrderType(createdDate: LocalDate, musicOrderType: MusicOrderType): List<Music>
 }

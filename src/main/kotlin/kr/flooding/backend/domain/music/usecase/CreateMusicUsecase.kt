@@ -22,9 +22,9 @@ class CreateMusicUsecase(
 	fun execute(createMusicRequest: CreateMusicRequest) {
 		val currentUser = userUtil.getUser()
 
-		val toDayStartTime = LocalDate.now().atStartOfDay()
-		val toDayEndTime = toDayStartTime.plusDays(1)
-		if (musicJpaRepository.existsByProposerAndCreatedAtBetween(currentUser, toDayStartTime, toDayEndTime)) {
+		val todayStart = LocalDate.now().atStartOfDay()
+		val todayEnd = todayStart.plusDays(1)
+		if (musicJpaRepository.existsByProposerAndCreatedAtBetween(currentUser, todayStart, todayEnd)) {
 			throw HttpException(ExceptionEnum.MUSIC.ALREADY_REQUESTED_MUSIC.toPair())
 		}
 

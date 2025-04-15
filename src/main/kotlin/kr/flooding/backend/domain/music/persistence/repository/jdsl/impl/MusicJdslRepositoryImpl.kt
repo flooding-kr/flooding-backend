@@ -15,9 +15,9 @@ class MusicJdslRepositoryImpl(
     private val context: JpqlRenderContext,
     private val entityManager: EntityManager
 ): MusicJdslRepository {
-    override fun findAllByCreatedDateOrderByMusicOrderType(date: LocalDate, musicOrderType: MusicOrderType): List<Music> {
-        val start = date.atStartOfDay()
-        val end = start.plusDays(1)
+    override fun findAllByCreatedDateOrderByMusicOrderType(createdDate: LocalDate, musicOrderType: MusicOrderType): List<Music> {
+        val createdAtStart = createdDate.atStartOfDay()
+        val createdAtEnd = createdAtStart.plusDays(1)
 
         val query =
             jpql {
@@ -27,7 +27,7 @@ class MusicJdslRepositoryImpl(
                     entity(Music::class),
                     fetchJoin(Music::proposer)
                 ).where(
-                    path(Music::createdAt).between(start, end)
+                    path(Music::createdAt).between(createdAtStart, createdAtEnd)
                 ).orderBy(
                     when(musicOrderType) {
                         MusicOrderType.LATEST -> path(Music::createdAt).desc()
