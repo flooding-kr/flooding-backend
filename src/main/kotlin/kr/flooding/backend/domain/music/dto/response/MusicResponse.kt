@@ -4,7 +4,7 @@ import kr.flooding.backend.domain.music.persistence.entity.Music
 import java.util.UUID
 
 data class MusicResponse(
-    val musicId: UUID?,
+	val musicId: UUID?,
 	val musicUrl: String,
 	val musicName: String,
 	val thumbnailImageUrl: String,
@@ -14,7 +14,7 @@ data class MusicResponse(
 	companion object {
 		fun toDto(music: Music): MusicResponse =
 			MusicResponse(
-                musicId = music.id,
+				musicId = music.id,
 				musicUrl = music.musicUrl,
 				musicName = music.title,
 				thumbnailImageUrl = music.thumbImageUrl,
