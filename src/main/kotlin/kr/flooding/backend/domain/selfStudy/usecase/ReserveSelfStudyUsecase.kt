@@ -22,7 +22,7 @@ class ReserveSelfStudyUsecase(
 		val currentDate = LocalDate.now()
 		val currentTime = LocalTime.now()
 
-		val startTime = LocalTime.of(7, 0)
+		val startTime = LocalTime.of(20, 0)
 		val endTime = LocalTime.of(21, 0)
 
 		if (currentDate.dayOfWeek == DayOfWeek.FRIDAY ||
