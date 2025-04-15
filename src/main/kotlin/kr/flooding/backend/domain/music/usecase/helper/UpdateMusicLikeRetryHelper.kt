@@ -36,7 +36,6 @@ class UpdateMusicLikeRetryHelper(
 				multiplier = 2.0,
 				random = true,
 			),
-		recover = "recover",
 		notRecoverable = [HttpException::class],
 	)
 	fun execute(
