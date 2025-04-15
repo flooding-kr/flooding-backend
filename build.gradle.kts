@@ -66,6 +66,10 @@ dependencies {
 
 	// youtube
 	implementation("com.google.apis:google-api-services-youtube:v3-rev20230816-2.0.0")
+
+	// Retry
+	implementation("org.springframework.retry:spring-retry")
+	implementation("org.springframework:spring-aspects")
 }
 
 kotlin {

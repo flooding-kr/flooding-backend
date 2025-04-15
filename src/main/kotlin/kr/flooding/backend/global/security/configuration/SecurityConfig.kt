@@ -78,6 +78,7 @@ class SecurityConfig(
 
 				it // Music
 					.postMatchers("/music", listOf(ROLE_USER))
+					.patchMatchers("/music/{musicId}/like", listOf(ROLE_USER))
 
 				it // File
 					.postMatchers("/file/image", listOf(ROLE_USER))
