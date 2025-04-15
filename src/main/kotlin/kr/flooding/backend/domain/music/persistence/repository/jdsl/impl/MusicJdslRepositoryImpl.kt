@@ -34,7 +34,6 @@ class MusicJdslRepositoryImpl(
 				).orderBy(
 					when (musicOrderType) {
 						MusicOrderType.LATEST -> path(Music::createdAt).desc()
-						MusicOrderType.OLDEST -> path(Music::createdAt).asc()
 						MusicOrderType.LIKES -> path(Music::likeCount).desc()
 					},
 				)
