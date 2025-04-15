@@ -1,12 +1,12 @@
-package kr.flooding.backend.domain.music.repository.jdsl.impl
+package kr.flooding.backend.domain.music.persistence.repository.jdsl.impl
 
 import com.linecorp.kotlinjdsl.dsl.jpql.jpql
 import com.linecorp.kotlinjdsl.render.jpql.JpqlRenderContext
 import com.linecorp.kotlinjdsl.support.spring.data.jpa.extension.createQuery
 import jakarta.persistence.EntityManager
 import kr.flooding.backend.domain.music.dto.request.MusicOrderType
-import kr.flooding.backend.domain.music.entity.Music
-import kr.flooding.backend.domain.music.repository.jdsl.MusicJdslRepository
+import kr.flooding.backend.domain.music.persistence.entity.Music
+import kr.flooding.backend.domain.music.persistence.repository.jdsl.MusicJdslRepository
 import org.springframework.stereotype.Repository
 import java.time.LocalDate
 

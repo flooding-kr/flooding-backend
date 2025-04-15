@@ -1,6 +1,6 @@
 package kr.flooding.backend.domain.music.dto.response
 
-import kr.flooding.backend.domain.music.entity.Music
+import kr.flooding.backend.domain.music.persistence.entity.Music
 
 data class MusicResponse(
     val musicUrl: String,

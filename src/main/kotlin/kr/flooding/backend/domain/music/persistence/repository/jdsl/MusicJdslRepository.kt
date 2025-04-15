@@ -1,7 +1,7 @@
-package kr.flooding.backend.domain.music.repository.jdsl
+package kr.flooding.backend.domain.music.persistence.repository.jdsl
 
 import kr.flooding.backend.domain.music.dto.request.MusicOrderType
-import kr.flooding.backend.domain.music.entity.Music
+import kr.flooding.backend.domain.music.persistence.entity.Music
 import java.time.LocalDate
 
 interface MusicJdslRepository {

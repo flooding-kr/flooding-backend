@@ -1,8 +1,8 @@
 package kr.flooding.backend.domain.music.usecase
 
 import kr.flooding.backend.domain.music.dto.request.CreateMusicRequest
-import kr.flooding.backend.domain.music.entity.Music
-import kr.flooding.backend.domain.music.repository.jpa.MusicJpaRepository
+import kr.flooding.backend.domain.music.persistence.entity.Music
+import kr.flooding.backend.domain.music.persistence.repository.jpa.MusicJpaRepository
 import kr.flooding.backend.global.exception.ExceptionEnum
 import kr.flooding.backend.global.exception.HttpException
 import kr.flooding.backend.global.exception.toPair
