@@ -1,11 +1,11 @@
 package kr.flooding.backend.domain.clubApplicant.usecase
 
-import kr.flooding.backend.domain.club.entity.ClubStatus
-import kr.flooding.backend.domain.club.repository.ClubRepository
-import kr.flooding.backend.domain.clubApplicant.domain.ClubApplicant
+import kr.flooding.backend.domain.club.persistence.entity.ClubStatus
+import kr.flooding.backend.domain.club.persistence.repository.ClubRepository
 import kr.flooding.backend.domain.clubApplicant.dto.request.ApplyClubRequest
-import kr.flooding.backend.domain.clubApplicant.repository.jpa.ClubApplicantJpaRepository
-import kr.flooding.backend.domain.clubMember.repository.jpa.ClubMemberJpaRepository
+import kr.flooding.backend.domain.clubApplicant.persistence.entity.ClubApplicant
+import kr.flooding.backend.domain.clubApplicant.persistence.repository.jpa.ClubApplicantJpaRepository
+import kr.flooding.backend.domain.clubMember.persistence.repository.jpa.ClubMemberJpaRepository
 import kr.flooding.backend.global.exception.ExceptionEnum
 import kr.flooding.backend.global.exception.HttpException
 import kr.flooding.backend.global.exception.toPair

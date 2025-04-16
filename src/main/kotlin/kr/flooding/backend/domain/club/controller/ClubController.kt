@@ -8,7 +8,7 @@ import kr.flooding.backend.domain.club.dto.request.UpdateClubRequest
 import kr.flooding.backend.domain.club.dto.response.FetchClubFilterResponse
 import kr.flooding.backend.domain.club.dto.response.FetchClubMyselfResponse
 import kr.flooding.backend.domain.club.dto.response.FetchClubResponse
-import kr.flooding.backend.domain.club.entity.ClubType
+import kr.flooding.backend.domain.club.persistence.entity.ClubType
 import kr.flooding.backend.domain.club.usecase.CloseClubUsecase
 import kr.flooding.backend.domain.club.usecase.ConfirmClubInviteUsecase
 import kr.flooding.backend.domain.club.usecase.CreateClubUsecase

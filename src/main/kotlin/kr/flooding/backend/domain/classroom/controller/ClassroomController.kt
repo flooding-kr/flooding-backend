@@ -4,7 +4,7 @@ import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import kr.flooding.backend.domain.classroom.dto.request.FetchClassroomRequest
 import kr.flooding.backend.domain.classroom.dto.response.FetchClassroomResponse
-import kr.flooding.backend.domain.classroom.entity.BuildingType
+import kr.flooding.backend.domain.classroom.persistence.entity.BuildingType
 import kr.flooding.backend.domain.classroom.usecase.FetchClassroomUsecase
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping

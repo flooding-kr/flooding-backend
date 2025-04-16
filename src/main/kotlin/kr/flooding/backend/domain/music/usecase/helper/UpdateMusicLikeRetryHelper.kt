@@ -4,7 +4,7 @@ import kr.flooding.backend.domain.music.dto.response.UpdateMusicLikeResponse
 import kr.flooding.backend.domain.music.persistence.repository.jpa.MusicJpaRepository
 import kr.flooding.backend.domain.musicLike.persistence.entity.MusicLike
 import kr.flooding.backend.domain.musicLike.persistence.repository.jpa.MusicLikeJpaRepository
-import kr.flooding.backend.domain.user.entity.User
+import kr.flooding.backend.domain.user.persistence.entity.User
 import kr.flooding.backend.global.exception.ExceptionEnum
 import kr.flooding.backend.global.exception.HttpException
 import kr.flooding.backend.global.exception.toPair
@@ -44,7 +44,8 @@ class UpdateMusicLikeRetryHelper(
 	): UpdateMusicLikeResponse {
 		try {
 			val music =
-				musicJpaRepository.findById(musicId)
+				musicJpaRepository
+					.findById(musicId)
 					.orElseThrow { HttpException(ExceptionEnum.MUSIC.NOT_FOUND_MUSIC.toPair()) }
 			val musicLike = musicLikeJpaRepository.findByMusicAndUser(music, currentUser).getOrNull()
 
@@ -77,7 +78,5 @@ class UpdateMusicLikeRetryHelper(
 		e: ObjectOptimisticLockingFailureException,
 		musicId: UUID,
 		currentUser: User,
-	): UpdateMusicLikeResponse {
-		throw HttpException(ExceptionEnum.MUSIC.TOO_MANY_MUSIC_REQUESTS.toPair())
-	}
+	): UpdateMusicLikeResponse = throw HttpException(ExceptionEnum.MUSIC.TOO_MANY_MUSIC_REQUESTS.toPair())
 }

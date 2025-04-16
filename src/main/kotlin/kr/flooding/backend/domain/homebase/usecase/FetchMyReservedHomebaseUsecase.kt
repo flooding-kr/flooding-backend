@@ -1,7 +1,7 @@
 package kr.flooding.backend.domain.homebase.usecase
 
 import kr.flooding.backend.domain.homebase.dto.response.FetchMyReservedHomebaseResponse
-import kr.flooding.backend.domain.homebase.repository.jdsl.HomebaseGroupJdslRepository
+import kr.flooding.backend.domain.homebase.persistence.repository.jdsl.HomebaseGroupJdslRepository
 import kr.flooding.backend.global.util.UserUtil
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional

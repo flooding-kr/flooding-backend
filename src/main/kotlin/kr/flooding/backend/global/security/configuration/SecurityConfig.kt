@@ -49,6 +49,10 @@ class SecurityConfig(
 					.patchMatchers("/homebase", listOf(ROLE_USER))
 					.deleteMatchers("/homebase/{homebaseGroupId}", listOf(ROLE_USER))
 
+				it // Self Study
+					.postMatchers("/self-study", listOf(ROLE_STUDENT))
+					.deleteMatchers("/self-study", listOf(ROLE_STUDENT))
+
 				it // Club
 					.getMatchers("/club", listOf(ROLE_USER))
 					.getMatchers("/club/myself", listOf(ROLE_USER))
