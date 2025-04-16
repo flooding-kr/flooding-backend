@@ -104,6 +104,7 @@ sealed interface ExceptionEnum {
 		val reason: String,
 	) {
 		ALREADY_REQUESTED_MUSIC(HttpStatus.BAD_REQUEST, "이미 신청한 음악이 존재합니다."),
+		NOT_FOUND_REQUESTED_MUSIC(HttpStatus.BAD_REQUEST, "신청한 음악이 없습니다."),
 		INVALID_MUSIC_URL(HttpStatus.BAD_REQUEST, "잘못된 형식의 음악 URL 입니다."),
 		NOT_FOUND_MUSIC(HttpStatus.NOT_FOUND, "존재하지 않는 음악 URL 입니다."),
 		TOO_MANY_MUSIC_REQUESTS(HttpStatus.TOO_MANY_REQUESTS, "기상 음악에 대한 요청이 너무 많습니다."),
