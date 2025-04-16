@@ -9,8 +9,10 @@ import kr.flooding.backend.domain.music.dto.response.FetchMusicResponse
 import kr.flooding.backend.domain.music.dto.response.UpdateMusicLikeResponse
 import kr.flooding.backend.domain.music.usecase.CreateMusicUsecase
 import kr.flooding.backend.domain.music.usecase.FetchMusicUsecase
+import kr.flooding.backend.domain.music.usecase.RemoveMusicUsecase
 import kr.flooding.backend.domain.music.usecase.UpdateMusicLikeUsecase
 import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -29,6 +31,7 @@ class MusicController(
 	private val createMusicUsecase: CreateMusicUsecase,
 	private val fetchMusicUsecase: FetchMusicUsecase,
 	private val updateMusicLikeUsecase: UpdateMusicLikeUsecase,
+	private val removeMusicUsecase: RemoveMusicUsecase,
 ) {
 	@Operation(summary = "기상 음악 신청")
 	@PostMapping
@@ -47,6 +50,13 @@ class MusicController(
 	): ResponseEntity<FetchMusicResponse> =
 		fetchMusicUsecase.execute(date, orderType).run {
 			ResponseEntity.ok(this)
+		}
+
+	@Operation(summary = "기상 음악 삭제")
+	@DeleteMapping
+	fun removeMusic(): ResponseEntity<Unit> =
+		removeMusicUsecase.execute().run {
+			ResponseEntity.ok().build()
 		}
 
 	@Operation(summary = "기상 음악 좋아요")
