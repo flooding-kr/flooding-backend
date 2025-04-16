@@ -6,7 +6,6 @@ import kr.flooding.backend.domain.user.persistence.entity.User
 import kr.flooding.backend.global.exception.ExceptionEnum
 import kr.flooding.backend.global.exception.HttpException
 import kr.flooding.backend.global.exception.toPair
-import kr.flooding.backend.global.util.TodayUtil
 import kr.flooding.backend.global.util.TodayUtil.Companion.getAtEndOfToday
 import kr.flooding.backend.global.util.TodayUtil.Companion.getAtStartOfToday
 import org.springframework.dao.DataIntegrityViolationException
@@ -17,7 +16,6 @@ import org.springframework.retry.annotation.Retryable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Propagation
 import org.springframework.transaction.annotation.Transactional
-import java.time.LocalDate
 import kotlin.jvm.optionals.getOrNull
 
 @Service
