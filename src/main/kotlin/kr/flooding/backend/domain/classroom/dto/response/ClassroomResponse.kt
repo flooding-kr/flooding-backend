@@ -1,6 +1,6 @@
 package kr.flooding.backend.domain.classroom.dto.response
 
-import kr.flooding.backend.domain.classroom.entity.Classroom
+import kr.flooding.backend.domain.classroom.persistence.entity.Classroom
 
 class ClassroomResponse(
 	val id: Long,

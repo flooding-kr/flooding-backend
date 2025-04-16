@@ -1,11 +1,11 @@
 package kr.flooding.backend.domain.attendance.usecase
 
 import kr.flooding.backend.domain.attendance.dto.request.AbsenceClubMyselfRequest
-import kr.flooding.backend.domain.attendance.entity.Attendance
-import kr.flooding.backend.domain.attendance.repository.jpa.AttendanceJpaRepository
-import kr.flooding.backend.domain.club.entity.ClubStatus
-import kr.flooding.backend.domain.club.repository.ClubRepository
-import kr.flooding.backend.domain.period.repository.PeriodRepository
+import kr.flooding.backend.domain.attendance.persistence.entity.Attendance
+import kr.flooding.backend.domain.attendance.persistence.jpa.AttendanceJpaRepository
+import kr.flooding.backend.domain.club.persistence.entity.ClubStatus
+import kr.flooding.backend.domain.club.persistence.repository.ClubRepository
+import kr.flooding.backend.domain.period.persistence.repository.PeriodRepository
 import kr.flooding.backend.global.exception.ExceptionEnum
 import kr.flooding.backend.global.exception.HttpException
 import kr.flooding.backend.global.exception.toPair

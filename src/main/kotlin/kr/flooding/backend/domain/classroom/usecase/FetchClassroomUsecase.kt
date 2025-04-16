@@ -2,7 +2,7 @@ package kr.flooding.backend.domain.classroom.usecase
 
 import kr.flooding.backend.domain.classroom.dto.request.FetchClassroomRequest
 import kr.flooding.backend.domain.classroom.dto.response.FetchClassroomResponse
-import kr.flooding.backend.domain.classroom.repository.jdsl.ClassroomJdslRepository
+import kr.flooding.backend.domain.classroom.persistence.repository.jdsl.ClassroomJdslRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 

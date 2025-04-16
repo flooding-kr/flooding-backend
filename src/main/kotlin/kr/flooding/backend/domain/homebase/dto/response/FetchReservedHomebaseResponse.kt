@@ -1,8 +1,8 @@
 package kr.flooding.backend.domain.homebase.dto.response
 
-import kr.flooding.backend.domain.homebase.entity.HomebaseGroup
-import kr.flooding.backend.domain.homebaseTable.entity.HomebaseTable
-import kr.flooding.backend.domain.user.entity.User
+import kr.flooding.backend.domain.homebase.persistence.entity.HomebaseGroup
+import kr.flooding.backend.domain.homebaseTable.persistence.entity.HomebaseTable
+import kr.flooding.backend.domain.user.persistence.entity.User
 
 class FetchReservedHomebaseResponse(
 	val homebaseTableId: Long,

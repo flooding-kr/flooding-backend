@@ -1,8 +1,8 @@
 package kr.flooding.backend.domain.auth.usecase
 
 import kr.flooding.backend.domain.auth.dto.response.ReissueTokenResponse
-import kr.flooding.backend.domain.auth.entity.RefreshToken
-import kr.flooding.backend.domain.auth.repository.RefreshTokenRepository
+import kr.flooding.backend.domain.auth.persistence.entity.RefreshToken
+import kr.flooding.backend.domain.auth.persistence.repository.RefreshTokenRepository
 import kr.flooding.backend.global.exception.ExceptionEnum
 import kr.flooding.backend.global.exception.HttpException
 import kr.flooding.backend.global.exception.toPair

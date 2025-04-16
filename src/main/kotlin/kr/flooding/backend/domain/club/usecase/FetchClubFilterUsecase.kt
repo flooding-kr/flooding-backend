@@ -2,9 +2,9 @@ package kr.flooding.backend.domain.club.usecase
 
 import kr.flooding.backend.domain.club.dto.response.ClubFilterResponse
 import kr.flooding.backend.domain.club.dto.response.FetchClubFilterResponse
-import kr.flooding.backend.domain.club.entity.ClubStatus
-import kr.flooding.backend.domain.club.entity.ClubType
-import kr.flooding.backend.domain.club.repository.ClubRepository
+import kr.flooding.backend.domain.club.persistence.entity.ClubStatus
+import kr.flooding.backend.domain.club.persistence.entity.ClubType
+import kr.flooding.backend.domain.club.persistence.repository.ClubRepository
 import kr.flooding.backend.global.util.UserUtil
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional

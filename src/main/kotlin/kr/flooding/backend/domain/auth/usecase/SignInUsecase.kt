@@ -2,10 +2,10 @@ package kr.flooding.backend.domain.auth.usecase
 
 import kr.flooding.backend.domain.auth.dto.request.SignInRequest
 import kr.flooding.backend.domain.auth.dto.response.SignInResponse
-import kr.flooding.backend.domain.auth.entity.RefreshToken
-import kr.flooding.backend.domain.auth.repository.RefreshTokenRepository
+import kr.flooding.backend.domain.auth.persistence.entity.RefreshToken
+import kr.flooding.backend.domain.auth.persistence.repository.RefreshTokenRepository
 import kr.flooding.backend.domain.user.enums.UserState
-import kr.flooding.backend.domain.user.repository.jpa.UserJpaRepository
+import kr.flooding.backend.domain.user.persistence.repository.jpa.UserJpaRepository
 import kr.flooding.backend.global.exception.ExceptionEnum
 import kr.flooding.backend.global.exception.HttpException
 import kr.flooding.backend.global.exception.toPair

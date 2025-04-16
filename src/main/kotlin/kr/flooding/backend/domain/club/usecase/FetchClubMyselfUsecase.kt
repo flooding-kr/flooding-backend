@@ -2,7 +2,7 @@ package kr.flooding.backend.domain.club.usecase
 
 import kr.flooding.backend.domain.club.dto.response.ClubMyselfResponse
 import kr.flooding.backend.domain.club.dto.response.FetchClubMyselfResponse
-import kr.flooding.backend.domain.clubMember.repository.jdsl.ClubMemberJdslRepository
+import kr.flooding.backend.domain.clubMember.persistence.repository.jdsl.ClubMemberJdslRepository
 import kr.flooding.backend.global.util.UserUtil
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional

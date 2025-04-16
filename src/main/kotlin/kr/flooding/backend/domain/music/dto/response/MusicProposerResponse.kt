@@ -1,6 +1,6 @@
 package kr.flooding.backend.domain.music.dto.response
 
-import kr.flooding.backend.domain.user.entity.User
+import kr.flooding.backend.domain.user.persistence.entity.User
 import kr.flooding.backend.global.util.StudentUtil
 
 data class MusicProposerResponse(

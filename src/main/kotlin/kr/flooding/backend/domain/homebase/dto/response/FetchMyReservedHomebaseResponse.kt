@@ -1,7 +1,7 @@
 package kr.flooding.backend.domain.homebase.dto.response
 
-import kr.flooding.backend.domain.homebase.entity.HomebaseGroup
-import kr.flooding.backend.domain.user.entity.User
+import kr.flooding.backend.domain.homebase.persistence.entity.HomebaseGroup
+import kr.flooding.backend.domain.user.persistence.entity.User
 import java.util.UUID
 
 class FetchMyReservedHomebaseResponse(

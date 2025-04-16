@@ -1,7 +1,7 @@
 package kr.flooding.backend.global.util
 
-import kr.flooding.backend.domain.user.entity.User
-import kr.flooding.backend.domain.user.repository.jpa.UserJpaRepository
+import kr.flooding.backend.domain.user.persistence.entity.User
+import kr.flooding.backend.domain.user.persistence.repository.jpa.UserJpaRepository
 import kr.flooding.backend.global.exception.ExceptionEnum
 import kr.flooding.backend.global.exception.HttpException
 import kr.flooding.backend.global.exception.toPair
