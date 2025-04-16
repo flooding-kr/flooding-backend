@@ -6,6 +6,9 @@ import kr.flooding.backend.domain.user.persistence.entity.User
 import kr.flooding.backend.global.exception.ExceptionEnum
 import kr.flooding.backend.global.exception.HttpException
 import kr.flooding.backend.global.exception.toPair
+import kr.flooding.backend.global.util.TodayUtil
+import kr.flooding.backend.global.util.TodayUtil.Companion.getAtEndOfToday
+import kr.flooding.backend.global.util.TodayUtil.Companion.getAtStartOfToday
 import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.orm.ObjectOptimisticLockingFailureException
@@ -41,8 +44,8 @@ class CancelSelfStudyRetryHelper(
 				selfStudyReservationRepository
 					.findByStudentAndCreatedAtBetween(
 						currentUser,
-						LocalDate.now().atStartOfDay(),
-						LocalDate.now().plusDays(1).atStartOfDay(),
+						getAtStartOfToday(),
+						getAtEndOfToday(),
 					).getOrNull()
 
 			if (prevReservation == null || prevReservation.isCancelled) {
