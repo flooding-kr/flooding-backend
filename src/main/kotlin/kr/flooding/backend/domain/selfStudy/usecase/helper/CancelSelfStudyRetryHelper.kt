@@ -37,14 +37,22 @@ class CancelSelfStudyRetryHelper(
 	)
 	fun execute(currentUser: User) {
 		try {
-			val currentDate = LocalDate.now()
-			val prevReservation = selfStudyReservationRepository.findByStudentAndCreatedAt(currentUser, currentDate).getOrNull()
+			val prevReservation =
+				selfStudyReservationRepository
+					.findByStudentAndCreatedAtBetween(
+						currentUser,
+						LocalDate.now().atStartOfDay(),
+						LocalDate.now().plusDays(1).atStartOfDay(),
+					).getOrNull()
 
 			if (prevReservation == null || prevReservation.isCancelled) {
 				throw HttpException(ExceptionEnum.SELF_STUDY.ALREADY_CANCELLED_SELF_STUDY.toPair())
 			}
 
-			val selfStudyRoom = selfStudyRoomRepository.findAll().first()
+			val selfStudyRoom =
+				selfStudyRoomRepository.findByIdIsNotNull().orElseThrow {
+					throw HttpException(ExceptionEnum.SELF_STUDY.NOT_FOUND_SELF_STUDY_ROOM.toPair())
+				}
 
 			prevReservation.cancelReservation()
 			selfStudyRoom.decrementReservationCount()

@@ -38,8 +38,13 @@ class ReserveSelfStudyRetryHelper(
 	)
 	fun execute(currentUser: User) {
 		try {
-			val currentDate = LocalDate.now()
-			val prevReservation = selfStudyReservationRepository.findByStudentAndCreatedAt(currentUser, currentDate).getOrNull()
+			val prevReservation =
+				selfStudyReservationRepository
+					.findByStudentAndCreatedAtBetween(
+						currentUser,
+						LocalDate.now().atStartOfDay(),
+						LocalDate.now().plusDays(1).atStartOfDay(),
+					).getOrNull()
 
 			if (prevReservation != null && prevReservation.isCancelled) {
 				throw HttpException(ExceptionEnum.SELF_STUDY.EXISTS_RESERVE_SELF_STUDY_HISTORY.toPair())
@@ -49,7 +54,10 @@ class ReserveSelfStudyRetryHelper(
 				throw HttpException(ExceptionEnum.SELF_STUDY.ALREADY_RESERVE_SELF_STUDY.toPair())
 			}
 
-			val selfStudyRoom = selfStudyRoomRepository.findAll().first()
+			val selfStudyRoom =
+				selfStudyRoomRepository.findByIdIsNotNull().orElseThrow {
+					HttpException(ExceptionEnum.SELF_STUDY.NOT_FOUND_SELF_STUDY_ROOM.toPair())
+				}
 
 			if (selfStudyRoom.reservationCount >= selfStudyRoom.reservationLimit) {
 				throw HttpException(ExceptionEnum.SELF_STUDY.MAX_CAPACITY_SELF_STUDY.toPair())
