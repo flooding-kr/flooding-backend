@@ -2,6 +2,7 @@ package kr.flooding.backend.domain.homebase.controller
 
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
+import jakarta.validation.Valid
 import kr.flooding.backend.domain.homebase.dto.web.request.FetchReservedHomebaseTableRequest
 import kr.flooding.backend.domain.homebase.dto.web.request.ReserveHomebaseTableRequest
 import kr.flooding.backend.domain.homebase.dto.web.response.FetchMyReservedHomebaseListResponse
@@ -33,7 +34,7 @@ class HomebaseController(
 	@Operation(summary = "홈베이스 예약")
 	@PostMapping
 	fun reserveHomebaseTable(
-		@RequestBody request: ReserveHomebaseTableRequest,
+		@RequestBody @Valid request: ReserveHomebaseTableRequest,
 	): ResponseEntity<Unit> =
 		reserveHomebaseTableUsecase.execute(request).run {
 			ResponseEntity.ok().build()
