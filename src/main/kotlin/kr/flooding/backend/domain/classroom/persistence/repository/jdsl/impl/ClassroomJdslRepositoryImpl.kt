@@ -25,7 +25,6 @@ class ClassroomJdslRepositoryImpl(
 					entity(Classroom::class),
 				).from(
 					entity(Classroom::class),
-					fetchJoin(Classroom::teacher),
 				).where(
 					path(Classroom::floor)
 						.eq(floor)

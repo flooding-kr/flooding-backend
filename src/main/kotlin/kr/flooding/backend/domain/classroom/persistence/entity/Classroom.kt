@@ -34,5 +34,5 @@ data class Classroom(
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@OnDelete(action = OnDeleteAction.SET_NULL)
-	val teacher: User,
+	val teacher: User? = null,
 )
