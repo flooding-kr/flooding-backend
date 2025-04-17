@@ -2,10 +2,11 @@ package kr.flooding.backend.domain.homebase.controller
 
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
-import kr.flooding.backend.domain.homebase.dto.request.FetchReservedHomebaseTableRequest
-import kr.flooding.backend.domain.homebase.dto.request.ReserveHomebaseTableRequest
-import kr.flooding.backend.domain.homebase.dto.response.FetchMyReservedHomebaseResponse
-import kr.flooding.backend.domain.homebase.dto.response.FetchReservedHomebaseResponse
+import jakarta.validation.Valid
+import kr.flooding.backend.domain.homebase.dto.web.request.FetchReservedHomebaseTableRequest
+import kr.flooding.backend.domain.homebase.dto.web.request.ReserveHomebaseTableRequest
+import kr.flooding.backend.domain.homebase.dto.web.response.FetchMyReservedHomebaseListResponse
+import kr.flooding.backend.domain.homebase.dto.web.response.FetchReservedHomebaseListResponse
 import kr.flooding.backend.domain.homebase.usecase.CancelHomebaseTableUsecase
 import kr.flooding.backend.domain.homebase.usecase.FetchMyReservedHomebaseUsecase
 import kr.flooding.backend.domain.homebase.usecase.FetchReservedHomebaseTableUsecase
@@ -33,7 +34,7 @@ class HomebaseController(
 	@Operation(summary = "홈베이스 예약")
 	@PostMapping
 	fun reserveHomebaseTable(
-		@RequestBody request: ReserveHomebaseTableRequest,
+		@RequestBody @Valid request: ReserveHomebaseTableRequest,
 	): ResponseEntity<Unit> =
 		reserveHomebaseTableUsecase.execute(request).run {
 			ResponseEntity.ok().build()
@@ -44,7 +45,7 @@ class HomebaseController(
 	fun findReservedHomebaseTable(
 		@RequestParam floor: Int,
 		@RequestParam period: Int,
-	): ResponseEntity<List<FetchReservedHomebaseResponse>> =
+	): ResponseEntity<FetchReservedHomebaseListResponse> =
 		fetchReservedHomebaseTableUsecase
 			.execute(
 				FetchReservedHomebaseTableRequest(
@@ -57,7 +58,7 @@ class HomebaseController(
 
 	@Operation(summary = "예약한 홈베이스 조회")
 	@GetMapping("myself")
-	fun findMyReservedHomebaseTable(): ResponseEntity<List<FetchMyReservedHomebaseResponse>> =
+	fun findMyReservedHomebaseTable(): ResponseEntity<FetchMyReservedHomebaseListResponse> =
 		findMyReservedHomebaseTableUsecase.execute().run {
 			ResponseEntity.ok(this)
 		}

@@ -8,7 +8,7 @@ class ClassroomResponse(
 	val name: String,
 	val description: String,
 	val isHomebase: Boolean,
-	val teacher: ClassroomTeacherResponse,
+	val teacher: ClassroomTeacherResponse?,
 ) {
 	companion object {
 		fun toDto(classroom: Classroom) =

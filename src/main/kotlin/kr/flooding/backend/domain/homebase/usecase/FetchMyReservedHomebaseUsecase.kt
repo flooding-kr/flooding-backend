@@ -1,6 +1,7 @@
 package kr.flooding.backend.domain.homebase.usecase
 
-import kr.flooding.backend.domain.homebase.dto.response.FetchMyReservedHomebaseResponse
+import kr.flooding.backend.domain.homebase.dto.common.response.FetchMyReservedHomebaseResponse
+import kr.flooding.backend.domain.homebase.dto.web.response.FetchMyReservedHomebaseListResponse
 import kr.flooding.backend.domain.homebase.persistence.repository.jdsl.HomebaseGroupJdslRepository
 import kr.flooding.backend.global.util.UserUtil
 import org.springframework.stereotype.Service
@@ -13,14 +14,16 @@ class FetchMyReservedHomebaseUsecase(
 	private val homebaseGroupJdslRepository: HomebaseGroupJdslRepository,
 	private val userUtil: UserUtil,
 ) {
-	fun execute(): List<FetchMyReservedHomebaseResponse> {
+	fun execute(): FetchMyReservedHomebaseListResponse {
 		val currentUser = userUtil.getUser()
-		return homebaseGroupJdslRepository
-			.findWithHomebaseTableWithHomebaseAndProposerByProposerOrParticipantsAndAttendedAt(
-				currentUser,
-				LocalDate.now(),
-			).map {
-				FetchMyReservedHomebaseResponse.toDto(it, currentUser)
-			}
+		return FetchMyReservedHomebaseListResponse(
+			homebaseGroupJdslRepository
+				.findWithHomebaseTableWithHomebaseAndProposerByProposerOrParticipantsAndAttendedAt(
+					currentUser,
+					LocalDate.now(),
+				).map {
+					FetchMyReservedHomebaseResponse.toDto(it, currentUser)
+				},
+		)
 	}
 }
