@@ -30,6 +30,8 @@ data class HomebaseGroup(
 
 	val period: Int,
 
+	val reason: String,
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	val proposer: User,
