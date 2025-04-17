@@ -1,4 +1,4 @@
-package kr.flooding.backend.domain.homebase.dto.response
+package kr.flooding.backend.domain.homebase.dto.common.response
 
 import kr.flooding.backend.domain.homebase.persistence.entity.HomebaseGroup
 import kr.flooding.backend.domain.user.persistence.entity.User
@@ -10,6 +10,7 @@ class FetchMyReservedHomebaseResponse(
 	val period: Int,
 	val isProposer: Boolean,
 	val participants: List<HomebaseParticipantResponse>,
+	val reason: String,
 	val maxSeats: Int,
 ) {
 	companion object {
@@ -30,6 +31,7 @@ class FetchMyReservedHomebaseResponse(
 						},
 				isProposer = homebaseGroup.proposer == currentUser,
 				maxSeats = homebaseGroup.homebaseTable.maxSeats,
+				reason = homebaseGroup.reason,
 			)
 		}
 	}

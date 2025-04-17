@@ -1,4 +1,4 @@
-package kr.flooding.backend.domain.homebase.dto.request
+package kr.flooding.backend.domain.homebase.dto.web.request
 
 import java.util.UUID
 
@@ -7,4 +7,5 @@ class ReserveHomebaseTableRequest(
 	val floor: Int,
 	val participants: List<UUID>,
 	val period: Int,
+	val reason: String,
 )

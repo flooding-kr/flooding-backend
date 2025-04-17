@@ -1,4 +1,4 @@
-package kr.flooding.backend.domain.homebase.dto.response
+package kr.flooding.backend.domain.homebase.dto.common.response
 
 import kr.flooding.backend.domain.homebaseTable.persistence.entity.HomebaseTable
 

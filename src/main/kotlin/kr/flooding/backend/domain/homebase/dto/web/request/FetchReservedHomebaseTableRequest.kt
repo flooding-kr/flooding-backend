@@ -1,4 +1,4 @@
-package kr.flooding.backend.domain.homebase.dto.request
+package kr.flooding.backend.domain.homebase.dto.web.request
 
 class FetchReservedHomebaseTableRequest(
 	val floor: Int,

@@ -3,7 +3,7 @@ package kr.flooding.backend.domain.homebase.usecase
 import jakarta.transaction.Transactional
 import kr.flooding.backend.domain.attendance.persistence.entity.Attendance
 import kr.flooding.backend.domain.attendance.persistence.jpa.AttendanceJpaRepository
-import kr.flooding.backend.domain.homebase.dto.request.ReserveHomebaseTableRequest
+import kr.flooding.backend.domain.homebase.dto.web.request.ReserveHomebaseTableRequest
 import kr.flooding.backend.domain.homebase.persistence.entity.HomebaseGroup
 import kr.flooding.backend.domain.homebase.persistence.repository.jpa.HomebaseGroupRepository
 import kr.flooding.backend.domain.homebaseParticipants.persistence.entity.HomebaseParticipant
@@ -98,6 +98,7 @@ class ReserveHomebaseTableUsecase(
 				homebaseTable = homebaseTable,
 				period = request.period,
 				proposer = currentUser,
+				reason = request.reason,
 			)
 
 		val homebaseParticipants =
