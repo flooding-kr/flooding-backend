@@ -3,7 +3,7 @@ FROM gradle:jdk21-alpine AS build
 
 WORKDIR /app
 
-COPY build.gradle.kts settings.gradle.kts gradlew .editorconfig ./
+COPY build.gradle.kts settings.gradle.kts gradlew ./
 COPY gradle ./gradle
 COPY src ./src
 

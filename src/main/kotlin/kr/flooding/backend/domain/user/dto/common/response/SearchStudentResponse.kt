@@ -1,7 +1,6 @@
-package kr.flooding.backend.domain.user.dto.response
+package kr.flooding.backend.domain.user.dto.common.response
 
 import kr.flooding.backend.domain.user.enums.Gender
-import kr.flooding.backend.domain.user.model.StudentInfoModel
 import java.util.UUID
 
 data class SearchStudentResponse(
@@ -9,5 +8,5 @@ data class SearchStudentResponse(
 	val name: String,
 	val email: String,
 	val gender: Gender,
-	val studentInfo: StudentInfoModel,
+	val studentInfo: StudentInfoResponse,
 )
