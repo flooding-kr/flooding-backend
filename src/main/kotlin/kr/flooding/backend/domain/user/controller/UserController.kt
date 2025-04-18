@@ -2,6 +2,8 @@ package kr.flooding.backend.domain.user.controller
 
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
+import jakarta.validation.Valid
+import kr.flooding.backend.domain.user.dto.request.UpdateProfileRequest
 import kr.flooding.backend.domain.user.dto.request.WithdrawRequest
 import kr.flooding.backend.domain.user.dto.response.FetchUserInfoResponse
 import kr.flooding.backend.domain.user.dto.response.SearchStudentListResponse
@@ -18,9 +20,7 @@ import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.RequestPart
 import org.springframework.web.bind.annotation.RestController
-import org.springframework.web.multipart.MultipartFile
 
 @Tag(name = "User", description = "회원")
 @RestController
@@ -51,9 +51,9 @@ class UserController(
 	@Operation(summary = "나의 정보 수정")
 	@PatchMapping("profile")
 	fun updateProfileImage(
-		@RequestPart("image") image: MultipartFile,
+		@RequestBody @Valid updateProfileRequest: UpdateProfileRequest,
 	): ResponseEntity<Unit> =
-		updateProfileImageUsecase.execute(image).let {
+		updateProfileImageUsecase.execute(updateProfileRequest).let {
 			ResponseEntity.ok().build()
 		}
 
