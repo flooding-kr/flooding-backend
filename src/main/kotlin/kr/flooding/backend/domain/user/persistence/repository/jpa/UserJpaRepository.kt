@@ -1,5 +1,6 @@
 package kr.flooding.backend.domain.user.persistence.repository.jpa
 
+import kr.flooding.backend.domain.user.enums.UserState
 import kr.flooding.backend.domain.user.persistence.entity.StudentInfo
 import kr.flooding.backend.domain.user.persistence.entity.User
 import org.springframework.data.jpa.repository.JpaRepository
@@ -14,4 +15,6 @@ interface UserJpaRepository : JpaRepository<User, UUID> {
 	fun existsByStudentInfo(studentInfo: StudentInfo): Boolean
 
 	fun findByIdIn(ids: List<UUID>): MutableList<User>
+
+	fun findByState(userState: UserState): MutableList<User>
 }
