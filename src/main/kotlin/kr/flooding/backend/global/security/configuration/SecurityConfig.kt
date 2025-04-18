@@ -86,6 +86,9 @@ class SecurityConfig(
 					.deleteMatchers("/music", listOf(ROLE_USER))
 					.patchMatchers("/music/{musicId}/like", listOf(ROLE_USER))
 
+				it // Massage
+					.postMatchers("/massage", listOf(ROLE_USER))
+
 				it // File
 					.postMatchers("/file/image", listOf(ROLE_USER))
 
