@@ -116,6 +116,7 @@ sealed interface ExceptionEnum {
 		val reason: String,
 	) {
 		INVALID_IMAGE_EXTENSION(HttpStatus.BAD_REQUEST, "jpg, png, jpeg 형식의 이미지만 업로드할 수 있습니다."),
+		FAILED_TO_CONVERT_WEBP(HttpStatus.BAD_REQUEST, "webp 변환에 실패하였습니다."),
 	}
 
 	@Suppress("ktlint:standard:class-naming")

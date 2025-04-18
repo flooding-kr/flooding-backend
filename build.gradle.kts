@@ -70,6 +70,10 @@ dependencies {
 	// Retry
 	implementation("org.springframework.retry:spring-retry")
 	implementation("org.springframework:spring-aspects")
+
+	// Image
+	implementation("com.sksamuel.scrimage:scrimage-core:4.3.0")
+	implementation("com.sksamuel.scrimage:scrimage-webp:4.3.0")
 }
 
 kotlin {
