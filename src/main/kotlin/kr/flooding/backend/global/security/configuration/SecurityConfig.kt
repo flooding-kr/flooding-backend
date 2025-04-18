@@ -88,6 +88,7 @@ class SecurityConfig(
 
 				it // Massage
 					.postMatchers("/massage", listOf(ROLE_USER))
+					.deleteMatchers("/massage", listOf(ROLE_USER))
 
 				it // File
 					.postMatchers("/file/image", listOf(ROLE_USER))

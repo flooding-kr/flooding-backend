@@ -144,7 +144,9 @@ sealed interface ExceptionEnum {
 		ALREADY_RESERVE_MASSAGE(HttpStatus.BAD_REQUEST, "이미 안마의자 신청을 했습니다."),
 		EXISTS_RESERVE_MASSAGE_HISTORY(HttpStatus.BAD_REQUEST, "이미 안마의자 신청을 한번 이상 시도했습니다."),
 		NOT_FOUND_MASSAGE_ROOM(HttpStatus.NOT_FOUND, "안마의자 신청 정보를 받아올 수 없습니다."),
+		ALREADY_CANCELLED_MASSAGE(HttpStatus.BAD_REQUEST, "이미 안마의자 신청이 취소된 상태입니디."),
 		MASSAGE_OUT_OF_TIME_RANGE(HttpStatus.BAD_REQUEST, "정해진 시간에 안마의자 신청을 해주세요."),
+		NOT_FOUND_MASSAGE_RESERVATION(HttpStatus.NOT_FOUND, "안마의자 예약을 찾을 수 없습니다."),
 	}
 }
 
