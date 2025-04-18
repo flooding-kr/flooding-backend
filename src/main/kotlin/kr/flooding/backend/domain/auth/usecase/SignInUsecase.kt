@@ -38,7 +38,7 @@ class SignInUsecase(
 			throw HttpException(ExceptionEnum.AUTH.NOT_VERIFIED_EMAIL.toPair())
 		}
 
-		if (user.userState != UserState.APPROVED) {
+		if (user.state != UserState.APPROVED) {
 			throw HttpException(ExceptionEnum.AUTH.NOT_APPROVED_USER.toPair())
 		}
 

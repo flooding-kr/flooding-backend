@@ -1,10 +1,10 @@
-package kr.flooding.backend.domain.user.usecase
+package kr.flooding.backend.domain.user.usecase.common
 
 import kr.flooding.backend.domain.role.enums.RoleType
-import kr.flooding.backend.domain.user.dto.response.SearchStudentListResponse
-import kr.flooding.backend.domain.user.dto.response.SearchStudentResponse
+import kr.flooding.backend.domain.user.dto.web.response.SearchStudentListResponse
+import kr.flooding.backend.domain.user.dto.common.response.SearchStudentResponse
 import kr.flooding.backend.domain.user.enums.UserState
-import kr.flooding.backend.domain.user.model.StudentInfoModel
+import kr.flooding.backend.domain.user.dto.common.response.StudentInfoResponse
 import kr.flooding.backend.domain.user.persistence.repository.jdsl.UserJdslRepository
 import kr.flooding.backend.global.util.StudentUtil.Companion.calcGradeToYear
 import kr.flooding.backend.global.util.StudentUtil.Companion.calcYearToGrade
@@ -41,8 +41,8 @@ class SearchStudentUsecase(
 
 				val grade = calcYearToGrade(year)
 				val isGraduate = grade > 3
-				val studentInfoModel =
-					StudentInfoModel(
+				val studentInfoResponse =
+					StudentInfoResponse(
 						grade = if (isGraduate) 0 else grade,
 						isGraduate = isGraduate,
 						classroom = classroom,
@@ -54,7 +54,7 @@ class SearchStudentUsecase(
 					id = requireNotNull(user.id),
 					name = user.name,
 					gender = user.gender,
-					studentInfo = studentInfoModel,
+					studentInfo = studentInfoResponse,
 					email = user.email,
 				)
 			},
