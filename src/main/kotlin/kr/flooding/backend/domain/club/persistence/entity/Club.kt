@@ -31,10 +31,10 @@ data class Club(
 	@OnDelete(action = OnDeleteAction.SET_NULL)
 	val classroom: Classroom,
 
-	val thumbnailImageUrl: String? = null,
+	val thumbnailImageKey: String? = null,
 
 	@ElementCollection
-	val activityImageUrls: List<String> = listOf(),
+	val activityImageKeys: List<String> = listOf(),
 
 	@Column(nullable = false)
 	@Enumerated(EnumType.STRING)

@@ -19,11 +19,12 @@ class ClubMyselfResponse(
 		fun toDto(
 			club: Club,
 			currentUser: User,
+			thumbnailImageUrl: String?,
 		): ClubMyselfResponse =
 			ClubMyselfResponse(
 				id = club.id,
 				name = club.name,
-				thumbnailImageUrl = club.thumbnailImageUrl,
+				thumbnailImageUrl = thumbnailImageUrl,
 				isLeader = club.leader == currentUser,
 				status = club.status,
 				type = club.type,

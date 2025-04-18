@@ -45,7 +45,7 @@ class UpdateClubUsecase(
 			if (request.activityImageUrls?.isNotEmpty() == true) {
 				request.activityImageUrls
 			} else {
-				currentClub.activityImageUrls
+				currentClub.activityImageKeys
 			} ?: listOf()
 
 		val updatedClub =
@@ -53,8 +53,8 @@ class UpdateClubUsecase(
 				name = currentClub.name.updateIfNotBlank(request.name),
 				description = currentClub.description.updateIfNotBlank(request.description),
 				classroom = changedClassroom,
-				thumbnailImageUrl = currentClub.thumbnailImageUrl?.updateIfNotBlank(request.thumbnailImageUrl),
-				activityImageUrls = changedActivityImages,
+				thumbnailImageKey = currentClub.thumbnailImageKey?.updateIfNotBlank(request.thumbnailImageUrl),
+				activityImageKeys = changedActivityImages,
 			)
 
 		clubRepository.save(updatedClub)

@@ -25,6 +25,8 @@ class FetchClubResponse(
 		fun toDto(
 			club: Club,
 			clubMembers: List<ClubMember>,
+			thumbnailImageUrl: String?,
+			activityImageUrls: List<String>,
 		): FetchClubResponse {
 			val teacher = if (club.teacher != null) ClubMemberResponse.toDto(club.teacher!!) else null
 
@@ -33,12 +35,12 @@ class FetchClubResponse(
 				name = club.name,
 				description = club.description,
 				classroom = ClubClassroomModel.toDto(club.classroom),
-				activityImageUrls = club.activityImageUrls,
+				activityImageUrls = activityImageUrls,
 				status = club.status,
 				type = club.type,
 				isRecruiting = club.isRecruiting,
 				clubMembers = clubMembers.map { ClubMemberResponse.toDto(it.user) },
-				thumbnailImageUrl = club.thumbnailImageUrl,
+				thumbnailImageUrl = thumbnailImageUrl,
 				leader = ClubMemberResponse.toDto(club.leader),
 				teacher = teacher,
 			)
