@@ -12,12 +12,12 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("massage")
 class MassageController(
-    private val reserveMassageUsecase: ReserveMassageUsecase,
+	private val reserveMassageUsecase: ReserveMassageUsecase,
 ) {
-    @Operation(summary = "안마의자 신청")
-    @PostMapping
-    fun reserveMassage(): ResponseEntity<Unit> =
-        reserveMassageUsecase.execute().run {
-            ResponseEntity.ok().build()
-        }
+	@Operation(summary = "안마의자 신청")
+	@PostMapping
+	fun reserveMassage(): ResponseEntity<Unit> =
+		reserveMassageUsecase.execute().run {
+			ResponseEntity.ok().build()
+		}
 }

@@ -8,31 +8,31 @@ import jakarta.persistence.Id
 
 @Entity
 class Massage(
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long? = null,
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	val id: Long? = null,
 ) {
-    @Column(nullable = false)
-    var reservationLimit: Int = 5
-        protected set
+	@Column(nullable = false)
+	var reservationLimit: Int = 5
+		protected set
 
-    @Column(nullable = false)
-    var reservationCount: Int = 0
-        protected set
+	@Column(nullable = false)
+	var reservationCount: Int = 0
+		protected set
 
-    fun updateLimit(limit: Int) {
-        reservationLimit = limit
-    }
+	fun updateLimit(limit: Int) {
+		reservationLimit = limit
+	}
 
-    fun incrementReservationCount() {
-        reservationCount++
-    }
+	fun incrementReservationCount() {
+		reservationCount++
+	}
 
-    fun decrementReservationCount() {
-        reservationCount--
-    }
+	fun decrementReservationCount() {
+		reservationCount--
+	}
 
-    fun clearReservationCount() {
-        reservationCount = 0
-    }
+	fun clearReservationCount() {
+		reservationCount = 0
+	}
 }
