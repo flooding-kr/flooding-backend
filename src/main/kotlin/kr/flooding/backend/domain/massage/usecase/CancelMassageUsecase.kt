@@ -8,6 +8,7 @@ import kr.flooding.backend.global.exception.toPair
 import kr.flooding.backend.global.util.UserUtil
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.time.LocalTime
 
 @Service
 @Transactional
@@ -17,8 +18,18 @@ class CancelMassageUsecase(
 	private val massageJpaRepository: MassageJpaRepository,
 ) {
 	fun execute() {
+		val currentUser = userUtil.getUser()
+		val currentTime = LocalTime.now()
+
+		val startTime = LocalTime.of(20, 20)
+		val endTime = LocalTime.of(21, 0)
+
+		if (currentTime.isBefore(startTime) || currentTime.isAfter(endTime)) {
+			throw HttpException(ExceptionEnum.MASSAGE.MASSAGE_OUT_OF_TIME_RANGE.toPair())
+		}
+
 		val prevReservation =
-			massageReservationJpaRepository.findByStudentWithPessimisticLock(userUtil.getUser())
+			massageReservationJpaRepository.findByStudentWithPessimisticLock(currentUser)
 				.orElseThrow { HttpException(ExceptionEnum.MASSAGE.NOT_FOUND_MASSAGE_RESERVATION.toPair()) }
 
 		if (prevReservation.isCancelled) {
