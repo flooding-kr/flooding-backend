@@ -14,6 +14,7 @@ import kr.flooding.backend.global.exception.toPair
 import kr.flooding.backend.global.util.UserUtil
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import software.amazon.awssdk.services.s3.S3Client
 
 @Service
 @Transactional
@@ -23,6 +24,7 @@ class CreateClubUsecase(
 	private val clubApplicantJpaRepository: ClubApplicantJpaRepository,
 	private val clubMemberJpaRepository: ClubMemberJpaRepository,
 	private val userUtil: UserUtil,
+	private val s3Client: S3Client,
 ) {
 	fun execute(createClubRequest: CreateClubRequest) {
 		// 이미 사용하고 있는 동아리명인지
@@ -76,10 +78,10 @@ class CreateClubUsecase(
 					name = createClubRequest.name,
 					description = createClubRequest.description,
 					classroom = classroom,
-					activityImageUrls = createClubRequest.activityImageUrls,
+					activityImageKeys = createClubRequest.activityImageKeys,
 					status = ClubStatus.PENDING,
 					type = createClubRequest.type,
-					thumbnailImageUrl = createClubRequest.mainImageUrl,
+					thumbnailImageKey = createClubRequest.thumbnailImageKey,
 					leader = currentUser,
 					teacher = null,
 				),

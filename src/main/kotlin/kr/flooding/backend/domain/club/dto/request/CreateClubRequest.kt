@@ -11,7 +11,7 @@ class CreateClubRequest(
 
 	val classroomId: Long,
 
-	val mainImageUrl: String?,
+	val thumbnailImageKey: String?,
 
-	val activityImageUrls: List<String>,
+	val activityImageKeys: List<String>,
 )

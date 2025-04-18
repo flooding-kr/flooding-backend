@@ -17,11 +17,12 @@ class ClubFilterResponse(
 		fun toDto(
 			club: Club,
 			currentUser: User,
+			thumbnailImageUrl: String?,
 		): ClubFilterResponse =
 			ClubFilterResponse(
 				id = club.id,
 				name = club.name,
-				thumbnailImageUrl = club.thumbnailImageUrl,
+				thumbnailImageUrl = thumbnailImageUrl,
 				isLeader = club.leader == currentUser,
 				type = club.type,
 				isRecruiting = club.isRecruiting,

@@ -19,11 +19,8 @@ import java.util.UUID.randomUUID
 class UploadImageUsecase(
 	private val s3Client: S3Client,
 ) {
-	@Value("\${cloudflare.r2.bucket-name}")
+	@Value("\${cloud.aws.s3.bucket-name}")
 	lateinit var bucketName: String
-
-	@Value("\${cloudflare.r2.public-url}")
-	lateinit var publicUrl: String
 
 	fun execute(images: List<MultipartFile>): UploadImageResponse {
 		val imageExtensions = listOf("png", "jpg", "jpeg")
@@ -32,6 +29,7 @@ class UploadImageUsecase(
 				val originalName = requireNotNull(it.originalFilename)
 				val extension = originalName.split(".").last()
 				val filename = "${LocalDateTime.now()}:${randomUUID()}.$extension"
+				val key = "images/$filename"
 
 				if (!imageExtensions.contains(extension)) {
 					throw HttpException(ExceptionEnum.FILE.INVALID_IMAGE_EXTENSION.toPair())
@@ -41,13 +39,13 @@ class UploadImageUsecase(
 					PutObjectRequest
 						.builder()
 						.bucket(bucketName)
-						.key(filename)
+						.key(key)
 						.build()
 				val requestBody = RequestBody.fromInputStream(it.inputStream, it.size)
 
 				s3Client.putObject(putObjectRequest, requestBody)
 
-				"$publicUrl/$filename"
+				key
 			}
 
 		return UploadImageResponse(imageUrls)
