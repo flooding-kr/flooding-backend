@@ -12,8 +12,7 @@ import kr.flooding.backend.domain.user.persistence.entity.User
 import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.OnDelete
 import org.hibernate.annotations.OnDeleteAction
-import java.time.LocalDate
-import java.time.LocalTime
+import java.time.LocalDateTime
 
 @Entity
 class MassageReservation(
@@ -28,11 +27,8 @@ class MassageReservation(
 
 	@CreationTimestamp
 	@Column(nullable = false)
-	val createdDate: LocalDate = LocalDate.now(),
+	val createdAt: LocalDateTime = LocalDateTime.now(),
 
-	@CreationTimestamp
-	@Column(nullable = false)
-	val createdTime: LocalTime = LocalTime.now(),
 ) {
 	@Column(nullable = false)
 	var isCancelled: Boolean = false
