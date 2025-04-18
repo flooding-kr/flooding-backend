@@ -1,4 +1,4 @@
-package kr.flooding.backend.domain.selfStudy.scheduler
+package kr.flooding.backend.domain.massage.scheduler
 
 import kr.flooding.backend.domain.massage.persistence.repository.jpa.MassageJpaRepository
 import kr.flooding.backend.domain.massage.persistence.repository.jpa.MassageReservationJpaRepository
