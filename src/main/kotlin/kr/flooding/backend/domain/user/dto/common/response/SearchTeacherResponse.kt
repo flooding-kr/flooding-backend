@@ -1,4 +1,4 @@
-package kr.flooding.backend.domain.user.dto.response
+package kr.flooding.backend.domain.user.dto.common.response
 
 import kr.flooding.backend.domain.user.enums.Gender
 import java.util.UUID

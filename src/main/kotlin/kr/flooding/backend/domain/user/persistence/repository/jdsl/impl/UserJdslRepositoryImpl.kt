@@ -40,7 +40,7 @@ class UserJdslRepositoryImpl(
 							.and(
 								path(User::name).like("%$name%"),
 							).and(path(Role::type).eq(role))
-							.and(path(User::userState).eq(userState))
+							.and(path(User::state).eq(userState))
 							.and(path(User::emailVerifyStatus).eq(emailVerifyStatus)),
 					)
 			}
@@ -65,7 +65,7 @@ class UserJdslRepositoryImpl(
 						path(User::name)
 							.like("%$name%")
 							.and(path(Role::type).eq(role))
-							.and(path(User::userState).eq(userState))
+							.and(path(User::state).eq(userState))
 							.and(path(User::emailVerifyStatus).eq(emailVerifyStatus)),
 					)
 			}

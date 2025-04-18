@@ -4,7 +4,6 @@ import kr.flooding.backend.domain.auth.dto.request.SignUpTeacherRequest
 import kr.flooding.backend.domain.auth.persistence.entity.VerifyCode
 import kr.flooding.backend.domain.auth.persistence.repository.VerifyCodeRepository
 import kr.flooding.backend.domain.role.enums.RoleType
-import kr.flooding.backend.domain.user.enums.UserState
 import kr.flooding.backend.domain.user.persistence.entity.TeacherInfo
 import kr.flooding.backend.domain.user.persistence.entity.User
 import kr.flooding.backend.domain.user.persistence.repository.jpa.UserJpaRepository
@@ -44,11 +43,11 @@ class SignUpTeacherUsecase(
 					encodedPassword = encodedPassword,
 					teacherInfo = teacherInfo,
 					emailVerifyStatus = false,
-					userState = UserState.PENDING,
 					gender = request.gender,
 					name = request.name,
 				),
 			)
+		user.setPendingState()
 		roleUtil.saveRoles(user, listOf(RoleType.ROLE_USER, RoleType.ROLE_TEACHER))
 
 		val id = user.id

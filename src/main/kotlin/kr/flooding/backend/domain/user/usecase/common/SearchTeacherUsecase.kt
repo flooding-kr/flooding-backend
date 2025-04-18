@@ -1,8 +1,8 @@
-package kr.flooding.backend.domain.user.usecase
+package kr.flooding.backend.domain.user.usecase.common
 
 import kr.flooding.backend.domain.role.enums.RoleType
-import kr.flooding.backend.domain.user.dto.response.SearchTeacherListResponse
-import kr.flooding.backend.domain.user.dto.response.SearchTeacherResponse
+import kr.flooding.backend.domain.user.dto.web.response.SearchTeacherListResponse
+import kr.flooding.backend.domain.user.dto.common.response.SearchTeacherResponse
 import kr.flooding.backend.domain.user.enums.UserState
 import kr.flooding.backend.domain.user.persistence.repository.jdsl.UserJdslRepository
 import org.springframework.stereotype.Service

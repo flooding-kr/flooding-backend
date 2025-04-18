@@ -1,4 +1,4 @@
-package kr.flooding.backend.domain.user.dto.request
+package kr.flooding.backend.domain.user.dto.web.request
 
 import jakarta.validation.constraints.Pattern
 

@@ -27,10 +27,6 @@ data class User(
 
 	var emailVerifyStatus: Boolean = false,
 
-	@Column(nullable = false)
-	@Enumerated(EnumType.STRING)
-	val userState: UserState = UserState.PENDING,
-
 	@Embedded
 	val studentInfo: StudentInfo? = null,
 
@@ -47,6 +43,19 @@ data class User(
 	val name: String,
 
 ) {
+	@Column(nullable = false)
+	@Enumerated(EnumType.STRING)
+	var state: UserState = UserState.PENDING
+		protected set
+
+	fun setApprovedState() {
+		state = UserState.APPROVED
+	}
+
+	fun setPendingState() {
+		state = UserState.PENDING
+	}
+
 	fun updateProfileImage(url: String) {
 		profileImageKey = url
 	}

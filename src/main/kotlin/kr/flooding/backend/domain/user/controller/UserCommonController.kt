@@ -3,16 +3,16 @@ package kr.flooding.backend.domain.user.controller
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.Valid
-import kr.flooding.backend.domain.user.dto.request.UpdateProfileRequest
-import kr.flooding.backend.domain.user.dto.request.WithdrawRequest
-import kr.flooding.backend.domain.user.dto.response.FetchUserInfoResponse
-import kr.flooding.backend.domain.user.dto.response.SearchStudentListResponse
-import kr.flooding.backend.domain.user.dto.response.SearchTeacherListResponse
-import kr.flooding.backend.domain.user.usecase.FetchUserUsecase
-import kr.flooding.backend.domain.user.usecase.SearchStudentUsecase
-import kr.flooding.backend.domain.user.usecase.SearchTeacherUsecase
-import kr.flooding.backend.domain.user.usecase.UpdateProfileImageUsecase
-import kr.flooding.backend.domain.user.usecase.WithdrawUsecase
+import kr.flooding.backend.domain.user.dto.web.request.UpdateProfileRequest
+import kr.flooding.backend.domain.user.dto.web.request.WithdrawRequest
+import kr.flooding.backend.domain.user.dto.web.response.FetchUserInfoResponse
+import kr.flooding.backend.domain.user.dto.web.response.SearchStudentListResponse
+import kr.flooding.backend.domain.user.dto.web.response.SearchTeacherListResponse
+import kr.flooding.backend.domain.user.usecase.common.FetchUserUsecase
+import kr.flooding.backend.domain.user.usecase.common.SearchStudentUsecase
+import kr.flooding.backend.domain.user.usecase.common.SearchTeacherUsecase
+import kr.flooding.backend.domain.user.usecase.common.UpdateProfileImageUsecase
+import kr.flooding.backend.domain.user.usecase.common.WithdrawUsecase
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
@@ -24,8 +24,8 @@ import org.springframework.web.bind.annotation.RestController
 
 @Tag(name = "User", description = "회원")
 @RestController
-@RequestMapping("user")
-class UserController(
+@RequestMapping("/user")
+class UserCommonController(
 	private val fetchUserUsecase: FetchUserUsecase,
 	private val withdrawUsecase: WithdrawUsecase,
 	private val updateProfileImageUsecase: UpdateProfileImageUsecase,

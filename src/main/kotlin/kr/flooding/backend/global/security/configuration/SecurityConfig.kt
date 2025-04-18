@@ -4,10 +4,6 @@ import kr.flooding.backend.domain.role.enums.RoleType
 import kr.flooding.backend.global.security.filter.ExceptionFilter
 import kr.flooding.backend.global.security.filter.JwtFilter
 import kr.flooding.backend.global.security.jwt.JwtProvider
-import kr.flooding.backend.global.util.deleteMatchers
-import kr.flooding.backend.global.util.getMatchers
-import kr.flooding.backend.global.util.patchMatchers
-import kr.flooding.backend.global.util.postMatchers
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpMethod
@@ -24,6 +20,7 @@ class SecurityConfig(
 		private val ROLE_USER = RoleType.ROLE_USER.name
 		private val ROLE_STUDENT = RoleType.ROLE_STUDENT.name
 		private val ROLE_TEACHER = RoleType.ROLE_TEACHER.name
+		private val ROLE_USER_ADMIN = RoleType.ROLE_USER_ADMIN.name
 	}
 
 	@Bean
@@ -33,76 +30,73 @@ class SecurityConfig(
 		return http
 			.authorizeHttpRequests {
 				it // Neis
-					.getMatchers("/neis/**", listOf(ROLE_USER))
+					.requestMatchers("/neis/**").hasAuthority(ROLE_USER)
 
 				it // User
-					.getMatchers("/user/student/search", listOf(ROLE_USER))
-					.getMatchers("/user/teacher/search", listOf(ROLE_USER))
-					.getMatchers("/user", listOf(ROLE_USER))
-					.patchMatchers("/user/profile", listOf(ROLE_USER))
-					.deleteMatchers("/user/withdraw", listOf(ROLE_USER))
+					.requestMatchers(HttpMethod.GET, "/user/student/search").hasAuthority(ROLE_USER)
+					.requestMatchers(HttpMethod.GET, "/user/teacher/search").hasAuthority(ROLE_USER)
+					.requestMatchers(HttpMethod.GET, "/user").hasAuthority(ROLE_USER)
+					.requestMatchers(HttpMethod.PATCH, "/user/profile").hasAuthority(ROLE_USER)
+					.requestMatchers(HttpMethod.DELETE, "/user/withdraw").hasAuthority(ROLE_USER)
+					.requestMatchers(HttpMethod.GET, "/admin/user/pending").hasAuthority(ROLE_USER_ADMIN)
+					.requestMatchers(HttpMethod.PATCH, "/admin/user/{userId}/approve").hasAuthority(ROLE_USER_ADMIN)
 
 				it // Homebase
-					.getMatchers("/homebase", listOf(ROLE_USER))
-					.getMatchers("/homebase/myself", listOf(ROLE_USER))
-					.postMatchers("/homebase", listOf(ROLE_USER))
-					.patchMatchers("/homebase", listOf(ROLE_USER))
-					.deleteMatchers("/homebase/{homebaseGroupId}", listOf(ROLE_USER))
+					.requestMatchers(HttpMethod.GET, "/homebase").hasAuthority(ROLE_USER)
+					.requestMatchers(HttpMethod.GET, "/homebase/myself").hasAuthority(ROLE_USER)
+					.requestMatchers(HttpMethod.POST, "/homebase").hasAuthority(ROLE_USER)
+					.requestMatchers(HttpMethod.PATCH, "/homebase").hasAuthority(ROLE_USER)
+					.requestMatchers(HttpMethod.DELETE, "/homebase/{homebaseGroupId}").hasAuthority(ROLE_USER)
 
 				it // Self Study
-					.postMatchers("/self-study", listOf(ROLE_STUDENT))
-					.deleteMatchers("/self-study", listOf(ROLE_STUDENT))
+					.requestMatchers(HttpMethod.POST, "/self-study").hasAuthority(ROLE_STUDENT)
+					.requestMatchers(HttpMethod.DELETE, "/self-study").hasAuthority(ROLE_STUDENT)
 
 				it // Club
-					.getMatchers("/club", listOf(ROLE_USER))
-					.getMatchers("/club/myself", listOf(ROLE_USER))
-					.getMatchers("/club/applicant", listOf(ROLE_USER))
-					.getMatchers("/club/{clubId}", listOf(ROLE_USER))
-					.postMatchers("/club", listOf(ROLE_USER))
-					.postMatchers("/club/applicant", listOf(ROLE_USER))
-					.postMatchers("/club/applicant/approve", listOf(ROLE_USER))
-					.postMatchers("/club/invite/confirm", listOf(ROLE_USER))
-					.postMatchers("/club/{clubId}/member/{userId}", listOf(ROLE_USER))
-					.postMatchers("/club/{clubId}/open", listOf(ROLE_USER))
-					.postMatchers("/club/{clubId}/close", listOf(ROLE_USER))
-					.patchMatchers("/club/{clubId}", listOf(ROLE_USER))
-					.deleteMatchers("/club/{clubId}/member/{userId}", listOf(ROLE_USER))
-					.deleteMatchers("/club/{clubId}", listOf(ROLE_USER))
-					.deleteMatchers("/club/{clubId}/member", listOf(ROLE_USER))
+					.requestMatchers(HttpMethod.GET, "/club").hasAuthority(ROLE_USER)
+					.requestMatchers(HttpMethod.GET, "/club/myself").hasAuthority(ROLE_USER)
+					.requestMatchers(HttpMethod.GET, "/club/applicant").hasAuthority(ROLE_USER)
+					.requestMatchers(HttpMethod.GET, "/club/{clubId}").hasAuthority(ROLE_USER)
+					.requestMatchers(HttpMethod.POST, "/club").hasAuthority(ROLE_USER)
+					.requestMatchers(HttpMethod.POST, "/club/applicant").hasAuthority(ROLE_USER)
+					.requestMatchers(HttpMethod.POST, "/club/applicant/approve").hasAuthority(ROLE_USER)
+					.requestMatchers(HttpMethod.POST, "/club/invite/confirm").hasAuthority(ROLE_USER)
+					.requestMatchers(HttpMethod.POST, "/club/{clubId}/member/{userId}").hasAuthority(ROLE_USER)
+					.requestMatchers(HttpMethod.POST, "/club/{clubId}/open").hasAuthority(ROLE_USER)
+					.requestMatchers(HttpMethod.POST, "/club/{clubId}/close").hasAuthority(ROLE_USER)
+					.requestMatchers(HttpMethod.PATCH, "/club/{clubId}").hasAuthority(ROLE_USER)
+					.requestMatchers(HttpMethod.DELETE, "/club/{clubId}/member/{userId}").hasAuthority(ROLE_USER)
+					.requestMatchers(HttpMethod.DELETE, "/club/{clubId}").hasAuthority(ROLE_USER)
+					.requestMatchers(HttpMethod.DELETE, "/club/{clubId}/member").hasAuthority(ROLE_USER)
 
 				it // Attendance
-					.postMatchers("/attendance/club", listOf(ROLE_USER))
-					.deleteMatchers("/attendance/club", listOf(ROLE_USER))
-					.postMatchers("/attendance/club/leader", listOf(ROLE_USER))
-					.deleteMatchers("/attendance/club/leader", listOf(ROLE_USER))
-					.getMatchers("/attendance/myself", listOf(ROLE_USER))
+					.requestMatchers(HttpMethod.POST, "/attendance/club").hasAuthority(ROLE_USER)
+					.requestMatchers(HttpMethod.DELETE, "/attendance/club").hasAuthority(ROLE_USER)
+					.requestMatchers(HttpMethod.POST, "/attendance/club/leader").hasAuthority(ROLE_USER)
+					.requestMatchers(HttpMethod.DELETE, "/attendance/club/leader").hasAuthority(ROLE_USER)
+					.requestMatchers(HttpMethod.GET, "/attendance/myself").hasAuthority(ROLE_USER)
 
 				it // Classroom
-					.getMatchers("/classroom", listOf(ROLE_USER))
+					.requestMatchers(HttpMethod.GET, "/classroom").hasAuthority(ROLE_USER)
 
 				it // Music
-					.postMatchers("/music", listOf(ROLE_USER))
-					.getMatchers("/music", listOf(ROLE_USER))
-					.deleteMatchers("/music", listOf(ROLE_USER))
-					.patchMatchers("/music/{musicId}/like", listOf(ROLE_USER))
+					.requestMatchers(HttpMethod.POST, "/music").hasAuthority(ROLE_USER)
+					.requestMatchers(HttpMethod.GET, "/music").hasAuthority(ROLE_USER)
+					.requestMatchers(HttpMethod.DELETE, "/music").hasAuthority(ROLE_USER)
+					.requestMatchers(HttpMethod.PATCH, "/music/{musicId}/like").hasAuthority(ROLE_USER)
 
 				it // Massage
-					.postMatchers("/massage", listOf(ROLE_USER))
+					.requestMatchers(HttpMethod.POST, "/massage").hasAuthority(ROLE_USER)
 
 				it // File
-					.postMatchers("/file/image", listOf(ROLE_USER))
+					.requestMatchers(HttpMethod.POST, "/file/image").hasAuthority(ROLE_USER)
 
 				it // Permit All
-					.requestMatchers("/auth/**")
-					.permitAll()
-					.requestMatchers(HttpMethod.GET, "/actuator/**")
-					.permitAll()
-					.requestMatchers(HttpMethod.GET, "/swagger-ui/**")
-					.permitAll()
-					.requestMatchers(HttpMethod.GET, "/api-docs/**")
-					.permitAll()
-					.anyRequest()
-					.denyAll()
+					.requestMatchers("/auth/**").permitAll()
+					.requestMatchers(HttpMethod.GET, "/actuator/**").permitAll()
+					.requestMatchers(HttpMethod.GET, "/swagger-ui/**").permitAll()
+					.requestMatchers(HttpMethod.GET, "/api-docs/**").permitAll()
+					.anyRequest().denyAll()
 			}.csrf { it.disable() }
 			.formLogin { it.disable() }
 			.httpBasic { it.disable() }
