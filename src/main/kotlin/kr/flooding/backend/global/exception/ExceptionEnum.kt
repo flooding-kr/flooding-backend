@@ -132,6 +132,19 @@ sealed interface ExceptionEnum {
 		SELF_STUDY_OUT_OF_TIME_RANGE(HttpStatus.BAD_REQUEST, "정해진 시간에 자습 신청을 해주세요."),
 		NOT_FOUND_SELF_STUDY_RESERVATION(HttpStatus.NOT_FOUND, "자습 예약을 찾을 수 없습니다."),
 	}
+
+	@Suppress("ktlint:standard:class-naming")
+	enum class MASSAGE(
+		val status: HttpStatus,
+		val reason: String,
+	) {
+		NO_MASSAGE_TODAY(HttpStatus.BAD_REQUEST, "안마의자 신청을 할 수 있는 날이 아닙니다."),
+		MAX_CAPACITY_MASSAGE(HttpStatus.BAD_REQUEST, "가능한 안마의자 인원이 초과되었습니다."),
+		ALREADY_RESERVE_MASSAGE(HttpStatus.BAD_REQUEST, "이미 안마의자 신청을 했습니다."),
+		EXISTS_RESERVE_MASSAGE_HISTORY(HttpStatus.BAD_REQUEST, "이미 안마의자 신청을 한번 이상 시도했습니다."),
+		NOT_FOUND_MASSAGE_ROOM(HttpStatus.NOT_FOUND, "안마의자 신청 정보를 받아올 수 없습니다."),
+		MASSAGE_OUT_OF_TIME_RANGE(HttpStatus.BAD_REQUEST, "정해진 시간에 안마의자 신청을 해주세요."),
+	}
 }
 
 fun ExceptionEnum.CLASSROOM.toPair() = Pair(this.status, this.reason)
@@ -155,3 +168,5 @@ fun ExceptionEnum.MUSIC.toPair() = Pair(this.status, this.reason)
 fun ExceptionEnum.FILE.toPair() = Pair(this.status, this.reason)
 
 fun ExceptionEnum.SELF_STUDY.toPair() = Pair(this.status, this.reason)
+
+fun ExceptionEnum.MASSAGE.toPair() = Pair(this.status, this.reason)
