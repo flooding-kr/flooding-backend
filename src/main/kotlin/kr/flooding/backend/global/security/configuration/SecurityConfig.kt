@@ -86,7 +86,8 @@ class SecurityConfig(
 					.requestMatchers(HttpMethod.PATCH, "/music/{musicId}/like").hasAuthority(ROLE_USER)
 
 				it // Massage
-					.requestMatchers(HttpMethod.POST, "/massage").hasAuthority(ROLE_USER)
+					.requestMatchers(HttpMethod.POST, "/massage").hasAuthority(ROLE_STUDENT)
+					.requestMatchers(HttpMethod.DELETE, "/massage").hasAuthority(ROLE_STUDENT)
 
 				it // File
 					.requestMatchers(HttpMethod.POST, "/file/image").hasAuthority(ROLE_USER)
