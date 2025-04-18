@@ -37,7 +37,7 @@ data class User(
 	@Embedded
 	val teacherInfo: TeacherInfo? = null,
 
-	var profileImageUrl: String? = null,
+	var profileImageKey: String? = null,
 
 	@Column(nullable = false)
 	@Enumerated(EnumType.STRING)
@@ -48,7 +48,7 @@ data class User(
 
 ) {
 	fun updateProfileImage(url: String) {
-		profileImageUrl = url
+		profileImageKey = url
 	}
 
 	fun resetPassword(password: String) {
