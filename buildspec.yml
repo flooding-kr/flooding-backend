@@ -1,0 +1,25 @@
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+      # ECR 로그인
+      - echo "ECR 로그인..."
+      - aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin 588738598492.dkr.ecr.ap-northeast-2.amazonaws.com
+  build:
+    commands:
+      # Docker 이미지 빌드 (Dockerfile 경로 지정 필요시 -f 옵션 추가)
+      - echo "이미지 빌드..."
+      - docker build -t flooding-ecr:latest .
+  post_build:
+    commands:
+      # ECR에 이미지 푸시
+      - echo "이미지 푸시..."
+      - docker tag flooding-ecr:latest 588738598492.dkr.ecr.ap-northeast-2.amazonaws.com/flooding-ecr:latest
+      - docker push 588738598492.dkr.ecr.ap-northeast-2.amazonaws.com/flooding-ecr:latest
+
+# CodeDeploy 등에서 사용할 아티팩트 (appspec.yml, 스크립트 포함)
+artifacts:
+  files:
+    - appspec.yml
+    - scripts/**/*
