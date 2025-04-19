@@ -12,4 +12,6 @@ echo \
   $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}") stable" \
   > /etc/apt/sources.list.d/docker.list
 
+apt-get update -y
+
 apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
