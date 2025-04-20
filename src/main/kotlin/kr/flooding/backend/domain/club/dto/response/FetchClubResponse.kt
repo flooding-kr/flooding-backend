@@ -20,6 +20,7 @@ class FetchClubResponse(
 	val status: ClubStatus,
 	val leader: ClubStudentResponse,
 	val teacher: ClubTeacherResponse?,
+	val applicantCount: Int,
 ) {
 	companion object {
 		fun toDto(
@@ -29,6 +30,7 @@ class FetchClubResponse(
 			activityImageUrls: List<String>,
 			teacher: ClubTeacherResponse?,
 			leader: ClubStudentResponse,
+			applicantCount: Int
 		): FetchClubResponse {
 			return FetchClubResponse(
 				id = club.id,
@@ -43,6 +45,7 @@ class FetchClubResponse(
 				thumbnailImageUrl = thumbnailImageUrl,
 				leader = leader,
 				teacher = teacher,
+				applicantCount = applicantCount
 			)
 		}
 	}

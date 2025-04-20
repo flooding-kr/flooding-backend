@@ -5,6 +5,7 @@ import kr.flooding.backend.domain.club.dto.response.ClubStudentResponse
 import kr.flooding.backend.domain.club.dto.response.ClubTeacherResponse
 import kr.flooding.backend.domain.club.dto.response.FetchClubResponse
 import kr.flooding.backend.domain.club.persistence.repository.ClubRepository
+import kr.flooding.backend.domain.clubApplicant.persistence.repository.jpa.ClubApplicantJpaRepository
 import kr.flooding.backend.domain.clubMember.persistence.repository.jpa.ClubMemberJpaRepository
 import kr.flooding.backend.global.exception.ExceptionEnum
 import kr.flooding.backend.global.exception.HttpException
@@ -18,6 +19,7 @@ import java.util.UUID
 class FetchClubUsecase(
 	private val clubRepository: ClubRepository,
 	private val clubMemberJpaRepository: ClubMemberJpaRepository,
+	private val clubApplicantJpaRepository: ClubApplicantJpaRepository,
 	private val s3Util: S3Util,
 ) {
 	fun execute(clubId: UUID): FetchClubResponse {
@@ -44,13 +46,16 @@ class FetchClubUsecase(
 		val leaderProfileImageUrl = club.leader.profileImageKey?.let { s3Util.generatePresignedUrl(it) }
 		val clubLeaderResponse = ClubStudentResponse.toDto(club.leader, leaderProfileImageUrl)
 
+		val applicantCount = clubApplicantJpaRepository.countByClub(club)
+
 		return FetchClubResponse.toDto(
 			club = club,
 			thumbnailImageUrl = thumbnailImageUrl,
 			activityImageUrls = activityImageUrls,
 			clubMembers = clubMemberResponses,
 			teacher = clubTeacherResponse,
-			leader = clubLeaderResponse
+			leader = clubLeaderResponse,
+			applicantCount = applicantCount,
 		)
 	}
 }
