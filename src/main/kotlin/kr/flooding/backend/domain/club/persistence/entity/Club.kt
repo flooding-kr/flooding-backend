@@ -19,42 +19,42 @@ import java.util.UUID
 
 @Entity
 data class Club(
-    @Id
+	@Id
 	@UuidGenerator
 	val id: UUID? = null,
 
-    @Column(nullable = false)
+	@Column(nullable = false)
 	val name: String,
 
-    @Column(nullable = false)
+	@Column(nullable = false)
 	val description: String,
 
-    @ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@OnDelete(action = OnDeleteAction.SET_NULL)
 	val classroom: Classroom,
 
-    val thumbnailImageKey: String? = null,
+	val thumbnailImageKey: String? = null,
 
-    @ElementCollection
+	@ElementCollection
 	val activityImageKeys: List<String> = listOf(),
 
-    @Column(nullable = false)
+	@Column(nullable = false)
 	@Enumerated(EnumType.STRING)
 	val status: ClubStatus,
 
-    @Column(nullable = false)
+	@Column(nullable = false)
 	@Enumerated(EnumType.STRING)
 	val type: ClubType,
 
-    @ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@OnDelete(action = OnDeleteAction.SET_NULL)
 	val leader: User,
 
-    @ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@OnDelete(action = OnDeleteAction.SET_NULL)
 	val teacher: User? = null,
 
-    @Column(nullable = false)
+	@Column(nullable = false)
 	var isRecruiting: Boolean = false,
 ) {
 	fun startRecruitment() {
