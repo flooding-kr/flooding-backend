@@ -1,6 +1,6 @@
 package kr.flooding.backend.domain.neis.usecase
 
-import kr.flooding.backend.domain.neis.dto.request.LunchTime
+import kr.flooding.backend.domain.neis.enums.LunchTime
 import kr.flooding.backend.domain.neis.dto.response.FetchMealInfoClientResponse
 import kr.flooding.backend.domain.neis.dto.response.FetchMealInfoResponse
 import kr.flooding.backend.global.exception.ExceptionEnum
@@ -17,8 +17,8 @@ class FetchMealInfoUsecase(
 	@Value("\${lunch-api.key}") private val mealApiKey: String,
 ) {
 	fun execute(
-		date: LocalDate?,
-		lunchTime: LunchTime,
+        date: LocalDate?,
+        lunchTime: LunchTime,
 	): FetchMealInfoResponse {
 		val requestDate = date ?: LocalDate.now()
 		val response = getMealInfoResponse(requestDate, lunchTime)
@@ -49,8 +49,8 @@ class FetchMealInfoUsecase(
 	}
 
 	fun getMealInfoResponse(
-		date: LocalDate,
-		lunchTime: LunchTime,
+        date: LocalDate,
+        lunchTime: LunchTime,
 	): FetchMealInfoClientResponse? {
 		val webClient = WebClient.builder().build()
 		val dateFormat = DateTimeFormatter.ofPattern("yyyyMMdd")

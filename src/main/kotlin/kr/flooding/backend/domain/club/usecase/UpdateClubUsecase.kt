@@ -1,6 +1,6 @@
 package kr.flooding.backend.domain.club.usecase
 
-import kr.flooding.backend.domain.club.dto.request.UpdateClubRequest
+import kr.flooding.backend.domain.club.dto.web.request.UpdateClubRequest
 import kr.flooding.backend.domain.club.persistence.repository.ClubRepository
 import kr.flooding.backend.domain.homebaseTable.persistence.repository.jpa.ClassroomRepository
 import kr.flooding.backend.global.exception.ExceptionEnum

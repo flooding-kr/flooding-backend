@@ -2,7 +2,7 @@ package kr.flooding.backend.global.util
 
 import kr.flooding.backend.domain.role.enums.RoleType
 import kr.flooding.backend.domain.role.persistence.entity.Role
-import kr.flooding.backend.domain.role.persistence.jpa.RoleJpaRepository
+import kr.flooding.backend.domain.role.persistence.repository.jpa.RoleJpaRepository
 import kr.flooding.backend.domain.user.persistence.entity.User
 import org.springframework.stereotype.Component
 

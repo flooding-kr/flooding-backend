@@ -1,4 +1,4 @@
-package kr.flooding.backend.domain.classroom.persistence.entity
+package kr.flooding.backend.domain.classroom.enums
 
 enum class BuildingType(
 	name: String,

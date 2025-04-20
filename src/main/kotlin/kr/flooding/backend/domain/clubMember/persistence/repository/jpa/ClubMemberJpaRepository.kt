@@ -1,6 +1,6 @@
 package kr.flooding.backend.domain.clubMember.persistence.repository.jpa
 
-import kr.flooding.backend.domain.club.persistence.entity.ClubType
+import kr.flooding.backend.domain.club.enums.ClubType
 import kr.flooding.backend.domain.clubMember.persistence.entity.ClubMember
 import kr.flooding.backend.domain.user.persistence.entity.User
 import org.springframework.data.jpa.repository.JpaRepository

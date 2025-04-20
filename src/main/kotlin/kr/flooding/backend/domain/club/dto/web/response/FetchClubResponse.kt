@@ -1,17 +1,18 @@
-package kr.flooding.backend.domain.club.dto.response
+package kr.flooding.backend.domain.club.dto.web.response
 
-import kr.flooding.backend.domain.club.model.ClubClassroomModel
+import kr.flooding.backend.domain.club.dto.common.response.ClubClassroomResponse
+import kr.flooding.backend.domain.club.dto.common.response.ClubStudentResponse
+import kr.flooding.backend.domain.club.dto.common.response.ClubTeacherResponse
 import kr.flooding.backend.domain.club.persistence.entity.Club
-import kr.flooding.backend.domain.club.persistence.entity.ClubStatus
-import kr.flooding.backend.domain.club.persistence.entity.ClubType
-import kr.flooding.backend.domain.clubMember.persistence.entity.ClubMember
+import kr.flooding.backend.domain.club.enums.ClubStatus
+import kr.flooding.backend.domain.club.enums.ClubType
 import java.util.UUID
 
 class FetchClubResponse(
 	val id: UUID?,
 	val name: String,
 	val description: String,
-	val classroom: ClubClassroomModel,
+	val classroom: ClubClassroomResponse,
 	val activityImageUrls: List<String>,
 	val thumbnailImageUrl: String?,
 	val type: ClubType,
@@ -36,7 +37,7 @@ class FetchClubResponse(
 				id = club.id,
 				name = club.name,
 				description = club.description,
-				classroom = ClubClassroomModel.toDto(club.classroom),
+				classroom = ClubClassroomResponse.toDto(club.classroom),
 				activityImageUrls = activityImageUrls,
 				status = club.status,
 				type = club.type,

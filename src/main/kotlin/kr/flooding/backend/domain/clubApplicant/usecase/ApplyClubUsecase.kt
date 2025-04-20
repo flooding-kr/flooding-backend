@@ -1,6 +1,6 @@
 package kr.flooding.backend.domain.clubApplicant.usecase
 
-import kr.flooding.backend.domain.club.persistence.entity.ClubStatus
+import kr.flooding.backend.domain.club.enums.ClubStatus
 import kr.flooding.backend.domain.club.persistence.repository.ClubRepository
 import kr.flooding.backend.domain.clubApplicant.dto.request.ApplyClubRequest
 import kr.flooding.backend.domain.clubApplicant.persistence.entity.ClubApplicant

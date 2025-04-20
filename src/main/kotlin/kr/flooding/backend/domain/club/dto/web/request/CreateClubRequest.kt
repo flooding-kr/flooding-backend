@@ -1,6 +1,6 @@
-package kr.flooding.backend.domain.club.dto.request
+package kr.flooding.backend.domain.club.dto.web.request
 
-import kr.flooding.backend.domain.club.persistence.entity.ClubType
+import kr.flooding.backend.domain.club.enums.ClubType
 
 class CreateClubRequest(
 	val name: String,
