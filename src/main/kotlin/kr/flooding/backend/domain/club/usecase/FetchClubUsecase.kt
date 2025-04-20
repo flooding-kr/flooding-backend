@@ -1,6 +1,8 @@
 package kr.flooding.backend.domain.club.usecase
 
 import jakarta.transaction.Transactional
+import kr.flooding.backend.domain.club.dto.response.ClubStudentResponse
+import kr.flooding.backend.domain.club.dto.response.ClubTeacherResponse
 import kr.flooding.backend.domain.club.dto.response.FetchClubResponse
 import kr.flooding.backend.domain.club.persistence.repository.ClubRepository
 import kr.flooding.backend.domain.clubMember.persistence.repository.jpa.ClubMemberJpaRepository
@@ -29,6 +31,26 @@ class FetchClubUsecase(
 		val thumbnailImageUrl = club.thumbnailImageKey?.let { s3Util.generatePresignedUrl(it) }
 		val activityImageUrls = club.activityImageKeys.map { s3Util.generatePresignedUrl(it) }
 
-		return FetchClubResponse.toDto(club, clubMembers, thumbnailImageUrl, activityImageUrls)
+		val clubMemberResponses = clubMembers.map {
+			val profileImageUrl = it.user.profileImageKey?.let {s3Util.generatePresignedUrl(it)}
+			ClubStudentResponse.toDto(it.user, profileImageUrl)
+		}
+
+		val clubTeacherResponse = club.teacher?.let {
+			val profileImageUrl = it.profileImageKey?.let {s3Util.generatePresignedUrl(it)}
+			ClubTeacherResponse.toDto(it, profileImageUrl)
+		}
+
+		val leaderProfileImageUrl = club.leader.profileImageKey?.let { s3Util.generatePresignedUrl(it) }
+		val clubLeaderResponse = ClubStudentResponse.toDto(club.leader, leaderProfileImageUrl)
+
+		return FetchClubResponse.toDto(
+			club = club,
+			thumbnailImageUrl = thumbnailImageUrl,
+			activityImageUrls = activityImageUrls,
+			clubMembers = clubMemberResponses,
+			teacher = clubTeacherResponse,
+			leader = clubLeaderResponse
+		)
 	}
 }
