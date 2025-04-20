@@ -16,20 +16,22 @@ class FetchClubResponse(
 	val thumbnailImageUrl: String?,
 	val type: ClubType,
 	val isRecruiting: Boolean,
-	val clubMembers: List<ClubMemberResponse>,
+	val clubMembers: List<ClubStudentResponse>,
 	val status: ClubStatus,
-	val leader: ClubMemberResponse,
-	val teacher: ClubMemberResponse?,
+	val leader: ClubStudentResponse,
+	val teacher: ClubTeacherResponse?,
+	val applicantCount: Int,
 ) {
 	companion object {
 		fun toDto(
 			club: Club,
-			clubMembers: List<ClubMember>,
+			clubMembers: List<ClubStudentResponse>,
 			thumbnailImageUrl: String?,
 			activityImageUrls: List<String>,
+			teacher: ClubTeacherResponse?,
+			leader: ClubStudentResponse,
+			applicantCount: Int
 		): FetchClubResponse {
-			val teacher = if (club.teacher != null) ClubMemberResponse.toDto(club.teacher!!) else null
-
 			return FetchClubResponse(
 				id = club.id,
 				name = club.name,
@@ -39,10 +41,11 @@ class FetchClubResponse(
 				status = club.status,
 				type = club.type,
 				isRecruiting = club.isRecruiting,
-				clubMembers = clubMembers.map { ClubMemberResponse.toDto(it.user) },
+				clubMembers = clubMembers,
 				thumbnailImageUrl = thumbnailImageUrl,
-				leader = ClubMemberResponse.toDto(club.leader),
+				leader = leader,
 				teacher = teacher,
+				applicantCount = applicantCount
 			)
 		}
 	}

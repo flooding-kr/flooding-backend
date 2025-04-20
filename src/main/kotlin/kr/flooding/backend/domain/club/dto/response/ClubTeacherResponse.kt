@@ -4,18 +4,17 @@ import kr.flooding.backend.domain.user.persistence.entity.StudentInfo
 import kr.flooding.backend.domain.user.persistence.entity.User
 import java.util.UUID
 
-class ClubMemberResponse(
+class ClubTeacherResponse(
 	val id: UUID?,
 	val name: String,
-	val studentInfo: StudentInfo,
+	val profileImageUrl: String?,
 ) {
 	companion object {
-		fun toDto(user: User): ClubMemberResponse {
-			val studentInfo = requireNotNull(user.studentInfo)
-			return ClubMemberResponse(
+		fun toDto(user: User, profileImageUrl: String?): ClubTeacherResponse {
+			return ClubTeacherResponse(
 				id = user.id,
 				name = user.name,
-				studentInfo = studentInfo,
+				profileImageUrl = profileImageUrl,
 			)
 		}
 	}
