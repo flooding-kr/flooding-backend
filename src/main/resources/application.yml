@@ -2,6 +2,12 @@ server:
     servlet:
         context-path: /v1
 
+management:
+    endpoints:
+        web:
+            exposure:
+                include: health
+
 springdoc:
     show-actuator: true
     api-docs:
@@ -58,9 +64,9 @@ spring:
         password: ${MAIL_PASSWORD}
 
     servlet:
-      multipart:
-          max-file-size: 10MB
-          max-request-size: 50MB
+        multipart:
+            max-file-size: 10MB
+            max-request-size: 50MB
 
 jwt:
     access-token-key: ${ACCESS_TOKEN_KEY}
@@ -79,3 +85,10 @@ cloud:
 
 youtube-api:
     key: ${YOUTUBE_API_KEY}
+
+cors:
+    allowed-origins:
+        - "https://api.flooding.kr"
+        - "https://flooding.kr"
+        - "http://localhost:8080"
+        - "http://localhost:3000"
