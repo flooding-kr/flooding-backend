@@ -7,6 +7,7 @@ import kr.flooding.backend.global.exception.ExceptionEnum
 import kr.flooding.backend.global.exception.HttpException
 import kr.flooding.backend.global.exception.toPair
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import org.springframework.web.reactive.function.client.WebClient
 import java.time.LocalDate
@@ -22,23 +23,25 @@ class FetchMealInfoUsecase(
 	): FetchMealInfoResponse {
 		val requestDate = date ?: LocalDate.now()
 		val response = getMealInfoResponse(requestDate, lunchTime)
-		val mealServiceDietInfo = response?.mealServiceDietInfo ?: emptyList()
 
-		val row = mealServiceDietInfo[1].row ?: emptyList()
-		val menu =
-			row[0]
-				.ddishNm
+		val mealServiceDietInfo =
+			if(response?.mealServiceDietInfo?.isNotEmpty() == true) response.mealServiceDietInfo[1]
+			else null
+
+		val menu = mealServiceDietInfo?.row?.let {
+			it[0].ddishNm
 				.split("<br/>")
-				.map {
-					it
-						.replace("""\s*\(.*?\)""".toRegex(), "")
-						.replace("""[^\w가-힣]""".toRegex(), "")
+				.map { it
+					.replace("""\s*\(.*?\)""".toRegex(), "")
+					.replace("""[^\w가-힣]""".toRegex(), "")
 				}.toList()
-		val kcal =
-			row[0]
-				.calInfo
+		} ?: emptyList()
+
+		val kcal = mealServiceDietInfo?.row?.let {
+			it[0].calInfo
 				.split(' ')[0]
 				.toDouble()
+		} ?: 0.0
 
 		return FetchMealInfoResponse(
 			menu = menu,
