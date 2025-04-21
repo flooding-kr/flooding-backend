@@ -18,10 +18,7 @@ import java.time.format.DateTimeFormatter
 @Service
 class FetchTimetableUsecase(
 	@Value("\${lunch-api.key}") private val mealApiKey: String,
-	private val userUtil: UserUtil,
 ) {
-	private val log = LoggerFactory.getLogger(FetchTimetableUsecase::class.java)
-
 	fun execute(request: FetchTimetableRequest): FetchTimetableResponse {
 		val response =
 			getTimetableResponse(
