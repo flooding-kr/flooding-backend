@@ -9,8 +9,8 @@ class FetchMyReservedHomebaseResponse(
 	val period: Int,
 	val isProposer: Boolean,
 	val participants: List<HomebaseParticipantResponse>,
+	val proposer: HomebaseParticipantResponse,
 	val reason: String,
-	val maxSeats: Int,
 	val homebaseGroupId: UUID,
 ) {
 	companion object {
@@ -23,15 +23,14 @@ class FetchMyReservedHomebaseResponse(
 			return FetchMyReservedHomebaseResponse(
 				homebaseTable = HomebaseTableResponse.toDto(homebaseGroup.homebaseTable),
 				period = homebaseGroup.period,
-				participants =
-					listOf(proposerAsHomebaseParticipant) +
-						homebaseGroup.participants.map {
-							HomebaseParticipantResponse.toDto(it)
-						},
+				proposer = proposerAsHomebaseParticipant,
 				isProposer = homebaseGroup.proposer == currentUser,
-				maxSeats = homebaseGroup.homebaseTable.maxSeats,
 				reason = homebaseGroup.reason,
 				homebaseGroupId = requireNotNull(homebaseGroup.id),
+				participants =
+					homebaseGroup.participants.map {
+						HomebaseParticipantResponse.toDto(it)
+					},
 			)
 		}
 	}

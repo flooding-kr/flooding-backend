@@ -33,10 +33,10 @@ class HomebaseGroupJdslRepositoryImpl(
 					fetchJoin(HomebaseGroup::homebaseTable),
 					fetchJoin(HomebaseTable::homebase),
 				).where(
-					path(HomebaseGroup::proposer)
-						.eq(student)
-						.or(path(HomebaseParticipant::user).eq(student))
-						.and(path(HomebaseGroup::attendedAt).eq(attendedAt)),
+					path(HomebaseGroup::attendedAt).eq(attendedAt).and(
+						path(HomebaseGroup::proposer).eq(student)
+							.or(path(HomebaseParticipant::user).eq(student))
+					)
 				)
 			}
 
@@ -58,10 +58,10 @@ class HomebaseGroupJdslRepositoryImpl(
 					join(HomebaseGroup::homebaseTable),
 					join(HomebaseTable::homebase),
 				).where(
-					path(HomebaseGroup::period)
-						.eq(period)
-						.and(path(Classroom::floor).eq(floor))
-						.and(path(HomebaseGroup::attendedAt).eq(attendedAt)),
+					path(HomebaseGroup::attendedAt).eq(attendedAt).and(
+						path(HomebaseGroup::period).eq(period)
+							.and(path(Classroom::floor).eq(floor))
+					)
 				)
 			}
 

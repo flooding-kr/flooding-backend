@@ -9,9 +9,9 @@ class FetchReservedHomebaseResponse(
 	val homebaseTable: HomebaseTableResponse,
 	val isAttended: Boolean,
 	val participants: List<HomebaseParticipantResponse>,
-	val maxSeats: Int,
-	val reason: String,
-	val homebaseGroupId: UUID,
+	val proposer: HomebaseParticipantResponse?,
+	val reason: String?,
+	val homebaseGroupId: UUID?,
 ) {
 	companion object {
 		fun toDto(
@@ -26,17 +26,16 @@ class FetchReservedHomebaseResponse(
 
 			return FetchReservedHomebaseResponse(
 				homebaseTable = HomebaseTableResponse.toDto(homebaseTable),
-				maxSeats = homebaseTable.maxSeats,
+				proposer = proposerAsHomebaseParticipant,
+				reason = homebaseGroup?.reason,
+				homebaseGroupId = homebaseGroup?.id,
 				isAttended =
 					(homebaseGroup?.participants?.any { it == currentUser } ?: false) ||
 						(currentUser == homebaseGroup?.proposer),
 				participants =
-					listOfNotNull(proposerAsHomebaseParticipant) +
-						homebaseGroup?.participants.orEmpty().map {
-							HomebaseParticipantResponse.toDto(it)
-						},
-				reason = homebaseGroup?.reason.orEmpty(),
-				homebaseGroupId = requireNotNull(homebaseGroup?.id),
+					homebaseGroup?.participants.orEmpty().map {
+						HomebaseParticipantResponse.toDto(it)
+					},
 			)
 		}
 	}
