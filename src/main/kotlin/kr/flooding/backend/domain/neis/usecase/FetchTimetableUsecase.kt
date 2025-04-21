@@ -7,7 +7,9 @@ import kr.flooding.backend.global.exception.ExceptionEnum
 import kr.flooding.backend.global.exception.HttpException
 import kr.flooding.backend.global.exception.toPair
 import kr.flooding.backend.global.util.UserUtil
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import org.springframework.web.reactive.function.client.WebClient
 import java.time.LocalDate
@@ -18,6 +20,8 @@ class FetchTimetableUsecase(
 	@Value("\${lunch-api.key}") private val mealApiKey: String,
 	private val userUtil: UserUtil,
 ) {
+	private val log = LoggerFactory.getLogger(FetchTimetableUsecase::class.java)
+
 	fun execute(request: FetchTimetableRequest): FetchTimetableResponse {
 		val response =
 			getTimetableResponse(
@@ -25,14 +29,16 @@ class FetchTimetableUsecase(
 				grade = request.grade,
 				classroom = request.classroom,
 			)
-		val timetable = response?.hisTimetable ?: emptyList()
+		val timetable = response?.hisTimetable
 
-		val row = timetable[1]
-			.row
-			?.distinctBy {
-				it.perio
-			}?.map { it.itrtCntnt }
-			?.toList() ?: emptyList()
+		val row =
+			if(timetable.isNullOrEmpty()) emptyList()
+			else {
+				timetable[1].row
+					?.distinctBy { it.perio }
+					?.map { it.itrtCntnt }
+					?.toList() ?: emptyList()
+			}
 
 		return FetchTimetableResponse(row)
 	}
