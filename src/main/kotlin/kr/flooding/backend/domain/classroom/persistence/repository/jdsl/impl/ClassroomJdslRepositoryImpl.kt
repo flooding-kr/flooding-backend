@@ -4,7 +4,7 @@ import com.linecorp.kotlinjdsl.dsl.jpql.jpql
 import com.linecorp.kotlinjdsl.render.jpql.JpqlRenderContext
 import com.linecorp.kotlinjdsl.support.spring.data.jpa.extension.createQuery
 import jakarta.persistence.EntityManager
-import kr.flooding.backend.domain.classroom.persistence.entity.BuildingType
+import kr.flooding.backend.domain.classroom.enums.BuildingType
 import kr.flooding.backend.domain.classroom.persistence.entity.Classroom
 import kr.flooding.backend.domain.classroom.persistence.repository.jdsl.ClassroomJdslRepository
 import org.springframework.stereotype.Repository
@@ -15,9 +15,9 @@ class ClassroomJdslRepositoryImpl(
 	private val entityManager: EntityManager,
 ) : ClassroomJdslRepository {
 	override fun findWithTeacherByFloorAndBuildingTypeAndInName(
-		floor: Int,
-		buildingType: BuildingType,
-		name: String,
+        floor: Int,
+        buildingType: BuildingType,
+        name: String,
 	): List<Classroom> {
 		val query =
 			jpql {

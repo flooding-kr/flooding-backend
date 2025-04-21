@@ -1,8 +1,8 @@
 package kr.flooding.backend.domain.club.persistence.repository
 
 import kr.flooding.backend.domain.club.persistence.entity.Club
-import kr.flooding.backend.domain.club.persistence.entity.ClubStatus
-import kr.flooding.backend.domain.club.persistence.entity.ClubType
+import kr.flooding.backend.domain.club.enums.ClubStatus
+import kr.flooding.backend.domain.club.enums.ClubType
 import kr.flooding.backend.domain.user.persistence.entity.User
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
@@ -13,8 +13,8 @@ interface ClubRepository : JpaRepository<Club, UUID> {
 	fun existsByName(name: String): Boolean
 
 	fun existsByTypeAndLeader(
-		type: ClubType,
-		leader: User,
+        type: ClubType,
+        leader: User,
 	): Boolean
 
 	@Query(
@@ -28,8 +28,8 @@ interface ClubRepository : JpaRepository<Club, UUID> {
 	""",
 	)
 	fun findWithLeaderByTypeAndStatus(
-		type: ClubType,
-		status: ClubStatus,
+        type: ClubType,
+        status: ClubStatus,
 	): List<Club>
 
 	@Query(

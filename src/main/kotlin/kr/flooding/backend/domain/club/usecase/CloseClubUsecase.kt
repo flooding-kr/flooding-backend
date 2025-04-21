@@ -1,6 +1,6 @@
 package kr.flooding.backend.domain.club.usecase
 
-import kr.flooding.backend.domain.club.persistence.entity.ClubStatus
+import kr.flooding.backend.domain.club.enums.ClubStatus
 import kr.flooding.backend.domain.club.persistence.repository.ClubRepository
 import kr.flooding.backend.global.exception.ExceptionEnum
 import kr.flooding.backend.global.exception.HttpException

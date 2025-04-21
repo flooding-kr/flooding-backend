@@ -1,4 +1,4 @@
-package kr.flooding.backend.domain.neis.dto.request
+package kr.flooding.backend.domain.neis.enums
 
 enum class LunchTime(
 	val number: String,

@@ -1,4 +1,4 @@
-package kr.flooding.backend.domain.role.persistence.jpa
+package kr.flooding.backend.domain.role.persistence.repository.jpa
 
 import kr.flooding.backend.domain.role.enums.RoleType
 import kr.flooding.backend.domain.role.persistence.entity.Role

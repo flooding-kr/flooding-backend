@@ -25,18 +25,14 @@ class FetchTimetableUsecase(
 				grade = request.grade,
 				classroom = request.classroom,
 			)
-		if (response?.hisTimetable == null) {
-			throw HttpException(ExceptionEnum.NEIS.NOT_FOUND_LUNCH.toPair())
-		}
+		val timetable = response?.hisTimetable ?: emptyList()
 
-		val row =
-			response
-				.hisTimetable[1]
-				.row
-				?.distinctBy {
-					it.perio
-				}?.map { it.itrtCntnt }
-				?.toList() ?: emptyList()
+		val row = timetable[1]
+			.row
+			?.distinctBy {
+				it.perio
+			}?.map { it.itrtCntnt }
+			?.toList() ?: emptyList()
 
 		return FetchTimetableResponse(row)
 	}

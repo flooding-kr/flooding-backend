@@ -3,7 +3,7 @@ package kr.flooding.backend.domain.neis.controller
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import kr.flooding.backend.domain.neis.dto.request.FetchTimetableRequest
-import kr.flooding.backend.domain.neis.dto.request.LunchTime
+import kr.flooding.backend.domain.neis.enums.LunchTime
 import kr.flooding.backend.domain.neis.dto.response.FetchMealInfoResponse
 import kr.flooding.backend.domain.neis.dto.response.FetchTimetableResponse
 import kr.flooding.backend.domain.neis.usecase.FetchMealInfoUsecase

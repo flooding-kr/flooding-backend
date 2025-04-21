@@ -3,6 +3,7 @@ package kr.flooding.backend.domain.homebase.dto.common.response
 import kr.flooding.backend.domain.homebase.persistence.entity.HomebaseGroup
 import kr.flooding.backend.domain.homebaseTable.persistence.entity.HomebaseTable
 import kr.flooding.backend.domain.user.persistence.entity.User
+import java.util.UUID
 
 class FetchReservedHomebaseResponse(
 	val homebaseTable: HomebaseTableResponse,
@@ -10,6 +11,7 @@ class FetchReservedHomebaseResponse(
 	val participants: List<HomebaseParticipantResponse>,
 	val maxSeats: Int,
 	val reason: String,
+	val homebaseGroupId: UUID,
 ) {
 	companion object {
 		fun toDto(
@@ -34,6 +36,7 @@ class FetchReservedHomebaseResponse(
 							HomebaseParticipantResponse.toDto(it)
 						},
 				reason = homebaseGroup?.reason.orEmpty(),
+				homebaseGroupId = requireNotNull(homebaseGroup?.id),
 			)
 		}
 	}

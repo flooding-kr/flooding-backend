@@ -9,6 +9,8 @@ import jakarta.persistence.FetchType
 import jakarta.persistence.Id
 import jakarta.persistence.ManyToOne
 import kr.flooding.backend.domain.classroom.persistence.entity.Classroom
+import kr.flooding.backend.domain.club.enums.ClubStatus
+import kr.flooding.backend.domain.club.enums.ClubType
 import kr.flooding.backend.domain.user.persistence.entity.User
 import org.hibernate.annotations.OnDelete
 import org.hibernate.annotations.OnDeleteAction

@@ -1,9 +1,9 @@
 package kr.flooding.backend.domain.club.usecase
 
 import jakarta.transaction.Transactional
-import kr.flooding.backend.domain.club.dto.response.ClubStudentResponse
-import kr.flooding.backend.domain.club.dto.response.ClubTeacherResponse
-import kr.flooding.backend.domain.club.dto.response.FetchClubResponse
+import kr.flooding.backend.domain.club.dto.common.response.ClubStudentResponse
+import kr.flooding.backend.domain.club.dto.common.response.ClubTeacherResponse
+import kr.flooding.backend.domain.club.dto.web.response.FetchClubResponse
 import kr.flooding.backend.domain.club.persistence.repository.ClubRepository
 import kr.flooding.backend.domain.clubApplicant.persistence.repository.jpa.ClubApplicantJpaRepository
 import kr.flooding.backend.domain.clubMember.persistence.repository.jpa.ClubMemberJpaRepository

@@ -9,30 +9,31 @@ import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 import jakarta.persistence.ManyToOne
+import kr.flooding.backend.domain.classroom.enums.BuildingType
 import kr.flooding.backend.domain.user.persistence.entity.User
 import org.hibernate.annotations.OnDelete
 import org.hibernate.annotations.OnDeleteAction
 
 @Entity
 data class Classroom(
-	@Id
+    @Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	val id: Long,
 
-	val floor: Int,
+    val floor: Int,
 
-	@Column(nullable = false)
+    @Column(nullable = false)
 	val name: String,
 
-	@Column(nullable = false)
+    @Column(nullable = false)
 	val description: String,
 
-	val isHomebase: Boolean,
+    val isHomebase: Boolean,
 
-	@Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.STRING)
 	val buildingType: BuildingType,
 
-	@ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
 	@OnDelete(action = OnDeleteAction.SET_NULL)
 	val teacher: User? = null,
 )

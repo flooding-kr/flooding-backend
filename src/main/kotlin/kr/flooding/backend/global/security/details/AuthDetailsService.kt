@@ -1,6 +1,6 @@
 package kr.flooding.backend.global.security.details
 
-import kr.flooding.backend.domain.role.persistence.jpa.RoleJpaRepository
+import kr.flooding.backend.domain.role.persistence.repository.jpa.RoleJpaRepository
 import kr.flooding.backend.domain.user.persistence.repository.jdsl.UserJdslRepository
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
@@ -9,8 +9,8 @@ import java.util.UUID
 
 @Service
 class AuthDetailsService(
-	private val userJdslRepository: UserJdslRepository,
-	private val roleJpaRepository: RoleJpaRepository,
+    private val userJdslRepository: UserJdslRepository,
+    private val roleJpaRepository: RoleJpaRepository,
 ) : UserDetailsService {
 	// username is user's id
 	override fun loadUserByUsername(username: String): UserDetails {
