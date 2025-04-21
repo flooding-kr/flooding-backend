@@ -6,6 +6,7 @@ import kr.flooding.backend.domain.auth.persistence.repository.RefreshTokenReposi
 import kr.flooding.backend.global.exception.ExceptionEnum
 import kr.flooding.backend.global.exception.HttpException
 import kr.flooding.backend.global.exception.toPair
+import kr.flooding.backend.global.properties.JwtProperties
 import kr.flooding.backend.global.security.jwt.JwtProvider
 import kr.flooding.backend.global.security.jwt.JwtType
 import kr.flooding.backend.global.security.jwt.dto.JwtDetails
@@ -18,6 +19,7 @@ import java.util.UUID
 class ReissueTokenUsecase(
 	private val jwtProvider: JwtProvider,
 	private val refreshTokenRepository: RefreshTokenRepository,
+	private val jwtProperties: JwtProperties,
 ) {
 	fun execute(resolveRefreshToken: String): ReissueTokenResponse {
 		val currentUserId = UUID.fromString(jwtProvider.getIdByRefreshToken(resolveRefreshToken))
@@ -55,7 +57,7 @@ class ReissueTokenUsecase(
 			RefreshToken(
 				id = id,
 				refreshToken = newRefreshToken.token,
-				expires = jwtProvider.refreshTokenExpires,
+				expires = jwtProperties.refreshTokenExpires,
 			)
 
 		refreshTokenRepository.save(newRefreshTokenEntity)

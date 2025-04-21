@@ -9,6 +9,7 @@ import kr.flooding.backend.domain.user.persistence.repository.jpa.UserJpaReposit
 import kr.flooding.backend.global.exception.ExceptionEnum
 import kr.flooding.backend.global.exception.HttpException
 import kr.flooding.backend.global.exception.toPair
+import kr.flooding.backend.global.properties.JwtProperties
 import kr.flooding.backend.global.security.jwt.JwtProvider
 import kr.flooding.backend.global.security.jwt.JwtType
 import kr.flooding.backend.global.security.jwt.dto.JwtDetails
@@ -26,6 +27,7 @@ class SignInUsecase(
 	private val passwordEncoder: PasswordEncoder,
 	private val jwtProvider: JwtProvider,
 	private val refreshTokenRepository: RefreshTokenRepository,
+	private val jwtProperties: JwtProperties
 ) {
 	fun execute(signInRequest: SignInRequest): SignInResponse {
 		val email = signInRequest.email
@@ -72,7 +74,7 @@ class SignInUsecase(
 				RefreshToken(
 					id = id,
 					refreshToken = newRefreshToken.token,
-					expires = jwtProvider.refreshTokenExpires,
+					expires = jwtProperties.refreshTokenExpires,
 				),
 			)
 			return newRefreshToken

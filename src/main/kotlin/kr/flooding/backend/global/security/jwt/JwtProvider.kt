@@ -6,14 +6,13 @@ import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.MalformedJwtException
 import io.jsonwebtoken.UnsupportedJwtException
 import io.jsonwebtoken.security.Keys
-import kr.flooding.backend.domain.auth.persistence.repository.RefreshTokenRepository
 import kr.flooding.backend.global.exception.ExceptionEnum
 import kr.flooding.backend.global.exception.HttpException
 import kr.flooding.backend.global.exception.toPair
+import kr.flooding.backend.global.properties.JwtProperties
 import kr.flooding.backend.global.security.details.AuthDetailsService
 import kr.flooding.backend.global.security.jwt.dto.JwtDetails
 import kr.flooding.backend.global.util.toDate
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.stereotype.Component
 import java.time.Duration
@@ -25,15 +24,7 @@ import java.util.UUID
 @Component
 class JwtProvider(
 	private val authDetailsService: AuthDetailsService,
-	private val refreshTokenRepository: RefreshTokenRepository,
-	@Value("\${jwt.access-token-key}")
-	private val accessTokenKey: String,
-	@Value("\${jwt.refresh-token-key}")
-	private val refreshTokenKey: String,
-	@Value("\${jwt.access-token-expires}")
-	private val accessTokenExpires: Long,
-	@Value("\${jwt.refresh-token-expires}")
-	val refreshTokenExpires: Long,
+	private val jwtProperties: JwtProperties,
 ) {
 	fun getAuthentication(token: String?): UsernamePasswordAuthenticationToken? {
 		val resolvedToken = resolveToken(token)
@@ -61,7 +52,10 @@ class JwtProvider(
 			throw HttpException(ExceptionEnum.AUTH.EMPTY_TOKEN.toPair())
 		}
 
-		val tokenKey = if (jwtType == JwtType.ACCESS_TOKEN) accessTokenKey else refreshTokenKey
+		val tokenKey =
+			if (jwtType == JwtType.ACCESS_TOKEN) jwtProperties.accessTokenKey
+			else jwtProperties.refreshTokenKey
+
 		val keyBytes = Base64.getEncoder().encode(tokenKey.encodeToByteArray())
 		val signingKey = Keys.hmacShaKeyFor(keyBytes)
 
@@ -87,13 +81,18 @@ class JwtProvider(
 		id: UUID,
 		jwtType: JwtType,
 	): JwtDetails {
-		val tokenExpires = if (jwtType == JwtType.ACCESS_TOKEN) accessTokenExpires else refreshTokenExpires
+		val tokenExpires =
+			if (jwtType == JwtType.ACCESS_TOKEN) jwtProperties.accessTokenExpires
+			else jwtProperties.refreshTokenExpires
 		val expiredAt =
 			LocalDateTime.now().plus(
 				Duration.ofMillis(tokenExpires),
 			)
 
-		val tokenKey = if (jwtType == JwtType.ACCESS_TOKEN) accessTokenKey else refreshTokenKey
+		val tokenKey =
+			if (jwtType == JwtType.ACCESS_TOKEN) jwtProperties.accessTokenKey
+			else jwtProperties.refreshTokenKey
+
 		val keyBytes = Base64.getEncoder().encode(tokenKey.encodeToByteArray())
 		val signingKey = Keys.hmacShaKeyFor(keyBytes)
 

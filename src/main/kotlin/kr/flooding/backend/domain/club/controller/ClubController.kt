@@ -3,12 +3,12 @@ package kr.flooding.backend.domain.club.controller
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.Valid
-import kr.flooding.backend.domain.club.dto.request.CreateClubRequest
-import kr.flooding.backend.domain.club.dto.request.UpdateClubRequest
-import kr.flooding.backend.domain.club.dto.response.FetchClubFilterResponse
-import kr.flooding.backend.domain.club.dto.response.FetchClubMyselfResponse
-import kr.flooding.backend.domain.club.dto.response.FetchClubResponse
-import kr.flooding.backend.domain.club.persistence.entity.ClubType
+import kr.flooding.backend.domain.club.dto.web.request.CreateClubRequest
+import kr.flooding.backend.domain.club.dto.web.request.UpdateClubRequest
+import kr.flooding.backend.domain.club.dto.web.response.FetchClubFilterResponse
+import kr.flooding.backend.domain.club.dto.web.response.FetchClubMyselfResponse
+import kr.flooding.backend.domain.club.dto.web.response.FetchClubResponse
+import kr.flooding.backend.domain.club.enums.ClubType
 import kr.flooding.backend.domain.club.usecase.CloseClubUsecase
 import kr.flooding.backend.domain.club.usecase.ConfirmClubInviteUsecase
 import kr.flooding.backend.domain.club.usecase.CreateClubUsecase
@@ -62,7 +62,7 @@ class ClubController(
 	@Operation(summary = "동아리 필터 조회")
 	@GetMapping
 	fun findClubFilter(
-		@RequestParam(required = false) type: ClubType?,
+        @RequestParam(required = false) type: ClubType?,
 	): ResponseEntity<FetchClubFilterResponse> =
 		fetchClubFilterUsecase.execute(type).run {
 			ResponseEntity.ok(this)
