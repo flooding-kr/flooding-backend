@@ -22,11 +22,9 @@ class FetchMealInfoUsecase(
 	): FetchMealInfoResponse {
 		val requestDate = date ?: LocalDate.now()
 		val response = getMealInfoResponse(requestDate, lunchTime)
-		if (response?.mealServiceDietInfo == null) {
-			throw HttpException(ExceptionEnum.NEIS.NOT_FOUND_LUNCH.toPair())
-		}
+		val mealServiceDietInfo = response?.mealServiceDietInfo ?: emptyList()
 
-		val row = response.mealServiceDietInfo[1].row ?: emptyList()
+		val row = mealServiceDietInfo[1].row ?: emptyList()
 		val menu =
 			row[0]
 				.ddishNm
