@@ -9,7 +9,6 @@ class FetchMyReservedHomebaseResponse(
 	val period: Int,
 	val isProposer: Boolean,
 	val participants: List<HomebaseParticipantResponse>,
-	val proposer: HomebaseParticipantResponse,
 	val reason: String,
 	val homebaseGroupId: UUID,
 ) {
@@ -19,18 +18,17 @@ class FetchMyReservedHomebaseResponse(
 			currentUser: User,
 		): FetchMyReservedHomebaseResponse {
 			val proposerAsHomebaseParticipant = HomebaseParticipantResponse.fromUser(homebaseGroup.proposer)
+			val participants = homebaseGroup.participants.map {
+				HomebaseParticipantResponse.toDto(it)
+			}
 
 			return FetchMyReservedHomebaseResponse(
 				homebaseTable = HomebaseTableResponse.toDto(homebaseGroup.homebaseTable),
 				period = homebaseGroup.period,
-				proposer = proposerAsHomebaseParticipant,
 				isProposer = homebaseGroup.proposer == currentUser,
 				reason = homebaseGroup.reason,
 				homebaseGroupId = requireNotNull(homebaseGroup.id),
-				participants =
-					homebaseGroup.participants.map {
-						HomebaseParticipantResponse.toDto(it)
-					},
+				participants = participants + proposerAsHomebaseParticipant,
 			)
 		}
 	}
