@@ -18,7 +18,7 @@ class FetchReservedHomebaseResponse(
 			homebaseGroup: HomebaseGroup?,
 			currentUser: User,
 		): FetchReservedHomebaseResponse {
-			val proposerAsParticipants =
+			val proposerAsParticipant =
 				homebaseGroup?.proposer?.let {
 					listOf(HomebaseParticipantResponse.fromUser(it))
 				} ?: emptyList()
@@ -34,7 +34,7 @@ class FetchReservedHomebaseResponse(
 				isAttended =
 					(homebaseGroup?.participants?.any { it == currentUser } ?: false) ||
 						(currentUser == homebaseGroup?.proposer),
-				participants = participants + proposerAsParticipants,
+				participants = participants + proposerAsParticipant,
 			)
 		}
 	}
