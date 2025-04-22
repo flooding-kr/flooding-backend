@@ -90,6 +90,7 @@ class SecurityConfig(
 				it // Massage
 					.requestMatchers(HttpMethod.POST, "/massage").hasAuthority(ROLE_STUDENT)
 					.requestMatchers(HttpMethod.DELETE, "/massage").hasAuthority(ROLE_STUDENT)
+					.requestMatchers(HttpMethod.PATCH, "/admin/massage/limit").hasAuthority(ROLE_DORMITORY_ADMIN)
 
 				it // File
 					.requestMatchers(HttpMethod.POST, "/file/image").hasAuthority(ROLE_USER)
