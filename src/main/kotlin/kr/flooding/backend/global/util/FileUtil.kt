@@ -21,7 +21,15 @@ import java.time.Duration
 class FileUtil(
 	private val awsProperties: AwsProperties,
 ) {
-	val signatureDuration: Duration = Duration.ofHours(1)
+	companion object {
+		private val imageExtensions = setOf("png", "jpg", "jpeg", "gif")
+		private val signatureDuration: Duration = Duration.ofHours(1)
+
+		fun MultipartFile.isImageExtension(): Boolean {
+			val extension = this.originalFilename?.split(".")?.last()
+			return extension in imageExtensions
+		}
+	}
 
 	fun generatePresignedUrl(key: String): String {
 		val credentials = AwsBasicCredentials.create(
@@ -62,7 +70,7 @@ class FileUtil(
 	): ByteArray {
 		try {
 			val image = ImmutableImage.loader().fromStream(multipartFile.inputStream)
-			return image.bytes(WebpWriter.DEFAULT)
+			return image.bytes(WebpWriter.DEFAULT.withMultiThread())
 		} catch (e: Exception) {
 			throw HttpException(ExceptionEnum.FILE.FAILED_TO_CONVERT_WEBP.toPair())
 		}
