@@ -3,7 +3,7 @@ package kr.flooding.backend.domain.club.usecase
 import kr.flooding.backend.domain.club.dto.common.response.ClubMyselfResponse
 import kr.flooding.backend.domain.club.dto.web.response.FetchClubMyselfResponse
 import kr.flooding.backend.domain.clubMember.persistence.repository.jdsl.ClubMemberJdslRepository
-import kr.flooding.backend.global.util.S3Util
+import kr.flooding.backend.global.util.FileUtil
 import kr.flooding.backend.global.util.UserUtil
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional
 class FetchClubMyselfUsecase(
 	private val clubMemberJdslRepository: ClubMemberJdslRepository,
 	private val userUtil: UserUtil,
-	private val s3Util: S3Util,
+	private val fileUtil: FileUtil,
 ) {
 	fun execute(): FetchClubMyselfResponse {
 		val currentUser = userUtil.getUser()
@@ -22,7 +22,7 @@ class FetchClubMyselfUsecase(
 
 		return FetchClubMyselfResponse(
 			clubs.map { club ->
-				val thumbnailImageUrl = club.thumbnailImageKey?.let { s3Util.generatePresignedUrl(it) }
+				val thumbnailImageUrl = club.thumbnailImageKey?.let { fileUtil.generatePresignedUrl(it) }
 				ClubMyselfResponse.toDto(club, currentUser, thumbnailImageUrl)
 			},
 		)
