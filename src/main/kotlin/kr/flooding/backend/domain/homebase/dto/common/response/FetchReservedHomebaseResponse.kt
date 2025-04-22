@@ -9,7 +9,6 @@ class FetchReservedHomebaseResponse(
 	val homebaseTable: HomebaseTableResponse,
 	val isAttended: Boolean,
 	val participants: List<HomebaseParticipantResponse>,
-	val proposer: HomebaseParticipantResponse?,
 	val reason: String?,
 	val homebaseGroupId: UUID?,
 ) {
@@ -19,23 +18,23 @@ class FetchReservedHomebaseResponse(
 			homebaseGroup: HomebaseGroup?,
 			currentUser: User,
 		): FetchReservedHomebaseResponse {
-			val proposerAsHomebaseParticipant =
+			val proposerAsParticipants =
 				homebaseGroup?.proposer?.let {
-					HomebaseParticipantResponse.fromUser(it)
-				}
+					listOf(HomebaseParticipantResponse.fromUser(it))
+				} ?: emptyList()
+
+			val participants = homebaseGroup?.participants.orEmpty().map {
+				HomebaseParticipantResponse.toDto(it)
+			}
 
 			return FetchReservedHomebaseResponse(
 				homebaseTable = HomebaseTableResponse.toDto(homebaseTable),
-				proposer = proposerAsHomebaseParticipant,
 				reason = homebaseGroup?.reason,
 				homebaseGroupId = homebaseGroup?.id,
 				isAttended =
 					(homebaseGroup?.participants?.any { it == currentUser } ?: false) ||
 						(currentUser == homebaseGroup?.proposer),
-				participants =
-					homebaseGroup?.participants.orEmpty().map {
-						HomebaseParticipantResponse.toDto(it)
-					},
+				participants = participants + proposerAsParticipants,
 			)
 		}
 	}
