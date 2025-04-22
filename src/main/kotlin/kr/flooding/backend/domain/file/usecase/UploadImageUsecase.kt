@@ -5,8 +5,8 @@ import kr.flooding.backend.domain.file.dto.web.response.UploadImageListResponse
 import kr.flooding.backend.global.exception.ExceptionEnum
 import kr.flooding.backend.global.exception.HttpException
 import kr.flooding.backend.global.exception.toPair
+import kr.flooding.backend.global.properties.AwsProperties
 import kr.flooding.backend.global.util.FileUtil
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.multipart.MultipartFile
@@ -21,9 +21,8 @@ import java.util.UUID.randomUUID
 class UploadImageUsecase(
 	private val s3Client: S3Client,
 	private val fileUtil: FileUtil,
+	private val awsProperties: AwsProperties,
 ) {
-	@Value("\${cloud.aws.s3.bucket-name}")
-	lateinit var bucketName: String
 
 	fun execute(images: List<MultipartFile>): UploadImageListResponse {
 		val imageExtensions = listOf("png", "jpg", "jpeg", "gif")
@@ -44,7 +43,7 @@ class UploadImageUsecase(
 				val putObjectRequest =
 					PutObjectRequest
 						.builder()
-						.bucket(bucketName)
+						.bucket(awsProperties.s3.bucketName)
 						.key(key)
 						.build()
 				val requestBody = RequestBody.fromInputStream(webpImage.inputStream(), webpImage.size.toLong())
