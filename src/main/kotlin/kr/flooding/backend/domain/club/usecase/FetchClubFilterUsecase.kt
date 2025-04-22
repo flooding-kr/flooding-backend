@@ -5,7 +5,7 @@ import kr.flooding.backend.domain.club.dto.web.response.FetchClubFilterResponse
 import kr.flooding.backend.domain.club.enums.ClubStatus
 import kr.flooding.backend.domain.club.enums.ClubType
 import kr.flooding.backend.domain.club.persistence.repository.ClubRepository
-import kr.flooding.backend.global.util.S3Util
+import kr.flooding.backend.global.util.FileUtil
 import kr.flooding.backend.global.util.UserUtil
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional
 class FetchClubFilterUsecase(
 	private val clubRepository: ClubRepository,
 	private val userUtil: UserUtil,
-	private val s3Util: S3Util,
+	private val fileUtil: FileUtil,
 ) {
 	fun execute(type: ClubType?): FetchClubFilterResponse {
 		val clubs =
@@ -29,7 +29,7 @@ class FetchClubFilterUsecase(
 
 		return FetchClubFilterResponse(
 			clubs.map { club ->
-				val thumbnailImageUrl = club.thumbnailImageKey?.let { s3Util.generatePresignedUrl(it) }
+				val thumbnailImageUrl = club.thumbnailImageKey?.let { fileUtil.generatePresignedUrl(it) }
 				ClubFilterResponse.toDto(club, currentUser, thumbnailImageUrl)
 			},
 		)

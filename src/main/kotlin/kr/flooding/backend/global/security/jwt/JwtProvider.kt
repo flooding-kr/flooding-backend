@@ -12,7 +12,7 @@ import kr.flooding.backend.global.exception.toPair
 import kr.flooding.backend.global.properties.JwtProperties
 import kr.flooding.backend.global.security.details.AuthDetailsService
 import kr.flooding.backend.global.security.jwt.dto.JwtDetails
-import kr.flooding.backend.global.util.toDate
+import kr.flooding.backend.global.util.DateUtil.Companion.toDate
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.stereotype.Component
 import java.time.Duration

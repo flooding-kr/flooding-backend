@@ -21,6 +21,7 @@ class SecurityConfig(
 		private val ROLE_STUDENT = RoleType.ROLE_STUDENT.name
 		private val ROLE_TEACHER = RoleType.ROLE_TEACHER.name
 		private val ROLE_USER_ADMIN = RoleType.ROLE_USER_ADMIN.name
+		private val ROLE_DORMITORY_ADMIN = RoleType.ROLE_DORMITORY_ADMIN.name
 	}
 
 	@Bean
@@ -51,6 +52,7 @@ class SecurityConfig(
 				it // Self Study
 					.requestMatchers(HttpMethod.POST, "/self-study").hasAuthority(ROLE_STUDENT)
 					.requestMatchers(HttpMethod.DELETE, "/self-study").hasAuthority(ROLE_STUDENT)
+					.requestMatchers(HttpMethod.PATCH, "/admin/self-study/limit").hasAuthority(ROLE_DORMITORY_ADMIN)
 
 				it // Club
 					.requestMatchers(HttpMethod.GET, "/club").hasAuthority(ROLE_USER)

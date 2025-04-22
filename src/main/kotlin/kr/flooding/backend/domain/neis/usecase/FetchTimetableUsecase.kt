@@ -17,7 +17,7 @@ import java.time.format.DateTimeFormatter
 
 @Service
 class FetchTimetableUsecase(
-	@Value("\${lunch-api.key}") private val mealApiKey: String,
+	@Value("\${neis.api-key}") private val neisApiKey: String,
 ) {
 	fun execute(request: FetchTimetableRequest): FetchTimetableResponse {
 		val response =
@@ -55,7 +55,7 @@ class FetchTimetableUsecase(
 					.scheme("https")
 					.host("open.neis.go.kr")
 					.path("/hub/hisTimetable")
-					.queryParam("KEY", mealApiKey)
+					.queryParam("KEY", neisApiKey)
 					.queryParam("Type", "json")
 					.queryParam("SD_SCHUL_CODE", "7380292")
 					.queryParam("ATPT_OFCDC_SC_CODE", "F10")
