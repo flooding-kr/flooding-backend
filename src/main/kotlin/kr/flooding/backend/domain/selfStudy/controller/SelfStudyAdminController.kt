@@ -17,7 +17,7 @@ class SelfStudyAdminController(
 ) {
 	@Operation(summary = "자습 최대 인원 변경")
 	@PatchMapping("/limit")
-	fun reserveSelfStudy(
+	fun changeSelfStudyLimit(
 		@RequestBody request: ChangeSelfStudyLimitRequest
 	): ResponseEntity<Unit> =
 		changeSelfStudyLimitUsecase.execute(request).let {
