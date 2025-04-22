@@ -15,7 +15,7 @@ import java.time.format.DateTimeFormatter
 
 @Service
 class FetchMealInfoUsecase(
-	@Value("\${lunch-api.key}") private val mealApiKey: String,
+	@Value("\${neis.api-key}") private val neisApiKey: String,
 ) {
 	fun execute(
         date: LocalDate?,
@@ -63,7 +63,7 @@ class FetchMealInfoUsecase(
 					.scheme("https")
 					.host("open.neis.go.kr")
 					.path("/hub/mealServiceDietInfo")
-					.queryParam("KEY", mealApiKey)
+					.queryParam("KEY", neisApiKey)
 					.queryParam("Type", "json")
 					.queryParam("SD_SCHUL_CODE", "7380292")
 					.queryParam("MMEAL_SC_CODE", lunchTime.number)

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController
 @Tag(name = "Self Study", description = "자습")
 @RestController
 @RequestMapping("/self-study")
-class SelfStudyController(
+class SelfStudyStudentController(
 	private val reserveSelfStudyUsecase: ReserveSelfStudyUsecase,
 	private val cancelSelfStudyUsecase: CancelSelfStudyUsecase,
 ) {

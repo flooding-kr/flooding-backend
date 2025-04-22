@@ -10,7 +10,7 @@ import kr.flooding.backend.domain.clubMember.persistence.repository.jpa.ClubMemb
 import kr.flooding.backend.global.exception.ExceptionEnum
 import kr.flooding.backend.global.exception.HttpException
 import kr.flooding.backend.global.exception.toPair
-import kr.flooding.backend.global.util.S3Util
+import kr.flooding.backend.global.util.FileUtil
 import org.springframework.stereotype.Service
 import java.util.UUID
 
@@ -20,7 +20,7 @@ class FetchClubUsecase(
 	private val clubRepository: ClubRepository,
 	private val clubMemberJpaRepository: ClubMemberJpaRepository,
 	private val clubApplicantJpaRepository: ClubApplicantJpaRepository,
-	private val s3Util: S3Util,
+	private val fileUtil: FileUtil,
 ) {
 	fun execute(clubId: UUID): FetchClubResponse {
 		val club =
@@ -30,20 +30,20 @@ class FetchClubUsecase(
 
 		val clubMembers = clubMemberJpaRepository.findWithUserByClubIdAndUserIsNot(clubId, club.leader)
 
-		val thumbnailImageUrl = club.thumbnailImageKey?.let { s3Util.generatePresignedUrl(it) }
-		val activityImageUrls = club.activityImageKeys.map { s3Util.generatePresignedUrl(it) }
+		val thumbnailImageUrl = club.thumbnailImageKey?.let { fileUtil.generatePresignedUrl(it) }
+		val activityImageUrls = club.activityImageKeys.map { fileUtil.generatePresignedUrl(it) }
 
 		val clubMemberResponses = clubMembers.map {
-			val profileImageUrl = it.user.profileImageKey?.let {s3Util.generatePresignedUrl(it)}
+			val profileImageUrl = it.user.profileImageKey?.let {fileUtil.generatePresignedUrl(it)}
 			ClubStudentResponse.toDto(it.user, profileImageUrl)
 		}
 
 		val clubTeacherResponse = club.teacher?.let {
-			val profileImageUrl = it.profileImageKey?.let {s3Util.generatePresignedUrl(it)}
+			val profileImageUrl = it.profileImageKey?.let {fileUtil.generatePresignedUrl(it)}
 			ClubTeacherResponse.toDto(it, profileImageUrl)
 		}
 
-		val leaderProfileImageUrl = club.leader.profileImageKey?.let { s3Util.generatePresignedUrl(it) }
+		val leaderProfileImageUrl = club.leader.profileImageKey?.let { fileUtil.generatePresignedUrl(it) }
 		val clubLeaderResponse = ClubStudentResponse.toDto(club.leader, leaderProfileImageUrl)
 
 		val applicantCount = clubApplicantJpaRepository.countByClub(club)
