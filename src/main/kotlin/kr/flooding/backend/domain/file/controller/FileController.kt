@@ -2,7 +2,7 @@ package kr.flooding.backend.domain.file.controller
 
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
-import kr.flooding.backend.domain.file.dto.response.UploadImageResponse
+import kr.flooding.backend.domain.file.dto.web.response.UploadImageListResponse
 import kr.flooding.backend.domain.file.usecase.UploadImageUsecase
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
@@ -22,7 +22,7 @@ class FileController(
 	@Operation(summary = "이미지 업로드")
 	fun uploadImage(
 		@RequestPart images: List<MultipartFile>,
-	): ResponseEntity<UploadImageResponse> =
+	): ResponseEntity<UploadImageListResponse> =
 		uploadImageUsecase.execute(images).let {
 			ResponseEntity.ok(it)
 		}

@@ -1,10 +1,11 @@
 package kr.flooding.backend.domain.file.usecase
 
-import kr.flooding.backend.domain.file.dto.response.UploadImageResponse
+import kr.flooding.backend.domain.file.dto.common.response.UploadImageResponse
+import kr.flooding.backend.domain.file.dto.web.response.UploadImageListResponse
 import kr.flooding.backend.global.exception.ExceptionEnum
 import kr.flooding.backend.global.exception.HttpException
 import kr.flooding.backend.global.exception.toPair
-import kr.flooding.backend.global.util.ImageUtil
+import kr.flooding.backend.global.util.FileUtil
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -19,12 +20,12 @@ import java.util.UUID.randomUUID
 @Transactional
 class UploadImageUsecase(
 	private val s3Client: S3Client,
-	private val imageUtil: ImageUtil,
+	private val fileUtil: FileUtil,
 ) {
 	@Value("\${cloud.aws.s3.bucket-name}")
 	lateinit var bucketName: String
 
-	fun execute(images: List<MultipartFile>): UploadImageResponse {
+	fun execute(images: List<MultipartFile>): UploadImageListResponse {
 		val imageExtensions = listOf("png", "jpg", "jpeg", "gif")
 		val imageUrls =
 			images.map {
@@ -38,7 +39,7 @@ class UploadImageUsecase(
 				val filename = "${LocalDateTime.now()}:${randomUUID()}.webp"
 				val key = "images/$filename"
 
-				val webpImage = imageUtil.convertToWebp(filename, it)
+				val webpImage = fileUtil.convertToWebp(filename, it)
 
 				val putObjectRequest =
 					PutObjectRequest
@@ -50,9 +51,12 @@ class UploadImageUsecase(
 
 				s3Client.putObject(putObjectRequest, requestBody)
 
-				key
+				UploadImageResponse(
+					key = key,
+					presignedUrl = fileUtil.generatePresignedUrl(key)
+				)
 			}
 
-		return UploadImageResponse(imageUrls)
+		return UploadImageListResponse(imageUrls)
 	}
 }
