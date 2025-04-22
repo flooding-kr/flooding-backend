@@ -2,32 +2,25 @@ package kr.flooding.backend.domain.selfStudy.controller
 
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
+import kr.flooding.backend.domain.selfStudy.dto.ChangeSelfStudyLimitRequest
 import kr.flooding.backend.domain.selfStudy.usecase.CancelSelfStudyUsecase
+import kr.flooding.backend.domain.selfStudy.usecase.ChangeSelfStudyLimitUsecase
 import kr.flooding.backend.domain.selfStudy.usecase.ReserveSelfStudyUsecase
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.DeleteMapping
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
-@Tag(name = "Self Study", description = "자습")
+@Tag(name = "Self Study Management", description = "자습 관리")
 @RestController
-@RequestMapping("/self-study")
-class SelfStudyStudentController(
-	private val reserveSelfStudyUsecase: ReserveSelfStudyUsecase,
-	private val cancelSelfStudyUsecase: CancelSelfStudyUsecase,
+@RequestMapping("/admin/self-study")
+class SelfStudyAdminController(
+	private val changeSelfStudyLimitUsecase: ChangeSelfStudyLimitUsecase,
 ) {
-	@Operation(summary = "자습 신청")
-	@PostMapping
-	fun reserveSelfStudy(): ResponseEntity<Unit> =
-		reserveSelfStudyUsecase.execute().let {
-			ResponseEntity.ok().build()
-		}
-
-	@Operation(summary = "자습 취소")
-	@DeleteMapping
-	fun cancelSelfStudy(): ResponseEntity<Unit> =
-		cancelSelfStudyUsecase.execute().let {
+	@Operation(summary = "자습 최대 인원 변경")
+	@PatchMapping("/limit")
+	fun reserveSelfStudy(
+		@RequestBody request: ChangeSelfStudyLimitRequest
+	): ResponseEntity<Unit> =
+		changeSelfStudyLimitUsecase.execute(request).let {
 			ResponseEntity.ok().build()
 		}
 }

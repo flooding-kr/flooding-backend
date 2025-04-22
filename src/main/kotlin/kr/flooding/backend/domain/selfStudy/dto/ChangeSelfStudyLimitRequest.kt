@@ -1,4 +1,5 @@
 package kr.flooding.backend.domain.selfStudy.dto
 
-class ChangeSelfStudyLimitRequest {
-}
+class ChangeSelfStudyLimitRequest (
+	val limit: Int
+)
