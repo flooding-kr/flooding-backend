@@ -11,9 +11,11 @@ import kr.flooding.backend.global.util.FileUtil.Companion.isImageExtension
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.multipart.MultipartFile
+import software.amazon.awssdk.core.exception.SdkClientException
 import software.amazon.awssdk.core.sync.RequestBody
 import software.amazon.awssdk.services.s3.S3Client
 import software.amazon.awssdk.services.s3.model.PutObjectRequest
+import software.amazon.awssdk.services.s3.model.S3Exception
 import java.time.LocalDateTime
 import java.util.UUID.randomUUID
 import java.util.concurrent.Executors
@@ -47,19 +49,25 @@ class UploadImageUsecase(
 
 		val webpImage = fileUtil.convertToWebp(filename, image)
 
-		val putObjectRequest =
-			PutObjectRequest
-				.builder()
-				.bucket(awsProperties.s3.bucketName)
-				.key(key)
-				.build()
-		val requestBody = RequestBody.fromInputStream(webpImage.inputStream(), webpImage.size.toLong())
+		try {
+			val putObjectRequest =
+				PutObjectRequest
+					.builder()
+					.bucket(awsProperties.s3.bucketName)
+					.key(key)
+					.build()
+			val requestBody = RequestBody.fromInputStream(webpImage.inputStream(), webpImage.size.toLong())
 
-		s3Client.putObject(putObjectRequest, requestBody)
+			s3Client.putObject(putObjectRequest, requestBody)
 
-		return UploadImageResponse(
-			key = key,
-			presignedUrl = fileUtil.generatePresignedUrl(key)
-		)
+			return UploadImageResponse(
+				key = key,
+				presignedUrl = fileUtil.generatePresignedUrl(key)
+			)
+		} catch (e: SdkClientException) {
+			throw HttpException(ExceptionEnum.FILE.FAILED_TO_UPLOAD_FILE.toPair())
+		} catch (e: S3Exception) {
+			throw HttpException(ExceptionEnum.FILE.FAILED_TO_UPLOAD_FILE.toPair())
+		}
 	}
 }
