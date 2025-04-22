@@ -29,14 +29,8 @@ class ChangeSelfStudyLimitRetryHelper {
 		notRecoverable = [HttpException::class],
 	)
 	fun execute(selfStudyRoom: SelfStudyRoom, limit: Int) {
-		try {
-			if(selfStudyRoom.reservationLimit != limit){
-				selfStudyRoom.updateLimit(limit)
-			}
-		} catch (e: DataIntegrityViolationException) {
-			throw HttpException(ExceptionEnum.SELF_STUDY.ALREADY_RESERVE_SELF_STUDY.toPair())
-		} catch (e: EmptyResultDataAccessException) {
-			throw HttpException(ExceptionEnum.SELF_STUDY.ALREADY_RESERVE_SELF_STUDY.toPair())
+		if(selfStudyRoom.reservationLimit != limit){
+			selfStudyRoom.updateLimit(limit)
 		}
 	}
 }
