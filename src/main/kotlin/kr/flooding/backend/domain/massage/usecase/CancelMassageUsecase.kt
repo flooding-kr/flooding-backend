@@ -1,6 +1,6 @@
 package kr.flooding.backend.domain.massage.usecase
 
-import kr.flooding.backend.domain.massage.persistence.repository.jpa.MassageJpaRepository
+import kr.flooding.backend.domain.massage.persistence.repository.jpa.MassageRoomJpaRepository
 import kr.flooding.backend.domain.massage.persistence.repository.jpa.MassageReservationJpaRepository
 import kr.flooding.backend.global.exception.ExceptionEnum
 import kr.flooding.backend.global.exception.HttpException
@@ -15,7 +15,7 @@ import java.time.LocalTime
 class CancelMassageUsecase(
 	private val userUtil: UserUtil,
 	private val massageReservationJpaRepository: MassageReservationJpaRepository,
-	private val massageJpaRepository: MassageJpaRepository,
+	private val massageRoomJpaRepository: MassageRoomJpaRepository,
 ) {
 	fun execute() {
 		val currentUser = userUtil.getUser()
@@ -37,7 +37,7 @@ class CancelMassageUsecase(
 		}
 
 		val massage =
-			massageJpaRepository.findByIdIsNotNull()
+			massageRoomJpaRepository.findByIdIsNotNull()
 				.orElseThrow { HttpException(ExceptionEnum.MASSAGE.NOT_FOUND_MASSAGE_ROOM.toPair()) }
 
 		prevReservation.cancelReservation()

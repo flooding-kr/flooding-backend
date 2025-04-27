@@ -2,7 +2,7 @@ package kr.flooding.backend.domain.massage.controller
 
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
-import kr.flooding.backend.domain.massage.dto.ChangeMassageLimitRequest
+import kr.flooding.backend.domain.massage.dto.request.ChangeMassageLimitRequest
 import kr.flooding.backend.domain.massage.usecase.ChangeMassageLimitUsecase
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PatchMapping

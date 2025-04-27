@@ -1,7 +1,7 @@
 package kr.flooding.backend.domain.massage.usecase
 
-import kr.flooding.backend.domain.massage.dto.ChangeMassageLimitRequest
-import kr.flooding.backend.domain.massage.persistence.repository.jpa.MassageJpaRepository
+import kr.flooding.backend.domain.massage.dto.request.ChangeMassageLimitRequest
+import kr.flooding.backend.domain.massage.persistence.repository.jpa.MassageRoomJpaRepository
 import kr.flooding.backend.global.exception.ExceptionEnum
 import kr.flooding.backend.global.exception.HttpException
 import kr.flooding.backend.global.exception.toPair
@@ -11,10 +11,10 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 @Transactional
 class ChangeMassageLimitUsecase(
-    private val massageJpaRepository: MassageJpaRepository,
+    private val massageRoomJpaRepository: MassageRoomJpaRepository,
 ) {
     fun execute(request: ChangeMassageLimitRequest) {
-        val massage = massageJpaRepository.findByIdIsNotNull().orElseThrow {
+        val massage = massageRoomJpaRepository.findByIdIsNotNull().orElseThrow {
             HttpException(ExceptionEnum.MASSAGE.NOT_FOUND_MASSAGE_ROOM.toPair())
         }
 
