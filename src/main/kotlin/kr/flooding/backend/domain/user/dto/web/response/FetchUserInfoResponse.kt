@@ -11,6 +11,7 @@ data class FetchUserInfoResponse(
 	val name: String,
 	val email: String,
 	val gender: Gender,
+	val profileImageUrl: String?,
 	val studentInfo: StudentInfoResponse? = null,
 	val teacherInfo: TeacherInfoResponse? = null,
 )

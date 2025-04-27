@@ -6,6 +6,7 @@ import kr.flooding.backend.global.exception.ExceptionEnum
 import kr.flooding.backend.global.exception.HttpException
 import kr.flooding.backend.global.exception.toPair
 import kr.flooding.backend.global.properties.AwsProperties
+import kr.flooding.backend.global.thirdparty.s3.adapter.S3Adapter
 import kr.flooding.backend.global.util.FileUtil
 import kr.flooding.backend.global.util.FileUtil.Companion.isImageExtension
 import org.springframework.stereotype.Service
@@ -24,8 +25,9 @@ import java.util.concurrent.Executors
 @Transactional
 class UploadImageUsecase(
 	private val s3Client: S3Client,
-	private val fileUtil: FileUtil,
 	private val awsProperties: AwsProperties,
+	private val s3Adapter: S3Adapter,
+	private val fileUtil: FileUtil,
 ) {
 	fun execute(images: List<MultipartFile>): UploadImageListResponse {
 		images.forEach {
@@ -62,7 +64,7 @@ class UploadImageUsecase(
 
 			return UploadImageResponse(
 				key = key,
-				presignedUrl = fileUtil.generatePresignedUrl(key)
+				presignedUrl = s3Adapter.generatePresignedUrl(key)
 			)
 		} catch (e: SdkClientException) {
 			throw HttpException(ExceptionEnum.FILE.FAILED_TO_UPLOAD_FILE.toPair())

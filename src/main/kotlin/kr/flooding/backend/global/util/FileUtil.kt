@@ -18,50 +18,14 @@ import software.amazon.awssdk.services.s3.presigner.model.GetObjectPresignReques
 import java.time.Duration
 
 @Component
-class FileUtil(
-	private val awsProperties: AwsProperties,
-) {
+class FileUtil {
 	companion object {
 		private val imageExtensions = setOf("png", "jpg", "jpeg", "gif")
-		private val signatureDuration: Duration = Duration.ofHours(1)
 
 		fun MultipartFile.isImageExtension(): Boolean {
 			val extension = this.originalFilename?.split(".")?.last()
 			return extension in imageExtensions
 		}
-	}
-
-	fun generatePresignedUrl(key: String): String {
-		val credentials = AwsBasicCredentials.create(
-			awsProperties.s3.accessKeyId,
-			awsProperties.s3.secretAccessKey,
-		)
-
-		val presigner =
-			S3Presigner
-				.builder()
-				.region(Region.of(awsProperties.region))
-				.credentialsProvider(StaticCredentialsProvider.create(credentials))
-				.build()
-
-		val getObjectRequest =
-			GetObjectRequest
-				.builder()
-				.bucket(awsProperties.s3.bucketName)
-				.key(key)
-				.build()
-
-		val presignRequest =
-			GetObjectPresignRequest
-				.builder()
-				.signatureDuration(signatureDuration)
-				.getObjectRequest(getObjectRequest)
-				.build()
-
-		val presignedRequest = presigner.presignGetObject(presignRequest)
-
-		presigner.close()
-		return presignedRequest.url().toString()
 	}
 
 	fun convertToWebp(
