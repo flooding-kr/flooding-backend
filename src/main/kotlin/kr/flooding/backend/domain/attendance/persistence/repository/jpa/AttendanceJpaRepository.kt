@@ -1,4 +1,4 @@
-package kr.flooding.backend.domain.attendance.persistence.jpa
+package kr.flooding.backend.domain.attendance.persistence.repository.jpa
 
 import kr.flooding.backend.domain.attendance.persistence.entity.Attendance
 import kr.flooding.backend.domain.club.persistence.entity.Club
@@ -20,6 +20,12 @@ interface AttendanceJpaRepository : JpaRepository<Attendance, UUID> {
 		period: Int,
 		student: User,
 	): Optional<Attendance>
+
+	fun findByAttendedAtAndPeriodAndClubId(
+		attendedAt: LocalDate,
+		period: Int,
+		clubId: UUID,
+	): List<Attendance>
 
 	fun findByStudentAndClubAndPeriodAndAttendedAt(
 		student: User,

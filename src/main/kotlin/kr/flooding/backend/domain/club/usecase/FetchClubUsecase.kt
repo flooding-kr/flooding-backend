@@ -6,6 +6,7 @@ import kr.flooding.backend.domain.club.dto.common.response.ClubTeacherResponse
 import kr.flooding.backend.domain.club.dto.web.response.FetchClubResponse
 import kr.flooding.backend.domain.club.persistence.repository.ClubRepository
 import kr.flooding.backend.domain.clubApplicant.persistence.repository.jpa.ClubApplicantJpaRepository
+import kr.flooding.backend.domain.clubMember.persistence.repository.jdsl.ClubMemberJdslRepository
 import kr.flooding.backend.domain.clubMember.persistence.repository.jpa.ClubMemberJpaRepository
 import kr.flooding.backend.global.exception.ExceptionEnum
 import kr.flooding.backend.global.exception.HttpException
@@ -19,6 +20,7 @@ import java.util.UUID
 class FetchClubUsecase(
 	private val clubRepository: ClubRepository,
 	private val clubMemberJpaRepository: ClubMemberJpaRepository,
+	private val clubMemberJdslRepository: ClubMemberJdslRepository,
 	private val clubApplicantJpaRepository: ClubApplicantJpaRepository,
 	private val fileUtil: FileUtil,
 ) {
@@ -28,7 +30,7 @@ class FetchClubUsecase(
 				.findWithClassroomWithTeacherById(clubId)
 				.orElseThrow { HttpException(ExceptionEnum.CLUB.NOT_FOUND_CLUB.toPair()) }
 
-		val clubMembers = clubMemberJpaRepository.findWithUserByClubIdAndUserIsNot(clubId, club.leader)
+		val clubMembers = clubMemberJdslRepository.findWithUserAndClubByClubIdAndUserIsNot(clubId, club.leader)
 
 		val thumbnailImageUrl = club.thumbnailImageKey?.let { fileUtil.generatePresignedUrl(it) }
 		val activityImageUrls = club.activityImageKeys.map { fileUtil.generatePresignedUrl(it) }
