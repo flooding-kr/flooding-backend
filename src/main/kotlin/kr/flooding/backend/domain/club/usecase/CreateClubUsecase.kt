@@ -49,7 +49,7 @@ class CreateClubUsecase(
 
 		// 동일 유형의 동아리 중 이미 참가한 동아리가 있는지
 		clubMemberJpaRepository
-			.existsByClub_TypeAndUser(createClubRequest.type, currentUser)
+			.existsByClubTypeAndUser(createClubRequest.type, currentUser)
 			.takeIf { it }
 			?.let {
 				throw HttpException(ExceptionEnum.CLUB.ALREADY_JOINED_CLUB.toPair())

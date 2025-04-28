@@ -9,8 +9,7 @@ import java.util.Optional
 import java.util.UUID
 
 interface ClubMemberJpaRepository : JpaRepository<ClubMember, UUID> {
-	@Suppress("ktlint:standard:function-naming")
-	fun existsByClub_TypeAndUser(
+	fun existsByClubTypeAndUser(
 		type: ClubType,
 		user: User,
 	): Boolean
@@ -24,21 +23,4 @@ interface ClubMemberJpaRepository : JpaRepository<ClubMember, UUID> {
 		clubId: UUID,
 		userId: UUID?,
 	): Boolean
-
-	@Query(
-		"""
-			SELECT cm
-			FROM ClubMember cm
-			JOIN FETCH cm.user
-			WHERE
-				cm.club.id = :clubId
-				AND cm.user != :user
-	""",
-	)
-	fun findWithUserByClubIdAndUserIsNot(
-		clubId: UUID,
-		user: User,
-	): List<ClubMember>
-
-	fun findByClubId(clubId: UUID): List<ClubMember>
 }

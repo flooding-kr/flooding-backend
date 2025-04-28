@@ -1,7 +1,7 @@
 package kr.flooding.backend.domain.attendance.usecase
 
-import kr.flooding.backend.domain.attendance.dto.response.FetchAttendanceResponse
-import kr.flooding.backend.domain.attendance.persistence.jpa.AttendanceJpaRepository
+import kr.flooding.backend.domain.attendance.dto.web.response.FetchAttendanceResponse
+import kr.flooding.backend.domain.attendance.persistence.repository.jpa.AttendanceJpaRepository
 import kr.flooding.backend.global.util.UserUtil
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -10,7 +10,7 @@ import kotlin.jvm.optionals.getOrNull
 
 @Service
 @Transactional
-class FetchAttendanceUsecase(
+class FetchMyselfAttendanceUsecase(
 	private val attendanceJpaRepository: AttendanceJpaRepository,
 	private val userUtil: UserUtil,
 ) {
