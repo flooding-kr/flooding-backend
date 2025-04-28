@@ -2,8 +2,10 @@ package kr.flooding.backend.domain.selfStudy.controller
 
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
+import kr.flooding.backend.domain.selfStudy.dto.response.SelfStudyStatusResponse
 import kr.flooding.backend.domain.selfStudy.usecase.CancelSelfStudyUsecase
 import kr.flooding.backend.domain.selfStudy.usecase.ReserveSelfStudyUsecase
+import kr.flooding.backend.domain.selfStudy.usecase.SelfStudyStatusUsecase
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.PostMapping
@@ -14,20 +16,28 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/self-study")
 class SelfStudyStudentController(
-	private val reserveSelfStudyUsecase: ReserveSelfStudyUsecase,
-	private val cancelSelfStudyUsecase: CancelSelfStudyUsecase,
+    private val reserveSelfStudyUsecase: ReserveSelfStudyUsecase,
+    private val cancelSelfStudyUsecase: CancelSelfStudyUsecase,
+    private val selfStudyStatusUsecase: SelfStudyStatusUsecase,
 ) {
-	@Operation(summary = "자습 신청")
-	@PostMapping
-	fun reserveSelfStudy(): ResponseEntity<Unit> =
-		reserveSelfStudyUsecase.execute().let {
-			ResponseEntity.ok().build()
-		}
+    @Operation(summary = "자습 신청")
+    @PostMapping
+    fun reserveSelfStudy(): ResponseEntity<Unit> =
+        reserveSelfStudyUsecase.execute().let {
+            ResponseEntity.ok().build()
+        }
 
-	@Operation(summary = "자습 취소")
-	@DeleteMapping
-	fun cancelSelfStudy(): ResponseEntity<Unit> =
-		cancelSelfStudyUsecase.execute().let {
-			ResponseEntity.ok().build()
-		}
+    @Operation(summary = "자습 취소")
+    @DeleteMapping
+    fun cancelSelfStudy(): ResponseEntity<Unit> =
+        cancelSelfStudyUsecase.execute().let {
+            ResponseEntity.ok().build()
+        }
+
+    @Operation(summary = "자습 현황 조회")
+    @PostMapping("/status")
+    fun getSelfStudyStatus(): ResponseEntity<SelfStudyStatusResponse> =
+        selfStudyStatusUsecase.execute().let {
+            ResponseEntity.ok(it)
+        }
 }
