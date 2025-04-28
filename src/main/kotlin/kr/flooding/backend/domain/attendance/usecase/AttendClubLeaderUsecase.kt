@@ -1,10 +1,11 @@
 package kr.flooding.backend.domain.attendance.usecase
 
-import kr.flooding.backend.domain.attendance.dto.request.AttendClubLeaderRequest
+import kr.flooding.backend.domain.attendance.dto.web.request.AttendClubLeaderRequest
 import kr.flooding.backend.domain.attendance.persistence.entity.Attendance
-import kr.flooding.backend.domain.attendance.persistence.jpa.AttendanceJpaRepository
+import kr.flooding.backend.domain.attendance.persistence.repository.jpa.AttendanceJpaRepository
 import kr.flooding.backend.domain.club.enums.ClubStatus
 import kr.flooding.backend.domain.club.persistence.repository.ClubRepository
+import kr.flooding.backend.domain.clubMember.persistence.repository.jdsl.ClubMemberJdslRepository
 import kr.flooding.backend.domain.clubMember.persistence.repository.jpa.ClubMemberJpaRepository
 import kr.flooding.backend.domain.period.persistence.repository.PeriodRepository
 import kr.flooding.backend.domain.user.persistence.repository.jpa.UserJpaRepository
@@ -24,7 +25,7 @@ class AttendClubLeaderUsecase(
 	private val clubRepository: ClubRepository,
 	private val attendanceJpaRepository: AttendanceJpaRepository,
 	private val userJpaRepository: UserJpaRepository,
-	private val clubMemberJpaRepository: ClubMemberJpaRepository,
+	private val clubMemberJdslRepository: ClubMemberJdslRepository,
 	private val periodRepository: PeriodRepository,
 ) {
 	fun execute(request: AttendClubLeaderRequest) {
@@ -53,7 +54,7 @@ class AttendClubLeaderUsecase(
 			throw HttpException(ExceptionEnum.ATTENDANCE.ATTENDANCE_OUT_OF_TIME_RANGE.toPair())
 		}
 
-		val clubMembers = clubMemberJpaRepository.findByClubId(request.clubId)
+		val clubMembers = clubMemberJdslRepository.findWithUserAndClubByClubId(request.clubId)
 		val clubMemberIds = clubMembers.map { it.user.id }.toSet()
 
 		val nonClubMembers = request.studentIds.filterNot { it in clubMemberIds }

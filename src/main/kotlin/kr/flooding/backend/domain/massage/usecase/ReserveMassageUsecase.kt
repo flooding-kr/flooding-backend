@@ -1,7 +1,7 @@
 package kr.flooding.backend.domain.massage.usecase
 
 import kr.flooding.backend.domain.massage.persistence.entity.MassageReservation
-import kr.flooding.backend.domain.massage.persistence.repository.jpa.MassageJpaRepository
+import kr.flooding.backend.domain.massage.persistence.repository.jpa.MassageRoomJpaRepository
 import kr.flooding.backend.domain.massage.persistence.repository.jpa.MassageReservationJpaRepository
 import kr.flooding.backend.global.exception.ExceptionEnum
 import kr.flooding.backend.global.exception.HttpException
@@ -18,7 +18,7 @@ import kotlin.jvm.optionals.getOrNull
 @Service
 @Transactional
 class ReserveMassageUsecase(
-	private val massageJpaRepository: MassageJpaRepository,
+	private val massageRoomJpaRepository: MassageRoomJpaRepository,
 	private val massageReservationJpaRepository: MassageReservationJpaRepository,
 	private val userUtil: UserUtil,
 ) {
@@ -53,7 +53,7 @@ class ReserveMassageUsecase(
 			}
 
 			val massage =
-				massageJpaRepository.findByIdIsNotNull().orElseThrow {
+				massageRoomJpaRepository.findByIdIsNotNull().orElseThrow {
 					HttpException(ExceptionEnum.MASSAGE.NOT_FOUND_MASSAGE_ROOM.toPair())
 				}
 

@@ -8,15 +8,17 @@ import java.util.Optional
 import java.util.UUID
 
 interface MusicJpaRepository : JpaRepository<Music, UUID> {
-	fun existsByProposerAndCreatedAtBetween(
-		proposer: User,
-		startTime: LocalDateTime,
-		endTime: LocalDateTime,
-	): Boolean
+    fun existsByProposerAndCreatedAtBetween(
+        proposer: User,
+        startTime: LocalDateTime,
+        endTime: LocalDateTime,
+    ): Boolean
 
-	fun findByProposerAndCreatedAtBetween(
-		proposer: User,
-		startTime: LocalDateTime,
-		endTime: LocalDateTime,
-	): Optional<Music>
+    fun findByProposerAndCreatedAtBetween(
+        proposer: User,
+        startTime: LocalDateTime,
+        endTime: LocalDateTime,
+    ): Optional<Music>
+
+    fun deleteAllByCreatedAtBefore(createdAt: LocalDateTime)
 }

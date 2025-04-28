@@ -2,7 +2,7 @@ package kr.flooding.backend.domain.homebase.usecase
 
 import jakarta.transaction.Transactional
 import kr.flooding.backend.domain.attendance.persistence.entity.Attendance
-import kr.flooding.backend.domain.attendance.persistence.jpa.AttendanceJpaRepository
+import kr.flooding.backend.domain.attendance.persistence.repository.jpa.AttendanceJpaRepository
 import kr.flooding.backend.domain.homebase.dto.web.request.ReserveHomebaseTableRequest
 import kr.flooding.backend.domain.homebase.persistence.entity.HomebaseGroup
 import kr.flooding.backend.domain.homebase.persistence.repository.jpa.HomebaseGroupRepository

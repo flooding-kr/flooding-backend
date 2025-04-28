@@ -1,4 +1,4 @@
-package kr.flooding.backend.domain.attendance.dto.request
+package kr.flooding.backend.domain.attendance.dto.web.request
 
 import jakarta.validation.constraints.NotBlank
 import java.util.UUID

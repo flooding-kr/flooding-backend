@@ -1,6 +1,6 @@
 package kr.flooding.backend.domain.homebase.usecase
 
-import kr.flooding.backend.domain.attendance.persistence.jpa.AttendanceJpaRepository
+import kr.flooding.backend.domain.attendance.persistence.repository.jpa.AttendanceJpaRepository
 import kr.flooding.backend.domain.homebase.persistence.repository.jpa.HomebaseGroupRepository
 import kr.flooding.backend.domain.homebaseParticipants.persistence.jpa.HomebaseParticipantRepository
 import kr.flooding.backend.global.exception.ExceptionEnum

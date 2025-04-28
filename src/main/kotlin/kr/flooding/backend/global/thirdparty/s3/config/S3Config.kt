@@ -1,7 +1,6 @@
-package kr.flooding.backend.global.thirdparty.s3
+package kr.flooding.backend.global.thirdparty.s3.config
 
 import kr.flooding.backend.global.properties.AwsProperties
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials
@@ -10,7 +9,7 @@ import software.amazon.awssdk.regions.Region
 import software.amazon.awssdk.services.s3.S3Client
 
 @Configuration
-class S3ClientConfig(
+class S3Config(
 	private val awsProperties: AwsProperties,
 ) {
 	@Bean

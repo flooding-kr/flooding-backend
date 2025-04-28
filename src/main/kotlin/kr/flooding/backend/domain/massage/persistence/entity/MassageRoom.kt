@@ -7,7 +7,7 @@ import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 
 @Entity
-class Massage(
+class MassageRoom(
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	val id: Long? = null,
