@@ -1,4 +1,12 @@
 package kr.flooding.backend.domain.massage.persistence.repository.jdsl
 
-class MassageReservationJdslRepository {
+import kr.flooding.backend.domain.massage.persistence.entity.MassageReservation
+import java.time.LocalDateTime
+
+interface MassageReservationJdslRepository {
+	fun findByCreatedAtBetweenAndIsCancelledAndOrderByCreatedAtDesc(
+		startDateTime: LocalDateTime,
+		endDateTime: LocalDateTime,
+		isCancelled: Boolean
+	): List<MassageReservation>
 }
