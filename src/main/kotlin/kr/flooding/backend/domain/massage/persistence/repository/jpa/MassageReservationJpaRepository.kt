@@ -6,6 +6,7 @@ import kr.flooding.backend.domain.user.persistence.entity.User
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Lock
 import org.springframework.data.jpa.repository.Query
+import java.time.LocalDateTime
 import java.util.Optional
 
 interface MassageReservationJpaRepository : JpaRepository<MassageReservation, Long> {
@@ -14,4 +15,6 @@ interface MassageReservationJpaRepository : JpaRepository<MassageReservation, Lo
 	@Lock(LockModeType.PESSIMISTIC_WRITE)
 	@Query("SELECT mr FROM MassageReservation mr WHERE mr.student = :student")
 	fun findByStudentWithPessimisticLock(student: User): Optional<MassageReservation>
+
+	fun findByCreatedAtBetween(startDateTime: LocalDateTime, endDateTime: LocalDateTime): List<MassageReservation>
 }
