@@ -14,7 +14,7 @@ class MassageReservationJdslRepositoryImpl (
 	private val context: JpqlRenderContext,
 	private val entityManager: EntityManager,
 ): MassageReservationJdslRepository {
-	override fun findByCreatedAtBetweenAndIsCancelledAndOrderByCreatedAtDesc(
+	override fun findByCreatedAtBetweenAndIsCancelledAndOrderByCreatedAtAsc(
 		startDateTime: LocalDateTime,
 		endDateTime: LocalDateTime,
 		isCancelled: Boolean
@@ -28,7 +28,7 @@ class MassageReservationJdslRepositoryImpl (
 				path(MassageReservation::createdAt).between(startDateTime, endDateTime),
 				path(MassageReservation::isCancelled).eq(isCancelled)
 			).orderBy(
-				path(MassageReservation::createdAt).desc()
+				path(MassageReservation::createdAt).asc()
 			)
 		}
 

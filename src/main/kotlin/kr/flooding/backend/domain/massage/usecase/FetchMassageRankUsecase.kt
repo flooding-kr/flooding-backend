@@ -15,7 +15,7 @@ class FetchMassageRankUsecase(
 	private val s3Adapter: S3Adapter,
 ) {
 	fun execute(): FetchMassageRankListResponse {
-		val reservations = massageReservationJdslRepository.findByCreatedAtBetweenAndIsCancelledAndOrderByCreatedAtDesc(
+		val reservations = massageReservationJdslRepository.findByCreatedAtBetweenAndIsCancelledAndOrderByCreatedAtAsc(
 			DateUtil.getAtStartOfToday(),
 			DateUtil.getAtEndOfToday(),
 			false
