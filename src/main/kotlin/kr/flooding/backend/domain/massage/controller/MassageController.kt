@@ -17,35 +17,34 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/massage")
 class MassageController(
-	private val reserveMassageUsecase: ReserveMassageUsecase,
-	private val cancelMassageUsecase: CancelMassageUsecase,
-	private val fetchMassageUsecase: FetchMassageUsecase
+    private val reserveMassageUsecase: ReserveMassageUsecase,
+    private val cancelMassageUsecase: CancelMassageUsecase,
+    private val fetchMassageUsecase: FetchMassageUsecase,
 ) {
-	@Operation(summary = "안마의자 신청")
-	@PostMapping
-	fun reserveMassage(): ResponseEntity<Unit> =
-		reserveMassageUsecase.execute().run {
-			ResponseEntity.ok().build()
-		}
+    @Operation(summary = "안마의자 신청")
+    @PostMapping
+    fun reserveMassage(): ResponseEntity<Unit> =
+        reserveMassageUsecase.execute().run {
+            ResponseEntity.ok().build()
+        }
 
-	@Operation(summary = "안마의자 취소")
-	@DeleteMapping
-	fun cancelMassage(): ResponseEntity<Unit> =
-		cancelMassageUsecase.execute().run {
-			ResponseEntity.ok().build()
-		}
+    @Operation(summary = "안마의자 취소")
+    @DeleteMapping
+    fun cancelMassage(): ResponseEntity<Unit> =
+        cancelMassageUsecase.execute().run {
+            ResponseEntity.ok().build()
+        }
 
-	@Operation(summary = "안마의자 인원 조회")
-	@GetMapping("/count")
-	fun fetchMassageCount(): ResponseEntity<FetchMassageResponse> {
-		return fetchMassageUsecase.execute().let {
-			ResponseEntity.ok(it)
-		}
-	}
+    @Operation(summary = "안마의자 인원 조회")
+    @GetMapping("/count")
+    fun fetchMassageCount(): ResponseEntity<FetchMassageResponse> =
+        fetchMassageUsecase.execute().let {
+            ResponseEntity.ok(it)
+        }
 
-//	@Operation(summary = "안마의자 순위 조회")
-//	@GetMapping("/rank")
-//	fun fetchMassageRank(): ResponseEntity<Unit> {
-//		// TODO
-//	}
+//    @Operation(summary = "안마의자 순위 조회")
+//    @GetMapping("/rank")
+//    fun fetchMassageRank(): ResponseEntity<Unit> {
+//        // TODO
+//    }
 }
