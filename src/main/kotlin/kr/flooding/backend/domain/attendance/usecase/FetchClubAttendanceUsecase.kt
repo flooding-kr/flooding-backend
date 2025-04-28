@@ -10,6 +10,7 @@ import kr.flooding.backend.domain.clubMember.persistence.repository.jdsl.ClubMem
 import kr.flooding.backend.global.exception.ExceptionEnum
 import kr.flooding.backend.global.exception.HttpException
 import kr.flooding.backend.global.exception.toPair
+import kr.flooding.backend.global.thirdparty.s3.adapter.S3Adapter
 import kr.flooding.backend.global.util.FileUtil
 import kr.flooding.backend.global.util.StudentUtil
 import kr.flooding.backend.global.util.UserUtil
@@ -21,8 +22,8 @@ import org.springframework.transaction.annotation.Transactional
 class FetchClubAttendanceUsecase(
 	private val attendanceJdslRepository: AttendanceJdslRepository,
 	private val clubMemberJdslRepository: ClubMemberJdslRepository,
-	private val fileUtil: FileUtil,
 	private val userUtil: UserUtil,
+	private val s3Adapter: S3Adapter
 ) {
 	fun execute(request: FetchClubAttendanceRequest
 	): FetchClubAttendanceListResponse {
@@ -54,7 +55,7 @@ class FetchClubAttendanceUsecase(
 			val studentInfo = requireNotNull(user.studentInfo)
 			val year = requireNotNull(studentInfo.year)
 			val profileImageUrl = user.profileImageKey?.let {
-				fileUtil.generatePresignedUrl(it)
+				s3Adapter.generatePresignedUrl(it)
 			}
 
 			FetchClubAttendanceResponse(
