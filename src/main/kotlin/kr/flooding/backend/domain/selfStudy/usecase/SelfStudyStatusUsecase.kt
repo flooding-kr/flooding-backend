@@ -19,6 +19,14 @@ class SelfStudyStatusUsecase(
                 HttpException(ExceptionEnum.SELF_STUDY.NOT_FOUND_SELF_STUDY_ROOM.toPair())
             }
 
+        if (selfStudyRoom.reservationCount >= selfStudyRoom.reservationLimit) {
+            return SelfStudyStatusResponse(
+                currentCount = selfStudyRoom.reservationCount,
+                limit = selfStudyRoom.reservationLimit,
+                isFull = true,
+            )
+        }
+
         return SelfStudyStatusResponse(
             currentCount = selfStudyRoom.reservationCount,
             limit = selfStudyRoom.reservationLimit,

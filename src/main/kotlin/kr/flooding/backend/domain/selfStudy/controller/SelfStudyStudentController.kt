@@ -46,10 +46,10 @@ class SelfStudyStudentController(
     @Operation(summary = "자습 신청자 조회")
     @GetMapping("/rank")
     fun getSelfStudyRank(
-        @RequestParam name: String?,
-        @RequestParam grade: Int?,
-        @RequestParam classroom: Int?,
-        @RequestParam gender: Gender?,
+        @RequestParam(required = false) name: String?,
+        @RequestParam(required = false) grade: Int?,
+        @RequestParam(required = false) classroom: Int?,
+        @RequestParam(required = false) gender: Gender?,
     ): ResponseEntity<FetchSelfStudyListResponse> =
         fetchSelfStudyStudentUsecase
             .execute(

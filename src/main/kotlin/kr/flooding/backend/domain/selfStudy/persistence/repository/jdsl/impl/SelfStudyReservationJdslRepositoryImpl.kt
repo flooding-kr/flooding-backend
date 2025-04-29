@@ -17,7 +17,7 @@ class SelfStudyReservationJdslRepositoryImpl(
     private val context: JpqlRenderContext,
     private val entityManager: EntityManager,
 ) : SelfStudyReservationJdslRepository {
-    override fun findByCreatedByBetweenAndGradeAndClassroomAndGenderAndNameLikes(
+    override fun findByCreatedByBetweenAndGradeAndClassroomAndGenderAndNameLikesAndIsCancelledFalse(
         createdAtBefore: LocalDateTime,
         createdAtAfter: LocalDateTime,
         year: Int?,
@@ -35,12 +35,13 @@ class SelfStudyReservationJdslRepositoryImpl(
                     fetchJoin(User::studentInfo),
                 ).whereAnd(
                     path(SelfStudyReservation::createdAt).between(createdAtBefore, createdAtAfter),
+                    path(SelfStudyReservation::isCancelled).eq(false),
                     year?.let { path(StudentInfo::year).eq(it) },
                     classroom?.let { path(StudentInfo::classroom).eq(it) },
                     gender?.let { path(User::gender).eq(it) },
                     name?.let { path(User::name).like("%$it%") },
                 ).orderBy(
-                    path(SelfStudyReservation::createdAt).desc(),
+                    path(SelfStudyReservation::createdAt).asc(),
                 )
             }
 
