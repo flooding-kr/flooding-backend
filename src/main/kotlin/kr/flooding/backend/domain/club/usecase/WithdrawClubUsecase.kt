@@ -26,6 +26,10 @@ class WithdrawClubUsecase(
 				throw HttpException(ExceptionEnum.CLUB.NOT_FOUND_CLUB.toPair())
 			}
 
+		if(user == club.leader){
+			throw HttpException(ExceptionEnum.CLUB.LEADER_CANNOT_WITHDRAW.toPair())
+		}
+
 		val clubMember =
 			clubMemberJpaRepository
 				.findByClubIdAndUserId(clubId, userId)
