@@ -69,10 +69,8 @@ class SecurityConfig(
                     .hasAuthority(ROLE_STUDENT)
                     .requestMatchers(HttpMethod.PATCH, "/admin/self-study/limit")
                     .hasAuthority(ROLE_DORMITORY_ADMIN)
-                    .requestMatchers(HttpMethod.GET, "/self-study/status")
-                    .hasAuthority(ROLE_USER)
-                    .requestMatchers(HttpMethod.GET, "/self-study/rank")
-                    .hasAuthority(ROLE_USER)
+                    .requestMatchers(HttpMethod.GET, "/self-study/status").hasAuthority(ROLE_USER)
+                    .requestMatchers(HttpMethod.GET, "/self-study/rank").hasAuthority(ROLE_USER)
                 it // Club
                     .requestMatchers(HttpMethod.GET, "/club")
                     .hasAuthority(ROLE_USER)
