@@ -34,12 +34,8 @@ class FetchSelfStudyStudentUsecase(
                 ).map {
                     val studentInfo = requireNotNull(it.student.studentInfo) { "학생 정보가 없습니다." }
 
-                    val year = requireNotNull(studentInfo.year)
-                    val classroom = requireNotNull(studentInfo.classroom)
-                    val number = requireNotNull(studentInfo.number)
-
                     FetchSelfStudyResponse(
-                        studentNumber = StudentUtil.calcStudentNumber(year, classroom, number),
+                        studentNumber = studentInfo.toSchoolNumber(),
                         name = it.student.name,
                         profileImageUrl =
                             it.student.profileImageKey?.let {
