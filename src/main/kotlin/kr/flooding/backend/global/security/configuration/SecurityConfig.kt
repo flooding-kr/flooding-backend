@@ -14,19 +14,19 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 class SecurityConfig(
-	private val jwtProvider: JwtProvider,
+    private val jwtProvider: JwtProvider,
 ) {
-	companion object {
-		private val ROLE_USER = RoleType.ROLE_USER.name
-		private val ROLE_STUDENT = RoleType.ROLE_STUDENT.name
-		private val ROLE_TEACHER = RoleType.ROLE_TEACHER.name
-		private val ROLE_USER_ADMIN = RoleType.ROLE_USER_ADMIN.name
-		private val ROLE_DORMITORY_ADMIN = RoleType.ROLE_DORMITORY_ADMIN.name
-	}
+    companion object {
+        private val ROLE_USER = RoleType.ROLE_USER.name
+        private val ROLE_STUDENT = RoleType.ROLE_STUDENT.name
+        private val ROLE_TEACHER = RoleType.ROLE_TEACHER.name
+        private val ROLE_USER_ADMIN = RoleType.ROLE_USER_ADMIN.name
+        private val ROLE_DORMITORY_ADMIN = RoleType.ROLE_DORMITORY_ADMIN.name
+    }
 
-	@Bean
-	fun securityFilterChain(http: HttpSecurity): SecurityFilterChain {
-		val jwtFilter = JwtFilter(jwtProvider)
+    @Bean
+    fun securityFilterChain(http: HttpSecurity): SecurityFilterChain {
+        val jwtFilter = JwtFilter(jwtProvider)
 
 		return http.authorizeHttpRequests {
 			it // Neis
@@ -52,6 +52,8 @@ class SecurityConfig(
 				.requestMatchers(HttpMethod.POST, "/self-study").hasAuthority(ROLE_STUDENT)
 				.requestMatchers(HttpMethod.DELETE, "/self-study").hasAuthority(ROLE_STUDENT)
 				.requestMatchers(HttpMethod.PATCH, "/admin/self-study/limit").hasAuthority(ROLE_DORMITORY_ADMIN)
+				.requestMatchers(HttpMethod.GET, "/self-study/status").hasAuthority(ROLE_USER)
+				.requestMatchers(HttpMethod.GET, "/self-study/rank").hasAuthority(ROLE_USER)
 
 			it // Club
 				.requestMatchers(HttpMethod.GET, "/club").hasAuthority(ROLE_USER)

@@ -24,19 +24,19 @@ class MassageController(
 	private val fetchMassageUsecase: FetchMassageUsecase,
 	private val fetchMassageRankUsecase: FetchMassageRankUsecase
 ) {
-	@Operation(summary = "안마의자 신청")
-	@PostMapping
-	fun reserveMassage(): ResponseEntity<Unit> =
-		reserveMassageUsecase.execute().run {
-			ResponseEntity.ok().build()
-		}
+    @Operation(summary = "안마의자 신청")
+    @PostMapping
+    fun reserveMassage(): ResponseEntity<Unit> =
+        reserveMassageUsecase.execute().run {
+            ResponseEntity.ok().build()
+        }
 
-	@Operation(summary = "안마의자 취소")
-	@DeleteMapping
-	fun cancelMassage(): ResponseEntity<Unit> =
-		cancelMassageUsecase.execute().run {
-			ResponseEntity.ok().build()
-		}
+    @Operation(summary = "안마의자 취소")
+    @DeleteMapping
+    fun cancelMassage(): ResponseEntity<Unit> =
+        cancelMassageUsecase.execute().run {
+            ResponseEntity.ok().build()
+        }
 
 	@Operation(summary = "안마의자 인원 조회")
 	@GetMapping("/status")
