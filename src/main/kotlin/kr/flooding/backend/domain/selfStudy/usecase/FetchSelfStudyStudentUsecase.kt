@@ -4,8 +4,6 @@ import kr.flooding.backend.domain.selfStudy.dto.request.FetchSelfStudyRequest
 import kr.flooding.backend.domain.selfStudy.dto.response.FetchSelfStudyListResponse
 import kr.flooding.backend.domain.selfStudy.dto.response.FetchSelfStudyResponse
 import kr.flooding.backend.domain.selfStudy.persistence.repository.jdsl.SelfStudyReservationJdslRepository
-import kr.flooding.backend.domain.selfStudy.persistence.repository.jpa.SelfStudyReservationJpaRepository
-import kr.flooding.backend.domain.selfStudy.persistence.repository.jpa.SelfStudyRoomJpaRepository
 import kr.flooding.backend.global.thirdparty.s3.adapter.S3Adapter
 import kr.flooding.backend.global.util.DateUtil
 import kr.flooding.backend.global.util.StudentUtil
@@ -16,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional
 @Transactional(readOnly = true)
 class FetchSelfStudyStudentUsecase(
     private val selfStudyReservationJdslRepository: SelfStudyReservationJdslRepository,
-    private val s3Adpter: S3Adapter,
+    private val s3Adapter: S3Adapter,
 ) {
     fun execute(request: FetchSelfStudyRequest): FetchSelfStudyListResponse {
 
@@ -39,7 +37,7 @@ class FetchSelfStudyStudentUsecase(
                         name = it.student.name,
                         profileImageUrl =
                             it.student.profileImageKey?.let {
-                                s3Adpter.generatePresignedUrl(it)
+                                s3Adapter.generatePresignedUrl(it)
                             },
                     )
                 }
