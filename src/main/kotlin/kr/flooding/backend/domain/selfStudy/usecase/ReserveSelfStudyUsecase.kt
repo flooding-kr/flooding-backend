@@ -1,5 +1,6 @@
 package kr.flooding.backend.domain.selfStudy.usecase
 
+import kr.flooding.backend.domain.selfStudy.persistence.repository.jpa.SelfStudySuspensionJpaRepository
 import kr.flooding.backend.domain.selfStudy.usecase.helper.ReserveSelfStudyRetryHelper
 import kr.flooding.backend.global.exception.ExceptionEnum
 import kr.flooding.backend.global.exception.HttpException
@@ -15,10 +16,16 @@ import java.time.LocalTime
 @Transactional
 class ReserveSelfStudyUsecase(
 	private val userUtil: UserUtil,
-	private val reserveSelfStudyRetryHelper: ReserveSelfStudyRetryHelper,
+	private val selfStudySuspensionJpaRepository: SelfStudySuspensionJpaRepository,
+	private val reserveSelfStudyRetryHelper: ReserveSelfStudyRetryHelper
 ) {
 	fun execute() {
 		val currentUser = userUtil.getUser()
+
+		if (selfStudySuspensionJpaRepository.existsByStudent(currentUser)) {
+			throw HttpException(ExceptionEnum.SELF_STUDY.ALREADY_SUSPENDED_SELF_STUDY.toPair())
+		}
+
 		val currentDate = LocalDate.now()
 		val currentTime = LocalTime.now()
 
