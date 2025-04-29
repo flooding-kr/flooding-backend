@@ -17,7 +17,7 @@ class SelfStudyReservationJdslRepositoryImpl(
     private val context: JpqlRenderContext,
     private val entityManager: EntityManager,
 ) : SelfStudyReservationJdslRepository {
-    override fun findByCreatedByBetweenAndGradeAndClassroomAndGenderAndNameLikesAndIsCancelledFalse(
+    override fun findByCreatedByBetweenAndYearAndClassroomAndGenderAndNameLikesAndIsCancelledFalse(
         createdAtBefore: LocalDateTime,
         createdAtAfter: LocalDateTime,
         year: Int?,

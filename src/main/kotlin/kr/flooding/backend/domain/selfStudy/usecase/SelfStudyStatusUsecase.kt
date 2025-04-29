@@ -25,7 +25,7 @@ class SelfStudyStatusUsecase(
         val currentDate = LocalDate.now()
         val currentTime = LocalTime.now()
 
-        val startTime = LocalTime.of(20, 20)
+        val startTime = LocalTime.of(20, 0)
         val endTime = LocalTime.of(21, 0)
 
         val isAvailableTime = currentTime.isAfter(startTime) && currentTime.isBefore(endTime)

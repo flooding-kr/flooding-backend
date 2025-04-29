@@ -5,7 +5,7 @@ import kr.flooding.backend.domain.user.enums.Gender
 import java.time.LocalDateTime
 
 interface SelfStudyReservationJdslRepository {
-    fun findByCreatedByBetweenAndGradeAndClassroomAndGenderAndNameLikesAndIsCancelledFalse(
+    fun findByCreatedByBetweenAndYearAndClassroomAndGenderAndNameLikesAndIsCancelledFalse(
         createdAtBefore: LocalDateTime,
         createdAtAfter: LocalDateTime,
         year: Int?,
