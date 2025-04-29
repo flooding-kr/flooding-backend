@@ -1,6 +1,5 @@
 package kr.flooding.backend.domain.selfStudy.usecase
 
-import kr.flooding.backend.domain.massage.enums.MassageStatus
 import kr.flooding.backend.domain.selfStudy.dto.response.SelfStudyStatusResponse
 import kr.flooding.backend.domain.selfStudy.persistence.repository.jpa.SelfStudyRoomJpaRepository
 import kr.flooding.backend.global.exception.ExceptionEnum
@@ -35,20 +34,15 @@ class SelfStudyStatusUsecase(
                 currentDate.dayOfWeek != DayOfWeek.SATURDAY &&
                 currentDate.dayOfWeek != DayOfWeek.SUNDAY
 
-        val status =
-            if (isAvailableTime &&
+        val isAvailable =
+            isAvailableTime &&
                 isAvailableDate &&
                 selfStudyRoom.reservationCount < selfStudyRoom.reservationLimit
-            ) {
-                MassageStatus.AVAILABLE
-            } else {
-                MassageStatus.UNAVAILABLE
-            }
 
         return SelfStudyStatusResponse(
             currentCount = selfStudyRoom.reservationCount,
             limit = selfStudyRoom.reservationLimit,
-            status = selfStudyRoom.reservationCount >= selfStudyRoom.reservationLimit,
+            isAvailable = isAvailable,
         )
     }
 }
