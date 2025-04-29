@@ -1,7 +1,6 @@
 package kr.flooding.backend.domain.massage.usecase
 
 import kr.flooding.backend.domain.massage.dto.response.FetchMassageResponse
-import kr.flooding.backend.domain.massage.enums.MassageStatus
 import kr.flooding.backend.domain.massage.persistence.repository.jpa.MassageRoomJpaRepository
 import kr.flooding.backend.global.exception.ExceptionEnum
 import kr.flooding.backend.global.exception.HttpException
