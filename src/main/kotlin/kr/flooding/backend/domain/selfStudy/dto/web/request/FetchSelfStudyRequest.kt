@@ -1,4 +1,4 @@
-package kr.flooding.backend.domain.selfStudy.dto.request
+package kr.flooding.backend.domain.selfStudy.dto.web.request
 
 import kr.flooding.backend.domain.user.enums.Gender
 
