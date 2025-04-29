@@ -39,10 +39,9 @@ class ClubMemberJdslRepositoryImpl(
 					entity(ClubMember::class),
 					fetchJoin(ClubMember::user),
 					fetchJoin(ClubMember::club),
-				).where(
-					path(Club::id).eq(clubId).and(
-						path(ClubMember::user).eq(user)
-					)
+				).whereAnd(
+					path(Club::id).eq(clubId),
+					path(ClubMember::user).notEqual(user)
 				)
 			}
 
