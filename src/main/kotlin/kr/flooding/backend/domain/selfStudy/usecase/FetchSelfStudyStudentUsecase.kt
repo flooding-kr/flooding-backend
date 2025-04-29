@@ -4,6 +4,7 @@ import kr.flooding.backend.domain.selfStudy.dto.request.FetchSelfStudyRequest
 import kr.flooding.backend.domain.selfStudy.dto.response.FetchSelfStudyListResponse
 import kr.flooding.backend.domain.selfStudy.dto.response.FetchSelfStudyResponse
 import kr.flooding.backend.domain.selfStudy.persistence.repository.jpa.SelfStudyReservationJpaRepository
+import kr.flooding.backend.domain.selfStudy.persistence.repository.jpa.SelfStudyRoomJpaRepository
 import kr.flooding.backend.global.thirdparty.s3.adapter.S3Adapter
 import kr.flooding.backend.global.util.DateUtil
 import kr.flooding.backend.global.util.StudentUtil
@@ -13,12 +14,13 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 @Transactional(readOnly = true)
 class FetchSelfStudyStudentUsecase(
-    private val selfStudyReservationjpaRepository: SelfStudyReservationJpaRepository,
+    private val selfStudyReservationJpaRepository: SelfStudyReservationJpaRepository,
+    private val selfStudyRoomJpaRepository: SelfStudyRoomJpaRepository,
     private val s3Adpter: S3Adapter,
 ) {
     fun execute(request: FetchSelfStudyRequest): FetchSelfStudyListResponse {
         val reservations =
-            selfStudyReservationjpaRepository
+            selfStudyReservationJpaRepository
                 .findByCreatedAtBetween(
                     createdAtBefore = DateUtil.getAtStartOfToday(),
                     createdAtAfter = DateUtil.getAtEndOfToday(),
