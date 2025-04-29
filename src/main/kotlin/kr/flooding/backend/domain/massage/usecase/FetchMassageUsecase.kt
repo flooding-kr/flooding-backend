@@ -34,16 +34,13 @@ class FetchMassageUsecase(
 			currentDate.dayOfWeek != DayOfWeek.SATURDAY &&
 			currentDate.dayOfWeek != DayOfWeek.SUNDAY
 
-		val status =
-			if(isAvailableTime && isAvailableDate &&
-				massageRoom.reservationCount < massageRoom.reservationLimit) MassageStatus.AVAILABLE
-			else MassageStatus.UNAVAILABLE
-
+		val isAvailable = isAvailableTime && isAvailableDate &&
+			massageRoom.reservationCount < massageRoom.reservationLimit
 
 		return FetchMassageResponse(
 			count = massageRoom.reservationCount,
 			limit = massageRoom.reservationLimit,
-			status = status
+			isAvailable = isAvailable,
 		)
 	}
 }
