@@ -2,8 +2,10 @@ package kr.flooding.backend.domain.massage.controller
 
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
+import kr.flooding.backend.domain.massage.dto.response.FetchMassageRankListResponse
 import kr.flooding.backend.domain.massage.dto.response.FetchMassageResponse
 import kr.flooding.backend.domain.massage.usecase.CancelMassageUsecase
+import kr.flooding.backend.domain.massage.usecase.FetchMassageRankUsecase
 import kr.flooding.backend.domain.massage.usecase.FetchMassageUsecase
 import kr.flooding.backend.domain.massage.usecase.ReserveMassageUsecase
 import org.springframework.http.ResponseEntity
@@ -17,9 +19,10 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/massage")
 class MassageController(
-    private val reserveMassageUsecase: ReserveMassageUsecase,
-    private val cancelMassageUsecase: CancelMassageUsecase,
-    private val fetchMassageUsecase: FetchMassageUsecase,
+	private val reserveMassageUsecase: ReserveMassageUsecase,
+	private val cancelMassageUsecase: CancelMassageUsecase,
+	private val fetchMassageUsecase: FetchMassageUsecase,
+	private val fetchMassageRankUsecase: FetchMassageRankUsecase
 ) {
     @Operation(summary = "안마의자 신청")
     @PostMapping
@@ -35,16 +38,19 @@ class MassageController(
             ResponseEntity.ok().build()
         }
 
-    @Operation(summary = "안마의자 인원 조회")
-    @GetMapping("/count")
-    fun fetchMassageCount(): ResponseEntity<FetchMassageResponse> =
-        fetchMassageUsecase.execute().let {
-            ResponseEntity.ok(it)
-        }
+	@Operation(summary = "안마의자 인원 조회")
+	@GetMapping("/status")
+	fun fetchMassageCount(): ResponseEntity<FetchMassageResponse> {
+		return fetchMassageUsecase.execute().let {
+			ResponseEntity.ok(it)
+		}
+	}
 
-//    @Operation(summary = "안마의자 순위 조회")
-//    @GetMapping("/rank")
-//    fun fetchMassageRank(): ResponseEntity<Unit> {
-//        // TODO
-//    }
+	@Operation(summary = "안마의자 순위 조회")
+	@GetMapping("/rank")
+	fun fetchMassageRank(): ResponseEntity<FetchMassageRankListResponse> {
+		return fetchMassageRankUsecase.execute().let {
+			ResponseEntity.ok(it)
+		}
+	}
 }
