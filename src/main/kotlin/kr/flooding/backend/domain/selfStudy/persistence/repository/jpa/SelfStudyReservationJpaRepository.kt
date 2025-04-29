@@ -7,8 +7,9 @@ import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Lock
 import java.time.LocalDateTime
 import java.util.Optional
+import java.util.UUID
 
-interface SelfStudyReservationJpaRepository : JpaRepository<SelfStudyReservation, Long> {
+interface SelfStudyReservationJpaRepository : JpaRepository<SelfStudyReservation, UUID> {
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     fun findByStudentAndCreatedAtBetween(
         student: User,
