@@ -35,8 +35,8 @@ class SecurityConfig(
 			it // User
 				.requestMatchers(HttpMethod.GET, "/user/student/search").hasAuthority(ROLE_USER)
 				.requestMatchers(HttpMethod.GET, "/user/teacher/search").hasAuthority(ROLE_USER)
-				.requestMatchers(HttpMethod.GET, "/user").hasAuthority(ROLE_USER)
-				.requestMatchers(HttpMethod.PATCH, "/user/profile").hasAuthority(ROLE_USER)
+				.requestMatchers(HttpMethod.GET, "/user/myself").hasAuthority(ROLE_USER)
+				.requestMatchers(HttpMethod.PATCH, "/user/myself").hasAuthority(ROLE_USER)
 				.requestMatchers(HttpMethod.DELETE, "/user/withdraw").hasAuthority(ROLE_USER)
 				.requestMatchers(HttpMethod.GET, "/admin/user/pending").hasAuthority(ROLE_USER_ADMIN)
 				.requestMatchers(HttpMethod.PATCH, "/admin/user/{userId}/approve").hasAuthority(ROLE_USER_ADMIN)
