@@ -1,7 +1,6 @@
 package kr.flooding.backend.domain.massage.usecase
 
 import kr.flooding.backend.domain.massage.dto.response.FetchMassageResponse
-import kr.flooding.backend.domain.massage.enums.MassageStatus
 import kr.flooding.backend.domain.massage.persistence.repository.jpa.MassageRoomJpaRepository
 import kr.flooding.backend.global.exception.ExceptionEnum
 import kr.flooding.backend.global.exception.HttpException
@@ -34,16 +33,13 @@ class FetchMassageUsecase(
 			currentDate.dayOfWeek != DayOfWeek.SATURDAY &&
 			currentDate.dayOfWeek != DayOfWeek.SUNDAY
 
-		val status =
-			if(isAvailableTime && isAvailableDate &&
-				massageRoom.reservationCount < massageRoom.reservationLimit) MassageStatus.AVAILABLE
-			else MassageStatus.UNAVAILABLE
-
+		val isAvailable = isAvailableTime && isAvailableDate &&
+			massageRoom.reservationCount < massageRoom.reservationLimit
 
 		return FetchMassageResponse(
 			count = massageRoom.reservationCount,
 			limit = massageRoom.reservationLimit,
-			status = status
+			isAvailable = isAvailable,
 		)
 	}
 }
