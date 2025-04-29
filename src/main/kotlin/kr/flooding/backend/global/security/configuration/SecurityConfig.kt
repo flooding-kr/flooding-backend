@@ -14,19 +14,19 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 class SecurityConfig(
-	private val jwtProvider: JwtProvider,
+    private val jwtProvider: JwtProvider,
 ) {
-	companion object {
-		private val ROLE_USER = RoleType.ROLE_USER.name
-		private val ROLE_STUDENT = RoleType.ROLE_STUDENT.name
-		private val ROLE_TEACHER = RoleType.ROLE_TEACHER.name
-		private val ROLE_USER_ADMIN = RoleType.ROLE_USER_ADMIN.name
-		private val ROLE_DORMITORY_ADMIN = RoleType.ROLE_DORMITORY_ADMIN.name
-	}
+    companion object {
+        private val ROLE_USER = RoleType.ROLE_USER.name
+        private val ROLE_STUDENT = RoleType.ROLE_STUDENT.name
+        private val ROLE_TEACHER = RoleType.ROLE_TEACHER.name
+        private val ROLE_USER_ADMIN = RoleType.ROLE_USER_ADMIN.name
+        private val ROLE_DORMITORY_ADMIN = RoleType.ROLE_DORMITORY_ADMIN.name
+    }
 
-	@Bean
-	fun securityFilterChain(http: HttpSecurity): SecurityFilterChain {
-		val jwtFilter = JwtFilter(jwtProvider)
+    @Bean
+    fun securityFilterChain(http: HttpSecurity): SecurityFilterChain {
+        val jwtFilter = JwtFilter(jwtProvider)
 
 		return http.authorizeHttpRequests {
 			it // Neis
@@ -35,8 +35,8 @@ class SecurityConfig(
 			it // User
 				.requestMatchers(HttpMethod.GET, "/user/student/search").hasAuthority(ROLE_USER)
 				.requestMatchers(HttpMethod.GET, "/user/teacher/search").hasAuthority(ROLE_USER)
-				.requestMatchers(HttpMethod.GET, "/user").hasAuthority(ROLE_USER)
-				.requestMatchers(HttpMethod.PATCH, "/user/profile").hasAuthority(ROLE_USER)
+				.requestMatchers(HttpMethod.GET, "/user/myself").hasAuthority(ROLE_USER)
+				.requestMatchers(HttpMethod.PATCH, "/user/myself").hasAuthority(ROLE_USER)
 				.requestMatchers(HttpMethod.DELETE, "/user/withdraw").hasAuthority(ROLE_USER)
 				.requestMatchers(HttpMethod.GET, "/admin/user/pending").hasAuthority(ROLE_USER_ADMIN)
 				.requestMatchers(HttpMethod.PATCH, "/admin/user/{userId}/approve").hasAuthority(ROLE_USER_ADMIN)
@@ -52,6 +52,8 @@ class SecurityConfig(
 				.requestMatchers(HttpMethod.POST, "/self-study").hasAuthority(ROLE_STUDENT)
 				.requestMatchers(HttpMethod.DELETE, "/self-study").hasAuthority(ROLE_STUDENT)
 				.requestMatchers(HttpMethod.PATCH, "/admin/self-study/limit").hasAuthority(ROLE_DORMITORY_ADMIN)
+				.requestMatchers(HttpMethod.GET, "/self-study/status").hasAuthority(ROLE_USER)
+				.requestMatchers(HttpMethod.GET, "/self-study/rank").hasAuthority(ROLE_USER)
 
 			it // Club
 				.requestMatchers(HttpMethod.GET, "/club").hasAuthority(ROLE_USER)
@@ -90,8 +92,8 @@ class SecurityConfig(
 			it // Massage
 				.requestMatchers(HttpMethod.POST, "/massage").hasAuthority(ROLE_STUDENT)
 				.requestMatchers(HttpMethod.DELETE, "/massage").hasAuthority(ROLE_STUDENT)
-        .requestMatchers(HttpMethod.GET, "/massage/count").hasAuthority(ROLE_USER)
-        .requestMatchers(HttpMethod.GET, "/massage/rank").hasAuthority(ROLE_USER)
+        		.requestMatchers(HttpMethod.GET, "/massage/status").hasAuthority(ROLE_USER)
+        		.requestMatchers(HttpMethod.GET, "/massage/rank").hasAuthority(ROLE_USER)
 				.requestMatchers(HttpMethod.PATCH, "/admin/massage/limit").hasAuthority(ROLE_DORMITORY_ADMIN)
 
 			it // File

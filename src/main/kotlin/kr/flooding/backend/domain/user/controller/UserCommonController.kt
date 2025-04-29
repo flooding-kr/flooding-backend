@@ -5,14 +5,10 @@ import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.Valid
 import kr.flooding.backend.domain.user.dto.web.request.UpdateProfileRequest
 import kr.flooding.backend.domain.user.dto.web.request.WithdrawRequest
-import kr.flooding.backend.domain.user.dto.web.response.FetchUserInfoResponse
+import kr.flooding.backend.domain.user.dto.web.response.FetchUserMyselfResponse
 import kr.flooding.backend.domain.user.dto.web.response.SearchStudentListResponse
 import kr.flooding.backend.domain.user.dto.web.response.SearchTeacherListResponse
-import kr.flooding.backend.domain.user.usecase.common.FetchUserUsecase
-import kr.flooding.backend.domain.user.usecase.common.SearchStudentUsecase
-import kr.flooding.backend.domain.user.usecase.common.SearchTeacherUsecase
-import kr.flooding.backend.domain.user.usecase.common.UpdateProfileImageUsecase
-import kr.flooding.backend.domain.user.usecase.common.WithdrawUsecase
+import kr.flooding.backend.domain.user.usecase.common.*
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
@@ -26,21 +22,21 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/user")
 class UserCommonController(
-	private val fetchUserUsecase: FetchUserUsecase,
+	private val fetchUserMyselfUsecase: FetchUserMyselfUsecase,
 	private val withdrawUsecase: WithdrawUsecase,
 	private val updateProfileImageUsecase: UpdateProfileImageUsecase,
 	private val searchStudentUsecase: SearchStudentUsecase,
 	private val searchTeacherUsecase: SearchTeacherUsecase,
 ) {
 	@Operation(summary = "나의 정보 조회")
-	@GetMapping
-	fun getUserInfo(): ResponseEntity<FetchUserInfoResponse> =
-		fetchUserUsecase.execute().let {
+	@GetMapping("/myself")
+	fun getUserInfo(): ResponseEntity<FetchUserMyselfResponse> =
+		fetchUserMyselfUsecase.execute().let {
 			ResponseEntity.ok(it)
 		}
 
 	@Operation(summary = "회원 탈퇴")
-	@DeleteMapping("withdraw")
+	@DeleteMapping("/withdraw")
 	fun withdraw(
 		@RequestBody withdrawRequest: WithdrawRequest,
 	): ResponseEntity<Unit> =
@@ -49,7 +45,7 @@ class UserCommonController(
 		}
 
 	@Operation(summary = "나의 정보 수정")
-	@PatchMapping("profile")
+	@PatchMapping("/myself")
 	fun updateProfileImage(
 		@RequestBody @Valid updateProfileRequest: UpdateProfileRequest,
 	): ResponseEntity<Unit> =
@@ -58,7 +54,7 @@ class UserCommonController(
 		}
 
 	@Operation(summary = "학생 검색")
-	@GetMapping("student/search")
+	@GetMapping("/student/search")
 	fun searchStudent(
 		@RequestParam("name", required = false, defaultValue = "") name: String,
 	): ResponseEntity<SearchStudentListResponse> =
@@ -67,7 +63,7 @@ class UserCommonController(
 		}
 
 	@Operation(summary = "선생님 검색")
-	@GetMapping("teacher/search")
+	@GetMapping("/teacher/search")
 	fun searchTeacher(
 		@RequestParam("name", required = false, defaultValue = "") name: String,
 	): ResponseEntity<SearchTeacherListResponse> =

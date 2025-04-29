@@ -2,13 +2,13 @@ package kr.flooding.backend.domain.user.usecase.admin
 
 import kr.flooding.backend.domain.user.dto.common.response.StudentInfoResponse
 import kr.flooding.backend.domain.user.dto.web.response.FetchPendingUserListResponse
-import kr.flooding.backend.domain.user.dto.web.response.FetchUserInfoResponse
+import kr.flooding.backend.domain.user.dto.common.response.PendingUserResponse
+import kr.flooding.backend.domain.user.dto.common.response.TeacherInfoResponse
 import kr.flooding.backend.domain.user.enums.UserState
 import kr.flooding.backend.domain.user.persistence.repository.jpa.UserJpaRepository
 import kr.flooding.backend.global.thirdparty.s3.adapter.S3Adapter
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import java.util.UUID
 
 @Service
 @Transactional
@@ -24,13 +24,21 @@ class FetchPendingUserListUsecase(
 					s3Adapter.generatePresignedUrl(key)
 				}
 
-				FetchUserInfoResponse(
+				val studentInfoResponse = it.studentInfo?.let {
+					StudentInfoResponse.toDto(it)
+				}
+
+				val teacherInfoResponse = it.teacherInfo?.let {
+					TeacherInfoResponse(it.department)
+				}
+
+				PendingUserResponse(
 					id = requireNotNull(it.id),
 					email = it.email,
 					name = it.name,
-					gender = it.gender,
-					studentInfo = it.studentInfo?.let { studentInfo -> StudentInfoResponse.toDto(studentInfo) },
 					profileImageUrl = profileImageUrl,
+					studentInfoResponse = studentInfoResponse,
+					teacherInfoResponse = teacherInfoResponse,
 				)
 			}
 		)
