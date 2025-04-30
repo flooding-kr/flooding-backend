@@ -1,6 +1,6 @@
 package kr.flooding.backend.domain.selfStudy.usecase
 
-import kr.flooding.backend.domain.selfStudy.dto.request.ChangeSelfStudyLimitRequest
+import kr.flooding.backend.domain.selfStudy.dto.web.request.ChangeSelfStudyLimitRequest
 import kr.flooding.backend.domain.selfStudy.persistence.repository.jpa.SelfStudyRoomJpaRepository
 import kr.flooding.backend.domain.selfStudy.usecase.helper.ChangeSelfStudyLimitRetryHelper
 import kr.flooding.backend.global.exception.ExceptionEnum

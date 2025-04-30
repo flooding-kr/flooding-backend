@@ -2,9 +2,9 @@ package kr.flooding.backend.domain.selfStudy.controller
 
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
-import kr.flooding.backend.domain.selfStudy.dto.request.FetchSelfStudyRequest
-import kr.flooding.backend.domain.selfStudy.dto.response.FetchSelfStudyListResponse
-import kr.flooding.backend.domain.selfStudy.dto.response.SelfStudyStatusResponse
+import kr.flooding.backend.domain.selfStudy.dto.web.request.FetchSelfStudyRequest
+import kr.flooding.backend.domain.selfStudy.dto.web.response.FetchSelfStudyListResponse
+import kr.flooding.backend.domain.selfStudy.dto.web.response.SelfStudyStatusResponse
 import kr.flooding.backend.domain.selfStudy.usecase.CancelSelfStudyUsecase
 import kr.flooding.backend.domain.selfStudy.usecase.FetchSelfStudyStudentUsecase
 import kr.flooding.backend.domain.selfStudy.usecase.ReserveSelfStudyUsecase

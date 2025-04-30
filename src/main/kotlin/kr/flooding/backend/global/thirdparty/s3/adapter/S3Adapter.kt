@@ -1,5 +1,6 @@
 package kr.flooding.backend.global.thirdparty.s3.adapter
 
+import kr.flooding.backend.domain.file.shared.PresignedUrlModel
 import kr.flooding.backend.global.properties.AwsProperties
 import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.stereotype.Component
@@ -16,7 +17,12 @@ class S3Adapter (
 	private val awsProperties: AwsProperties,
 	private val redisTemplate: RedisTemplate<String, String>
 ) {
-	fun generatePresignedUrl(key: String) = getCachedPresignedUrl(key) ?: getAndSavePresignedUrl(key)
+	fun generatePresignedUrl(key: String): PresignedUrlModel {
+		return PresignedUrlModel(
+			key = key,
+			presignedUrl = getCachedPresignedUrl(key) ?: getAndSavePresignedUrl(key)
+		)
+	}
 
 	private fun getCachedPresignedUrl(key: String): String? =
 		redisTemplate.opsForValue().get("presigned-url:$key")

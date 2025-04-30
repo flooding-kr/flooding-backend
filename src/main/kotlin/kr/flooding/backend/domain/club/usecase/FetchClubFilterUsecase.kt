@@ -5,6 +5,7 @@ import kr.flooding.backend.domain.club.dto.web.response.FetchClubFilterResponse
 import kr.flooding.backend.domain.club.enums.ClubStatus
 import kr.flooding.backend.domain.club.enums.ClubType
 import kr.flooding.backend.domain.club.persistence.repository.ClubRepository
+import kr.flooding.backend.domain.file.shared.PresignedUrlModel
 import kr.flooding.backend.global.thirdparty.s3.adapter.S3Adapter
 import kr.flooding.backend.global.util.FileUtil
 import kr.flooding.backend.global.util.UserUtil
@@ -30,8 +31,10 @@ class FetchClubFilterUsecase(
 
 		return FetchClubFilterResponse(
 			clubs.map { club ->
-				val thumbnailImageUrl = club.thumbnailImageKey?.let { s3Adapter.generatePresignedUrl(it) }
-				ClubFilterResponse.toDto(club, currentUser, thumbnailImageUrl)
+				val thumbnailImage = club.thumbnailImageKey?.let {
+					s3Adapter.generatePresignedUrl(it)
+				}
+				ClubFilterResponse.toDto(club, currentUser, thumbnailImage)
 			},
 		)
 	}
