@@ -37,7 +37,7 @@ class FetchSelfStudyStudentUsecase(
                     FetchSelfStudyResponse(
                         studentNumber = studentInfo.toSchoolNumber(),
                         name = it.student.name,
-                        profileImageUrl =
+                        profileImage =
                             it.student.profileImageKey?.let {
                                 s3Adpter.generatePresignedUrl(it)
                             },

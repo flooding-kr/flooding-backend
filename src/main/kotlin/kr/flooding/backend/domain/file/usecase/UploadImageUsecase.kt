@@ -1,7 +1,7 @@
 package kr.flooding.backend.domain.file.usecase
 
-import kr.flooding.backend.domain.file.dto.common.response.UploadImageResponse
 import kr.flooding.backend.domain.file.dto.web.response.UploadImageListResponse
+import kr.flooding.backend.domain.file.shared.PresignedUrlModel
 import kr.flooding.backend.global.exception.ExceptionEnum
 import kr.flooding.backend.global.exception.HttpException
 import kr.flooding.backend.global.exception.toPair
@@ -38,14 +38,14 @@ class UploadImageUsecase(
 
 		Executors.newVirtualThreadPerTaskExecutor().use { executor ->
 			val futures = images.map {
-				executor.submit<UploadImageResponse> { uploadImage(it) }
+				executor.submit<PresignedUrlModel> { uploadImage(it) }
 			}
 			val imageUrls = futures.map { it.get() }
 			return UploadImageListResponse(imageUrls)
 		}
 	}
 
-	fun uploadImage(image: MultipartFile): UploadImageResponse {
+	fun uploadImage(image: MultipartFile): PresignedUrlModel {
 		val filename = "${LocalDateTime.now()}:${randomUUID()}.webp"
 		val key = "images/$filename"
 
@@ -62,10 +62,7 @@ class UploadImageUsecase(
 
 			s3Client.putObject(putObjectRequest, requestBody)
 
-			return UploadImageResponse(
-				key = key,
-				presignedUrl = s3Adapter.generatePresignedUrl(key)
-			)
+			return s3Adapter.generatePresignedUrl(key)
 		} catch (e: SdkClientException) {
 			throw HttpException(ExceptionEnum.FILE.FAILED_TO_UPLOAD_FILE.toPair())
 		} catch (e: S3Exception) {

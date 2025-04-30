@@ -1,6 +1,7 @@
 package kr.flooding.backend.domain.attendance.dto.common.response
 
 import kr.flooding.backend.domain.attendance.enums.AttendanceStatus
+import kr.flooding.backend.domain.file.shared.PresignedUrlModel
 
 class FetchClubAttendanceResponse (
 	val status: AttendanceStatus,
@@ -8,5 +9,5 @@ class FetchClubAttendanceResponse (
 	val classroom: Int,
 	val number: Int,
 	val name: String,
-	val profileImageUrl: String?
+	val profileImage: PresignedUrlModel?
 )

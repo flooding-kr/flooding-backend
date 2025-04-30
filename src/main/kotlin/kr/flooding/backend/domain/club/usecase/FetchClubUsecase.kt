@@ -7,12 +7,10 @@ import kr.flooding.backend.domain.club.dto.web.response.FetchClubResponse
 import kr.flooding.backend.domain.club.persistence.repository.ClubRepository
 import kr.flooding.backend.domain.clubApplicant.persistence.repository.jpa.ClubApplicantJpaRepository
 import kr.flooding.backend.domain.clubMember.persistence.repository.jdsl.ClubMemberJdslRepository
-import kr.flooding.backend.domain.clubMember.persistence.repository.jpa.ClubMemberJpaRepository
 import kr.flooding.backend.global.exception.ExceptionEnum
 import kr.flooding.backend.global.exception.HttpException
 import kr.flooding.backend.global.exception.toPair
 import kr.flooding.backend.global.thirdparty.s3.adapter.S3Adapter
-import kr.flooding.backend.global.util.FileUtil
 import org.springframework.stereotype.Service
 import java.util.UUID
 
@@ -20,7 +18,6 @@ import java.util.UUID
 @Transactional
 class FetchClubUsecase(
 	private val clubRepository: ClubRepository,
-	private val clubMemberJpaRepository: ClubMemberJpaRepository,
 	private val clubMemberJdslRepository: ClubMemberJdslRepository,
 	private val clubApplicantJpaRepository: ClubApplicantJpaRepository,
 	private val s3Adapter: S3Adapter,
@@ -33,12 +30,14 @@ class FetchClubUsecase(
 
 		val clubMembers = clubMemberJdslRepository.findWithUserAndClubByClubIdAndUserIsNot(clubId, club.leader)
 
-		val thumbnailImageUrl = club.thumbnailImageKey?.let { s3Adapter.generatePresignedUrl(it) }
-		val activityImageUrls = club.activityImageKeys.map { s3Adapter.generatePresignedUrl(it) }
+		val thumbnailImage = club.thumbnailImageKey?.let { s3Adapter.generatePresignedUrl(it) }
+		val activityImages = club.activityImageKeys.map { s3Adapter.generatePresignedUrl(it) }
 
 		val clubMemberResponses = clubMembers.map {
-			val profileImageUrl = it.user.profileImageKey?.let { s3Adapter.generatePresignedUrl(it)}
-			ClubStudentResponse.toDto(it.user, profileImageUrl)
+			val profileImage = it.user.profileImageKey?.let {
+				s3Adapter.generatePresignedUrl(it)
+			}
+			ClubStudentResponse.toDto(it.user, profileImage)
 		}
 
 		val clubTeacherResponse = club.teacher?.let {
@@ -46,15 +45,17 @@ class FetchClubUsecase(
 			ClubTeacherResponse.toDto(it, profileImageUrl)
 		}
 
-		val leaderProfileImageUrl = club.leader.profileImageKey?.let { s3Adapter.generatePresignedUrl(it) }
-		val clubLeaderResponse = ClubStudentResponse.toDto(club.leader, leaderProfileImageUrl)
+		val leaderProfileImage = club.leader.profileImageKey?.let {
+			s3Adapter.generatePresignedUrl(it)
+		}
+		val clubLeaderResponse = ClubStudentResponse.toDto(club.leader, leaderProfileImage)
 
 		val applicantCount = clubApplicantJpaRepository.countByClub(club)
 
 		return FetchClubResponse.toDto(
 			club = club,
-			thumbnailImageUrl = thumbnailImageUrl,
-			activityImageUrls = activityImageUrls,
+			thumbnailImage = thumbnailImage,
+			activityImages = activityImages,
 			clubMembers = clubMemberResponses,
 			teacher = clubTeacherResponse,
 			leader = clubLeaderResponse,

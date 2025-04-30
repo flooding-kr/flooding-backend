@@ -54,13 +54,13 @@ class FetchClubAttendanceUsecase(
 			val attendance = attendancesByStudentId[user.id]
 			val studentInfo = requireNotNull(user.studentInfo)
 			val year = requireNotNull(studentInfo.year)
-			val profileImageUrl = user.profileImageKey?.let {
+			val profileImage = user.profileImageKey?.let {
 				s3Adapter.generatePresignedUrl(it)
 			}
 
 			FetchClubAttendanceResponse(
 				name = clubMember.user.name,
-				profileImageUrl = profileImageUrl,
+				profileImage = profileImage,
 				status = getAttendanceStatus(attendance),
 				classroom = requireNotNull(studentInfo.classroom),
 				number = requireNotNull(studentInfo.number),
