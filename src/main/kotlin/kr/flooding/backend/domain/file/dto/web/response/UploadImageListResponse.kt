@@ -1,7 +1,7 @@
 package kr.flooding.backend.domain.file.dto.web.response
 
-import kr.flooding.backend.domain.file.dto.common.response.UploadImageResponse
+import kr.flooding.backend.domain.file.shared.PresignedUrlModel
 
 class UploadImageListResponse(
-	val imageUrls: List<UploadImageResponse>,
+	val images: List<PresignedUrlModel>,
 )

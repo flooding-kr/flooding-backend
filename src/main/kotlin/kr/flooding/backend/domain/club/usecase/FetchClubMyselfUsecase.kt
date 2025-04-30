@@ -3,6 +3,7 @@ package kr.flooding.backend.domain.club.usecase
 import kr.flooding.backend.domain.club.dto.common.response.ClubMyselfResponse
 import kr.flooding.backend.domain.club.dto.web.response.FetchClubMyselfResponse
 import kr.flooding.backend.domain.clubMember.persistence.repository.jdsl.ClubMemberJdslRepository
+import kr.flooding.backend.domain.file.shared.PresignedUrlModel
 import kr.flooding.backend.global.thirdparty.s3.adapter.S3Adapter
 import kr.flooding.backend.global.util.FileUtil
 import kr.flooding.backend.global.util.UserUtil
@@ -23,8 +24,10 @@ class FetchClubMyselfUsecase(
 
 		return FetchClubMyselfResponse(
 			clubs.map { club ->
-				val thumbnailImageUrl = club.thumbnailImageKey?.let { s3Adapter.generatePresignedUrl(it) }
-				ClubMyselfResponse.toDto(club, currentUser, thumbnailImageUrl)
+				val thumbnailImage = club.thumbnailImageKey?.let {
+					s3Adapter.generatePresignedUrl(it)
+				}
+				ClubMyselfResponse.toDto(club, currentUser, thumbnailImage)
 			},
 		)
 	}
