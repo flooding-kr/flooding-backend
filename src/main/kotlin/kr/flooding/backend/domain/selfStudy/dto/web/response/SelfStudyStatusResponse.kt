@@ -1,4 +1,4 @@
-package kr.flooding.backend.domain.selfStudy.dto.response
+package kr.flooding.backend.domain.selfStudy.dto.web.response
 
 class SelfStudyStatusResponse(
     val currentCount: Int,
