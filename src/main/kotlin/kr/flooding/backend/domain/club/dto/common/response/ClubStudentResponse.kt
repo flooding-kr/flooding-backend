@@ -7,7 +7,7 @@ import kr.flooding.backend.domain.user.shared.StudentInfoModel
 import java.util.UUID
 
 class ClubStudentResponse(
-	val id: UUID?,
+	val id: UUID,
 	val name: String,
 	val studentInfo: StudentInfoModel,
 	val profileImage: PresignedUrlModel?,
@@ -16,7 +16,7 @@ class ClubStudentResponse(
 		fun toDto(user: User, presignedUrlModel: PresignedUrlModel?): ClubStudentResponse {
 			val studentInfo = requireNotNull(user.studentInfo)
 			return ClubStudentResponse(
-				id = user.id,
+				id = requireNotNull(user.id),
 				name = user.name,
 				studentInfo = studentInfo.toModel(),
 				profileImage = presignedUrlModel,
