@@ -68,6 +68,7 @@ class SecurityConfig(
 				.requestMatchers(HttpMethod.POST, "/club/{clubId}/open").hasAuthority(ROLE_USER)
 				.requestMatchers(HttpMethod.POST, "/club/{clubId}/close").hasAuthority(ROLE_USER)
 				.requestMatchers(HttpMethod.PATCH, "/club/{clubId}").hasAuthority(ROLE_USER)
+				.requestMatchers(HttpMethod.DELETE, "/club/applicant/reject").hasAuthority(ROLE_USER)
 				.requestMatchers(HttpMethod.DELETE, "/club/{clubId}/member/{userId}").hasAuthority(ROLE_USER)
 				.requestMatchers(HttpMethod.DELETE, "/club/{clubId}").hasAuthority(ROLE_USER)
 				.requestMatchers(HttpMethod.DELETE, "/club/{clubId}/member").hasAuthority(ROLE_USER)
