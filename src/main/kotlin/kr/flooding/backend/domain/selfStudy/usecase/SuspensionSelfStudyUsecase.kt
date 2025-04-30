@@ -22,10 +22,6 @@ class SuspensionSelfStudyUsecase(
             HttpException(ExceptionEnum.SELF_STUDY.NOT_FOUND_SELF_STUDY_RESERVATION.toPair())
         }
 
-        if (selfStudyReservation.isCancelled) {
-           throw HttpException(ExceptionEnum.SELF_STUDY.ALREADY_CANCELLED_SELF_STUDY.toPair())
-        }
-
         if (selfStudySuspensionJpaRepository.existsByStudent(selfStudyReservation.student)) {
             throw HttpException(ExceptionEnum.SELF_STUDY.ALREADY_SUSPENDED_SELF_STUDY.toPair())
         }
