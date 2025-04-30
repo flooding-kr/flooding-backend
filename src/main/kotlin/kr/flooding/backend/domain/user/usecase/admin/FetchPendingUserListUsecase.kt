@@ -1,6 +1,5 @@
 package kr.flooding.backend.domain.user.usecase.admin
 
-import kr.flooding.backend.domain.user.dto.common.response.StudentInfoResponse
 import kr.flooding.backend.domain.user.dto.web.response.FetchPendingUserListResponse
 import kr.flooding.backend.domain.user.dto.common.response.PendingUserResponse
 import kr.flooding.backend.domain.user.dto.common.response.TeacherInfoResponse
@@ -24,12 +23,8 @@ class FetchPendingUserListUsecase(
 					s3Adapter.generatePresignedUrl(key)
 				}
 
-				val studentInfoResponse = it.studentInfo?.let {
-					StudentInfoResponse.toDto(it)
-				}
-
-				val teacherInfoResponse = it.teacherInfo?.let {
-					TeacherInfoResponse(it.department)
+				val teacherInfoResponse = it.teacherInfo?.let { user ->
+					TeacherInfoResponse(user.department)
 				}
 
 				PendingUserResponse(
@@ -37,8 +32,8 @@ class FetchPendingUserListUsecase(
 					email = it.email,
 					name = it.name,
 					profileImage = profileImage,
-					studentInfoResponse = studentInfoResponse,
 					teacherInfoResponse = teacherInfoResponse,
+					studentInfoResponse = it.studentInfo?.toModel(),
 				)
 			}
 		)

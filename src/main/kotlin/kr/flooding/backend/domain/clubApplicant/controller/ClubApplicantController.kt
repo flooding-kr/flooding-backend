@@ -5,11 +5,14 @@ import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.Valid
 import kr.flooding.backend.domain.clubApplicant.dto.request.ApplyClubRequest
 import kr.flooding.backend.domain.clubApplicant.dto.request.ApproveClubApplicantRequest
+import kr.flooding.backend.domain.clubApplicant.dto.request.RejectClubApplicantRequest
 import kr.flooding.backend.domain.clubApplicant.dto.response.FetchClubApplicantResponse
 import kr.flooding.backend.domain.clubApplicant.usecase.ApplyClubUsecase
 import kr.flooding.backend.domain.clubApplicant.usecase.ApproveClubApplicantUsecase
 import kr.flooding.backend.domain.clubApplicant.usecase.FetchClubApplicantUsecase
+import kr.flooding.backend.domain.clubApplicant.usecase.RejectClubApplicantUsecase
 import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -25,6 +28,7 @@ class ClubApplicantController(
 	private val applyClubUsecase: ApplyClubUsecase,
 	private val fetchClubApplicantUsecase: FetchClubApplicantUsecase,
 	private val approveClubApplicantUsecase: ApproveClubApplicantUsecase,
+	private val rejectClubApplicantUsecase: RejectClubApplicantUsecase,
 ) {
 	@Operation(summary = "동아리 지원")
 	@PostMapping
@@ -35,7 +39,7 @@ class ClubApplicantController(
 			ResponseEntity.ok().build()
 		}
 
-	@Operation(summary = "동아리 지원 요청 승인")
+	@Operation(summary = "동아리 지원 승인")
 	@PostMapping("/approve")
 	fun approveClubApplicant(
 		@Valid @RequestBody approveClubApplicantRequest: ApproveClubApplicantRequest,
@@ -44,7 +48,16 @@ class ClubApplicantController(
 			ResponseEntity.ok().build()
 		}
 
-	@Operation(summary = "동아리 구성원 조회")
+	@Operation(summary = "동아리 지원 반려")
+	@DeleteMapping("/reject")
+	fun rejectClubApplicant(
+		@Valid @RequestBody rejectClubApplicantRequest: RejectClubApplicantRequest,
+	): ResponseEntity<Unit> =
+		rejectClubApplicantUsecase.execute(rejectClubApplicantRequest).run {
+			ResponseEntity.ok().build()
+		}
+
+	@Operation(summary = "동아리 지원자 조회")
 	@GetMapping
 	fun fetchClubApplicant(
 		@RequestParam clubId: UUID,
