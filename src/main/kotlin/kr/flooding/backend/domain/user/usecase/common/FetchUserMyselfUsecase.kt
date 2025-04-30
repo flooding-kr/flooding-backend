@@ -1,5 +1,6 @@
 package kr.flooding.backend.domain.user.usecase.common
 
+import kr.flooding.backend.domain.file.shared.PresignedUrlModel
 import kr.flooding.backend.domain.role.persistence.repository.jpa.RoleJpaRepository
 import kr.flooding.backend.domain.user.dto.common.response.StudentInfoResponse
 import kr.flooding.backend.domain.user.dto.common.response.TeacherInfoResponse
@@ -42,7 +43,7 @@ class FetchUserMyselfUsecase(
 			TeacherInfoResponse(it.department)
 		}
 
-		val profileImageUrl = user.profileImageKey?.let {
+		val profileImage = user.profileImageKey?.let {
 			s3Adapter.generatePresignedUrl(it)
 		}
 
@@ -53,7 +54,7 @@ class FetchUserMyselfUsecase(
 			studentInfo = studentInfoResponse,
 			teacherInfo = teacherInfoResponse,
 			email = user.email,
-			profileImageUrl = profileImageUrl,
+			profileImage = profileImage,
 			roles = roles.map { it.type }
 		)
 	}

@@ -33,7 +33,7 @@ class FetchSelfStudyStudentUsecase(
         val responses = reservations.map { reservation ->
             FetchSelfStudyResponse.toDto(
                 selfStudyReservation = reservation,
-                profileImageUrl = reservation.student.profileImageKey?.let {
+                profileImage = reservation.student.profileImageKey?.let {
                     s3Adapter.generatePresignedUrl(it)
                 },
             )

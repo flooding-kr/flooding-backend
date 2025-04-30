@@ -24,14 +24,14 @@ class FetchMassageRankUsecase(
 		val responses = reservations.map {
 			val user = it.student
 			val studentInfo = requireNotNull(user.studentInfo)
-			val profileImageUrl = user.profileImageKey?.let { key ->
+			val profileImage = user.profileImageKey?.let { key ->
 				s3Adapter.generatePresignedUrl(key)
 			}
 
 			FetchMassageRankResponse(
 				name = user.name,
 				schoolNumber = studentInfo.toSchoolNumber(),
-				profileImageUrl = profileImageUrl,
+				profileImage = profileImage,
 			)
 		}
 

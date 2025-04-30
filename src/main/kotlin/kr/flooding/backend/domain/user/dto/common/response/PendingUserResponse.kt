@@ -1,5 +1,6 @@
 package kr.flooding.backend.domain.user.dto.common.response
 
+import kr.flooding.backend.domain.file.shared.PresignedUrlModel
 import java.util.UUID
 
 data class PendingUserResponse(
@@ -8,5 +9,5 @@ data class PendingUserResponse(
 	val email: String,
 	val studentInfoResponse: StudentInfoResponse?,
 	val teacherInfoResponse: TeacherInfoResponse?,
-	val profileImageUrl: String?,
+	val profileImage: PresignedUrlModel?,
 )

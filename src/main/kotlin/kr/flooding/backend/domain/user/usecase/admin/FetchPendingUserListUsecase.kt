@@ -20,7 +20,7 @@ class FetchPendingUserListUsecase(
 		val pendingUsers = userJpaRepository.findByState(UserState.PENDING)
 		return FetchPendingUserListResponse(
 			pendingUsers.map {
-				val profileImageUrl = it.profileImageKey?.let { key ->
+				val profileImage = it.profileImageKey?.let { key ->
 					s3Adapter.generatePresignedUrl(key)
 				}
 
@@ -36,7 +36,7 @@ class FetchPendingUserListUsecase(
 					id = requireNotNull(it.id),
 					email = it.email,
 					name = it.name,
-					profileImageUrl = profileImageUrl,
+					profileImage = profileImage,
 					studentInfoResponse = studentInfoResponse,
 					teacherInfoResponse = teacherInfoResponse,
 				)
