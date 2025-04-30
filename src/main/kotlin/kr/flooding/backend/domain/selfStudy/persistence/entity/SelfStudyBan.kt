@@ -7,7 +7,7 @@ import org.hibernate.annotations.OnDeleteAction
 import java.time.LocalDate
 
 @Entity
-class SelfStudySuspension(
+class SelfStudyBan(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null,

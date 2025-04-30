@@ -2,7 +2,7 @@ package kr.flooding.backend.domain.selfStudy.usecase
 
 import kr.flooding.backend.domain.selfStudy.dto.web.response.SelfStudyStatusResponse
 import kr.flooding.backend.domain.selfStudy.persistence.repository.jpa.SelfStudyRoomJpaRepository
-import kr.flooding.backend.domain.selfStudy.persistence.repository.jpa.SelfStudySuspensionJpaRepository
+import kr.flooding.backend.domain.selfStudy.persistence.repository.jpa.SelfStudyBanJpaRepository
 import kr.flooding.backend.global.exception.ExceptionEnum
 import kr.flooding.backend.global.exception.HttpException
 import kr.flooding.backend.global.exception.toPair
@@ -18,7 +18,7 @@ import java.time.LocalTime
 class SelfStudyStatusUsecase(
     val userUtil: UserUtil,
     val selfStudyRoomRepository: SelfStudyRoomJpaRepository,
-    val selfStudySuspensionJpaRepository: SelfStudySuspensionJpaRepository,
+    val selfStudyBanJpaRepository: SelfStudyBanJpaRepository,
 ) {
     fun execute(): SelfStudyStatusResponse {
         val selfStudyRoom =
@@ -41,12 +41,12 @@ class SelfStudyStatusUsecase(
         
         val isAvailableDateTime = isAvailableTime && isAvailableDate
         val canReserveMore = selfStudyRoom.reservationCount < selfStudyRoom.reservationLimit
-        val isNotSuspended = !selfStudySuspensionJpaRepository.existsByStudent(currentUser)
+        val isNotBanned = !selfStudyBanJpaRepository.existsByStudent(currentUser)
 
         return SelfStudyStatusResponse(
             currentCount = selfStudyRoom.reservationCount,
             limit = selfStudyRoom.reservationLimit,
-            isAvailable = isAvailableDateTime && canReserveMore && isNotSuspended,
+            isAvailable = isAvailableDateTime && canReserveMore && isNotBanned,
         )
     }
 }

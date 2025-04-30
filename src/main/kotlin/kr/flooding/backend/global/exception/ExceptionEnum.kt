@@ -133,7 +133,7 @@ sealed interface ExceptionEnum {
 		ALREADY_CANCELLED_SELF_STUDY(HttpStatus.BAD_REQUEST, "이미 자습 신청이 취소된 상태입니다."),
 		SELF_STUDY_OUT_OF_TIME_RANGE(HttpStatus.BAD_REQUEST, "정해진 시간에 자습 신청을 해주세요."),
 		NOT_FOUND_SELF_STUDY_RESERVATION(HttpStatus.NOT_FOUND, "자습 예약을 찾을 수 없습니다."),
-		ALREADY_SUSPENDED_SELF_STUDY(HttpStatus.BAD_REQUEST, "자습이 금지된 상태입니다.")
+		ALREADY_BANNED_SELF_STUDY(HttpStatus.BAD_REQUEST, "자습이 금지된 상태입니다.")
 	}
 
 	@Suppress("ktlint:standard:class-naming")
