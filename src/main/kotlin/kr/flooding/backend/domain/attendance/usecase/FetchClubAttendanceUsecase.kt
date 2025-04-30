@@ -59,6 +59,7 @@ class FetchClubAttendanceUsecase(
 			}
 
 			FetchClubAttendanceResponse(
+				userId = requireNotNull(clubMember.user.id),
 				name = clubMember.user.name,
 				profileImage = profileImage,
 				status = getAttendanceStatus(attendance),
