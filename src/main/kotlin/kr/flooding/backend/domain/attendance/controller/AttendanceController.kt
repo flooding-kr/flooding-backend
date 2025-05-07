@@ -19,8 +19,8 @@ import java.util.UUID
 class AttendanceController(
 	private val attendClubMyselfUsecase: AttendClubMyselfUsecase,
 	private val absenceClubMyselfUsecase: AbsenceClubMyselfUsecase,
-	private val attendClubLeaderUsecase: AttendClubLeaderUsecase,
-	private val absenceClubLeaderUsecase: AbsenceClubLeaderUsecase,
+	private val attendClubManagerUsecase: AttendClubManagerUsecase,
+	private val absenceClubManagerUsecase: AbsenceClubManagerUsecase,
 	private val fetchMyselfAttendanceUsecase: FetchMyselfAttendanceUsecase,
 	private val fetchClubAttendanceUsecase: FetchClubAttendanceUsecase,
 ) {
@@ -43,20 +43,20 @@ class AttendanceController(
 		}
 
 	@Operation(summary = "동아리 일괄 출석")
-	@PostMapping("club/leader")
-	fun attendanceClubLeader(
-		@Valid @RequestBody attendClubLeaderRequest: AttendClubLeaderRequest,
+	@PostMapping("club/manager")
+	fun attendanceClubManager(
+		@Valid @RequestBody attendClubManagerRequest: AttendClubManagerRequest,
 	): ResponseEntity<Unit> =
-		attendClubLeaderUsecase.execute(attendClubLeaderRequest).run {
+		attendClubManagerUsecase.execute(attendClubManagerRequest).run {
 			ResponseEntity.ok().build()
 		}
 
 	@Operation(summary = "동아리 일괄 미출석")
-	@DeleteMapping("club/leader")
-	fun absenceClubLeader(
-		@Valid @RequestBody absenceClubLeaderRequest: AbsenceClubLeaderRequest,
+	@DeleteMapping("club/manager")
+	fun absenceClubManager(
+		@Valid @RequestBody absenceClubManagerRequest: AbsenceClubManagerRequest,
 	): ResponseEntity<Unit> =
-		absenceClubLeaderUsecase.execute(absenceClubLeaderRequest).run {
+		absenceClubManagerUsecase.execute(absenceClubManagerRequest).run {
 			ResponseEntity.ok().build()
 		}
 

@@ -1,6 +1,6 @@
 package kr.flooding.backend.domain.attendance.usecase
 
-import kr.flooding.backend.domain.attendance.dto.web.request.AbsenceClubLeaderRequest
+import kr.flooding.backend.domain.attendance.dto.web.request.AbsenceClubManagerRequest
 import kr.flooding.backend.domain.attendance.persistence.entity.Attendance
 import kr.flooding.backend.domain.attendance.persistence.repository.jpa.AttendanceJpaRepository
 import kr.flooding.backend.domain.club.enums.ClubStatus
@@ -19,7 +19,7 @@ import java.time.LocalTime
 
 @Service
 @Transactional
-class AbsenceClubLeaderUsecase(
+class AbsenceClubManagerUsecase(
 	private val userUtil: UserUtil,
 	private val clubRepository: ClubRepository,
 	private val attendanceJpaRepository: AttendanceJpaRepository,
@@ -27,7 +27,7 @@ class AbsenceClubLeaderUsecase(
 	private val clubMemberJdslRepository: ClubMemberJdslRepository,
 	private val periodRepository: PeriodRepository,
 ) {
-	fun execute(request: AbsenceClubLeaderRequest) {
+	fun execute(request: AbsenceClubManagerRequest) {
 		val club =
 			clubRepository.findById(request.clubId).orElseThrow {
 				HttpException(ExceptionEnum.CLUB.NOT_FOUND_CLUB.toPair())
@@ -39,8 +39,8 @@ class AbsenceClubLeaderUsecase(
 
 		val currentUser = userUtil.getUser()
 
-		if (currentUser != club.leader) {
-			throw HttpException(ExceptionEnum.CLUB.NOT_CLUB_LEADER.toPair())
+		if (currentUser != club.leader && currentUser != club.teacher) {
+			throw HttpException(ExceptionEnum.CLUB.NOT_CLUB_MANAGER.toPair())
 		}
 
 		val nowDate = LocalDate.now()
