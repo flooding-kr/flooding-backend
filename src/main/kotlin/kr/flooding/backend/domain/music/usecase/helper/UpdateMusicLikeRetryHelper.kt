@@ -1,6 +1,6 @@
 package kr.flooding.backend.domain.music.usecase.helper
 
-import kr.flooding.backend.domain.music.dto.response.UpdateMusicLikeResponse
+import kr.flooding.backend.domain.music.dto.web.response.UpdateMusicLikeResponse
 import kr.flooding.backend.domain.music.persistence.repository.jpa.MusicJpaRepository
 import kr.flooding.backend.domain.musicLike.persistence.entity.MusicLike
 import kr.flooding.backend.domain.musicLike.persistence.repository.jpa.MusicLikeJpaRepository

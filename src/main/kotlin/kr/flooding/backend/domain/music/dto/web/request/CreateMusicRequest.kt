@@ -1,4 +1,4 @@
-package kr.flooding.backend.domain.music.dto.request
+package kr.flooding.backend.domain.music.dto.web.request
 
 import jakarta.validation.constraints.Pattern
 

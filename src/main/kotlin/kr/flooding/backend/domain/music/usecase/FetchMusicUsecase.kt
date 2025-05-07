@@ -1,9 +1,10 @@
 package kr.flooding.backend.domain.music.usecase
 
-import kr.flooding.backend.domain.music.dto.request.MusicOrderType
-import kr.flooding.backend.domain.music.dto.response.FetchMusicResponse
-import kr.flooding.backend.domain.music.dto.response.MusicResponse
+import kr.flooding.backend.domain.music.enums.MusicOrderType
+import kr.flooding.backend.domain.music.dto.web.response.FetchMusicResponse
+import kr.flooding.backend.domain.music.dto.web.response.MusicResponse
 import kr.flooding.backend.domain.music.persistence.repository.jdsl.MusicJdslRepository
+import kr.flooding.backend.domain.musicLike.persistence.repository.jpa.MusicLikeJpaRepository
 import kr.flooding.backend.global.util.UserUtil
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -20,13 +21,18 @@ class FetchMusicUsecase(
 		orderType: MusicOrderType,
 	): FetchMusicResponse {
 		val currentUser = userUtil.getUser()
-		val musicList = musicJdslRepository.findAllByCreatedDateOrderByMusicOrderType(date, orderType)
+		val musicList = musicJdslRepository.findAllByCreatedDateOrderByMusicOrderTypeAndUserContainsMusicLike(
+			createdDate = date,
+			musicOrderType = orderType,
+			user = currentUser
+		)
 
 		return FetchMusicResponse(
 			musicList = musicList.map {
 				MusicResponse.toDto(
-					music = it,
-					currentUser = currentUser,
+					music = it.music,
+					isAppliedByUser = it.music.proposer == currentUser,
+					isLikedByUser = it.isLikedByUser
 				)
 			}
 		)
