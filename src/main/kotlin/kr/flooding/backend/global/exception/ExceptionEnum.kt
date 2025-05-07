@@ -89,6 +89,7 @@ sealed interface ExceptionEnum {
 		val reason: String,
 	) {
 		MAX_CAPACITY_EXCEEDED(HttpStatus.BAD_REQUEST, "해당 테이블의 자리보다 신청자가 많습니다."),
+		HOMEBASE_ONLY_STUDENT_ALLOWED(HttpStatus.BAD_REQUEST, "학생만 홈베이스에 참여할 수 있습니다."),
 	}
 
 	enum class ATTENDANCE(
