@@ -1,6 +1,6 @@
 package kr.flooding.backend.domain.music.usecase
 
-import kr.flooding.backend.domain.music.dto.response.UpdateMusicLikeResponse
+import kr.flooding.backend.domain.music.dto.web.response.UpdateMusicLikeResponse
 import kr.flooding.backend.domain.music.usecase.helper.UpdateMusicLikeRetryHelper
 import kr.flooding.backend.global.util.UserUtil
 import org.springframework.stereotype.Service
