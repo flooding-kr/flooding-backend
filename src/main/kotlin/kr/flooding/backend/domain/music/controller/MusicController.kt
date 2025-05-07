@@ -3,10 +3,10 @@ package kr.flooding.backend.domain.music.controller
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.Valid
-import kr.flooding.backend.domain.music.dto.request.CreateMusicRequest
-import kr.flooding.backend.domain.music.dto.request.MusicOrderType
-import kr.flooding.backend.domain.music.dto.response.FetchMusicResponse
-import kr.flooding.backend.domain.music.dto.response.UpdateMusicLikeResponse
+import kr.flooding.backend.domain.music.dto.web.request.CreateMusicRequest
+import kr.flooding.backend.domain.music.enums.MusicOrderType
+import kr.flooding.backend.domain.music.dto.web.response.FetchMusicResponse
+import kr.flooding.backend.domain.music.dto.web.response.UpdateMusicLikeResponse
 import kr.flooding.backend.domain.music.usecase.CreateMusicUsecase
 import kr.flooding.backend.domain.music.usecase.FetchMusicUsecase
 import kr.flooding.backend.domain.music.usecase.RemoveMusicUsecase
