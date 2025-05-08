@@ -1,6 +1,6 @@
 package kr.flooding.backend.domain.notice.usecase
 
-import kr.flooding.backend.domain.notice.controller.dto.request.CreateNoticeRequest
+import kr.flooding.backend.domain.notice.controller.dto.web.request.CreateNoticeRequest
 import kr.flooding.backend.domain.notice.persistence.entity.Notice
 import kr.flooding.backend.domain.notice.persistence.repository.jpa.NoticeJpaRepository
 import kr.flooding.backend.global.util.UserUtil

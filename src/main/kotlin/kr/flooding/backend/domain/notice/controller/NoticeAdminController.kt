@@ -2,7 +2,7 @@ package kr.flooding.backend.domain.notice.controller
 
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
-import kr.flooding.backend.domain.notice.controller.dto.request.CreateNoticeRequest
+import kr.flooding.backend.domain.notice.controller.dto.web.request.CreateNoticeRequest
 import kr.flooding.backend.domain.notice.usecase.CreateNoticeUsecase
 import kr.flooding.backend.domain.notice.usecase.RemoveNoticeUsecase
 import org.springframework.http.ResponseEntity

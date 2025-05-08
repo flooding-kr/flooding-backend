@@ -1,4 +1,4 @@
-package kr.flooding.backend.domain.notice.controller.dto.request
+package kr.flooding.backend.domain.notice.controller.dto.web.request
 
 import kr.flooding.backend.domain.notice.persistence.entity.NoticeType
 
