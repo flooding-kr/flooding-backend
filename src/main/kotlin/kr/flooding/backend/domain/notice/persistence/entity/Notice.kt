@@ -21,9 +21,6 @@ class Notice(
     @Column(nullable = false)
     val description: String,
 
-    @Enumerated(EnumType.STRING)
-    val type: NoticeType,
-
     @CreationTimestamp
     @Column(nullable = false)
     val createdAt: LocalDateTime = LocalDateTime.now(),

@@ -18,7 +18,6 @@ class CreateNoticeUsecase(
             Notice(
                 title = request.title,
                 description = request.description,
-                type = request.type,
                 proposer = userUtil.getUser(),
             )
         )

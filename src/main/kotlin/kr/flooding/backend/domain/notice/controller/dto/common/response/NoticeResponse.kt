@@ -9,7 +9,6 @@ data class NoticeResponse(
     val title: String,
     val description: String,
     val createdDate: LocalDate,
-    val type: String,
 ) {
     companion object {
         fun toDto(notice: Notice): NoticeResponse =
@@ -18,7 +17,6 @@ data class NoticeResponse(
                 title = notice.title,
                 description = notice.description,
                 createdDate = notice.createdAt.toLocalDate(),
-                type = notice.type.description,
             )
     }
 }
