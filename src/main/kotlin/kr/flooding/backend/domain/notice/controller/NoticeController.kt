@@ -19,7 +19,7 @@ class NoticeController(
 ) {
     @Operation(summary = "공지 조회")
     @GetMapping
-    fun fetchNotices(@RequestParam filterTypes: List<NoticeType>): ResponseEntity<FetchNoticesResponse> =
+    fun fetchNotices(@RequestParam(defaultValue = "") filterTypes: List<NoticeType>): ResponseEntity<FetchNoticesResponse> =
         fetchNoticesUsecase.execute(filterTypes).let {
             ResponseEntity.ok(it)
         }
