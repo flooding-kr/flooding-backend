@@ -32,11 +32,15 @@ class ReserveHomebaseTableUsecase(
 		val participants = userJpaRepository.findByIdIn(request.participants)
 		val nowDate = LocalDate.now()
 
-		request.participants
-			.takeIf { it.contains(currentUser.id) }
-			?.let {
+		participants.forEach {
+			if (it == currentUser) {
 				throw HttpException(ExceptionEnum.CLASSROOM.PROPOSER_CANNOT_BE_PARTICIPANT.toPair())
 			}
+
+			if (it.studentInfo == null) {
+				throw HttpException(ExceptionEnum.HOMEBASE.HOMEBASE_ONLY_STUDENT_ALLOWED.toPair())
+			}
+		}
 
 		val homebaseTable =
 			homebaseTableJdslRepository
