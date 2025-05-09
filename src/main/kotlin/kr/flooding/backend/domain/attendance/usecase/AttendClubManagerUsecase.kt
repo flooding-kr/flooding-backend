@@ -1,12 +1,11 @@
 package kr.flooding.backend.domain.attendance.usecase
 
-import kr.flooding.backend.domain.attendance.dto.web.request.AttendClubLeaderRequest
+import kr.flooding.backend.domain.attendance.dto.web.request.AttendClubManagerRequest
 import kr.flooding.backend.domain.attendance.persistence.entity.Attendance
 import kr.flooding.backend.domain.attendance.persistence.repository.jpa.AttendanceJpaRepository
 import kr.flooding.backend.domain.club.enums.ClubStatus
 import kr.flooding.backend.domain.club.persistence.repository.ClubRepository
 import kr.flooding.backend.domain.clubMember.persistence.repository.jdsl.ClubMemberJdslRepository
-import kr.flooding.backend.domain.clubMember.persistence.repository.jpa.ClubMemberJpaRepository
 import kr.flooding.backend.domain.period.persistence.repository.PeriodRepository
 import kr.flooding.backend.domain.user.persistence.repository.jpa.UserJpaRepository
 import kr.flooding.backend.global.exception.ExceptionEnum
@@ -20,7 +19,7 @@ import java.time.LocalTime
 
 @Service
 @Transactional
-class AttendClubLeaderUsecase(
+class AttendClubManagerUsecase(
 	private val userUtil: UserUtil,
 	private val clubRepository: ClubRepository,
 	private val attendanceJpaRepository: AttendanceJpaRepository,
@@ -28,7 +27,7 @@ class AttendClubLeaderUsecase(
 	private val clubMemberJdslRepository: ClubMemberJdslRepository,
 	private val periodRepository: PeriodRepository,
 ) {
-	fun execute(request: AttendClubLeaderRequest) {
+	fun execute(request: AttendClubManagerRequest) {
 		val club =
 			clubRepository.findById(request.clubId).orElseThrow {
 				HttpException(ExceptionEnum.CLUB.NOT_FOUND_CLUB.toPair())
@@ -39,8 +38,8 @@ class AttendClubLeaderUsecase(
 
 		val currentUser = userUtil.getUser()
 
-		if (currentUser != club.leader) {
-			throw HttpException(ExceptionEnum.CLUB.NOT_CLUB_LEADER.toPair())
+		if (currentUser != club.leader && currentUser != club.teacher) {
+			throw HttpException(ExceptionEnum.CLUB.NOT_CLUB_MANAGER.toPair())
 		}
 
 		val nowDate = LocalDate.now()

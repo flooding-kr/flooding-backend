@@ -77,8 +77,8 @@ class SecurityConfig(
 			it // Attendance
 				.requestMatchers(HttpMethod.POST, "/attendance/club").hasAuthority(ROLE_STUDENT)
 				.requestMatchers(HttpMethod.DELETE, "/attendance/club").hasAuthority(ROLE_STUDENT)
-				.requestMatchers(HttpMethod.POST, "/attendance/club/leader").hasAuthority(ROLE_STUDENT)
-				.requestMatchers(HttpMethod.DELETE, "/attendance/club/leader").hasAuthority(ROLE_STUDENT)
+				.requestMatchers(HttpMethod.POST, "/attendance/club/manager").hasAnyAuthority(ROLE_STUDENT, ROLE_TEACHER)
+				.requestMatchers(HttpMethod.DELETE, "/attendance/club/manager").hasAnyAuthority(ROLE_STUDENT, ROLE_TEACHER)
 				.requestMatchers(HttpMethod.GET, "/attendance/myself").hasAnyAuthority(ROLE_STUDENT)
 				.requestMatchers(HttpMethod.GET, "/attendance/club/{clubId}").hasAnyAuthority(ROLE_STUDENT, ROLE_TEACHER)
 
