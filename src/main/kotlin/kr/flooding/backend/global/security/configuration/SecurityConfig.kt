@@ -98,6 +98,11 @@ class SecurityConfig(
         		.requestMatchers(HttpMethod.GET, "/massage/rank").hasAuthority(ROLE_USER)
 				.requestMatchers(HttpMethod.PATCH, "/admin/massage/limit").hasAuthority(ROLE_DORMITORY_ADMIN)
 
+			it //notice
+				.requestMatchers(HttpMethod.GET, "/notice").hasAnyAuthority(ROLE_USER)
+				.requestMatchers(HttpMethod.POST, "/admin/notice").hasAnyAuthority(ROLE_TEACHER, ROLE_USER_ADMIN, ROLE_DORMITORY_ADMIN)
+				.requestMatchers(HttpMethod.DELETE, "/admin/notice/{noticeId}").hasAnyAuthority(ROLE_TEACHER, ROLE_USER_ADMIN, ROLE_DORMITORY_ADMIN)
+
 			it // File
 				.requestMatchers(HttpMethod.POST, "/file/image").hasAuthority(ROLE_USER)
 

@@ -153,6 +153,13 @@ sealed interface ExceptionEnum {
 		MASSAGE_OUT_OF_TIME_RANGE(HttpStatus.BAD_REQUEST, "정해진 시간에 안마의자 신청을 해주세요."),
 		NOT_FOUND_MASSAGE_RESERVATION(HttpStatus.NOT_FOUND, "안마의자 예약을 찾을 수 없습니다."),
 	}
+
+	enum class NOTICE(
+		val status: HttpStatus,
+		val reason: String,
+	) {
+		NOT_FOUND_NOTICE(HttpStatus.NOT_FOUND, "해당하는 공지를 찾을 수 없습니다.")
+	}
 }
 
 fun ExceptionEnum.CLASSROOM.toPair() = Pair(this.status, this.reason)
@@ -178,3 +185,5 @@ fun ExceptionEnum.FILE.toPair() = Pair(this.status, this.reason)
 fun ExceptionEnum.SELF_STUDY.toPair() = Pair(this.status, this.reason)
 
 fun ExceptionEnum.MASSAGE.toPair() = Pair(this.status, this.reason)
+
+fun ExceptionEnum.NOTICE.toPair() = Pair(this.status, this.reason)
