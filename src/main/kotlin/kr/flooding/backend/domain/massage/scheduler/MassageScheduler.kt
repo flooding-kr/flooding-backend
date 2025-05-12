@@ -12,9 +12,9 @@ class MassageScheduler(
 ) {
 	@Scheduled(cron = "0 0 0 * * *")
 	fun clearReservation() {
-		val selfStudyRoom = massageRoomJpaRepository.findAll().first()
+		val massageRoom = massageRoomJpaRepository.findAll().first()
 
 		massageReservationJpaRepository.deleteAll()
-		selfStudyRoom.clearReservationCount()
+		massageRoom.clearReservationCount()
 	}
 }
