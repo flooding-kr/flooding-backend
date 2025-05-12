@@ -46,6 +46,6 @@ class SelfStudyReservation(
 	}
 
 	fun absenceSelfStudy() {
-		isPresent = true
+		isPresent = false
 	}
 }
