@@ -37,7 +37,7 @@ class FetchMassageUsecase(
 			massageRoom.reservationCount < massageRoom.reservationLimit
 
 		return FetchMassageResponse(
-			count = massageRoom.reservationCount,
+			currentCount = massageRoom.reservationCount,
 			limit = massageRoom.reservationLimit,
 			isAvailable = isAvailable,
 		)
