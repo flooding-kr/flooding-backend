@@ -55,6 +55,7 @@ sealed interface ExceptionEnum {
 		NOT_FOUND_CLUB(HttpStatus.NOT_FOUND, "해당하는 동아리를 찾을 수 없습니다."),
 		NOT_FOUND_CLUB_MEMBER(HttpStatus.NOT_FOUND, "해당하는 동아리 구성원을 찾을 수 없습니다."),
 		NOT_CLUB_LEADER(HttpStatus.FORBIDDEN, "해당 동아리의 리더가 아닙니다."),
+		NOT_CLUB_MANAGER(HttpStatus.FORBIDDEN, "해당 동아리의 관리자가 아닙니다."),
 		ALREADY_USED_CLUB_NAME(HttpStatus.BAD_REQUEST, "이미 사용중인 동아리명입니다."),
 		EXISTS_PENDING_CLUB(HttpStatus.BAD_REQUEST, "동일한 유형의 동아리가 이미 심사를 대기중입니다."),
 		ALREADY_JOINED_CLUB(HttpStatus.BAD_REQUEST, "이미 참여중인 동일한 유형의 동아리가 존재합니다."),
@@ -89,6 +90,7 @@ sealed interface ExceptionEnum {
 		val reason: String,
 	) {
 		MAX_CAPACITY_EXCEEDED(HttpStatus.BAD_REQUEST, "해당 테이블의 자리보다 신청자가 많습니다."),
+		HOMEBASE_ONLY_STUDENT_ALLOWED(HttpStatus.BAD_REQUEST, "학생만 홈베이스에 참여할 수 있습니다."),
 	}
 
 	enum class ATTENDANCE(
@@ -151,6 +153,13 @@ sealed interface ExceptionEnum {
 		MASSAGE_OUT_OF_TIME_RANGE(HttpStatus.BAD_REQUEST, "정해진 시간에 안마의자 신청을 해주세요."),
 		NOT_FOUND_MASSAGE_RESERVATION(HttpStatus.NOT_FOUND, "안마의자 예약을 찾을 수 없습니다."),
 	}
+
+	enum class NOTICE(
+		val status: HttpStatus,
+		val reason: String,
+	) {
+		NOT_FOUND_NOTICE(HttpStatus.NOT_FOUND, "해당하는 공지를 찾을 수 없습니다.")
+	}
 }
 
 fun ExceptionEnum.CLASSROOM.toPair() = Pair(this.status, this.reason)
@@ -176,3 +185,5 @@ fun ExceptionEnum.FILE.toPair() = Pair(this.status, this.reason)
 fun ExceptionEnum.SELF_STUDY.toPair() = Pair(this.status, this.reason)
 
 fun ExceptionEnum.MASSAGE.toPair() = Pair(this.status, this.reason)
+
+fun ExceptionEnum.NOTICE.toPair() = Pair(this.status, this.reason)

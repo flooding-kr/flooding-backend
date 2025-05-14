@@ -77,8 +77,8 @@ class SecurityConfig(
 			it // Attendance
 				.requestMatchers(HttpMethod.POST, "/attendance/club").hasAuthority(ROLE_STUDENT)
 				.requestMatchers(HttpMethod.DELETE, "/attendance/club").hasAuthority(ROLE_STUDENT)
-				.requestMatchers(HttpMethod.POST, "/attendance/club/leader").hasAuthority(ROLE_STUDENT)
-				.requestMatchers(HttpMethod.DELETE, "/attendance/club/leader").hasAuthority(ROLE_STUDENT)
+				.requestMatchers(HttpMethod.POST, "/attendance/club/manager").hasAnyAuthority(ROLE_STUDENT, ROLE_TEACHER)
+				.requestMatchers(HttpMethod.DELETE, "/attendance/club/manager").hasAnyAuthority(ROLE_STUDENT, ROLE_TEACHER)
 				.requestMatchers(HttpMethod.GET, "/attendance/myself").hasAnyAuthority(ROLE_STUDENT)
 				.requestMatchers(HttpMethod.GET, "/attendance/club/{clubId}").hasAnyAuthority(ROLE_STUDENT, ROLE_TEACHER)
 
@@ -97,6 +97,11 @@ class SecurityConfig(
         		.requestMatchers(HttpMethod.GET, "/massage/status").hasAuthority(ROLE_USER)
         		.requestMatchers(HttpMethod.GET, "/massage/rank").hasAuthority(ROLE_USER)
 				.requestMatchers(HttpMethod.PATCH, "/admin/massage/limit").hasAuthority(ROLE_DORMITORY_ADMIN)
+
+			it //notice
+				.requestMatchers(HttpMethod.GET, "/notice").hasAnyAuthority(ROLE_USER)
+				.requestMatchers(HttpMethod.POST, "/admin/notice").hasAnyAuthority(ROLE_TEACHER, ROLE_USER_ADMIN, ROLE_DORMITORY_ADMIN)
+				.requestMatchers(HttpMethod.DELETE, "/admin/notice/{noticeId}").hasAnyAuthority(ROLE_TEACHER, ROLE_USER_ADMIN, ROLE_DORMITORY_ADMIN)
 
 			it // File
 				.requestMatchers(HttpMethod.POST, "/file/image").hasAuthority(ROLE_USER)
