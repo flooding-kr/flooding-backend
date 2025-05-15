@@ -17,7 +17,6 @@ class FetchSelfStudyStudentUsecase(
     private val s3Adapter: S3Adapter,
 ) {
     fun execute(request: FetchSelfStudyRequest): FetchSelfStudyListResponse {
-
         val year = request.grade?.let { StudentUtil.calcGradeToYear(it) }
 
         val reservations = selfStudyReservationJdslRepository
@@ -32,7 +31,7 @@ class FetchSelfStudyStudentUsecase(
 
         val responses = reservations.map { reservation ->
             FetchSelfStudyResponse.toDto(
-                selfStudyReservation = reservation,
+                reservation = reservation,
                 profileImage = reservation.student.profileImageKey?.let {
                     s3Adapter.generatePresignedUrl(it)
                 },

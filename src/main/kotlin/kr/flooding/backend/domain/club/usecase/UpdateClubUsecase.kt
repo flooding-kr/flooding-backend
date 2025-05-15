@@ -18,47 +18,40 @@ class UpdateClubUsecase(
 	private val userUtil: UserUtil,
 ) {
 	fun execute(request: UpdateClubRequest) {
-		requireNotNull(request.clubId)
-
-		val currentClub =
-			clubRepository.findById(request.clubId).orElseThrow {
-				HttpException(ExceptionEnum.CLUB.NOT_FOUND_CLUB.toPair())
-			}
+		val clubId = checkNotNull(request.clubId) { "Club ID must not be null" }
 		val currentUser = userUtil.getUser()
+
+		val currentClub = clubRepository.findById(clubId).orElseThrow {
+			HttpException(ExceptionEnum.CLUB.NOT_FOUND_CLUB.toPair())
+		}
 
 		if (currentClub.leader != currentUser) {
 			throw HttpException(ExceptionEnum.CLUB.NOT_CLUB_LEADER.toPair())
 		}
 
-		val changedClassroom =
-			request.classroomId.let {
-				if (it != null) {
-					classroomRepository.findById(it).orElseThrow {
-						HttpException(ExceptionEnum.CLASSROOM.NOT_FOUND_CLASSROOM.toPair())
-					}
-				} else {
-					currentClub.classroom
-				}
+		val changedClassroom = request.classroomId?.let {
+			classroomRepository.findById(it).orElseThrow {
+				HttpException(ExceptionEnum.CLASSROOM.NOT_FOUND_CLASSROOM.toPair())
 			}
+		} ?: currentClub.classroom
 
 		val changedActivityImages =
-			if (request.activityImageUrls?.isNotEmpty() == true) {
-				request.activityImageUrls
-			} else {
+			if (request.activityImageKeys.isNullOrEmpty()) {
 				currentClub.activityImageKeys
-			} ?: listOf()
+			} else {
+				request.activityImageKeys
+			}
 
-		val updatedClub =
-			currentClub.copy(
-				name = currentClub.name.updateIfNotBlank(request.name),
-				description = currentClub.description.updateIfNotBlank(request.description),
-				classroom = changedClassroom,
-				thumbnailImageKey = currentClub.thumbnailImageKey?.updateIfNotBlank(request.thumbnailImageUrl),
-				activityImageKeys = changedActivityImages,
-			)
+		val updatedClub = currentClub.copy(
+			classroom = changedClassroom,
+			activityImageKeys = changedActivityImages,
+			name = request.name?.takeIf { it.isNotBlank() } ?: currentClub.name,
+			description = request.description?.takeIf { it.isNotBlank() } ?: currentClub.description,
+			thumbnailImageKey = request.thumbnailImageKey?.takeIf {
+				it.isNotBlank()
+			} ?: currentClub.thumbnailImageKey,
+		)
 
 		clubRepository.save(updatedClub)
 	}
-
-	fun String.updateIfNotBlank(changedValue: String?): String = changedValue?.takeIf { it.isNotBlank() } ?: this
 }

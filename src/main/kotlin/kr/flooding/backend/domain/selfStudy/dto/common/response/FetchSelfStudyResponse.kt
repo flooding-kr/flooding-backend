@@ -5,17 +5,27 @@ import kr.flooding.backend.domain.selfStudy.persistence.entity.SelfStudyReservat
 import java.util.UUID
 
 class FetchSelfStudyResponse(
-    val id: UUID?,
-    val student: SelfStudyStudentResponse
+    val id: UUID,
+    val studentNumber: String,
+    val profileImage: PresignedUrlModel?,
+    val name: String,
+    val isPresent: Boolean,
 ) {
     companion object {
         fun toDto(
-            selfStudyReservation: SelfStudyReservation,
+            reservation: SelfStudyReservation,
             profileImage: PresignedUrlModel?,
-        ): FetchSelfStudyResponse =
-            FetchSelfStudyResponse(
-                id = selfStudyReservation.id,
-                student = SelfStudyStudentResponse.toDto(selfStudyReservation.student, profileImage)
+        ): FetchSelfStudyResponse {
+            val studentInfo = requireNotNull(reservation.student.studentInfo)
+            val id = checkNotNull(reservation.id) { "Reservation ID must not be null." }
+
+            return FetchSelfStudyResponse(
+                id = id,
+                studentNumber = studentInfo.toSchoolNumber(),
+                profileImage = profileImage,
+                name = reservation.student.name,
+                isPresent = reservation.isPresent
             )
+        }
     }
 }
