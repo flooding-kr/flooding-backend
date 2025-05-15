@@ -21,7 +21,7 @@ import kotlin.jvm.optionals.getOrNull
 @Service
 @Transactional(propagation = Propagation.REQUIRES_NEW)
 class ReserveSelfStudyRetryHelper(
-    private val selfStudyReservationjpaRepository: SelfStudyReservationJpaRepository,
+    private val selfStudyReservationJpaRepository: SelfStudyReservationJpaRepository,
     private val selfStudyRoomRepository: SelfStudyRoomJpaRepository,
 ) {
     @Retryable(
@@ -39,7 +39,7 @@ class ReserveSelfStudyRetryHelper(
     fun execute(currentUser: User) {
         try {
             val prevReservation =
-                selfStudyReservationjpaRepository
+                selfStudyReservationJpaRepository
                     .findByStudentAndCreatedAtBetween(
                         currentUser,
                         DateUtil.getAtStartOfToday(),
@@ -63,7 +63,11 @@ class ReserveSelfStudyRetryHelper(
                 throw HttpException(ExceptionEnum.SELF_STUDY.MAX_CAPACITY_SELF_STUDY.toPair())
             }
 
-            selfStudyReservationjpaRepository.save(SelfStudyReservation(student = currentUser))
+            selfStudyReservationJpaRepository.save(
+                SelfStudyReservation(
+                    student = currentUser
+                )
+            )
             selfStudyRoom.incrementReservationCount()
         } catch (e: DataIntegrityViolationException) {
             throw HttpException(ExceptionEnum.SELF_STUDY.ALREADY_RESERVE_SELF_STUDY.toPair())

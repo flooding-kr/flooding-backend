@@ -33,7 +33,19 @@ class SelfStudyReservation(
 	var isCancelled: Boolean = false
 		protected set
 
+	@Column(nullable = false)
+	var isPresent: Boolean = false
+		protected set
+
 	fun cancelReservation() {
 		isCancelled = true
+	}
+
+	fun attendSelfStudy() {
+		isPresent = true
+	}
+
+	fun absenceSelfStudy() {
+		isPresent = false
 	}
 }

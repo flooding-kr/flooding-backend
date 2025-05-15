@@ -9,9 +9,9 @@ data class UpdateClubRequest(
 
 	val classroomId: Long?,
 
-	val thumbnailImageUrl: String?,
+	val thumbnailImageKey: String?,
 
-	val activityImageUrls: List<String>?,
+	val activityImageKeys: List<String>?,
 
 	val clubId: UUID?,
 )

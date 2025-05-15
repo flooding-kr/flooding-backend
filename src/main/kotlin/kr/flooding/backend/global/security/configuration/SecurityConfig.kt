@@ -53,6 +53,8 @@ class SecurityConfig(
 				.requestMatchers(HttpMethod.DELETE, "/self-study").hasAuthority(ROLE_STUDENT)
 				.requestMatchers(HttpMethod.PATCH, "/admin/self-study/limit").hasAuthority(ROLE_DORMITORY_ADMIN)
 				.requestMatchers(HttpMethod.POST, "/admin/self-study/{selfStudyReservationId}/ban").hasAuthority(ROLE_DORMITORY_ADMIN)
+				.requestMatchers(HttpMethod.PATCH, "/admin/self-study/{selfStudyReservationId}/attend").hasAuthority(ROLE_DORMITORY_ADMIN)
+				.requestMatchers(HttpMethod.PATCH, "/admin/self-study/{selfStudyReservationId}/absence").hasAuthority(ROLE_DORMITORY_ADMIN)
 				.requestMatchers(HttpMethod.GET, "/self-study/status").hasAuthority(ROLE_USER)
 				.requestMatchers(HttpMethod.GET, "/self-study/rank").hasAuthority(ROLE_USER)
 
