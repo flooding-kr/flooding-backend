@@ -4,10 +4,7 @@ import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import kr.flooding.backend.domain.massage.dto.response.FetchMassageRankListResponse
 import kr.flooding.backend.domain.massage.dto.response.FetchMassageResponse
-import kr.flooding.backend.domain.massage.usecase.CancelMassageUsecase
-import kr.flooding.backend.domain.massage.usecase.FetchMassageRankUsecase
-import kr.flooding.backend.domain.massage.usecase.FetchMassageUsecase
-import kr.flooding.backend.domain.massage.usecase.ReserveMassageUsecase
+import kr.flooding.backend.domain.massage.usecase.*
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
@@ -21,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController
 class MassageController(
 	private val reserveMassageUsecase: ReserveMassageUsecase,
 	private val cancelMassageUsecase: CancelMassageUsecase,
-	private val fetchMassageUsecase: FetchMassageUsecase,
+	private val fetchMassageStatusUsecase: FetchMassageStatusUsecase,
 	private val fetchMassageRankUsecase: FetchMassageRankUsecase
 ) {
     @Operation(summary = "안마의자 신청")
@@ -41,7 +38,7 @@ class MassageController(
 	@Operation(summary = "안마의자 인원 조회")
 	@GetMapping("/status")
 	fun fetchMassageCount(): ResponseEntity<FetchMassageResponse> {
-		return fetchMassageUsecase.execute().let {
+		return fetchMassageStatusUsecase.execute().let {
 			ResponseEntity.ok(it)
 		}
 	}

@@ -8,7 +8,7 @@ import kr.flooding.backend.domain.selfStudy.dto.web.response.SelfStudyStatusResp
 import kr.flooding.backend.domain.selfStudy.usecase.CancelSelfStudyUsecase
 import kr.flooding.backend.domain.selfStudy.usecase.FetchSelfStudyStudentUsecase
 import kr.flooding.backend.domain.selfStudy.usecase.ReserveSelfStudyUsecase
-import kr.flooding.backend.domain.selfStudy.usecase.SelfStudyStatusUsecase
+import kr.flooding.backend.domain.selfStudy.usecase.FetchSelfStudyStatusUsecase
 import kr.flooding.backend.domain.user.enums.Gender
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*
 class SelfStudyStudentController(
     private val reserveSelfStudyUsecase: ReserveSelfStudyUsecase,
     private val cancelSelfStudyUsecase: CancelSelfStudyUsecase,
-    private val selfStudyStatusUsecase: SelfStudyStatusUsecase,
+    private val fetchSelfStudyStatusUsecase: FetchSelfStudyStatusUsecase,
     private val fetchSelfStudyStudentUsecase: FetchSelfStudyStudentUsecase,
 ) {
     @Operation(summary = "자습 신청")
@@ -39,7 +39,7 @@ class SelfStudyStudentController(
     @Operation(summary = "자습 현황 조회")
     @GetMapping("/status")
     fun getSelfStudyStatus(): ResponseEntity<SelfStudyStatusResponse> =
-        selfStudyStatusUsecase.execute().let {
+        fetchSelfStudyStatusUsecase.execute().let {
             ResponseEntity.ok(it)
         }
 

@@ -5,10 +5,12 @@ import kr.flooding.backend.domain.selfStudy.dto.web.request.FetchSelfStudyReques
 import kr.flooding.backend.domain.selfStudy.dto.web.response.FetchSelfStudyListResponse
 import kr.flooding.backend.domain.selfStudy.persistence.repository.jdsl.SelfStudyReservationJdslRepository
 import kr.flooding.backend.global.thirdparty.s3.adapter.S3Adapter
-import kr.flooding.backend.global.util.DateUtil
+import kr.flooding.backend.global.util.DateUtil.Companion.getAtEndOfDay
+import kr.flooding.backend.global.util.DateUtil.Companion.getAtStartOfDay
 import kr.flooding.backend.global.util.StudentUtil
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.time.LocalDate
 
 @Service
 @Transactional(readOnly = true)
@@ -18,11 +20,12 @@ class FetchSelfStudyStudentUsecase(
 ) {
     fun execute(request: FetchSelfStudyRequest): FetchSelfStudyListResponse {
         val year = request.grade?.let { StudentUtil.calcGradeToYear(it) }
+        val currentDate = LocalDate.now()
 
         val reservations = selfStudyReservationJdslRepository
             .findByCreatedByBetweenAndYearAndClassroomAndGenderAndNameLikesAndIsCancelledFalse(
-                createdAtBefore = DateUtil.getAtStartOfToday(),
-                createdAtAfter = DateUtil.getAtEndOfToday(),
+                createdAtBefore = currentDate.getAtStartOfDay(),
+                createdAtAfter = currentDate.getAtEndOfDay(),
                 year = year,
                 classroom = request.classroom,
                 gender = request.gender,

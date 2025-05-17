@@ -13,7 +13,7 @@ import java.time.LocalTime
 
 @Service
 @Transactional
-class FetchMassageUsecase(
+class FetchMassageStatusUsecase(
 	private val massageRoomJpaRepository: MassageRoomJpaRepository,
 ) {
 	fun execute(): FetchMassageResponse {
