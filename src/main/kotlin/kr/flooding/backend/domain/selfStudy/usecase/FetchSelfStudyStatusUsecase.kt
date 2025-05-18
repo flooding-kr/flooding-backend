@@ -41,7 +41,7 @@ class FetchSelfStudyStatusUsecase(
             currentDate.atEndOfDay(),
         )
 
-        val isAlreadyReserved = currentReservation.isPresent && !currentReservation.get().isCancelled
+        val isReserved = currentReservation.isPresent && !currentReservation.get().isCancelled
 
         val startTime = LocalTime.of(20, 0)
         val endTime = LocalTime.of(21, 0)
@@ -54,11 +54,11 @@ class FetchSelfStudyStatusUsecase(
         
         val isAvailableDateTime = isAvailableTime && isAvailableDate
         val isLeftSeat = selfStudyRoom.reservationCount < selfStudyRoom.reservationLimit
-        val isBanned = selfStudyBanJpaRepository.existsByStudent(currentUser)
+        val isNotBanned = selfStudyBanJpaRepository.existsByStudent(currentUser)
 
         val selfStudyStatus = when {
-            isAlreadyReserved -> SelfStudyStatus.APPLIED
-            isAvailableDateTime && isLeftSeat && !isBanned -> SelfStudyStatus.POSSIBLE
+            isReserved -> SelfStudyStatus.APPLIED
+            isAvailableDateTime && isLeftSeat && isNotBanned -> SelfStudyStatus.POSSIBLE
             else -> SelfStudyStatus.IMPOSSIBLE
         }
 
