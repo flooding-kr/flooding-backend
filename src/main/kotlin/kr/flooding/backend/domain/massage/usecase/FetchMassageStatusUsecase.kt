@@ -14,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.LocalTime
-import kotlin.jvm.optionals.getOrNull
 
 @Service
 @Transactional
@@ -28,10 +27,10 @@ class FetchMassageStatusUsecase(
 			HttpException(ExceptionEnum.MASSAGE.NOT_FOUND_MASSAGE_ROOM.toPair())
 		}
 
+		val currentUser = userUtil.getUser()
 		val currentDate = LocalDate.now()
 		val currentTime = LocalTime.now()
 
-		val currentUser = userUtil.getUser()
 		val currentReservation = massageReservationJpaRepository.findByStudentAndCreatedAtBetween(
 			currentUser,
 			currentDate.atStartOfDay(),

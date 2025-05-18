@@ -1,4 +1,4 @@
-package kr.flooding.backend.domain.music.usecase
+package kr.flooding.backend.domain.music.usecase.student
 
 import kr.flooding.backend.domain.music.dto.web.request.CreateMusicRequest
 import kr.flooding.backend.domain.music.persistence.entity.Music

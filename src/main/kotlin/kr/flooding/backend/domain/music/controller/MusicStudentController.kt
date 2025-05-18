@@ -7,10 +7,10 @@ import kr.flooding.backend.domain.music.dto.web.request.CreateMusicRequest
 import kr.flooding.backend.domain.music.enums.MusicOrderType
 import kr.flooding.backend.domain.music.dto.web.response.FetchMusicResponse
 import kr.flooding.backend.domain.music.dto.web.response.UpdateMusicLikeResponse
-import kr.flooding.backend.domain.music.usecase.CreateMusicUsecase
-import kr.flooding.backend.domain.music.usecase.FetchMusicUsecase
-import kr.flooding.backend.domain.music.usecase.RemoveMusicUsecase
-import kr.flooding.backend.domain.music.usecase.UpdateMusicLikeUsecase
+import kr.flooding.backend.domain.music.usecase.student.CreateMusicUsecase
+import kr.flooding.backend.domain.music.usecase.student.FetchMusicUsecase
+import kr.flooding.backend.domain.music.usecase.student.RemoveMusicMyselfUsecase
+import kr.flooding.backend.domain.music.usecase.student.UpdateMusicLikeUsecase
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
@@ -27,11 +27,11 @@ import java.util.UUID
 @Tag(name = "Music", description = "기상 음악")
 @RestController
 @RequestMapping("music")
-class MusicController(
+class MusicStudentController(
 	private val createMusicUsecase: CreateMusicUsecase,
 	private val fetchMusicUsecase: FetchMusicUsecase,
 	private val updateMusicLikeUsecase: UpdateMusicLikeUsecase,
-	private val removeMusicUsecase: RemoveMusicUsecase,
+	private val removeMusicMyselfUsecase: RemoveMusicMyselfUsecase,
 ) {
 	@Operation(summary = "기상 음악 신청")
 	@PostMapping
@@ -52,15 +52,15 @@ class MusicController(
 			ResponseEntity.ok(this)
 		}
 
-	@Operation(summary = "기상 음악 삭제")
+	@Operation(summary = "기상 음악 본인 삭제")
 	@DeleteMapping
 	fun removeMusic(): ResponseEntity<Unit> =
-		removeMusicUsecase.execute().run {
+		removeMusicMyselfUsecase.execute().run {
 			ResponseEntity.ok().build()
 		}
 
 	@Operation(summary = "기상 음악 좋아요")
-	@PatchMapping("{musicId}/like")
+	@PatchMapping("/{musicId}/like")
 	fun updateMusicLike(
 		@PathVariable musicId: UUID,
 	): ResponseEntity<UpdateMusicLikeResponse> =
