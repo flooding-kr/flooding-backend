@@ -5,8 +5,7 @@ import kr.flooding.backend.domain.selfStudy.dto.web.request.FetchSelfStudyReques
 import kr.flooding.backend.domain.selfStudy.dto.web.response.FetchSelfStudyListResponse
 import kr.flooding.backend.domain.selfStudy.persistence.repository.jdsl.SelfStudyReservationJdslRepository
 import kr.flooding.backend.global.thirdparty.s3.adapter.S3Adapter
-import kr.flooding.backend.global.util.DateUtil.Companion.getAtEndOfDay
-import kr.flooding.backend.global.util.DateUtil.Companion.getAtStartOfDay
+import kr.flooding.backend.global.util.DateUtil.Companion.atEndOfDay
 import kr.flooding.backend.global.util.StudentUtil
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -24,8 +23,8 @@ class FetchSelfStudyStudentUsecase(
 
         val reservations = selfStudyReservationJdslRepository
             .findByCreatedByBetweenAndYearAndClassroomAndGenderAndNameLikesAndIsCancelledFalse(
-                createdAtBefore = currentDate.getAtStartOfDay(),
-                createdAtAfter = currentDate.getAtEndOfDay(),
+                createdAtBefore = currentDate.atStartOfDay(),
+                createdAtAfter = currentDate.atEndOfDay(),
                 year = year,
                 classroom = request.classroom,
                 gender = request.gender,
