@@ -1,4 +1,4 @@
-package kr.flooding.backend.domain.music.usecase
+package kr.flooding.backend.domain.music.usecase.student
 
 import kr.flooding.backend.domain.music.persistence.repository.jpa.MusicJpaRepository
 import kr.flooding.backend.global.exception.ExceptionEnum
@@ -12,7 +12,7 @@ import java.time.LocalDate
 
 @Service
 @Transactional
-class RemoveMusicUsecase(
+class RemoveMusicMyselfUsecase(
 	private val userUtil: UserUtil,
 	private val musicJpaRepository: MusicJpaRepository,
 ) {
