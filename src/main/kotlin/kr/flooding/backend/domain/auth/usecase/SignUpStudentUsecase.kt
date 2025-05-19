@@ -40,12 +40,11 @@ class SignUpStudentUsecase(
 			throw HttpException(ExceptionEnum.AUTH.WRONG_YEAR.toPair())
 		}
 
-		val studentInfo =
-			StudentInfo(
-				year = request.year,
-				classroom = request.classroom,
-				number = request.number,
-			)
+		val studentInfo = StudentInfo(
+			year = request.year,
+			classroom = request.classroom,
+			number = request.number,
+		)
 
 		if (userJpaRepository.existsByStudentInfo(studentInfo)) {
 			throw HttpException(ExceptionEnum.AUTH.DUPLICATED_STUDENT_INFO.toPair())
@@ -62,21 +61,19 @@ class SignUpStudentUsecase(
 					name = request.name,
 				),
 			)
-		user.setPendingState()
-
+		user.setApproveUserState()
 		roleUtil.saveRoles(user, listOf(RoleType.ROLE_USER, RoleType.ROLE_STUDENT))
 
-		val id = user.id
-		requireNotNull(id) { "id cannot be null" }
+		val userId = checkNotNull(user.id) { "User ID must not be null." }
 
 		val randomVerifyCode = passwordUtil.generateRandomCode(6)
 		emailAdapter.sendVerifyCode(request.email, randomVerifyCode)
 
-		val verifyCode =
+		verifyCodeRepository.save(
 			VerifyCode(
-				id = id,
+				id = userId,
 				code = randomVerifyCode,
 			)
-		verifyCodeRepository.save(verifyCode)
+		)
 	}
 }
