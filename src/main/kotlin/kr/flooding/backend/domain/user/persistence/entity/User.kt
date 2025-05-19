@@ -42,6 +42,18 @@ data class User(
 	@Column(nullable = false)
 	val name: String,
 ) {
+	@Column(nullable = false)
+	var userState: UserState = UserState.PENDING
+		protected set
+
+	fun setApproveUserState(){
+		userState = UserState.APPROVED
+	}
+
+	fun setPendingUserState(){
+		userState = UserState.PENDING
+	}
+
 	fun updateProfileImage(url: String) {
 		profileImageKey = url
 	}
