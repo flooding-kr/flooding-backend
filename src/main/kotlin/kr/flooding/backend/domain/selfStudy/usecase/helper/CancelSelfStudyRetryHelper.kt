@@ -6,7 +6,7 @@ import kr.flooding.backend.domain.user.persistence.entity.User
 import kr.flooding.backend.global.exception.ExceptionEnum
 import kr.flooding.backend.global.exception.HttpException
 import kr.flooding.backend.global.exception.toPair
-import kr.flooding.backend.global.util.DateUtil
+import kr.flooding.backend.global.util.DateUtil.Companion.atEndOfDay
 import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.orm.ObjectOptimisticLockingFailureException
@@ -15,6 +15,7 @@ import org.springframework.retry.annotation.Retryable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Propagation
 import org.springframework.transaction.annotation.Transactional
+import java.time.LocalDate
 import kotlin.jvm.optionals.getOrNull
 
 @Service
@@ -37,12 +38,13 @@ class CancelSelfStudyRetryHelper(
     )
     fun execute(currentUser: User) {
         try {
+            val currentDate = LocalDate.now()
             val prevReservation =
                 selfStudyReservationjpaRepository
                     .findByStudentAndCreatedAtBetween(
                         currentUser,
-                        DateUtil.getAtStartOfToday(),
-                        DateUtil.getAtEndOfToday(),
+                        currentDate.atStartOfDay(),
+                        currentDate.atEndOfDay(),
                     ).getOrNull()
 
             if (prevReservation == null || prevReservation.isCancelled) {

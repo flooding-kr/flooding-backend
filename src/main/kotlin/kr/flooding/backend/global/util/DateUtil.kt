@@ -8,7 +8,8 @@ import java.util.Date
 class DateUtil {
 	companion object {
 		fun LocalDateTime.toDate(zone: ZoneId = ZoneId.systemDefault()): Date = Date.from(this.atZone(zone).toInstant())
-		fun getAtStartOfToday(): LocalDateTime = LocalDate.now().atStartOfDay()
-		fun getAtEndOfToday(): LocalDateTime = LocalDate.now().atStartOfDay().plusDays(1)
+
+		// Following LocalDate's atStartOfDay() naming
+		fun LocalDate.atEndOfDay(): LocalDateTime = this.atStartOfDay().plusDays(1)
 	}
 }

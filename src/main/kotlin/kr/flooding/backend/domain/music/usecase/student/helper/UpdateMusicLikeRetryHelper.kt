@@ -1,4 +1,4 @@
-package kr.flooding.backend.domain.music.usecase.helper
+package kr.flooding.backend.domain.music.usecase.student.helper
 
 import kr.flooding.backend.domain.music.dto.web.response.UpdateMusicLikeResponse
 import kr.flooding.backend.domain.music.persistence.repository.jpa.MusicJpaRepository

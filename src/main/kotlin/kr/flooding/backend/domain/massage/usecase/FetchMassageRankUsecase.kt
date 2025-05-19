@@ -4,9 +4,10 @@ import kr.flooding.backend.domain.massage.dto.response.FetchMassageRankListRespo
 import kr.flooding.backend.domain.massage.dto.response.FetchMassageRankResponse
 import kr.flooding.backend.domain.massage.persistence.repository.jdsl.MassageReservationJdslRepository
 import kr.flooding.backend.global.thirdparty.s3.adapter.S3Adapter
-import kr.flooding.backend.global.util.DateUtil
+import kr.flooding.backend.global.util.DateUtil.Companion.atEndOfDay
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.time.LocalDate
 
 @Service
 @Transactional
@@ -15,9 +16,10 @@ class FetchMassageRankUsecase(
 	private val s3Adapter: S3Adapter,
 ) {
 	fun execute(): FetchMassageRankListResponse {
+		val currentDate = LocalDate.now()
 		val reservations = massageReservationJdslRepository.findByCreatedAtBetweenAndIsCancelledAndOrderByCreatedAtAsc(
-			DateUtil.getAtStartOfToday(),
-			DateUtil.getAtEndOfToday(),
+			currentDate.atStartOfDay(),
+			currentDate.atEndOfDay(),
 			false
 		)
 
