@@ -9,7 +9,7 @@ interface ClubMemberJdslRepository {
 
     fun findWithUserAndClubByClubIdAndUserIsNot(
         clubId: UUID,
-        user: User,
+        user: User?,
     ): List<ClubMember>
 
     fun findWithUserAndClubByClubId(clubId: UUID): List<ClubMember>
