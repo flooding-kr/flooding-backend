@@ -28,7 +28,7 @@ class FetchClubUsecase(
 				.findWithClassroomWithTeacherById(clubId)
 				.orElseThrow { HttpException(ExceptionEnum.CLUB.NOT_FOUND_CLUB.toPair()) }
 
-		val clubMembers = clubMemberJdslRepository.findWithUserAndClubByClubIdAndUserIsNot(clubId, club.leader)
+		val clubMembers = clubMemberJdslRepository.findWithUserAndClubByClubIdAndUserIsNot(clubId, club?.leader)
 
 		val thumbnailImage = club.thumbnailImageKey?.let { s3Adapter.generatePresignedUrl(it) }
 		val activityImages = club.activityImageKeys.map { s3Adapter.generatePresignedUrl(it) }
@@ -45,10 +45,10 @@ class FetchClubUsecase(
 			ClubTeacherResponse.toDto(it, profileImageUrl)
 		}
 
-		val leaderProfileImage = club.leader.profileImageKey?.let {
+		val leaderProfileImage = club.leader?.profileImageKey?.let {
 			s3Adapter.generatePresignedUrl(it)
 		}
-		val clubLeaderResponse = ClubStudentResponse.toDto(club.leader, leaderProfileImage)
+		val clubLeaderResponse = club.leader?.let { ClubStudentResponse.toDto(it, leaderProfileImage) }
 
 		val applicantCount = clubApplicantJpaRepository.countByClub(club)
 

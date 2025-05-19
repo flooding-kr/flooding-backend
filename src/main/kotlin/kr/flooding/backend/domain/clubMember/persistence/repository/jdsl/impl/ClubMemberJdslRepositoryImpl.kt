@@ -30,7 +30,7 @@ class ClubMemberJdslRepositoryImpl(
 		return entityManager.createQuery(query, context).resultList
 	}
 
-	override fun findWithUserAndClubByClubIdAndUserIsNot(clubId: UUID, user: User): List<ClubMember> {
+	override fun findWithUserAndClubByClubIdAndUserIsNot(clubId: UUID, user: User?): List<ClubMember> {
 		val query =
 			jpql {
 				select(
@@ -41,7 +41,7 @@ class ClubMemberJdslRepositoryImpl(
 					fetchJoin(ClubMember::club),
 				).whereAnd(
 					path(Club::id).eq(clubId),
-					path(ClubMember::user).notEqual(user)
+					user?.let { path(ClubMember::user).notEqual(user) }
 				)
 			}
 

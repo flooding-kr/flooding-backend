@@ -33,7 +33,7 @@ class FetchClubAttendanceUsecase(
 		val club = clubMembers.firstOrNull()?.club ?:
 			throw HttpException(ExceptionEnum.CLUB.NOT_FOUND_CLUB.toPair())
 
-		if(currentUser.id != club.leader.id && currentUser.id != club.teacher?.id) {
+		if(currentUser.id != club.leader?.id && currentUser.id != club.teacher?.id) {
 			throw HttpException(ExceptionEnum.CLUB.NOT_CLUB_LEADER.toPair())
 		}
 

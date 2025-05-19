@@ -31,7 +31,7 @@ data class Club(
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@OnDelete(action = OnDeleteAction.SET_NULL)
-	val classroom: Classroom,
+	val classroom: Classroom?,
 
 	val thumbnailImageKey: String? = null,
 
@@ -48,7 +48,7 @@ data class Club(
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@OnDelete(action = OnDeleteAction.SET_NULL)
-	val leader: User,
+	val leader: User?,
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@OnDelete(action = OnDeleteAction.SET_NULL)
