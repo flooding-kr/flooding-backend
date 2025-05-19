@@ -4,9 +4,9 @@ spring:
       ddl-auto: update
 
 client:
-  verify-url: "http://localhost:3000/signup/auth/verify"
-  reset-password-url: "http://localhost:3000/signin/resetpassword"
-  invite-club-url: "http://localhost:3000/club/invite"
+  verify-url: "https://flooding.kr/signup/auth/verify"
+  reset-password-url: "https://flooding.kr/signin/resetpassword"
+  invite-club-url: "https://flooding.kr/club/invite"
 
 jwt:
     access-token-expires: 900000        # 15분
