@@ -21,7 +21,8 @@ class SecurityConfig(
         private val ROLE_STUDENT = RoleType.ROLE_STUDENT.name
         private val ROLE_TEACHER = RoleType.ROLE_TEACHER.name
         private val ROLE_USER_ADMIN = RoleType.ROLE_USER_ADMIN.name
-        private val ROLE_DORMITORY_ADMIN = RoleType.ROLE_DORMITORY_ADMIN.name
+        private val ROLE_DORMITORY_COUNCIL = RoleType.ROLE_DORMITORY_COUNCIL.name
+        private val ROLE_DORMITORY_TEACHER = RoleType.ROLE_DORMITORY_TEACHER.name
     }
 
     @Bean
@@ -38,6 +39,8 @@ class SecurityConfig(
 				.requestMatchers(HttpMethod.GET, "/user/myself").hasAuthority(ROLE_USER)
 				.requestMatchers(HttpMethod.PATCH, "/user/myself").hasAuthority(ROLE_USER)
 				.requestMatchers(HttpMethod.DELETE, "/user/withdraw").hasAuthority(ROLE_USER)
+
+			it // User Management
 				.requestMatchers(HttpMethod.GET, "/admin/user/pending").hasAuthority(ROLE_USER_ADMIN)
 				.requestMatchers(HttpMethod.PATCH, "/admin/user/{userId}/approve").hasAuthority(ROLE_USER_ADMIN)
 
@@ -51,12 +54,14 @@ class SecurityConfig(
 			it // Self Study
 				.requestMatchers(HttpMethod.POST, "/self-study").hasAuthority(ROLE_STUDENT)
 				.requestMatchers(HttpMethod.DELETE, "/self-study").hasAuthority(ROLE_STUDENT)
-				.requestMatchers(HttpMethod.PATCH, "/admin/self-study/limit").hasAuthority(ROLE_DORMITORY_ADMIN)
-				.requestMatchers(HttpMethod.POST, "/admin/self-study/{selfStudyReservationId}/ban").hasAuthority(ROLE_DORMITORY_ADMIN)
-				.requestMatchers(HttpMethod.PATCH, "/admin/self-study/{selfStudyReservationId}/attend").hasAuthority(ROLE_DORMITORY_ADMIN)
-				.requestMatchers(HttpMethod.PATCH, "/admin/self-study/{selfStudyReservationId}/absence").hasAuthority(ROLE_DORMITORY_ADMIN)
 				.requestMatchers(HttpMethod.GET, "/self-study/status").hasAuthority(ROLE_USER)
 				.requestMatchers(HttpMethod.GET, "/self-study/rank").hasAuthority(ROLE_USER)
+
+			it // Self Study Management
+				.requestMatchers(HttpMethod.PATCH, "/admin/self-study/limit").hasAnyAuthority(ROLE_DORMITORY_COUNCIL, ROLE_DORMITORY_TEACHER)
+				.requestMatchers(HttpMethod.POST, "/admin/self-study/{selfStudyReservationId}/ban").hasAnyAuthority(ROLE_DORMITORY_COUNCIL, ROLE_DORMITORY_TEACHER)
+				.requestMatchers(HttpMethod.PATCH, "/admin/self-study/{selfStudyReservationId}/attend").hasAnyAuthority(ROLE_DORMITORY_COUNCIL, ROLE_DORMITORY_TEACHER)
+				.requestMatchers(HttpMethod.PATCH, "/admin/self-study/{selfStudyReservationId}/absence").hasAnyAuthority(ROLE_DORMITORY_COUNCIL, ROLE_DORMITORY_TEACHER)
 
 			it // Club
 				.requestMatchers(HttpMethod.GET, "/club").hasAuthority(ROLE_USER)
@@ -93,17 +98,24 @@ class SecurityConfig(
 				.requestMatchers(HttpMethod.DELETE, "/music").hasAuthority(ROLE_USER)
 				.requestMatchers(HttpMethod.PATCH, "/music/{musicId}/like").hasAuthority(ROLE_USER)
 
+			it // Music Management
+				.requestMatchers(HttpMethod.DELETE, "/admin/music/{musicId}").hasAnyAuthority(ROLE_DORMITORY_COUNCIL, ROLE_DORMITORY_TEACHER)
+
 			it // Massage
 				.requestMatchers(HttpMethod.POST, "/massage").hasAuthority(ROLE_STUDENT)
 				.requestMatchers(HttpMethod.DELETE, "/massage").hasAuthority(ROLE_STUDENT)
         		.requestMatchers(HttpMethod.GET, "/massage/status").hasAuthority(ROLE_USER)
         		.requestMatchers(HttpMethod.GET, "/massage/rank").hasAuthority(ROLE_USER)
-				.requestMatchers(HttpMethod.PATCH, "/admin/massage/limit").hasAuthority(ROLE_DORMITORY_ADMIN)
 
-			it //notice
+			it // Massage Management
+				.requestMatchers(HttpMethod.PATCH, "/admin/massage/limit").hasAnyAuthority(ROLE_DORMITORY_COUNCIL, ROLE_DORMITORY_TEACHER)
+
+			it // Notice
 				.requestMatchers(HttpMethod.GET, "/notice").hasAnyAuthority(ROLE_USER)
-				.requestMatchers(HttpMethod.POST, "/admin/notice").hasAnyAuthority(ROLE_TEACHER, ROLE_USER_ADMIN, ROLE_DORMITORY_ADMIN)
-				.requestMatchers(HttpMethod.DELETE, "/admin/notice/{noticeId}").hasAnyAuthority(ROLE_TEACHER, ROLE_USER_ADMIN, ROLE_DORMITORY_ADMIN)
+
+			it // Notice Management
+				.requestMatchers(HttpMethod.POST, "/admin/notice").hasAnyAuthority(ROLE_TEACHER, ROLE_USER_ADMIN, ROLE_DORMITORY_COUNCIL, ROLE_DORMITORY_TEACHER)
+				.requestMatchers(HttpMethod.DELETE, "/admin/notice/{noticeId}").hasAnyAuthority(ROLE_TEACHER, ROLE_USER_ADMIN, ROLE_DORMITORY_COUNCIL, ROLE_DORMITORY_TEACHER)
 
 			it // File
 				.requestMatchers(HttpMethod.POST, "/file/image").hasAuthority(ROLE_USER)

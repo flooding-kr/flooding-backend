@@ -1,10 +1,9 @@
-package kr.flooding.backend.domain.music.usecase
+package kr.flooding.backend.domain.music.usecase.student
 
 import kr.flooding.backend.domain.music.enums.MusicOrderType
 import kr.flooding.backend.domain.music.dto.web.response.FetchMusicResponse
 import kr.flooding.backend.domain.music.dto.web.response.MusicResponse
 import kr.flooding.backend.domain.music.persistence.repository.jdsl.MusicJdslRepository
-import kr.flooding.backend.domain.musicLike.persistence.repository.jpa.MusicLikeJpaRepository
 import kr.flooding.backend.global.util.UserUtil
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional

@@ -1,24 +1,29 @@
 package kr.flooding.backend.domain.selfStudy.usecase
 
 import kr.flooding.backend.domain.selfStudy.dto.web.response.SelfStudyStatusResponse
+import kr.flooding.backend.domain.selfStudy.enums.SelfStudyStatus
 import kr.flooding.backend.domain.selfStudy.persistence.repository.jpa.SelfStudyRoomJpaRepository
 import kr.flooding.backend.domain.selfStudy.persistence.repository.jpa.SelfStudyBanJpaRepository
+import kr.flooding.backend.domain.selfStudy.persistence.repository.jpa.SelfStudyReservationJpaRepository
 import kr.flooding.backend.global.exception.ExceptionEnum
 import kr.flooding.backend.global.exception.HttpException
 import kr.flooding.backend.global.exception.toPair
+import kr.flooding.backend.global.util.DateUtil.Companion.atEndOfDay
 import kr.flooding.backend.global.util.UserUtil
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.time.DayOfWeek
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.LocalTime
 
 @Service
 @Transactional(readOnly = true)
-class SelfStudyStatusUsecase(
+class FetchSelfStudyStatusUsecase(
     val userUtil: UserUtil,
     val selfStudyRoomRepository: SelfStudyRoomJpaRepository,
     val selfStudyBanJpaRepository: SelfStudyBanJpaRepository,
+    val selfStudyReservationJpaRepository: SelfStudyReservationJpaRepository
 ) {
     fun execute(): SelfStudyStatusResponse {
         val selfStudyRoom =
@@ -26,9 +31,17 @@ class SelfStudyStatusUsecase(
                 HttpException(ExceptionEnum.SELF_STUDY.NOT_FOUND_SELF_STUDY_ROOM.toPair())
             }
 
-        val currentDate = LocalDate.now()
         val currentTime = LocalTime.now()
+        val currentDate = LocalDate.now()
         val currentUser = userUtil.getUser()
+
+        val currentReservation = selfStudyReservationJpaRepository.findByStudentAndCreatedAtBetween(
+            currentUser,
+            currentDate.atStartOfDay(),
+            currentDate.atEndOfDay(),
+        )
+
+        val isReserved = currentReservation.isPresent && !currentReservation.get().isCancelled
 
         val startTime = LocalTime.of(20, 0)
         val endTime = LocalTime.of(21, 0)
@@ -36,17 +49,23 @@ class SelfStudyStatusUsecase(
         val isAvailableTime = currentTime.isAfter(startTime) && currentTime.isBefore(endTime)
         val isAvailableDate =
             currentDate.dayOfWeek != DayOfWeek.FRIDAY &&
-                currentDate.dayOfWeek != DayOfWeek.SATURDAY &&
-                currentDate.dayOfWeek != DayOfWeek.SUNDAY
+            currentDate.dayOfWeek != DayOfWeek.SATURDAY &&
+            currentDate.dayOfWeek != DayOfWeek.SUNDAY
         
         val isAvailableDateTime = isAvailableTime && isAvailableDate
-        val canReserveMore = selfStudyRoom.reservationCount < selfStudyRoom.reservationLimit
-        val isNotBanned = !selfStudyBanJpaRepository.existsByStudent(currentUser)
+        val isLeftSeat = selfStudyRoom.reservationCount < selfStudyRoom.reservationLimit
+        val isNotBanned = selfStudyBanJpaRepository.existsByStudent(currentUser)
+
+        val selfStudyStatus = when {
+            isReserved -> SelfStudyStatus.APPLIED
+            isAvailableDateTime && isLeftSeat && isNotBanned -> SelfStudyStatus.POSSIBLE
+            else -> SelfStudyStatus.IMPOSSIBLE
+        }
 
         return SelfStudyStatusResponse(
             currentCount = selfStudyRoom.reservationCount,
             limit = selfStudyRoom.reservationLimit,
-            isAvailable = isAvailableDateTime && canReserveMore && isNotBanned,
+            status = selfStudyStatus,
         )
     }
 }

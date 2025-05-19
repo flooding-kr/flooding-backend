@@ -1,7 +1,7 @@
-package kr.flooding.backend.domain.music.usecase
+package kr.flooding.backend.domain.music.usecase.student
 
 import kr.flooding.backend.domain.music.dto.web.response.UpdateMusicLikeResponse
-import kr.flooding.backend.domain.music.usecase.helper.UpdateMusicLikeRetryHelper
+import kr.flooding.backend.domain.music.usecase.student.helper.UpdateMusicLikeRetryHelper
 import kr.flooding.backend.global.util.UserUtil
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional

@@ -1,4 +1,4 @@
-package kr.flooding.backend.domain.music.usecase
+package kr.flooding.backend.domain.music.usecase.student
 
 import kr.flooding.backend.domain.music.dto.web.request.CreateMusicRequest
 import kr.flooding.backend.domain.music.persistence.entity.Music
@@ -7,10 +7,11 @@ import kr.flooding.backend.global.exception.ExceptionEnum
 import kr.flooding.backend.global.exception.HttpException
 import kr.flooding.backend.global.exception.toPair
 import kr.flooding.backend.global.thirdparty.youtube.YoutubeAdapter
-import kr.flooding.backend.global.util.DateUtil
+import kr.flooding.backend.global.util.DateUtil.Companion.atEndOfDay
 import kr.flooding.backend.global.util.UserUtil
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.time.LocalDate
 
 @Service
 @Transactional
@@ -21,11 +22,12 @@ class CreateMusicUsecase(
 ) {
 	fun execute(createMusicRequest: CreateMusicRequest) {
 		val currentUser = userUtil.getUser()
+		val currentDate = LocalDate.now()
 
 		if(musicJpaRepository.existsByProposerAndCreatedAtBetween(
 				currentUser,
-				DateUtil.getAtStartOfToday(),
-				DateUtil.getAtEndOfToday()
+				currentDate.atStartOfDay(),
+				currentDate.atEndOfDay(),
 		)) {
 			throw HttpException(ExceptionEnum.MUSIC.ALREADY_REQUESTED_MUSIC.toPair())
 		}
