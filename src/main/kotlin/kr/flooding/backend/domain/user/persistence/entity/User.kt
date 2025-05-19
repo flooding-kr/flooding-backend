@@ -43,6 +43,7 @@ data class User(
 	val name: String,
 ) {
 	@Column(nullable = false)
+	@Enumerated(EnumType.STRING)
 	var userState: UserState = UserState.PENDING
 		protected set
 
