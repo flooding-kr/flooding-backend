@@ -13,14 +13,14 @@ class FetchClubResponse(
 	val id: UUID?,
 	val name: String,
 	val description: String,
-	val classroom: ClubClassroomResponse,
+	val classroom: ClubClassroomResponse?,
 	val activityImages: List<PresignedUrlModel>,
 	val thumbnailImage: PresignedUrlModel?,
 	val type: ClubType,
 	val isRecruiting: Boolean,
 	val clubMembers: List<ClubStudentResponse>,
 	val status: ClubStatus,
-	val leader: ClubStudentResponse,
+	val leader: ClubStudentResponse?,
 	val teacher: ClubTeacherResponse?,
 	val applicantCount: Int,
 ) {
@@ -31,14 +31,14 @@ class FetchClubResponse(
 			thumbnailImage: PresignedUrlModel?,
 			activityImages: List<PresignedUrlModel>,
 			teacher: ClubTeacherResponse?,
-			leader: ClubStudentResponse,
+			leader: ClubStudentResponse?,
 			applicantCount: Int
 		): FetchClubResponse {
 			return FetchClubResponse(
 				id = club.id,
 				name = club.name,
 				description = club.description,
-				classroom = ClubClassroomResponse.toDto(club.classroom),
+				classroom = club.classroom?.run(ClubClassroomResponse::toDto),
 				activityImages = activityImages,
 				status = club.status,
 				type = club.type,

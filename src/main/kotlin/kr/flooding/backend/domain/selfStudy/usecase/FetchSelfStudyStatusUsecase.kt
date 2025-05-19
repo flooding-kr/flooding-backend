@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.LocalTime
+import kotlin.jvm.optionals.getOrNull
 
 @Service
 @Transactional
@@ -40,8 +41,6 @@ class FetchSelfStudyStatusUsecase(
             currentDate.atEndOfDay(),
         )
 
-        val isReserved = currentReservation.isPresent && !currentReservation.get().isCancelled
-
         val startTime = LocalTime.of(20, 0)
         val endTime = LocalTime.of(21, 0)
 
@@ -50,14 +49,19 @@ class FetchSelfStudyStatusUsecase(
             currentDate.dayOfWeek != DayOfWeek.FRIDAY &&
             currentDate.dayOfWeek != DayOfWeek.SATURDAY &&
             currentDate.dayOfWeek != DayOfWeek.SUNDAY
-        
-        val isAvailableDateTime = isAvailableTime && isAvailableDate
-        val isLeftSeat = selfStudyRoom.reservationCount < selfStudyRoom.reservationLimit
+
         val isNotBanned = selfStudyBanJpaRepository.existsByStudent(currentUser)
+        val isReserved = currentReservation.isPresent && !currentReservation.get().isCancelled
+        val isAvailable =
+            selfStudyRoom.reservationCount < selfStudyRoom.reservationLimit &&
+            isAvailableTime &&
+            isAvailableDate &&
+            isNotBanned &&
+            currentReservation.isEmpty
 
         val selfStudyStatus = when {
             isReserved -> SelfStudyStatus.APPLIED
-            isAvailableDateTime && isLeftSeat && isNotBanned -> SelfStudyStatus.POSSIBLE
+            isAvailable -> SelfStudyStatus.POSSIBLE
             else -> SelfStudyStatus.IMPOSSIBLE
         }
 
