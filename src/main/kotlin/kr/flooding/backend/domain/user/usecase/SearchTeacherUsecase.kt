@@ -1,4 +1,4 @@
-package kr.flooding.backend.domain.user.usecase.common
+package kr.flooding.backend.domain.user.usecase
 
 import kr.flooding.backend.domain.role.enums.RoleType
 import kr.flooding.backend.domain.user.dto.web.response.SearchTeacherListResponse

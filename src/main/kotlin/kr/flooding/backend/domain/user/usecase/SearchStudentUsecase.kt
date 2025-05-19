@@ -1,13 +1,11 @@
-package kr.flooding.backend.domain.user.usecase.common
+package kr.flooding.backend.domain.user.usecase
 
 import kr.flooding.backend.domain.role.enums.RoleType
 import kr.flooding.backend.domain.user.dto.web.response.SearchStudentListResponse
 import kr.flooding.backend.domain.user.dto.common.response.SearchStudentResponse
 import kr.flooding.backend.domain.user.enums.UserState
 import kr.flooding.backend.domain.user.persistence.repository.jdsl.UserJdslRepository
-import kr.flooding.backend.domain.user.shared.StudentInfoModel
 import kr.flooding.backend.global.util.StudentUtil.Companion.calcGradeToYear
-import kr.flooding.backend.global.util.StudentUtil.Companion.calcYearToGrade
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 

@@ -29,20 +29,19 @@ class UserJdslRepositoryImpl(
 	): List<User> {
 		val query =
 			jpql {
-				select(entity(User::class))
-					.from(
-						entity(User::class),
-						fetchJoin(User::studentInfo),
-						join(Role::class).on(entity(User::class).eq(path(Role::user))),
-					).where(
-						path(StudentInfo::year)
-							.greaterThanOrEqualTo(year)
-							.and(
-								path(User::name).like("%$name%"),
-							).and(path(Role::type).eq(role))
-							.and(path(User::state).eq(userState))
-							.and(path(User::emailVerifyStatus).eq(emailVerifyStatus)),
-					)
+				select(
+					entity(User::class)
+				).from(
+					entity(User::class),
+					fetchJoin(User::studentInfo),
+					join(Role::class).on(entity(User::class).eq(path(Role::user))),
+				).whereAnd(
+					path(StudentInfo::year).greaterThanOrEqualTo(year),
+					path(User::name).like("%$name%"),
+					path(Role::type).eq(role),
+					path(User::userState).eq(userState),
+					path(User::emailVerifyStatus).eq(emailVerifyStatus)
+				)
 			}
 
 		return entityManager.createQuery(query, context).resultList
@@ -56,18 +55,18 @@ class UserJdslRepositoryImpl(
 	): List<User> {
 		val query =
 			jpql {
-				select(entity(User::class))
-					.from(
-						entity(User::class),
-						fetchJoin(User::studentInfo),
-						join(Role::class).on(entity(User::class).eq(path(Role::user))),
-					).where(
-						path(User::name)
-							.like("%$name%")
-							.and(path(Role::type).eq(role))
-							.and(path(User::state).eq(userState))
-							.and(path(User::emailVerifyStatus).eq(emailVerifyStatus)),
-					)
+				select(
+					entity(User::class)
+				).from(
+					entity(User::class),
+					fetchJoin(User::studentInfo),
+					join(Role::class).on(entity(User::class).eq(path(Role::user))),
+				).whereAnd(
+					path(User::name).like("%$name%"),
+					path(Role::type).eq(role),
+					path(User::userState).eq(userState),
+					path(User::emailVerifyStatus).eq(emailVerifyStatus),
+				)
 			}
 
 		return entityManager.createQuery(query, context).resultList

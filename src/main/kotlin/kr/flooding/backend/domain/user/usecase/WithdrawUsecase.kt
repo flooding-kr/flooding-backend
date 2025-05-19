@@ -1,4 +1,4 @@
-package kr.flooding.backend.domain.user.usecase.common
+package kr.flooding.backend.domain.user.usecase
 
 import kr.flooding.backend.domain.auth.persistence.repository.RefreshTokenRepository
 import kr.flooding.backend.domain.user.persistence.repository.jpa.UserJpaRepository

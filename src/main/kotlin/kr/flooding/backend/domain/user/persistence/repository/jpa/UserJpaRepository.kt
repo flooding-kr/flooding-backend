@@ -15,6 +15,4 @@ interface UserJpaRepository : JpaRepository<User, UUID> {
 	fun existsByStudentInfo(studentInfo: StudentInfo): Boolean
 
 	fun findByIdIn(ids: List<UUID>): MutableList<User>
-
-	fun findByState(userState: UserState): MutableList<User>
 }

@@ -40,12 +40,11 @@ class SignInUsecase(
 			throw HttpException(ExceptionEnum.AUTH.NOT_VERIFIED_EMAIL.toPair())
 		}
 
-		if (user.state != UserState.APPROVED) {
+		if(user.userState != UserState.APPROVED){
 			throw HttpException(ExceptionEnum.AUTH.NOT_APPROVED_USER.toPair())
 		}
 
-		val id = user.id
-		requireNotNull(id) { "id cannot be null" }
+		val userId = requireNotNull(user.id) { "id cannot be null" }
 
 		val rawPassword = signInRequest.password
 		val encodedPassword = user.encodedPassword
@@ -54,8 +53,8 @@ class SignInUsecase(
 			throw HttpException(ExceptionEnum.AUTH.WRONG_PASSWORD.toPair())
 		}
 
-		val accessToken = jwtProvider.generateToken(id, JwtType.ACCESS_TOKEN)
-		val refreshToken = getRefreshTokenOrSave(id)
+		val accessToken = jwtProvider.generateToken(userId, JwtType.ACCESS_TOKEN)
+		val refreshToken = getRefreshTokenOrSave(userId)
 
 		return SignInResponse(
 			accessToken = accessToken.token,

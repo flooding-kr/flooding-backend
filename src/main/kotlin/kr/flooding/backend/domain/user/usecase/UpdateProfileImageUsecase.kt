@@ -1,4 +1,4 @@
-package kr.flooding.backend.domain.user.usecase.common
+package kr.flooding.backend.domain.user.usecase
 
 import kr.flooding.backend.domain.user.dto.web.request.UpdateProfileRequest
 import kr.flooding.backend.global.util.UserUtil

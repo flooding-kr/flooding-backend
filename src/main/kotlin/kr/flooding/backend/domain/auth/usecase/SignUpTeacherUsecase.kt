@@ -36,31 +36,29 @@ class SignUpTeacherUsecase(
 
 		val teacherInfo = TeacherInfo(department = request.department)
 
-		val user =
-			userJpaRepository.save(
-				User(
-					email = request.email,
-					encodedPassword = encodedPassword,
-					teacherInfo = teacherInfo,
-					emailVerifyStatus = false,
-					gender = request.gender,
-					name = request.name,
-				),
+		val user = userJpaRepository.save(
+			User(
+				email = request.email,
+				encodedPassword = encodedPassword,
+				teacherInfo = teacherInfo,
+				emailVerifyStatus = false,
+				gender = request.gender,
+				name = request.name,
 			)
-		user.setPendingState()
+		)
+		user.setPendingUserState()
 		roleUtil.saveRoles(user, listOf(RoleType.ROLE_USER, RoleType.ROLE_TEACHER))
 
-		val id = user.id
-		requireNotNull(id) { "id cannot be null" }
+		val userId = checkNotNull(user.id) { "User ID must not be null." }
 
 		val randomVerifyCode = passwordUtil.generateRandomCode(6)
 		emailAdapter.sendVerifyCode(request.email, randomVerifyCode)
 
-		val verifyCode =
+		verifyCodeRepository.save(
 			VerifyCode(
-				id = id,
+				id = userId,
 				code = randomVerifyCode,
 			)
-		verifyCodeRepository.save(verifyCode)
+		)
 	}
 }

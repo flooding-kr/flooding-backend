@@ -41,19 +41,17 @@ data class User(
 
 	@Column(nullable = false)
 	val name: String,
-
 ) {
 	@Column(nullable = false)
-	@Enumerated(EnumType.STRING)
-	var state: UserState = UserState.PENDING
+	var userState: UserState = UserState.PENDING
 		protected set
 
-	fun setApprovedState() {
-		state = UserState.APPROVED
+	fun setApproveUserState(){
+		userState = UserState.APPROVED
 	}
 
-	fun setPendingState() {
-		state = UserState.PENDING
+	fun setPendingUserState(){
+		userState = UserState.PENDING
 	}
 
 	fun updateProfileImage(url: String) {
