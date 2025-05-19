@@ -1,4 +1,4 @@
-package kr.flooding.backend.domain.user.usecase.common
+package kr.flooding.backend.domain.user.usecase
 
 import kr.flooding.backend.domain.role.persistence.repository.jpa.RoleJpaRepository
 import kr.flooding.backend.domain.user.dto.common.response.TeacherInfoResponse

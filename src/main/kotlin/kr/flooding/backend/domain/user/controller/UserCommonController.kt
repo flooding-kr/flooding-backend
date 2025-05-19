@@ -8,7 +8,7 @@ import kr.flooding.backend.domain.user.dto.web.request.WithdrawRequest
 import kr.flooding.backend.domain.user.dto.web.response.FetchUserMyselfResponse
 import kr.flooding.backend.domain.user.dto.web.response.SearchStudentListResponse
 import kr.flooding.backend.domain.user.dto.web.response.SearchTeacherListResponse
-import kr.flooding.backend.domain.user.usecase.common.*
+import kr.flooding.backend.domain.user.usecase.*
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
