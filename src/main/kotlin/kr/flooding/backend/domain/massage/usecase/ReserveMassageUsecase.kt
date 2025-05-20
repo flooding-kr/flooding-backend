@@ -45,11 +45,6 @@ class ReserveMassageUsecase(
 
 			val massageReservation = massageReservationJpaRepository.findByStudent(currentUser).getOrNull()
 
-			val reservationCount = massageReservationJpaRepository.countByCreatedAtBetween(
-				currentDate.atStartOfDay(),
-				currentDate.atEndOfDay()
-			)
-
 			if (massageReservation != null && massageReservation.isCancelled) {
 				throw HttpException(ExceptionEnum.MASSAGE.EXISTS_RESERVE_MASSAGE_HISTORY.toPair())
 			}
@@ -62,6 +57,11 @@ class ReserveMassageUsecase(
 				massageRoomJpaRepository.findByIdIsNotNull().orElseThrow {
 					HttpException(ExceptionEnum.MASSAGE.NOT_FOUND_MASSAGE_ROOM.toPair())
 				}
+
+			val reservationCount = massageReservationJpaRepository.countByCreatedAtBetween(
+				currentDate.atStartOfDay(),
+				currentDate.atEndOfDay()
+			)
 
 			if (reservationCount >= massage.reservationLimit) {
 				throw HttpException(ExceptionEnum.MASSAGE.MAX_CAPACITY_MASSAGE.toPair())
