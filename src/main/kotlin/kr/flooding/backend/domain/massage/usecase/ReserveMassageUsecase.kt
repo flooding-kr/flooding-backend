@@ -58,9 +58,10 @@ class ReserveMassageUsecase(
 					HttpException(ExceptionEnum.MASSAGE.NOT_FOUND_MASSAGE_ROOM.toPair())
 				}
 
-			val reservationCount = massageReservationJpaRepository.countByCreatedAtBetween(
+			val reservationCount = massageReservationJpaRepository.countByCreatedAtBetweenAndIsCancelled(
 				currentDate.atStartOfDay(),
-				currentDate.atEndOfDay()
+				currentDate.atEndOfDay(),
+				isCancelled = false
 			)
 
 			if (reservationCount >= massage.reservationLimit) {

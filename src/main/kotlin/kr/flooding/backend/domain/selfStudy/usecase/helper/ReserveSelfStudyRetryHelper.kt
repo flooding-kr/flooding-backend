@@ -1,6 +1,7 @@
 package kr.flooding.backend.domain.selfStudy.usecase.helper
 
 import kr.flooding.backend.domain.selfStudy.persistence.entity.SelfStudyReservation
+import kr.flooding.backend.domain.selfStudy.persistence.repository.jdsl.SelfStudyReservationJdslRepository
 import kr.flooding.backend.domain.selfStudy.persistence.repository.jpa.SelfStudyReservationJpaRepository
 import kr.flooding.backend.domain.selfStudy.persistence.repository.jpa.SelfStudyRoomJpaRepository
 import kr.flooding.backend.domain.user.persistence.entity.User
@@ -23,6 +24,7 @@ import kotlin.jvm.optionals.getOrNull
 @Transactional(propagation = Propagation.REQUIRES_NEW)
 class ReserveSelfStudyRetryHelper(
     private val selfStudyReservationJpaRepository: SelfStudyReservationJpaRepository,
+    private val selfStudyReservationJdslRepository: SelfStudyReservationJdslRepository,
     private val selfStudyRoomRepository: SelfStudyRoomJpaRepository,
 ) {
     @Retryable(
@@ -40,7 +42,7 @@ class ReserveSelfStudyRetryHelper(
     fun execute(currentUser: User) {
         try {
             val currentDate = LocalDate.now()
-            val prevReservation = selfStudyReservationJpaRepository.findByStudentAndCreatedAtBetween(
+            val prevReservation = selfStudyReservationJdslRepository.findByStudentAndCreatedAtBetweenWithPessimisticLock(
                 currentUser,
                 currentDate.atStartOfDay(),
                 currentDate.atEndOfDay(),
@@ -59,9 +61,10 @@ class ReserveSelfStudyRetryHelper(
                     HttpException(ExceptionEnum.SELF_STUDY.NOT_FOUND_SELF_STUDY_ROOM.toPair())
                 }
 
-            val reservationCount = selfStudyReservationJpaRepository.countByCreatedAtBetween(
+            val reservationCount = selfStudyReservationJpaRepository.countByCreatedAtBetweenAndIsCancelled(
                 currentDate.atStartOfDay(),
                 currentDate.atEndOfDay(),
+                false
             )
 
             if (reservationCount >= selfStudyRoom.reservationLimit) {

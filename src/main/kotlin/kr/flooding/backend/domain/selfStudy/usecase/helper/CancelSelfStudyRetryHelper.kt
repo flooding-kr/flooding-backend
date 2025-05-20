@@ -1,6 +1,6 @@
 package kr.flooding.backend.domain.selfStudy.usecase.helper
 
-import kr.flooding.backend.domain.selfStudy.persistence.repository.jpa.SelfStudyReservationJpaRepository
+import kr.flooding.backend.domain.selfStudy.persistence.repository.jdsl.SelfStudyReservationJdslRepository
 import kr.flooding.backend.domain.user.persistence.entity.User
 import kr.flooding.backend.global.exception.ExceptionEnum
 import kr.flooding.backend.global.exception.HttpException
@@ -20,7 +20,7 @@ import kotlin.jvm.optionals.getOrNull
 @Service
 @Transactional(propagation = Propagation.REQUIRES_NEW)
 class CancelSelfStudyRetryHelper(
-    private val selfStudyReservationJpaRepository: SelfStudyReservationJpaRepository,
+    private val selfStudyReservationJdslRepository: SelfStudyReservationJdslRepository
 ) {
     @Retryable(
         retryFor = [ObjectOptimisticLockingFailureException::class],
@@ -37,7 +37,7 @@ class CancelSelfStudyRetryHelper(
     fun execute(currentUser: User) {
         try {
             val currentDate = LocalDate.now()
-            val prevReservation = selfStudyReservationJpaRepository.findByStudentAndCreatedAtBetween(
+            val prevReservation = selfStudyReservationJdslRepository.findByStudentAndCreatedAtBetweenWithPessimisticLock(
                 currentUser,
                 currentDate.atStartOfDay(),
                 currentDate.atEndOfDay(),
