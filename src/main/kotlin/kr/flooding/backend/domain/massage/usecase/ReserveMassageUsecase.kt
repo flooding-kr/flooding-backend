@@ -6,6 +6,7 @@ import kr.flooding.backend.domain.massage.persistence.repository.jpa.MassageRese
 import kr.flooding.backend.global.exception.ExceptionEnum
 import kr.flooding.backend.global.exception.HttpException
 import kr.flooding.backend.global.exception.toPair
+import kr.flooding.backend.global.util.DateUtil.Companion.atEndOfDay
 import kr.flooding.backend.global.util.UserUtil
 import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.stereotype.Service
@@ -44,6 +45,11 @@ class ReserveMassageUsecase(
 
 			val massageReservation = massageReservationJpaRepository.findByStudent(currentUser).getOrNull()
 
+			val reservationCount = massageReservationJpaRepository.countByCreatedAtBetween(
+				currentDate.atStartOfDay(),
+				currentDate.atEndOfDay()
+			)
+
 			if (massageReservation != null && massageReservation.isCancelled) {
 				throw HttpException(ExceptionEnum.MASSAGE.EXISTS_RESERVE_MASSAGE_HISTORY.toPair())
 			}
@@ -57,12 +63,11 @@ class ReserveMassageUsecase(
 					HttpException(ExceptionEnum.MASSAGE.NOT_FOUND_MASSAGE_ROOM.toPair())
 				}
 
-			if (massage.reservationCount >= massage.reservationLimit) {
+			if (reservationCount >= massage.reservationLimit) {
 				throw HttpException(ExceptionEnum.MASSAGE.MAX_CAPACITY_MASSAGE.toPair())
 			}
 
 			massageReservationJpaRepository.save(MassageReservation(student = currentUser))
-			massage.incrementReservationCount()
 		} catch (e: DataIntegrityViolationException) {
 			throw HttpException(ExceptionEnum.SELF_STUDY.ALREADY_RESERVE_SELF_STUDY.toPair())
 		}

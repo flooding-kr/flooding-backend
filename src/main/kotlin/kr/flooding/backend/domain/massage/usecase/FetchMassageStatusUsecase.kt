@@ -37,6 +37,11 @@ class FetchMassageStatusUsecase(
 			currentDate.atEndOfDay()
 		)
 
+		val reservationCount = massageReservationJpaRepository.countByCreatedAtBetween(
+			currentDate.atStartOfDay(),
+			currentDate.atEndOfDay()
+		)
+
 		val startTime = LocalTime.of(20, 20)
 		val endTime = LocalTime.of(21, 0)
 
@@ -50,7 +55,7 @@ class FetchMassageStatusUsecase(
 		val isAvailable =
 			isAvailableTime &&
 			isAvailableDate &&
-			massageRoom.reservationCount < massageRoom.reservationLimit &&
+			reservationCount < massageRoom.reservationLimit &&
 			currentReservation.isEmpty
 
 		val massageStatus = when {
@@ -60,7 +65,7 @@ class FetchMassageStatusUsecase(
 		}
 
 		return FetchMassageResponse(
-			currentCount = massageRoom.reservationCount,
+			currentCount = reservationCount,
 			limit = massageRoom.reservationLimit,
 			status = massageStatus,
 		)

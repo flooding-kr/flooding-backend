@@ -16,23 +16,7 @@ class MassageRoom(
 	var reservationLimit: Int = 5
 		protected set
 
-	@Column(nullable = false)
-	var reservationCount: Int = 0
-		protected set
-
 	fun updateLimit(limit: Int) {
 		reservationLimit = limit
-	}
-
-	fun incrementReservationCount() {
-		reservationCount++
-	}
-
-	fun decrementReservationCount() {
-		reservationCount--
-	}
-
-	fun clearReservationCount() {
-		reservationCount = 0
 	}
 }
