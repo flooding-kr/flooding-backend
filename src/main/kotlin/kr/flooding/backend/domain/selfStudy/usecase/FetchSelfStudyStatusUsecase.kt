@@ -34,9 +34,10 @@ class FetchSelfStudyStatusUsecase(
         val currentDate = LocalDate.now()
         val currentUser = userUtil.getUser()
 
-        val reservationCount = selfStudyReservationJpaRepository.countByCreatedAtBetween(
+        val reservationCount = selfStudyReservationJpaRepository.countByCreatedAtBetweenAndCancelled(
             currentDate.atStartOfDay(),
-            currentDate.atEndOfDay()
+            currentDate.atEndOfDay(),
+            isCancelled = false
         )
 
         val currentReservation = selfStudyReservationJpaRepository.findByStudentAndCreatedAtBetween(

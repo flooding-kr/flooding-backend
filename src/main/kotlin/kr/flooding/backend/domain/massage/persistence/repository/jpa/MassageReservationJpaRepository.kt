@@ -20,5 +20,9 @@ interface MassageReservationJpaRepository : JpaRepository<MassageReservation, Lo
 
 	fun findByStudentAndCreatedAtBetween(student: User, startDateTime: LocalDateTime, endDateTime: LocalDateTime): Optional<MassageReservation>
 
-	fun countByCreatedAtBetween(createdAtAfter: LocalDateTime, createdAtBefore: LocalDateTime): Int
+	fun countByCreatedAtBetweenAndCancelled(
+		createdAtAfter: LocalDateTime,
+		createdAtBefore: LocalDateTime,
+		isCancelled: Boolean
+	): Int
 }
