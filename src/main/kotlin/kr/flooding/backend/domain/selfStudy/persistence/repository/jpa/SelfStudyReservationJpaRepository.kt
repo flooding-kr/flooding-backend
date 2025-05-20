@@ -21,4 +21,9 @@ interface SelfStudyReservationJpaRepository : JpaRepository<SelfStudyReservation
         createdAtBefore: LocalDateTime,
         createdAtAfter: LocalDateTime,
     ): List<SelfStudyReservation>
+
+    fun countByCreatedAtBetween(
+        createdAtBefore: LocalDateTime,
+        createdAtAfter: LocalDateTime,
+    ): Int
 }

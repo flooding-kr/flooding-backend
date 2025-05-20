@@ -22,13 +22,14 @@ class FetchSelfStudyStudentUsecase(
         val currentDate = LocalDate.now()
 
         val reservations = selfStudyReservationJdslRepository
-            .findByCreatedByBetweenAndYearAndClassroomAndGenderAndNameLikesAndIsCancelledFalse(
+            .findByCreatedByBetweenAndYearAndClassroomAndGenderAndNameLikesAndIsCancelled(
                 createdAtBefore = currentDate.atStartOfDay(),
                 createdAtAfter = currentDate.atEndOfDay(),
                 year = year,
                 classroom = request.classroom,
                 gender = request.gender,
                 name = request.name,
+                isCancelled = false
             )
 
         val responses = reservations.map { reservation ->
