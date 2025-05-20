@@ -17,15 +17,15 @@ class BanForSelfStudyAbsenceUsecase(
     fun execute() {
         val currentDate = LocalDate.now()
 
-        val selfStudyReservations = selfStudyReservationJpaRepository.findByCreatedAtBetween(
+        val selfStudyAbsences = selfStudyReservationJpaRepository.findByCreatedAtBetweenAndIsCancelledAndIsPresent(
             currentDate.atStartOfDay(),
-            currentDate.atEndOfDay()
+            currentDate.atEndOfDay(),
+            false,
+            false
         )
 
-        selfStudyReservations
-            .filter {
-                !it.isPresent
-            }.forEach {
+        selfStudyAbsences
+            .forEach {
                 selfStudyBanJpaRepository.save(
                     SelfStudyBan(
                         student = it.student,
