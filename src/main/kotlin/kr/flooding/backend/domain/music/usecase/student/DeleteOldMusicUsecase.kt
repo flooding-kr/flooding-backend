@@ -16,6 +16,6 @@ class DeleteOldMusicUsecase(
                 .withDayOfMonth(1)
                 .with(LocalTime.MIN)
 
-        musicJpaRepository.deleteAllByCreatedAtBefore(firstMomentOfThisMonth)
+        musicJpaRepository.deleteAllByCreatedDateBefore(firstMomentOfThisMonth.toLocalDate())
     }
 }

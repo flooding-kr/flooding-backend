@@ -23,9 +23,6 @@ class MusicJdslRepositoryImpl(
 		musicOrderType: MusicOrderType,
 		user: User
 	): List<MusicWithLikeDto> {
-		val createdAtStart = createdDate.atStartOfDay()
-		val createdAtEnd = createdAtStart.plusDays(1)
-
 		val query =
 			jpql {
 				selectNew<MusicWithLikeDto>(
@@ -40,10 +37,10 @@ class MusicJdslRepositoryImpl(
 						),
 					)
 				).where(
-					path(Music::createdAt).between(createdAtStart, createdAtEnd),
+					path(Music::createdDate).eq(createdDate),
 				).orderBy(
 					when (musicOrderType) {
-						MusicOrderType.LATEST -> path(Music::createdAt).desc()
+						MusicOrderType.LATEST -> path(Music::createdTime).desc()
 						MusicOrderType.LIKES -> path(Music::likeCount).desc()
 					},
 				)
