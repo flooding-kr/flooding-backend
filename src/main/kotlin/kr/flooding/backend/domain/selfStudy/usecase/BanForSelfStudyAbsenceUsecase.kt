@@ -24,14 +24,13 @@ class BanForSelfStudyAbsenceUsecase(
             false
         )
 
-        selfStudyAbsences
-            .forEach {
-                selfStudyBanJpaRepository.save(
-                    SelfStudyBan(
-                        student = it.student,
-                        resumeDate = LocalDate.now().plusDays(7)
-                    )
-                )
-            }
+        val selfStudyBanForAbsences = selfStudyAbsences.map {
+            SelfStudyBan(
+                student = it.student,
+                resumeDate = LocalDate.now().plusDays(7)
+            )
+        }
+
+        selfStudyBanJpaRepository.saveAll(selfStudyBanForAbsences)
     }
 }
