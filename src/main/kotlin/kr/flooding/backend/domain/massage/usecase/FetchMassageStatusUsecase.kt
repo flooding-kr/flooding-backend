@@ -37,7 +37,7 @@ class FetchMassageStatusUsecase(
 			currentDate.atEndOfDay()
 		)
 
-		val reservationCount = massageReservationJpaRepository.countByCreatedAtBetweenAndCancelled(
+		val reservationCount = massageReservationJpaRepository.countByCreatedAtBetweenAndIsCancelled(
 			currentDate.atStartOfDay(),
 			currentDate.atEndOfDay(),
 			isCancelled = false

@@ -16,11 +16,9 @@ interface MassageReservationJpaRepository : JpaRepository<MassageReservation, Lo
 	@Query("SELECT mr FROM MassageReservation mr WHERE mr.student = :student")
 	fun findByStudentWithPessimisticLock(student: User): Optional<MassageReservation>
 
-	fun findByCreatedAtBetween(startDateTime: LocalDateTime, endDateTime: LocalDateTime): List<MassageReservation>
-
 	fun findByStudentAndCreatedAtBetween(student: User, startDateTime: LocalDateTime, endDateTime: LocalDateTime): Optional<MassageReservation>
 
-	fun countByCreatedAtBetweenAndCancelled(
+	fun countByCreatedAtBetweenAndIsCancelled(
 		createdAtAfter: LocalDateTime,
 		createdAtBefore: LocalDateTime,
 		isCancelled: Boolean

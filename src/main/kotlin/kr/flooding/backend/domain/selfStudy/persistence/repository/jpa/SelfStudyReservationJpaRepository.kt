@@ -14,16 +14,9 @@ interface SelfStudyReservationJpaRepository : JpaRepository<SelfStudyReservation
         createdAtAfter: LocalDateTime,
     ): Optional<SelfStudyReservation>
 
-    fun countByCreatedAtBetweenAndCancelled(
+    fun countByCreatedAtBetweenAndIsCancelled(
         createdAtBefore: LocalDateTime,
         createdAtAfter: LocalDateTime,
         isCancelled: Boolean
     ): Int
-
-    fun findByCreatedAtBetweenAndCancelledAndPresent(
-        createdAtBefore: LocalDateTime,
-        createdAtAfter: LocalDateTime,
-        isCancelled: Boolean,
-        isPresent: Boolean
-    ): List<SelfStudyReservation>
 }

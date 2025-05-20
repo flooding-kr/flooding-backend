@@ -34,7 +34,7 @@ class FetchSelfStudyStatusUsecase(
         val currentDate = LocalDate.now()
         val currentUser = userUtil.getUser()
 
-        val reservationCount = selfStudyReservationJpaRepository.countByCreatedAtBetweenAndCancelled(
+        val reservationCount = selfStudyReservationJpaRepository.countByCreatedAtBetweenAndIsCancelled(
             currentDate.atStartOfDay(),
             currentDate.atEndOfDay(),
             isCancelled = false
@@ -55,7 +55,7 @@ class FetchSelfStudyStatusUsecase(
             currentDate.dayOfWeek != DayOfWeek.SATURDAY &&
             currentDate.dayOfWeek != DayOfWeek.SUNDAY
 
-        val isNotBanned = selfStudyBanJpaRepository.existsByStudent(currentUser)
+        val isNotBanned = !selfStudyBanJpaRepository.existsByStudent(currentUser)
         val isReserved = currentReservation.isPresent && !currentReservation.get().isCancelled
         val isAvailable =
             reservationCount < selfStudyRoom.reservationLimit &&
