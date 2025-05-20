@@ -14,9 +14,6 @@ class SelfStudyScheduler(
     @Scheduled(cron = "0 0 0 * * *")
     @Transactional
     fun clearReservation() {
-        val selfStudyRoom = selfStudyRoomRepository.findAll().first()
-
         selfStudyReservationJpaRepository.deleteAll()
-        selfStudyRoom.clearReservationCount()
     }
 }
