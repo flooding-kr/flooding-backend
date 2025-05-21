@@ -6,16 +6,20 @@ import jakarta.persistence.FetchType
 import jakarta.persistence.Id
 import jakarta.persistence.JoinColumn
 import jakarta.persistence.ManyToOne
+import jakarta.persistence.Table
+import jakarta.persistence.UniqueConstraint
 import jakarta.persistence.Version
 import kr.flooding.backend.domain.user.persistence.entity.User
 import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.OnDelete
 import org.hibernate.annotations.OnDeleteAction
 import org.hibernate.annotations.UuidGenerator
-import java.time.LocalDateTime
+import java.time.LocalDate
+import java.time.LocalTime
 import java.util.UUID
 
 @Entity
+@Table(uniqueConstraints = [UniqueConstraint(columnNames = ["user_id", "created_date"])])
 class Music(
 	@Id
 	@UuidGenerator
@@ -37,7 +41,11 @@ class Music(
 
 	@CreationTimestamp
 	@Column(nullable = false)
-	val createdAt: LocalDateTime? = null,
+	val createdDate: LocalDate? = null,
+
+	@CreationTimestamp
+	@Column(nullable = false)
+	val createdTime: LocalTime? = null,
 
 	@Version
 	val version: Long? = null,
