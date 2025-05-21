@@ -5,6 +5,7 @@ import kr.flooding.backend.domain.auth.dto.response.SignInResponse
 import kr.flooding.backend.domain.auth.persistence.entity.RefreshToken
 import kr.flooding.backend.domain.auth.persistence.repository.RefreshTokenRepository
 import kr.flooding.backend.domain.user.enums.UserState
+import kr.flooding.backend.domain.user.persistence.repository.jpa.UserDeletionJpaRepository
 import kr.flooding.backend.domain.user.persistence.repository.jpa.UserJpaRepository
 import kr.flooding.backend.global.exception.ExceptionEnum
 import kr.flooding.backend.global.exception.HttpException
@@ -27,6 +28,7 @@ class SignInUsecase(
 	private val passwordEncoder: PasswordEncoder,
 	private val jwtProvider: JwtProvider,
 	private val refreshTokenRepository: RefreshTokenRepository,
+	private val userDeletionJpaRepository: UserDeletionJpaRepository,
 	private val jwtProperties: JwtProperties
 ) {
 	fun execute(signInRequest: SignInRequest): SignInResponse {
@@ -51,6 +53,11 @@ class SignInUsecase(
 
 		if (!passwordEncoder.matches(rawPassword, encodedPassword)) {
 			throw HttpException(ExceptionEnum.AUTH.WRONG_PASSWORD.toPair())
+		}
+
+		val isExistsUserDeletion  = userDeletionJpaRepository.existsByUser(user)
+		if(isExistsUserDeletion) {
+			throw HttpException(ExceptionEnum.USER.EXISTS_USER_DELETION.toPair())
 		}
 
 		val accessToken = jwtProvider.generateToken(userId, JwtType.ACCESS_TOKEN)

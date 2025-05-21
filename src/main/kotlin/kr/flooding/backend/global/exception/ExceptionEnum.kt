@@ -30,9 +30,9 @@ sealed interface ExceptionEnum {
 		val status: HttpStatus,
 		val reason: String,
 	) {
-		NOT_FOUND_USER(HttpStatus.NOT_FOUND, "해당하는 회원을 찾을 수 없습니다."),
+		NOT_FOUND_USER(HttpStatus.NOT_FOUND, "해당하는 유저를 찾을 수 없습니다."),
 		USER_MISMATCH(HttpStatus.BAD_REQUEST, "유저가 일치하지 않습니다."),
-		EXISTS_USER_DELETION(HttpStatus.BAD_REQUEST, "이미 회원 삭제 요청이 존재합니다.")
+		EXISTS_USER_DELETION(HttpStatus.BAD_REQUEST, "해당 유저에 대한 삭제 요청이 존재합니다.")
 	}
 
 	enum class NEIS(
