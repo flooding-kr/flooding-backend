@@ -1,10 +1,9 @@
 package kr.flooding.backend.domain.selfStudy.usecase
 
 import kr.flooding.backend.domain.selfStudy.persistence.entity.SelfStudyReservation
-import kr.flooding.backend.domain.selfStudy.persistence.repository.jdsl.SelfStudyReservationJdslRepository
+import kr.flooding.backend.domain.selfStudy.persistence.repository.jdsl.SelfStudyRoomJdslRepository
 import kr.flooding.backend.domain.selfStudy.persistence.repository.jpa.SelfStudyBanJpaRepository
 import kr.flooding.backend.domain.selfStudy.persistence.repository.jpa.SelfStudyReservationJpaRepository
-import kr.flooding.backend.domain.selfStudy.persistence.repository.jpa.SelfStudyRoomJpaRepository
 import kr.flooding.backend.global.exception.ExceptionEnum
 import kr.flooding.backend.global.exception.HttpException
 import kr.flooding.backend.global.exception.toPair
@@ -23,8 +22,7 @@ class ReserveSelfStudyUsecase(
 	private val userUtil: UserUtil,
 	private val selfStudyBanJpaRepository: SelfStudyBanJpaRepository,
 	private val selfStudyReservationJpaRepository: SelfStudyReservationJpaRepository,
-	private val selfStudyReservationJdslRepository: SelfStudyReservationJdslRepository,
-	private val selfStudyRoomRepository: SelfStudyRoomJpaRepository,
+	private val selfStudyRoomJdslRepository: SelfStudyRoomJdslRepository,
 ) {
 	fun execute() {
 		val currentUser = userUtil.getUser()
@@ -44,6 +42,10 @@ class ReserveSelfStudyUsecase(
 		val endTime = LocalTime.of(21, 0)
 		val isValidTime = currentTime.isBefore(startTime) || currentTime.isAfter(endTime)
 
+		val selfStudyRoom = selfStudyRoomJdslRepository.findByIdIsNotNullWithPessimisticLock().orElseThrow {
+			HttpException(ExceptionEnum.SELF_STUDY.NOT_FOUND_SELF_STUDY_ROOM.toPair())
+		}
+
 		if (isValidTime) {
 			throw HttpException(ExceptionEnum.SELF_STUDY.SELF_STUDY_OUT_OF_TIME_RANGE.toPair())
 		}
@@ -53,7 +55,17 @@ class ReserveSelfStudyUsecase(
 			throw HttpException(ExceptionEnum.SELF_STUDY.ALREADY_BANNED_SELF_STUDY.toPair())
 		}
 
-		val prevReservation = selfStudyReservationJdslRepository.findByStudentAndCreatedAtBetweenWithPessimisticLock(
+		val reservationCount = selfStudyReservationJpaRepository.countByCreatedAtBetweenAndIsCancelled(
+			currentDate.atStartOfDay(),
+			currentDate.atEndOfDay(),
+			false
+		)
+
+		if (reservationCount >= selfStudyRoom.reservationLimit) {
+			throw HttpException(ExceptionEnum.SELF_STUDY.MAX_CAPACITY_SELF_STUDY.toPair())
+		}
+
+		val prevReservation = selfStudyReservationJpaRepository.findByStudentAndCreatedAtBetween(
 			currentUser,
 			currentDate.atStartOfDay(),
 			currentDate.atEndOfDay(),
@@ -65,20 +77,6 @@ class ReserveSelfStudyUsecase(
 
 		if (prevReservation != null) {
 			throw HttpException(ExceptionEnum.SELF_STUDY.ALREADY_RESERVE_SELF_STUDY.toPair())
-		}
-
-		val selfStudyRoom = selfStudyRoomRepository.findByIdIsNotNull().orElseThrow {
-			HttpException(ExceptionEnum.SELF_STUDY.NOT_FOUND_SELF_STUDY_ROOM.toPair())
-		}
-
-		val reservationCount = selfStudyReservationJpaRepository.countByCreatedAtBetweenAndIsCancelled(
-			currentDate.atStartOfDay(),
-			currentDate.atEndOfDay(),
-			false
-		)
-
-		if (reservationCount >= selfStudyRoom.reservationLimit) {
-			throw HttpException(ExceptionEnum.SELF_STUDY.MAX_CAPACITY_SELF_STUDY.toPair())
 		}
 
 		selfStudyReservationJpaRepository.save(
