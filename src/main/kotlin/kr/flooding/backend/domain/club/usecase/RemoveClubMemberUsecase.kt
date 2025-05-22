@@ -35,6 +35,11 @@ class RemoveClubMemberUsecase(
 			clubMemberJpaRepository.findByClubIdAndUserId(clubId, userId).orElseThrow {
 				HttpException(ExceptionEnum.CLUB.NOT_FOUND_CLUB_MEMBER.toPair())
 			}
+
+		if(clubMember.user == club.leader){
+			throw HttpException(ExceptionEnum.CLUB.LEADER_CANNOT_WITHDRAW.toPair())
+		}
+
 		clubMemberJpaRepository.delete(clubMember)
 	}
 }
