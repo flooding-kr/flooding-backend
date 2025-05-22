@@ -16,10 +16,4 @@ interface SelfStudyReservationJdslRepository {
         name: String?,
         isCancelled: Boolean
     ): List<SelfStudyReservation>
-
-    fun findByStudentAndCreatedAtBetweenWithPessimisticLock(
-        student: User,
-        createdAtBefore: LocalDateTime,
-        createdAtAfter: LocalDateTime,
-    ): Optional<SelfStudyReservation>
 }
