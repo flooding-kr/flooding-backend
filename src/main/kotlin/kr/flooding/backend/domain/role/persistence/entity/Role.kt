@@ -17,6 +17,7 @@ import org.hibernate.annotations.OnDeleteAction
 
 @Entity
 @Table(
+	name = "role",
 	uniqueConstraints = [UniqueConstraint(columnNames = ["user_id", "type"])],
 )
 data class Role(

@@ -35,6 +35,7 @@ class ApproveClubApplicantUsecase(
 			ClubMember(
 				user = applicant.user,
 				club = applicant.club,
+				clubType = applicant.club.type,
 			),
 		)
 

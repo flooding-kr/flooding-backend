@@ -8,11 +8,6 @@ import java.time.LocalDate
 import java.util.UUID
 
 interface HomebaseGroupRepository : JpaRepository<HomebaseGroup, UUID> {
-	fun findByAttendedAtAndProposer(
-		attendedAt: LocalDate,
-		proposer: User,
-	): HomebaseGroup
-
 	fun existsByHomebaseTableAndPeriodAndAttendedAt(
 		homebaseTable: HomebaseTable,
 		period: Int,

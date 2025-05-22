@@ -57,6 +57,7 @@ class ApplyClubUsecase(
 			ClubApplicant(
 				club = club,
 				user = currentUser,
+				clubType = club.type,
 			),
 		)
 	}
