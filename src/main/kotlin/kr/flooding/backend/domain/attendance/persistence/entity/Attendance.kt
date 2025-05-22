@@ -21,7 +21,10 @@ import java.util.UUID
 @Entity
 @Table(
 	name = "attendance",
-	uniqueConstraints = [UniqueConstraint(columnNames = ["student_id", "period", "attended_at"])],
+	uniqueConstraints = [
+		UniqueConstraint(columnNames = ["student_id", "period", "attended_at", "club_id"]),
+		UniqueConstraint(columnNames = ["student_id", "period", "attended_at", "homebase_table_id"])
+	]
 )
 data class Attendance(
 	@Id
