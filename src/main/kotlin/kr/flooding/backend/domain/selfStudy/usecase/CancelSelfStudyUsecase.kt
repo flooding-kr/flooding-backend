@@ -1,6 +1,7 @@
 package kr.flooding.backend.domain.selfStudy.usecase
 
 import kr.flooding.backend.domain.selfStudy.persistence.repository.jdsl.SelfStudyReservationJdslRepository
+import kr.flooding.backend.domain.selfStudy.persistence.repository.jpa.SelfStudyReservationJpaRepository
 import kr.flooding.backend.global.exception.ExceptionEnum
 import kr.flooding.backend.global.exception.HttpException
 import kr.flooding.backend.global.exception.toPair
@@ -16,7 +17,7 @@ import kotlin.jvm.optionals.getOrNull
 @Transactional
 class CancelSelfStudyUsecase(
 	private val userUtil: UserUtil,
-	private val selfStudyReservationJdslRepository: SelfStudyReservationJdslRepository
+	private val selfStudyReservationJpaRepository: SelfStudyReservationJpaRepository
 ) {
 	fun execute() {
 		val currentUser = userUtil.getUser()
@@ -30,7 +31,7 @@ class CancelSelfStudyUsecase(
 		}
 
 		val currentDate = LocalDate.now()
-		val prevReservation = selfStudyReservationJdslRepository.findByStudentAndCreatedAtBetweenWithPessimisticLock(
+		val prevReservation = selfStudyReservationJpaRepository.findByStudentAndCreatedAtBetween(
 			currentUser,
 			currentDate.atStartOfDay(),
 			currentDate.atEndOfDay(),
