@@ -23,6 +23,7 @@ class SecurityConfig(
         private val ROLE_USER_ADMIN = RoleType.ROLE_USER_ADMIN.name
         private val ROLE_DORMITORY_COUNCIL = RoleType.ROLE_DORMITORY_COUNCIL.name
         private val ROLE_DORMITORY_TEACHER = RoleType.ROLE_DORMITORY_TEACHER.name
+		private val ROLE_CLUB_ADMIN = RoleType.ROLE_CLUB_ADMIN.name
     }
 
     @Bean
@@ -80,6 +81,9 @@ class SecurityConfig(
 				.requestMatchers(HttpMethod.DELETE, "/club/{clubId}/member/{userId}").hasAuthority(ROLE_USER)
 				.requestMatchers(HttpMethod.DELETE, "/club/{clubId}").hasAuthority(ROLE_USER)
 				.requestMatchers(HttpMethod.DELETE, "/club/{clubId}/member").hasAuthority(ROLE_USER)
+
+			it // Club Management
+				.requestMatchers(HttpMethod.POST, "/admin/club/approve").hasAuthority(ROLE_CLUB_ADMIN)
 
 			it // Attendance
 				.requestMatchers(HttpMethod.POST, "/attendance/club").hasAuthority(ROLE_STUDENT)
