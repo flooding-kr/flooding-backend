@@ -79,7 +79,6 @@ class CreateClubUsecase(
 					description = createClubRequest.description,
 					classroom = classroom,
 					activityImageKeys = createClubRequest.activityImageKeys,
-					status = ClubStatus.PENDING,
 					type = createClubRequest.type,
 					thumbnailImageKey = createClubRequest.thumbnailImageKey,
 					leader = currentUser,

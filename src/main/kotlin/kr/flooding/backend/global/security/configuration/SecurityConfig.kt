@@ -81,6 +81,9 @@ class SecurityConfig(
 				.requestMatchers(HttpMethod.DELETE, "/club/{clubId}").hasAuthority(ROLE_USER)
 				.requestMatchers(HttpMethod.DELETE, "/club/{clubId}/member").hasAuthority(ROLE_USER)
 
+			it // Club Management
+				.requestMatchers(HttpMethod.POST, "/admin/club/approve").hasAuthority(ROLE_TEACHER)
+
 			it // Attendance
 				.requestMatchers(HttpMethod.POST, "/attendance/club").hasAuthority(ROLE_STUDENT)
 				.requestMatchers(HttpMethod.DELETE, "/attendance/club").hasAuthority(ROLE_STUDENT)
