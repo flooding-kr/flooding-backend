@@ -9,12 +9,18 @@ import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 import jakarta.persistence.ManyToOne
+import jakarta.persistence.Table
+import jakarta.persistence.UniqueConstraint
 import kr.flooding.backend.domain.classroom.enums.BuildingType
 import kr.flooding.backend.domain.user.persistence.entity.User
 import org.hibernate.annotations.OnDelete
 import org.hibernate.annotations.OnDeleteAction
 
 @Entity
+@Table(
+    name = "classroom",
+    uniqueConstraints = [UniqueConstraint(columnNames = ["floor", "name", "building_type"])],
+)
 data class Classroom(
     @Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

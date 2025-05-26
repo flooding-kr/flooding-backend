@@ -1,19 +1,23 @@
 package kr.flooding.backend.domain.selfStudy.usecase
 
-import kr.flooding.backend.domain.selfStudy.usecase.helper.CancelSelfStudyRetryHelper
+import kr.flooding.backend.domain.selfStudy.persistence.repository.jdsl.SelfStudyReservationJdslRepository
+import kr.flooding.backend.domain.selfStudy.persistence.repository.jpa.SelfStudyReservationJpaRepository
 import kr.flooding.backend.global.exception.ExceptionEnum
 import kr.flooding.backend.global.exception.HttpException
 import kr.flooding.backend.global.exception.toPair
+import kr.flooding.backend.global.util.DateUtil.Companion.atEndOfDay
 import kr.flooding.backend.global.util.UserUtil
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.time.LocalDate
 import java.time.LocalTime
+import kotlin.jvm.optionals.getOrNull
 
 @Service
 @Transactional
 class CancelSelfStudyUsecase(
 	private val userUtil: UserUtil,
-	private val cancelSelfStudyRetryHelper: CancelSelfStudyRetryHelper,
+	private val selfStudyReservationJpaRepository: SelfStudyReservationJpaRepository
 ) {
 	fun execute() {
 		val currentUser = userUtil.getUser()
@@ -25,6 +29,18 @@ class CancelSelfStudyUsecase(
 		if (currentTime.isBefore(startTime) || currentTime.isAfter(endTime)) {
 			throw HttpException(ExceptionEnum.SELF_STUDY.SELF_STUDY_OUT_OF_TIME_RANGE.toPair())
 		}
-		cancelSelfStudyRetryHelper.execute(currentUser)
+
+		val currentDate = LocalDate.now()
+		val prevReservation = selfStudyReservationJpaRepository.findByStudentAndCreatedAtBetween(
+			currentUser,
+			currentDate.atStartOfDay(),
+			currentDate.atEndOfDay(),
+		).getOrNull()
+
+		if (prevReservation == null || prevReservation.isCancelled) {
+			throw HttpException(ExceptionEnum.SELF_STUDY.ALREADY_CANCELLED_SELF_STUDY.toPair())
+		}
+
+		prevReservation.cancelReservation()
 	}
 }

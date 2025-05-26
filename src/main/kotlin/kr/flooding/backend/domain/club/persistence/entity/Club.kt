@@ -8,6 +8,8 @@ import jakarta.persistence.Enumerated
 import jakarta.persistence.FetchType
 import jakarta.persistence.Id
 import jakarta.persistence.ManyToOne
+import jakarta.persistence.Table
+import jakarta.persistence.UniqueConstraint
 import kr.flooding.backend.domain.classroom.persistence.entity.Classroom
 import kr.flooding.backend.domain.club.enums.ClubStatus
 import kr.flooding.backend.domain.club.enums.ClubType
@@ -18,6 +20,10 @@ import org.hibernate.annotations.UuidGenerator
 import java.util.UUID
 
 @Entity
+@Table(
+	name = "club",
+	uniqueConstraints = [UniqueConstraint(columnNames = ["leader_id", "type"])],
+)
 data class Club(
 	@Id
 	@UuidGenerator

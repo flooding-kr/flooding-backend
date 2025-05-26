@@ -13,6 +13,7 @@ class SelfStudyBan(
     val id: Long? = null,
 
     @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(unique = true)
     @OnDelete(action = OnDeleteAction.CASCADE)
     val student: User,
 

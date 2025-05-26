@@ -2,7 +2,6 @@ package kr.flooding.backend.domain.selfStudy.usecase
 
 import kr.flooding.backend.domain.selfStudy.dto.web.request.ChangeSelfStudyLimitRequest
 import kr.flooding.backend.domain.selfStudy.persistence.repository.jpa.SelfStudyRoomJpaRepository
-import kr.flooding.backend.domain.selfStudy.usecase.helper.ChangeSelfStudyLimitRetryHelper
 import kr.flooding.backend.global.exception.ExceptionEnum
 import kr.flooding.backend.global.exception.HttpException
 import kr.flooding.backend.global.exception.toPair
@@ -13,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional
 @Transactional
 class ChangeSelfStudyLimitUsecase(
     private val selfStudyRoomRepository: SelfStudyRoomJpaRepository,
-    private val changeSelfStudyLimitRetryHelper: ChangeSelfStudyLimitRetryHelper,
 ) {
     fun execute(request: ChangeSelfStudyLimitRequest) {
         val selfStudyRoom =
@@ -22,7 +20,7 @@ class ChangeSelfStudyLimitUsecase(
             }
 
         if (selfStudyRoom.reservationLimit != request.limit) {
-            changeSelfStudyLimitRetryHelper.execute(selfStudyRoom, request.limit)
+            selfStudyRoom.updateLimit(request.limit)
         }
     }
 }

@@ -91,6 +91,7 @@ class CreateClubUsecase(
 			ClubMember(
 				club = club,
 				user = currentUser,
+				clubType = club.type,
 			),
 		)
 	}

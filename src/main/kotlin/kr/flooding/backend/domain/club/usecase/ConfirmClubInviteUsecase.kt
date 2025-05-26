@@ -41,6 +41,7 @@ class ConfirmClubInviteUsecase(
 			ClubMember(
 				club = club,
 				user = currentUser,
+				clubType = club.type
 			)
 
 		clubMemberJpaRepository.save(newClubMember)
