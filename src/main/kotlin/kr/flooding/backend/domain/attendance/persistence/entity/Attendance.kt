@@ -50,6 +50,7 @@ data class Attendance(
 	val attendedAt: LocalDate? = null,
 
 	@ManyToOne(fetch = FetchType.LAZY)
+	@OnDelete(action = OnDeleteAction.SET_NULL)
 	val club: Club? = null,
 
 	val reason: String? = null,
