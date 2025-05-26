@@ -1,13 +1,11 @@
-package kr.flooding.backend.domain.club.usecase
+package kr.flooding.backend.domain.club.usecase.student
 
 import kr.flooding.backend.domain.club.dto.common.response.ClubFilterResponse
 import kr.flooding.backend.domain.club.dto.web.response.FetchClubFilterResponse
 import kr.flooding.backend.domain.club.enums.ClubStatus
 import kr.flooding.backend.domain.club.enums.ClubType
 import kr.flooding.backend.domain.club.persistence.repository.ClubRepository
-import kr.flooding.backend.domain.file.shared.PresignedUrlModel
 import kr.flooding.backend.global.thirdparty.s3.adapter.S3Adapter
-import kr.flooding.backend.global.util.FileUtil
 import kr.flooding.backend.global.util.UserUtil
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional

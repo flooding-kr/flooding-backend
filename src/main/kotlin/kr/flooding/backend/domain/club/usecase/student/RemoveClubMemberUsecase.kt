@@ -1,4 +1,4 @@
-package kr.flooding.backend.domain.club.usecase
+package kr.flooding.backend.domain.club.usecase.student
 
 import kr.flooding.backend.domain.club.persistence.repository.ClubRepository
 import kr.flooding.backend.domain.clubMember.persistence.repository.jpa.ClubMemberJpaRepository

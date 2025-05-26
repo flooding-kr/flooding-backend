@@ -1,4 +1,4 @@
-package kr.flooding.backend.domain.club.usecase
+package kr.flooding.backend.domain.club.usecase.student
 
 import kr.flooding.backend.domain.club.enums.ClubStatus
 import kr.flooding.backend.domain.club.persistence.repository.ClubRepository
@@ -12,7 +12,7 @@ import java.util.UUID
 
 @Service
 @Transactional
-class OpenClubUsecase(
+class CloseClubUsecase(
 	private val userUtil: UserUtil,
 	private val clubRepository: ClubRepository,
 ) {
@@ -31,6 +31,6 @@ class OpenClubUsecase(
 			throw HttpException(ExceptionEnum.CLUB.NOT_APPROVED_CLUB.toPair())
 		}
 
-		club.startRecruitment()
+		club.stopRecruitment()
 	}
 }

@@ -1,4 +1,4 @@
-package kr.flooding.backend.domain.club.usecase
+package kr.flooding.backend.domain.club.usecase.student
 
 import kr.flooding.backend.domain.club.dto.web.request.CreateClubRequest
 import kr.flooding.backend.domain.club.persistence.entity.Club
