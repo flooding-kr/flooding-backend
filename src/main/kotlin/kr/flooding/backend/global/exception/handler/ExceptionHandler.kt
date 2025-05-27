@@ -1,7 +1,9 @@
 package kr.flooding.backend.global.exception.handler
 
+import kr.flooding.backend.global.exception.ExceptionEnum
 import kr.flooding.backend.global.exception.HttpException
 import kr.flooding.backend.global.exception.dto.HttpExceptionResponse
+import kr.flooding.backend.global.exception.toPair
 import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -54,6 +56,12 @@ class ExceptionHandler {
 		exception: MissingServletRequestParameterException
 	): ResponseEntity<HttpExceptionResponse> {
 		val response = HttpExceptionResponse(HttpStatus.BAD_REQUEST, "잘못된 파라미터 구성입니다.")
+		return ResponseEntity.status(response.status).body(response)
+	}
+
+	@ExceptionHandler(Exception::class)
+	fun exception(exception: Exception): ResponseEntity<HttpExceptionResponse> {
+		val response = HttpExceptionResponse(ExceptionEnum.UNKNOWN.UNKNOWN_SERVER_ERROR.toPair())
 		return ResponseEntity.status(response.status).body(response)
 	}
 }
