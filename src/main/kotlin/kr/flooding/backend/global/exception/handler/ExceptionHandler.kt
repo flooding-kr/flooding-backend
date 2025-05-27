@@ -12,6 +12,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.bind.MissingServletRequestParameterException
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestControllerAdvice
+import org.springframework.web.servlet.resource.NoResourceFoundException
 
 @RestControllerAdvice
 class ExceptionHandler {
@@ -40,6 +41,14 @@ class ExceptionHandler {
 		exception: DataIntegrityViolationException,
 	): ResponseEntity<HttpExceptionResponse> {
 		val response = HttpExceptionResponse(HttpStatus.BAD_REQUEST, "이미 처리된 요청입니다.")
+		return ResponseEntity.status(response.status).body(response)
+	}
+
+	@ExceptionHandler(NoResourceFoundException::class)
+	fun noResourceFoundException(
+		exception: NoResourceFoundException
+	): ResponseEntity<HttpExceptionResponse> {
+		val response = HttpExceptionResponse(ExceptionEnum.AUTH.NOT_FOUND_PATH.toPair())
 		return ResponseEntity.status(response.status).body(response)
 	}
 

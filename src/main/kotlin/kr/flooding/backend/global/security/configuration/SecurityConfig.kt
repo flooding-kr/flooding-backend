@@ -1,6 +1,7 @@
 package kr.flooding.backend.global.security.configuration
 
 import kr.flooding.backend.domain.role.enums.RoleType
+import kr.flooding.backend.global.security.exception.CustomAccessDeniedHandler
 import kr.flooding.backend.global.security.filter.ExceptionFilter
 import kr.flooding.backend.global.security.filter.JwtFilter
 import kr.flooding.backend.global.security.jwt.JwtProvider
@@ -27,7 +28,10 @@ class SecurityConfig(
     }
 
     @Bean
-    fun securityFilterChain(http: HttpSecurity): SecurityFilterChain {
+    fun securityFilterChain(
+        http: HttpSecurity,
+        customAccessDeniedHandler: CustomAccessDeniedHandler
+    ): SecurityFilterChain {
         val jwtFilter = JwtFilter(jwtProvider)
 
 		return http.authorizeHttpRequests {
@@ -138,7 +142,9 @@ class SecurityConfig(
 			it.disable()
 		}.sessionManagement {
 			it.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-		}.addFilterBefore(
+		}.exceptionHandling {
+            it.accessDeniedHandler(customAccessDeniedHandler)
+        }.addFilterBefore(
 			ExceptionFilter(),
 			UsernamePasswordAuthenticationFilter::class.java,
 		).addFilterBefore(
