@@ -5,6 +5,7 @@ import kr.flooding.backend.global.exception.dto.HttpExceptionResponse
 import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.http.converter.HttpMessageNotReadableException
 import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestControllerAdvice
@@ -36,6 +37,14 @@ class ExceptionHandler {
 		exception: DataIntegrityViolationException,
 	): ResponseEntity<HttpExceptionResponse> {
 		val response = HttpExceptionResponse(HttpStatus.BAD_REQUEST, "이미 처리된 요청입니다.")
+		return ResponseEntity.status(response.status).body(response)
+	}
+
+	@ExceptionHandler(HttpMessageNotReadableException::class)
+	fun httpMessageNotReadableException(
+		exception: HttpMessageNotReadableException
+	): ResponseEntity<HttpExceptionResponse> {
+		val response = HttpExceptionResponse(HttpStatus.BAD_REQUEST, "잘못된 바디 구성입니다.")
 		return ResponseEntity.status(response.status).body(response)
 	}
 }
