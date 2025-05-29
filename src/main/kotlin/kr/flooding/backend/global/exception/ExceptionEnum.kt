@@ -7,6 +7,8 @@ sealed interface ExceptionEnum {
 		val status: HttpStatus,
 		val reason: String,
 	) {
+		FORBIDDEN(HttpStatus.FORBIDDEN, "권한이 부족합니다."),
+		NOT_FOUND_PATH(HttpStatus.NOT_FOUND, "존재하지 않는 경로입니다."),
 		EMPTY_TOKEN(HttpStatus.UNAUTHORIZED, "토큰이 비어있습니다."),
 		NOT_APPROVED_USER(HttpStatus.UNAUTHORIZED, "아직 관리자 승인되지 않은 유저입니다."),
 		EXPIRED_TOKEN(HttpStatus.UNAUTHORIZED, "만료된 토큰입니다."),
