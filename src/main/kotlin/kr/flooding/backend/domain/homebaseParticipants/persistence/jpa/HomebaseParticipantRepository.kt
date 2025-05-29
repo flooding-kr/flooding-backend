@@ -10,7 +10,7 @@ import java.util.UUID
 interface HomebaseParticipantRepository : JpaRepository<HomebaseParticipant, UUID> {
 	fun findByHomebaseGroup(homebaseGroup: HomebaseGroup?): List<HomebaseParticipant>
 
-	fun existsByHomebaseGroupAttendedAtAndHomebaseGroupPeriodAndHomebaseGroupProposerInAndUserIn(
+	fun existsByHomebaseGroupAttendedAtAndHomebaseGroupPeriodAndHomebaseGroupProposerInOrUserIn(
 		attendedAt: LocalDate,
 		period: Int,
 		proposer: List<User>,
