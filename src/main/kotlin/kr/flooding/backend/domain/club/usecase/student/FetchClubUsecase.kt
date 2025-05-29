@@ -1,4 +1,4 @@
-package kr.flooding.backend.domain.club.usecase
+package kr.flooding.backend.domain.club.usecase.student
 
 import jakarta.transaction.Transactional
 import kr.flooding.backend.domain.club.dto.common.response.ClubStudentResponse

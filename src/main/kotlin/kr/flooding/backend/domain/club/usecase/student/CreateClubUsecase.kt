@@ -1,4 +1,4 @@
-package kr.flooding.backend.domain.club.usecase
+package kr.flooding.backend.domain.club.usecase.student
 
 import kr.flooding.backend.domain.club.dto.web.request.CreateClubRequest
 import kr.flooding.backend.domain.club.persistence.entity.Club
@@ -79,7 +79,6 @@ class CreateClubUsecase(
 					description = createClubRequest.description,
 					classroom = classroom,
 					activityImageKeys = createClubRequest.activityImageKeys,
-					status = ClubStatus.PENDING,
 					type = createClubRequest.type,
 					thumbnailImageKey = createClubRequest.thumbnailImageKey,
 					leader = currentUser,

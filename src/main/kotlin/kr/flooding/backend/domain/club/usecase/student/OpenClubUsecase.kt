@@ -1,7 +1,7 @@
-package kr.flooding.backend.domain.club.usecase
+package kr.flooding.backend.domain.club.usecase.student
 
+import kr.flooding.backend.domain.club.enums.ClubStatus
 import kr.flooding.backend.domain.club.persistence.repository.ClubRepository
-import kr.flooding.backend.domain.clubMember.persistence.repository.jpa.ClubMemberJpaRepository
 import kr.flooding.backend.global.exception.ExceptionEnum
 import kr.flooding.backend.global.exception.HttpException
 import kr.flooding.backend.global.exception.toPair
@@ -12,15 +12,11 @@ import java.util.UUID
 
 @Service
 @Transactional
-class RemoveClubMemberUsecase(
-	val userUtil: UserUtil,
-	val clubRepository: ClubRepository,
-	val clubMemberJpaRepository: ClubMemberJpaRepository,
+class OpenClubUsecase(
+	private val userUtil: UserUtil,
+	private val clubRepository: ClubRepository,
 ) {
-	fun execute(
-		clubId: UUID,
-		userId: UUID,
-	) {
+	fun execute(clubId: UUID) {
 		val currentUser = userUtil.getUser()
 		val club =
 			clubRepository.findById(clubId).orElseThrow {
@@ -31,15 +27,10 @@ class RemoveClubMemberUsecase(
 			throw HttpException(ExceptionEnum.CLUB.NOT_CLUB_LEADER.toPair())
 		}
 
-		val clubMember =
-			clubMemberJpaRepository.findByClubIdAndUserId(clubId, userId).orElseThrow {
-				HttpException(ExceptionEnum.CLUB.NOT_FOUND_CLUB_MEMBER.toPair())
-			}
-
-		if(clubMember.user == club.leader){
-			throw HttpException(ExceptionEnum.CLUB.LEADER_CANNOT_WITHDRAW.toPair())
+		if (club.status != ClubStatus.APPROVED) {
+			throw HttpException(ExceptionEnum.CLUB.NOT_APPROVED_CLUB.toPair())
 		}
 
-		clubMemberJpaRepository.delete(clubMember)
+		club.startRecruitment()
 	}
 }

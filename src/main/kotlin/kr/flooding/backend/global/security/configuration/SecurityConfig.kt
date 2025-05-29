@@ -1,6 +1,7 @@
 package kr.flooding.backend.global.security.configuration
 
 import kr.flooding.backend.domain.role.enums.RoleType
+import kr.flooding.backend.global.security.exception.CustomAccessDeniedHandler
 import kr.flooding.backend.global.security.filter.ExceptionFilter
 import kr.flooding.backend.global.security.filter.JwtFilter
 import kr.flooding.backend.global.security.jwt.JwtProvider
@@ -23,10 +24,14 @@ class SecurityConfig(
         private val ROLE_USER_ADMIN = RoleType.ROLE_USER_ADMIN.name
         private val ROLE_DORMITORY_COUNCIL = RoleType.ROLE_DORMITORY_COUNCIL.name
         private val ROLE_DORMITORY_TEACHER = RoleType.ROLE_DORMITORY_TEACHER.name
+		private val ROLE_CLUB_ADMIN = RoleType.ROLE_CLUB_ADMIN.name
     }
 
     @Bean
-    fun securityFilterChain(http: HttpSecurity): SecurityFilterChain {
+    fun securityFilterChain(
+        http: HttpSecurity,
+        customAccessDeniedHandler: CustomAccessDeniedHandler
+    ): SecurityFilterChain {
         val jwtFilter = JwtFilter(jwtProvider)
 
 		return http.authorizeHttpRequests {
@@ -81,6 +86,9 @@ class SecurityConfig(
 				.requestMatchers(HttpMethod.DELETE, "/club/{clubId}").hasAuthority(ROLE_USER)
 				.requestMatchers(HttpMethod.DELETE, "/club/{clubId}/member").hasAuthority(ROLE_USER)
 
+			it // Club Management
+				.requestMatchers(HttpMethod.POST, "/admin/club/approve").hasAuthority(ROLE_CLUB_ADMIN)
+
 			it // Attendance
 				.requestMatchers(HttpMethod.POST, "/attendance/club").hasAuthority(ROLE_STUDENT)
 				.requestMatchers(HttpMethod.DELETE, "/attendance/club").hasAuthority(ROLE_STUDENT)
@@ -134,7 +142,9 @@ class SecurityConfig(
 			it.disable()
 		}.sessionManagement {
 			it.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-		}.addFilterBefore(
+		}.exceptionHandling {
+            it.accessDeniedHandler(customAccessDeniedHandler)
+        }.addFilterBefore(
 			ExceptionFilter(),
 			UsernamePasswordAuthenticationFilter::class.java,
 		).addFilterBefore(

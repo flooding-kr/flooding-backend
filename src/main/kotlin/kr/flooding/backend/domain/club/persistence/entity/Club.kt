@@ -46,10 +46,6 @@ data class Club(
 
 	@Column(nullable = false)
 	@Enumerated(EnumType.STRING)
-	val status: ClubStatus,
-
-	@Column(nullable = false)
-	@Enumerated(EnumType.STRING)
 	val type: ClubType,
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -63,11 +59,20 @@ data class Club(
 	@Column(nullable = false)
 	var isRecruiting: Boolean = false,
 ) {
+	@Column(nullable = false)
+	@Enumerated(EnumType.STRING)
+	var status: ClubStatus = ClubStatus.PENDING
+		protected set
+
 	fun startRecruitment() {
 		isRecruiting = true
 	}
 
 	fun stopRecruitment() {
 		isRecruiting = false
+	}
+
+	fun approve() {
+		status = ClubStatus.APPROVED
 	}
 }

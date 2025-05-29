@@ -7,6 +7,8 @@ sealed interface ExceptionEnum {
 		val status: HttpStatus,
 		val reason: String,
 	) {
+		FORBIDDEN(HttpStatus.FORBIDDEN, "권한이 부족합니다."),
+		NOT_FOUND_PATH(HttpStatus.NOT_FOUND, "존재하지 않는 경로입니다."),
 		EMPTY_TOKEN(HttpStatus.UNAUTHORIZED, "토큰이 비어있습니다."),
 		NOT_APPROVED_USER(HttpStatus.UNAUTHORIZED, "아직 관리자 승인되지 않은 유저입니다."),
 		EXPIRED_TOKEN(HttpStatus.UNAUTHORIZED, "만료된 토큰입니다."),
@@ -61,6 +63,7 @@ sealed interface ExceptionEnum {
 		ALREADY_JOINED_CLUB(HttpStatus.BAD_REQUEST, "이미 참여중인 동일한 유형의 동아리가 존재합니다."),
 		ALREADY_APPLY_CLUB(HttpStatus.BAD_REQUEST, "이미 동일한 유형의 동아리에 지원 신청 했습니다."),
 		NOT_APPROVED_CLUB(HttpStatus.BAD_REQUEST, "아직 관리자 승인이 되지 않은 동아리입니다."),
+		NOT_PENDING_CLUB(HttpStatus.BAD_REQUEST, "관리자 승인을 대기중인 동아리가 아닙니다."),
 		NOT_CLUB_RECRUITING(HttpStatus.BAD_REQUEST, "구성원을 모집중인 동아리가 아닙니다."),
 		ALREADY_SENT_INVITE(HttpStatus.BAD_REQUEST, "이미 해당 학생에게 보낸 초대가 존재합니다."),
 		NOT_FOUND_CLUB_INVITE(HttpStatus.NOT_FOUND, "해당하는 동아리 초대를 찾을 수 없습니다."),
