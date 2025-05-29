@@ -67,7 +67,7 @@ class ReserveHomebaseTableUsecase(
 		// 이미 자리가 예약된 참여자 여부
 		val allUsers = participants + currentUser
 		homebaseParticipantRepository
-			.existsByHomebaseGroupAttendedAtAndHomebaseGroupPeriodAndHomebaseGroupProposerInAndUserIn(
+			.existsByHomebaseGroupAttendedAtAndHomebaseGroupPeriodAndHomebaseGroupProposerInOrUserIn(
 				nowDate,
 				request.period,
 				allUsers,
