@@ -132,10 +132,11 @@ sealed interface ExceptionEnum {
 		val reason: String,
 	) {
 		NO_SELF_STUDY_TODAY(HttpStatus.BAD_REQUEST, "자습이 있는 날이 아닙니다."),
+		NOT_FOUND_SELF_STUDY_BAN(HttpStatus.NOT_FOUND, "자습 신청 금지 내역을 찾을 수 없습니다."),
+		NOT_FOUND_SELF_STUDY_ROOM(HttpStatus.NOT_FOUND, "자습 신청 정보를 받아올 수 없습니다."),
 		MAX_CAPACITY_SELF_STUDY(HttpStatus.BAD_REQUEST, "가능한 자습 인원이 초과되었습니다."),
 		ALREADY_RESERVE_SELF_STUDY(HttpStatus.BAD_REQUEST, "이미 자습 신청을 했습니다."),
 		EXISTS_RESERVE_SELF_STUDY_HISTORY(HttpStatus.BAD_REQUEST, "이미 자습 신청을 한번 이상 시도했습니다."),
-		NOT_FOUND_SELF_STUDY_ROOM(HttpStatus.NOT_FOUND, "자습 신청 정보를 받아올 수 없습니다."),
 		ALREADY_CANCELLED_SELF_STUDY(HttpStatus.BAD_REQUEST, "이미 자습 신청이 취소된 상태입니다."),
 		SELF_STUDY_OUT_OF_TIME_RANGE(HttpStatus.BAD_REQUEST, "정해진 시간에 자습 신청을 해주세요."),
 		NOT_FOUND_SELF_STUDY_RESERVATION(HttpStatus.NOT_FOUND, "자습 예약을 찾을 수 없습니다."),
