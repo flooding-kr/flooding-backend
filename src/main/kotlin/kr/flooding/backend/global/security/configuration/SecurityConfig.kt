@@ -65,6 +65,7 @@ class SecurityConfig(
 			it // Self Study Management
 				.requestMatchers(HttpMethod.PATCH, "/admin/self-study/limit").hasAnyAuthority(ROLE_DORMITORY_COUNCIL, ROLE_DORMITORY_TEACHER)
 				.requestMatchers(HttpMethod.POST, "/admin/self-study/{selfStudyReservationId}/ban").hasAnyAuthority(ROLE_DORMITORY_COUNCIL, ROLE_DORMITORY_TEACHER)
+				.requestMatchers(HttpMethod.DELETE, "/admin/self-study/{selfStudyReservationId}/ban").hasAnyAuthority(ROLE_DORMITORY_COUNCIL, ROLE_DORMITORY_TEACHER)
 				.requestMatchers(HttpMethod.PATCH, "/admin/self-study/{selfStudyReservationId}/attend").hasAnyAuthority(ROLE_DORMITORY_COUNCIL, ROLE_DORMITORY_TEACHER)
 				.requestMatchers(HttpMethod.PATCH, "/admin/self-study/{selfStudyReservationId}/absence").hasAnyAuthority(ROLE_DORMITORY_COUNCIL, ROLE_DORMITORY_TEACHER)
 
