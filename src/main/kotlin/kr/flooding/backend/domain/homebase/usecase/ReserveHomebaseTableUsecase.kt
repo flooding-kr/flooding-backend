@@ -5,6 +5,7 @@ import kr.flooding.backend.domain.attendance.persistence.entity.Attendance
 import kr.flooding.backend.domain.attendance.persistence.repository.jpa.AttendanceJpaRepository
 import kr.flooding.backend.domain.homebase.dto.web.request.ReserveHomebaseTableRequest
 import kr.flooding.backend.domain.homebase.persistence.entity.HomebaseGroup
+import kr.flooding.backend.domain.homebase.persistence.repository.jdsl.HomebaseGroupJdslRepository
 import kr.flooding.backend.domain.homebase.persistence.repository.jpa.HomebaseGroupRepository
 import kr.flooding.backend.domain.homebaseParticipants.persistence.entity.HomebaseParticipant
 import kr.flooding.backend.domain.homebaseParticipants.persistence.jpa.HomebaseParticipantRepository
@@ -22,6 +23,7 @@ import java.time.LocalDate
 class ReserveHomebaseTableUsecase(
 	private val attendanceJpaRepository: AttendanceJpaRepository,
 	private val homebaseGroupRepository: HomebaseGroupRepository,
+	private val homebaseGroupJdslRepository: HomebaseGroupJdslRepository,
 	private val homebaseTableJdslRepository: HomebaseTableJdslRepository,
 	private val homebaseParticipantRepository: HomebaseParticipantRepository,
 	private val userJpaRepository: UserJpaRepository,
@@ -66,8 +68,8 @@ class ReserveHomebaseTableUsecase(
 
 		// 이미 자리가 예약된 참여자 여부
 		val allUsers = participants + currentUser
-		homebaseParticipantRepository
-			.existsByHomebaseGroupAttendedAtAndHomebaseGroupPeriodAndHomebaseGroupProposerInOrUserIn(
+		homebaseGroupJdslRepository
+			.existsByAttendedAtAndPeriodAndProposerInOrParticipantIn(
 				nowDate,
 				request.period,
 				allUsers,

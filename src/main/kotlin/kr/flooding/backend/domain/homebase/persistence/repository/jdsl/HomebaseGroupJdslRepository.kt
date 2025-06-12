@@ -15,4 +15,11 @@ interface HomebaseGroupJdslRepository {
 		floor: Int,
 		attendedAt: LocalDate,
 	): List<HomebaseGroup>
+
+	fun existsByAttendedAtAndPeriodAndProposerInOrParticipantIn(
+		attendedAt: LocalDate,
+		period: Int,
+		proposer: List<User>,
+		participant: List<User>,
+	): Boolean
 }
