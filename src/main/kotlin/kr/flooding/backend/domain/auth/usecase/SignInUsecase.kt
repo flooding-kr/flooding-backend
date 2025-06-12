@@ -44,6 +44,11 @@ class SignInUsecase(
 			throw HttpException(ExceptionEnum.AUTH.NOT_APPROVED_USER.toPair())
 		}
 
+		val studentInfo = user.studentInfo
+		if (studentInfo != null && studentInfo.isGraduated()) {
+			throw HttpException(ExceptionEnum.AUTH.GRADUATED_STUDENT.toPair())
+		}
+
 		val userId = requireNotNull(user.id) { "id cannot be null" }
 
 		val rawPassword = signInRequest.password
