@@ -22,6 +22,10 @@ data class SignUpStudentRequest(
 	val number: Int,
 	@field:Positive
 	val year: Int,
+	@field:Pattern(
+		regexp = "^[가-힣]{2,7}$",
+		message = "한글로된 2자 이상 7자 이하의 이름을 입력해주세요."
+	)
 	val name: String,
 	val gender: Gender,
 )
