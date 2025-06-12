@@ -67,4 +67,31 @@ class HomebaseGroupJdslRepositoryImpl(
 
 		return entityManager.createQuery(query, context).resultList
 	}
+
+	override fun existsByAttendedAtAndPeriodAndProposerInOrParticipantIn(
+		attendedAt: LocalDate,
+		period: Int,
+		proposer: List<User>,
+		participant: List<User>
+	): Boolean {
+		val query =
+			jpql {
+				select(
+					count(entity(HomebaseGroup::class))
+				).from(
+					entity(HomebaseGroup::class),
+					leftJoin(HomebaseGroup::participants)
+				).whereAnd(
+					path(HomebaseGroup::attendedAt).eq(attendedAt),
+					path(HomebaseGroup::period).eq(period),
+					or(
+						path(HomebaseGroup::proposer).`in`(proposer),
+						path(HomebaseParticipant::user).`in`(participant),
+					),
+				)
+			}
+
+		val count = entityManager.createQuery(query, context).singleResult
+		return count > 0
+	}
 }
