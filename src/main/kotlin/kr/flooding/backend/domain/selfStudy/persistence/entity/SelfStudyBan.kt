@@ -4,13 +4,15 @@ import jakarta.persistence.*
 import kr.flooding.backend.domain.user.persistence.entity.User
 import org.hibernate.annotations.OnDelete
 import org.hibernate.annotations.OnDeleteAction
+import org.hibernate.annotations.UuidGenerator
 import java.time.LocalDate
+import java.util.UUID
 
 @Entity
 class SelfStudyBan(
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long? = null,
+    @UuidGenerator
+    val id: UUID? = null,
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(unique = true)
