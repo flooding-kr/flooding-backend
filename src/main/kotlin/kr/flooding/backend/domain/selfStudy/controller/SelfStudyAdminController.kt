@@ -46,11 +46,11 @@ class SelfStudyAdminController(
         }
 
     @Operation(summary = "자습 정지 취소")
-    @DeleteMapping("/{selfStudyReservationId}/ban")
+    @DeleteMapping("/{selfStudyBanId}/ban")
     fun cancelSelfStudyBan(
-        @PathVariable selfStudyReservationId: UUID
+        @PathVariable selfStudyBanId: UUID
     ): ResponseEntity<Unit> =
-        cancelSelfStudyBanUsecase.execute(selfStudyReservationId).let {
+        cancelSelfStudyBanUsecase.execute(selfStudyBanId).let {
             ResponseEntity.ok().build()
         }
 
