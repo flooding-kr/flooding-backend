@@ -3,6 +3,7 @@ package kr.flooding.backend.domain.selfStudy.controller
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import kr.flooding.backend.domain.selfStudy.dto.web.request.ChangeSelfStudyLimitRequest
+import kr.flooding.backend.domain.selfStudy.dto.web.response.FetchSelfStudyBansResponse
 import kr.flooding.backend.domain.selfStudy.usecase.*
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -17,6 +18,7 @@ class SelfStudyAdminController(
     private val attendSelfStudyUsecase: AttendSelfStudyUsecase,
     private val absenceSelfStudyUsecase: AbsenceSelfStudyUsecase,
     private val cancelSelfStudyBanUsecase: CancelSelfStudyBanUsecase,
+    private val fetchSelfStudyBansUsecase: FetchSelfStudyBansUsecase,
 ) {
     @Operation(summary = "자습 최대 인원 변경")
     @PatchMapping("/limit")
@@ -34,6 +36,13 @@ class SelfStudyAdminController(
     ): ResponseEntity<Unit> =
         banSelfStudyUsecase.execute(selfStudyReservationId).let {
             ResponseEntity.ok().build()
+        }
+
+    @Operation(summary = "자습 금지 리스트 조회")
+    @GetMapping("/ban")
+    fun fetchSelfStudyBans(): ResponseEntity<FetchSelfStudyBansResponse> =
+        fetchSelfStudyBansUsecase.execute().let {
+            ResponseEntity.ok(it)
         }
 
     @Operation(summary = "자습 정지 취소")
