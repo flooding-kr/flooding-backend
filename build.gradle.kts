@@ -37,6 +37,7 @@ dependencies {
 
     // 상태 확인
     implementation("org.springframework.boot:spring-boot-starter-actuator")
+    runtimeOnly ("io.micrometer:micrometer-registry-prometheus")
 
     // 보안
     implementation("org.springframework.boot:spring-boot-starter-security")
