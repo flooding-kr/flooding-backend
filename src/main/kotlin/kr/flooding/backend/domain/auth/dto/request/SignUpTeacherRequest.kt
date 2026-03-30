@@ -5,7 +5,7 @@ import kr.flooding.backend.domain.user.enums.Department
 import kr.flooding.backend.domain.user.enums.Gender
 
 data class SignUpTeacherRequest(
-	@field:Pattern(regexp = "^[a-z0-9_%-]{1,64}@gsm\\.hs\\.kr$", message = "gsm.hs.kr 도메인의 이메일이어야 합니다.")
+    @field:Pattern(regexp = "^[a-z0-9]{1,64}@gsm\\.hs\\.kr$", message = "gsm.hs.kr 도메인의 이메일이어야 합니다. 소문자, 숫자로만 입력해주세요.")
 	val email: String,
 	@field:Pattern(
 		regexp = "^(?=.*[a-zA-Z])(?=.*\\d)(?=.*[\\W_]).{8,}$",
